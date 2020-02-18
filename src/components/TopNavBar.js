@@ -172,6 +172,14 @@ const TopNavBar = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
+                        <i className='icon-pork'></i>{'    '}
+                        <i className='icon-shell'></i>{'    '}
+                        <i className='icon-pork1'></i>{'    '}
+                        <i className='icon-steak'></i>{'    '}
+                        <i className='icon-seedling-solid'></i>{'    '}
+                        <i className='icon-drumstick-bite-solid'></i>{'    '}
+                        <i className='icon-fish-solid'></i>{'    '}
+                        <i className='icon-hamburger-solid'></i>{'    '}
                         iWantToDine
           </Typography>
                     <div className={classes.search}>
