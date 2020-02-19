@@ -1,12 +1,15 @@
 import React from 'react';
 import './App.css';
-import AppBar from './components/TopNavBar';
+import DataAndMethodsState from './context/dataAndMethods/dataAndMethodsState';
+import Home from './pages/Home';
 
 const App = () => {
   return (
-    <div className='App'>
-      <AppBar />
-    </div>
+    <DataAndMethodsState>
+      <div className='App'>
+        <Home />
+      </div>
+    </DataAndMethodsState>
   );
 }
 

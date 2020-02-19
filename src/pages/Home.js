@@ -1,13 +1,14 @@
 import React, { Fragment, useContext, useEffect } from 'react';
-import AppBar from '../components/TopNavBar';
+import TopNavBar from '../components/TopNavBar';
 // import UserSummaryCard from '../users/UserSummaryCard';
-// import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
+import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
+import About from '../pages/about';
 // import Alert from '../layout/Alert';
 // import AlertDialog from '../layout/AlertDialog';
 // import MyTeamMenuAndButtons from '../layout/MyTeamMenuAndButtons';
 
 const Home = () => {
-    //const dataAndMethodsContext = useContext(DataAndMethodsContext);
+    const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
     useEffect(() => {
         // in place of component did mount
@@ -16,10 +17,10 @@ const Home = () => {
         // eslint-disable-next-line
     }, []);
 
-
     return (
         <Fragment>
-            <AppBar />
+            <TopNavBar />
+            {dataAndMethodsContext.myStates['info'] && <About />}
         </Fragment>
     );
 };
