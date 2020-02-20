@@ -3,6 +3,8 @@ import TopNavBar from '../components/TopNavBar';
 // import UserSummaryCard from '../users/UserSummaryCard';
 import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
 import About from '../pages/about';
+import MenuItems from '../components/menuItems/MenuItems';
+
 // import Alert from '../layout/Alert';
 // import AlertDialog from '../layout/AlertDialog';
 // import MyTeamMenuAndButtons from '../layout/MyTeamMenuAndButtons';
@@ -20,7 +22,11 @@ const Home = () => {
     return (
         <Fragment>
             <TopNavBar />
-            {dataAndMethodsContext.myStates['info'] && <About />}
+            <div className='container page-top-margin'>
+                {dataAndMethodsContext.myStates['info'] && <About />}
+                <MenuItems />
+            </div>
+            <p className='p page-bottom-margin'></p>
         </Fragment>
     );
 };
