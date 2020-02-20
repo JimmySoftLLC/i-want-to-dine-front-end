@@ -24,45 +24,45 @@ const TopNavBar = () => {
                         >
                             iWantToDine
                         </IconButton>
-                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['steak'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('steak')}
+                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['meat'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('meat')}
                         >
                             <i className='icon-steak'></i>
                         </IconButton>
-                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['pork'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('pork')}
+                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['poultry'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('poultry')}
                         >
-                            <i className='icon-pork'></i>
+                            <i className="fas fa-feather"></i>
                         </IconButton>
-                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['pork1'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('pork1')}
+                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['pasta'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('pasta')}
                         >
-                            <i className='icon-pork1'></i>
+                            <i className='icon-pasta'></i>
                         </IconButton>
-                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['drumstick'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('drumstick')}
+                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['sandwich'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('sandwich')}
                         >
-                            <i className='icon-drumstick-bite-solid'></i>
-                        </IconButton>
-                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['hamburger'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('hamburger')}
-                        >
-                            <i className='icon-hamburger-solid'></i>
+                            <i className='fas fa-hamburger'></i>
                         </IconButton>
                         <IconButton aria-label="" color={dataAndMethodsContext.myStates['fish'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setFoodChoice('fish')}
                         >
-                            <i className='icon-fish-solid'></i>
+                            <i className='fas fa-fish'></i>
                         </IconButton>
-                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['shell'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('shell')}
+                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['shellfish'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('shellfish')}
                         >
                             <i className='icon-shell'></i>
                         </IconButton>
-                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['seedling'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('seedling')}
+                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['vegetarian'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('vegetarian')}
                         >
-                            <i className='icon-seedling-solid'></i>
+                            <i className='fas fa-seedling'></i>
+                        </IconButton>
+                        <IconButton aria-label="" color={dataAndMethodsContext.myStates['dessert'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('dessert')}
+                        >
+                            <i className='fas fa-cheese'></i>
                         </IconButton>
                         <IconButton aria-label="" color={dataAndMethodsContext.myStates['info'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setFoodChoice('info')}

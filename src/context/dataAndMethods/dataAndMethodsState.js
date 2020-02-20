@@ -8,14 +8,13 @@ import {
 const DataAndMethodsState = props => {
     const initialState = {
         myStates: {
-            steak: false,
-            pork: false,
-            pork1: false,
-            drumstick: false,
-            hamburger: false,
-            fish: false,
-            shell: false,
-            seedling: false,
+            meat: false,
+            poultry: false,
+            pasta: false,
+            sandwich: false,
+            shellfish: false,
+            vegetarian: false,
+            dessert: false,
             info: false
         }
     };

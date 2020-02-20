@@ -21,10 +21,41 @@ const About = () => {
                 <p className='p'>
                     There is no app today that gives you that experience. This will be exciting! Our target launch date is by the summer tourist
                     season.
-                        </p>
+                </p>
+                <h2 >How to use</h2>
+                <p className='p'>
+                    Select the foods you are interested by clicking the food icons.  The selected ones will darken.
+                    Menu items with those foods will show up in the list.  The icons are defined as follows:
+                </p>
+                <ul style={{ paddingLeft: '1.5rem' }}>
+                    <li>
+                        <i className='icon-steak'></i> Meat
+                    </li>
+                    <li>
+                        <i className="fas fa-feather"></i> Poultry
+                    </li>
+                    <li>
+                        <i className='icon-pasta'></i> Pasta
+                    </li>
+                    <li>
+                        <i className="fas fa-hamburger"></i> Sandwiches
+                    </li>
+                    <li>
+                        <i className="fas fa-fish"></i> Fish
+                    </li>
+                    <li>
+                        <i className='icon-shell'></i> Shellfish
+                    </li>
+                    <li>
+                        <i className="fas fa-seedling"></i> Vegetarian
+                    </li>
+                    <li>
+                        <i className="fas fa-cheese"></i> Desert
+                    </li>
+                </ul>
                 <p className='p page-bottom-margin'></p>
             </div>
-        </Fragment>
+        </Fragment >
     );
 };
 
