@@ -14,13 +14,30 @@ const useStyles = makeStyles(theme => ({
         bottom: 0,
         color: '#000',
     },
+    root: {
+        background: '#FFCCBC',
+    },
+    palette: {
+        primary: {
+            light: '#FFCCBC',
+            main: '#FF5722',
+            dark: '#E64A19',
+            contrastText: '#fff',
+        },
+        secondary: {
+            light: '#637bfe',
+            main: '#3d5afe',
+            dark: '#2a3eb1',
+            contrastText: '#fff',
+        },
+    },
 }));
 
 const BottomNavBar = () => {
     const classes = useStyles();
     return (
         <div className={classes.stickToBottom} color="primary">
-            <BottomNavigation className={classes.palette} position="fixed" backgrouncColor={"primary"}>
+            <BottomNavigation classes={{ root: classes.root }} position="fixed" color="primary">
                 <Toolbar color="primary">
                     <div >
                         <IconButton aria-label=""
