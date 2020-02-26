@@ -51,6 +51,23 @@ const About = () => {
                 <li>
                     <i className="fas fa-cheese"></i> Dessert
                     </li>
+
+            </ul>
+            <p className='p'>
+                Set the price by clicking on the $ buttons, when active they will be blue.
+                You can select one or many price categories.  For example if you want prices
+                from 0 to 35 press both the $ and $$.
+                </p>
+            <ul style={{ paddingLeft: '1.5rem' }}>
+                <li>
+                    <i className='icon-dollar_1'></i> 0-20 dollars
+                    </li>
+                <li>
+                    <i className="icon-dollar_2"></i> 20-35 dollars
+                    </li>
+                <li>
+                    <i className='icon-dollar_3'></i> 35 and up dollars
+                    </li>
             </ul>
         </Fragment >
     );

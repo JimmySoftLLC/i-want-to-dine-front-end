@@ -1,2 +1,3 @@
 export const SET_FOOD_CHOICES = 'SET_FOOD_CHOICES';
 export const SET_MENU_ITEMS = 'SET_MENU_ITEMS';
+export const SET_MENU_IDS = 'SET_MENU_IDS';

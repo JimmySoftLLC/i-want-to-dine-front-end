@@ -1,9 +1,12 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useContext } from 'react';
+import axios from 'axios';
 import DataAndMethodsContext from './dataAndMethodsContext';
 import DataAndMethodsReducer from './dataAndMethodsReducer';
+import AlertDialogContext from '../alertDialog/alertDialogContext';
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
+    SET_MENU_IDS,
 } from '../types';
 
 const DataAndMethodsState = props => {
@@ -16,8 +19,12 @@ const DataAndMethodsState = props => {
             shellfish: false,
             vegetarian: false,
             dessert: false,
-            info: false
+            info: false,
+            dollar_1: false,
+            dollar_2: false,
+            dollar_3: false,
         },
+        menuIds: [],
         menuItems: [
             {
                 title: 'Pan Seared Barramundi',
@@ -335,6 +342,9 @@ const DataAndMethodsState = props => {
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
+    const alertDialogContext = useContext(AlertDialogContext);
+    const lambdaFunctionURL =
+        'https://yfyft0meu9.execute-api.us-east-1.amazonaws.com/default/restapi';
 
     //set food choices
     const setFoodChoice = async key => {
@@ -348,6 +358,58 @@ const DataAndMethodsState = props => {
         setFoodChoices(myNewFoodChoices);
     };
 
+    const scanDynamoDB = async TableName => {
+        try {
+            const res = await axios.post(
+                lambdaFunctionURL,
+                {
+                    myBody: {
+                        TableName: TableName,
+                    },
+                    myMethod: 'scan',
+                },
+                {
+                    headers: {
+                        Accept: '*/*',
+                    },
+                }
+            );
+            let myResData = res.data;
+            return myResData.Items;
+        } catch (err) {
+            return [];
+            alertDialogContext.setAlertDialog(true, err.message, 'Error');
+        }
+    };
+
+    const getItemDynamoDB = async (TableName, menu_item_id) => {
+        try {
+            const res = await axios.post(
+                lambdaFunctionURL,
+                {
+                    myBody: {
+                        TableName: TableName,
+                        Key: {
+                            team_id: menu_item_id,
+                        },
+                        ReturnConsumedCapacity: 'TOTAL',
+                    },
+                    myMethod: 'getItem',
+                },
+                {
+                    headers: {
+                        Accept: '*/*',
+                    },
+                }
+            );
+            return (res.data.Item);
+        } catch (err) {
+            return {};
+            alertDialogContext.setAlertDialog(true, err.message, 'Error');
+        }
+    };
+
+    const setMenuIds = (menuIds) => { dispatch({ type: SET_MENU_IDS, payload: menuIds }) }
     const setMenuItems = (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
     const setFoodChoices = (myStates) => { dispatch({ type: SET_FOOD_CHOICES, payload: myStates }) }
 
@@ -358,11 +420,16 @@ const DataAndMethodsState = props => {
                 menuItems: state.menuItems,
                 setFoodChoice,
                 setFoodChoices,
+                scanDynamoDB,
+                getItemDynamoDB,
+                setMenuIds
             }}
         >
             {props.children}
         </DataAndMethodsContext.Provider>
     );
 };
+
+
 
 export default DataAndMethodsState;

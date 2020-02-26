@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
+import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
 
 const useStyles = makeStyles(theme => ({
     grow: {
@@ -35,6 +36,7 @@ const useStyles = makeStyles(theme => ({
 
 const BottomNavBar = () => {
     const classes = useStyles();
+    const dataAndMethodsContext = useContext(DataAndMethodsContext);
     return (
         <div className={classes.stickToBottom} color="primary">
             <BottomNavigation classes={{ root: classes.root }} position="fixed" color="primary">
@@ -45,6 +47,26 @@ const BottomNavBar = () => {
                             color={"primary"}>
                             <i className="fas fa-external-link-alt"></i>
                         </IconButton>
+                        <IconButton aria-label=""
+                            color={dataAndMethodsContext.myStates['dollar_1'] ? "secondary" : "primary"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('dollar_1')}>
+                            <i className="icon-dollar_1"></i>
+                        </IconButton>
+                        <IconButton aria-label=""
+                            color={dataAndMethodsContext.myStates['dollar_2'] ? "secondary" : "primary"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('dollar_2')}>
+                            <i className="icon-dollar_2"></i>
+                        </IconButton>
+                        <IconButton aria-label=""
+                            color={dataAndMethodsContext.myStates['dollar_3'] ? "secondary" : "primary"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('dollar_3')}>
+                            <i className="icon-dollar_3"></i>
+                        </IconButton>
+                        <IconButton aria-label=""
+                            color={"primary"}>
+                            <i className="icon-resturant"></i>
+                        </IconButton>
+
                     </div>
                 </Toolbar>
             </BottomNavigation>

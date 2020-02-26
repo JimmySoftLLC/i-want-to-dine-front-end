@@ -33,14 +33,23 @@ const MenuItemCard = ({ menuItem, myStates }) => {
     }
 
     let showIt = false;
-    for (let i = 0; i < menuItem.category.length; i++) {
-        if (myStates[menuItem.category[i]]) {
-            showIt = true;
-            break
+    let inPriceRange = false;
+    let price = '';
+
+    if (myStates.dollar_1 && menuItem.price > 0 && menuItem.price <= 20) { inPriceRange = true }
+    if (myStates.dollar_2 && menuItem.price > 20 && menuItem.price <= 35) { inPriceRange = true }
+    if (myStates.dollar_3 && menuItem.price > 35) { inPriceRange = true }
+
+    if (inPriceRange) {
+        for (let i = 0; i < menuItem.category.length; i++) {
+            if (myStates[menuItem.category[i]]) {
+                showIt = true;
+                break
+            }
         }
+        price = menuItem.price === 1000 ? 'MP' : menuItem.price;
     }
 
-    const price = menuItem.price === 1000 ? 'MP' : menuItem.price;
 
     return (
         showIt && <div className='card'>
