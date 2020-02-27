@@ -2,31 +2,31 @@ import React from 'react';
 
 const MenuItemCard = ({ menuItem, myStates }) => {
     const items = []
-    for (let i = 0; i < menuItem.category.length; i++) {
-        switch (menuItem.category[i]) {
+    for (const myKey in menuItem.category.contents) {
+        switch (myKey) {
             case 'meat':
-                items.push(<i className='icon-steak' key={menuItem.id + i * 100} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='icon-steak' key={menuItem.id + "_poultry"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'poultry':
-                items.push(<i className='fas fa-feather' key={menuItem.id + i * 100} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='fas fa-feather' key={menuItem.id + "_feather"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'pasta':
-                items.push(<i className='icon-pasta' key={menuItem.id + i * 100} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='icon-pasta' key={menuItem.id + "_pasta"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'sandwich':
-                items.push(<i className='fas fa-hamburger' key={menuItem.id + i * 100} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='fas fa-hamburger' key={menuItem.id + "_hamburger"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'fish':
-                items.push(<i className='fas fa-fish' key={menuItem.id + i * 100} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='fas fa-fish' key={menuItem.id + "_fish"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'shellfish':
-                items.push(<i className='icon-shell' key={menuItem.id + i * 100} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='icon-shell' key={menuItem.id + "_shell"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'vegetarian':
-                items.push(<i className='fas fa-seedling' key={menuItem.id + i * 100} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='fas fa-seedling' key={menuItem.id + "_seedling"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'dessert':
-                items.push(<i className='fas fa-cheese' key={menuItem.id + i * 100} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='fas fa-cheese' key={menuItem.id + "_cheese"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             default:
         }
@@ -41,8 +41,8 @@ const MenuItemCard = ({ menuItem, myStates }) => {
     if (myStates.dollar_3 && menuItem.price > 35) { inPriceRange = true }
 
     if (inPriceRange) {
-        for (let i = 0; i < menuItem.category.length; i++) {
-            if (myStates[menuItem.category[i]]) {
+        for (const myKey in menuItem.category.contents) {
+            if (myStates[myKey]) {
                 showIt = true;
                 break
             }

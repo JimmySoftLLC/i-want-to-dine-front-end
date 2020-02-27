@@ -10,10 +10,7 @@ const Home = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
     useEffect(() => {
-        // in place of component did mount
-        // dataAndMethodsContext.setOnMyTeamPage(true);
-        // dataAndMethodsContext.setRedirectTo(' ');
-        // eslint-disable-next-line
+        dataAndMethodsContext.scanDynamoDB(dataAndMethodsContext.tableName)
     }, []);
 
     return (
