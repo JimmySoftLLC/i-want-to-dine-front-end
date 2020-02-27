@@ -20,7 +20,7 @@ const TopNavBar = () => {
                 <Toolbar>
                     <div >
                         <IconButton aria-label="" color="inherit"
-                            href="/"
+                            onClick={() => dataAndMethodsContext.scanDynamoDB(dataAndMethodsContext.tableName)}
                         >
                             iWantToDine
                         </IconButton>

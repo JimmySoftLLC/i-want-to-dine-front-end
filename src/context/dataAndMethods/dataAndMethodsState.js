@@ -11,6 +11,7 @@ import {
 
 const DataAndMethodsState = props => {
     const initialState = {
+        tableName: 'my_open_source_team',
         myStates: {
             meat: false,
             poultry: false,
@@ -359,6 +360,7 @@ const DataAndMethodsState = props => {
     };
 
     const scanDynamoDB = async TableName => {
+        console.log(TableName)
         try {
             const res = await axios.post(
                 lambdaFunctionURL,
@@ -375,10 +377,12 @@ const DataAndMethodsState = props => {
                 }
             );
             let myResData = res.data;
-            return myResData.Items;
+            console.log(myResData);
+            //return myResData.Items;
         } catch (err) {
-            return [];
-            alertDialogContext.setAlertDialog(true, err.message, 'Error');
+            console.log(err);
+            //alertDialogContext.setAlertDialog(true, err.message, 'Error');
+            //return [];
         }
     };
 
@@ -404,8 +408,8 @@ const DataAndMethodsState = props => {
             );
             return (res.data.Item);
         } catch (err) {
-            return {};
             alertDialogContext.setAlertDialog(true, err.message, 'Error');
+            return {};
         }
     };
 
@@ -422,7 +426,8 @@ const DataAndMethodsState = props => {
                 setFoodChoices,
                 scanDynamoDB,
                 getItemDynamoDB,
-                setMenuIds
+                setMenuIds,
+                tableName: 'my_open_source_team',
             }}
         >
             {props.children}

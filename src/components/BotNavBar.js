@@ -41,33 +41,30 @@ const BottomNavBar = () => {
         <div className={classes.stickToBottom} color="primary">
             <BottomNavigation classes={{ root: classes.root }} position="fixed" color="primary">
                 <Toolbar color="primary">
-                    <div >
-                        <IconButton aria-label=""
-                            href="https://jimmysoftllc.com"
-                            color={"primary"}>
-                            <i className="fas fa-external-link-alt"></i>
-                        </IconButton>
-                        <IconButton aria-label=""
-                            color={dataAndMethodsContext.myStates['dollar_1'] ? "secondary" : "primary"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('dollar_1')}>
-                            <i className="icon-dollar_1"></i>
-                        </IconButton>
-                        <IconButton aria-label=""
-                            color={dataAndMethodsContext.myStates['dollar_2'] ? "secondary" : "primary"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('dollar_2')}>
-                            <i className="icon-dollar_2"></i>
-                        </IconButton>
-                        <IconButton aria-label=""
-                            color={dataAndMethodsContext.myStates['dollar_3'] ? "secondary" : "primary"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('dollar_3')}>
-                            <i className="icon-dollar_3"></i>
-                        </IconButton>
-                        <IconButton aria-label=""
-                            color={"primary"}>
-                            <i className="icon-resturant"></i>
-                        </IconButton>
-
-                    </div>
+                    <IconButton aria-label=""
+                        href="https://jimmysoftllc.com"
+                        color={"primary"}>
+                        <i className="fas fa-external-link-alt"></i>
+                    </IconButton>
+                    <IconButton aria-label=""
+                        color={dataAndMethodsContext.myStates['dollar_1'] ? "secondary" : "primary"}
+                        onClick={() => dataAndMethodsContext.setFoodChoice('dollar_1')}>
+                        <i className="icon-dollar_1"></i>
+                    </IconButton>
+                    <IconButton aria-label=""
+                        color={dataAndMethodsContext.myStates['dollar_2'] ? "secondary" : "primary"}
+                        onClick={() => dataAndMethodsContext.setFoodChoice('dollar_2')}>
+                        <i className="icon-dollar_2"></i>
+                    </IconButton>
+                    <IconButton aria-label=""
+                        color={dataAndMethodsContext.myStates['dollar_3'] ? "secondary" : "primary"}
+                        onClick={() => dataAndMethodsContext.setFoodChoice('dollar_3')}>
+                        <i className="icon-dollar_3"></i>
+                    </IconButton>
+                    <IconButton aria-label=""
+                        color={"primary"}>
+                        <i className="icon-resturant"></i>
+                    </IconButton>
                 </Toolbar>
             </BottomNavigation>
         </div>
