@@ -27,6 +27,7 @@ const DataAndMethodsState = props => {
             dollar_2: false,
             dollar_3: false,
             special: false,
+            restuarant: false,
         },
         menuIds: [],
         menuItems: [],

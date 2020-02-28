@@ -4,6 +4,8 @@ import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsConte
 import About from '../pages/about';
 import MenuItems from '../components/menuItems/MenuItems';
 import BotNavBar from '../components/BotNavBar';
+import RestaurantItems from '../components/restaurantItems/RestaurantItems';
+
 // import AlertDialog from '../layout/AlertDialog';
 
 const Home = () => {
@@ -20,6 +22,7 @@ const Home = () => {
             <TopNavBar />
             <div className='container page-top-margin'>
                 {dataAndMethodsContext.myStates['info'] && <About />}
+                <RestaurantItems />
                 <MenuItems />
             </div>
             <p className='p page-bottom-margin'></p>

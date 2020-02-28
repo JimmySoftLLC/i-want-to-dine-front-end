@@ -577,7 +577,7 @@ table th {
 }
 
 /* Mobile Styles */
-@media (max-width: 575px) {
+@media (max-width: 700px) {
   .hide-sm {
     display: none;
   }
@@ -627,7 +627,7 @@ table th {
 }
 
 /* Mobile Styles */
-@media (max-width: 346px) {
+@media (max-width: 362px) {
   .hide-sm {
     display: none;
   }

@@ -62,7 +62,8 @@ const BottomNavBar = () => {
                         <i className="icon-dollar_3"></i>
                     </IconButton>
                     <IconButton aria-label=""
-                        color={"primary"}>
+                        color={dataAndMethodsContext.myStates['restuarant'] ? "secondary" : "primary"}
+                        onClick={() => dataAndMethodsContext.setFoodChoice('restuarant')}>
                         <i className="icon-resturant"></i>
                     </IconButton>
                 </Toolbar>

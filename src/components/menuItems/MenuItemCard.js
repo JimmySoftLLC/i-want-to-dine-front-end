@@ -57,8 +57,10 @@ const MenuItemCard = ({ menuItem, myStates, restaurants }) => {
         }
     }
 
+    let myFinalShowIt = showIt && !myStates['restuarant']
+
     return (
-        showIt && <div className='card'>
+        myFinalShowIt && <div className='card'>
             <h3>{items}{menuItem.title}{' - '}{price}</h3>
             <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
             <p>{menuItem.description}</p>
