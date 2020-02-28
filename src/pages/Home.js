@@ -10,7 +10,9 @@ const Home = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
     useEffect(() => {
-        dataAndMethodsContext.scanDynamoDB(dataAndMethodsContext.tableName)
+        dataAndMethodsContext.scanDynamoDB(dataAndMethodsContext.tableName);
+        dataAndMethodsContext.scanDynamoDB(dataAndMethodsContext.restaurantTableName);
+        // eslint-disable-next-line
     }, []);
 
     return (

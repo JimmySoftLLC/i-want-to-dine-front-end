@@ -1,6 +1,7 @@
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
+    SET_RESTAURANTS,
 } from '../types';
 
 export default (state, action) => {
@@ -14,6 +15,11 @@ export default (state, action) => {
             return {
                 ...state,
                 menuItems: action.payload,
+            };
+        case SET_RESTAURANTS:
+            return {
+                ...state,
+                restaurants: action.payload,
             };
         default:
             return state;

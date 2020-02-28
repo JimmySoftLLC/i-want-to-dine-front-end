@@ -1,6 +1,6 @@
 import React from 'react';
 
-const MenuItemCard = ({ menuItem, myStates }) => {
+const MenuItemCard = ({ menuItem, myStates, restaurants }) => {
     const items = []
     for (const myKey in menuItem.category.contents) {
         switch (myKey) {
@@ -49,12 +49,18 @@ const MenuItemCard = ({ menuItem, myStates }) => {
         }
         price = menuItem.price === 1000 ? 'MP' : menuItem.price;
     }
-
+    let myUrl = ""
+    for (let i = 0; i < restaurants.length; i++) {
+        if (restaurants[i].name === menuItem.restaurant) {
+            myUrl = restaurants[i].url
+            break;
+        }
+    }
 
     return (
         showIt && <div className='card'>
             <h3>{items}{menuItem.title}{' - '}{price}</h3>
-            <h4>{menuItem.restaurant}</h4>
+            <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
             <p>{menuItem.description}</p>
         </div>
     );

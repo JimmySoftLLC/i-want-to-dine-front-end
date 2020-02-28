@@ -7,11 +7,13 @@ import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
     SET_MENU_IDS,
+    SET_RESTAURANTS,
 } from '../types';
 
 const DataAndMethodsState = props => {
     const initialState = {
         tableName: 'menuItems',
+        restaurantTableName: 'resturants',
         myStates: {
             meat: false,
             poultry: false,
@@ -24,9 +26,11 @@ const DataAndMethodsState = props => {
             dollar_1: false,
             dollar_2: false,
             dollar_3: false,
+            special: false,
         },
         menuIds: [],
-        menuItems: []
+        menuItems: [],
+        restaurants: [],
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
@@ -64,17 +68,35 @@ const DataAndMethodsState = props => {
             );
             let myResData = res.data;
             //console.log(myResData);
-            setMenuItems(myResData.Items)
+            switch (TableName) {
+                case 'menuItems':
+                    setMenuItems(myResData.Items)
+                    break;
+                case 'resturants':
+                    setRestaurants(myResData.Items)
+                    break;
+                default:
+            }
+
             //return myResData.Items;
         } catch (err) {
             console.log(err);
             //alertDialogContext.setAlertDialog(true, err.message, 'Error');
-            setMenuItems([]);
+            switch (TableName) {
+                case 'menuItems':
+                    setMenuItems([])
+                    break;
+                case 'resturants':
+                    setRestaurants([])
+                    break;
+                default:
+            }
         }
     };
 
     const setMenuIds = (menuIds) => { dispatch({ type: SET_MENU_IDS, payload: menuIds }) }
     const setMenuItems = (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
+    const setRestaurants = (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
     const setFoodChoices = (myStates) => { dispatch({ type: SET_FOOD_CHOICES, payload: myStates }) }
 
     return (
@@ -83,17 +105,18 @@ const DataAndMethodsState = props => {
                 myStates: state.myStates,
                 menuItems: state.menuItems,
                 tableName: state.tableName,
+                restaurantTableName: state.restaurantTableName,
+                restaurants: state.restaurants,
                 setFoodChoice,
                 setFoodChoices,
                 scanDynamoDB,
                 setMenuIds,
+                setRestaurants,
             }}
         >
             {props.children}
         </DataAndMethodsContext.Provider>
     );
 };
-
-
 
 export default DataAndMethodsState;

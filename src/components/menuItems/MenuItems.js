@@ -5,8 +5,10 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 const MenuItems = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const { menuItems } = dataAndMethodsContext;
+
     return menuItems.map(menuItem => <MenuItemCard menuItem={menuItem}
         myStates={dataAndMethodsContext.myStates}
+        restaurants={dataAndMethodsContext.restaurants}
         key={menuItem.id} />);
 };
 
