@@ -109,7 +109,7 @@ const DataAndMethodsState = props => {
         editMenuItem(myEditMenuItem);
     }
 
-    const setMenuItem = async (key) => {
+    const setEditMenuItemCategory = async (key) => {
         let myNewCategories = JSON.parse(JSON.stringify(state.editMenuItemValues.category))
         let myIndex = myNewCategories.indexOf(key, 0)
         if (myIndex !== -1) {
@@ -142,7 +142,7 @@ const DataAndMethodsState = props => {
                 setMenuIds,
                 setRestaurants,
                 setEditMenuItem,
-                setMenuItem,
+                setEditMenuItemCategory,
             }}
         >
             {props.children}
