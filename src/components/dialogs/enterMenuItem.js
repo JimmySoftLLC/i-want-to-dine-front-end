@@ -17,26 +17,19 @@ const useStyles = makeStyles(theme => ({
             margin: theme.spacing(1),
             marginLeft: 0,
         },
-
     },
 }));
 
 const EnterMenuItem = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const [open, setOpen] = React.useState(false);
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     const handleClose = () => {
-        setOpen(false);
+        dataAndMethodsContext.setEditMenuOpen(false);
     };
 
     const handleSave = () => {
-        setOpen(false);
-        console.log(dataAndMethodsContext.editMenuItemValues)
+        dataAndMethodsContext.setEditMenuOpen(false);
     };
 
     const changeTitle = (e) => {
@@ -52,22 +45,11 @@ const EnterMenuItem = () => {
     };
 
     return (
-
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                Open form dialog
-            </Button>
-            <Dialog className={classes.root} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog className={classes.root} open={dataAndMethodsContext.editMenuOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Add menu item</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>
-                        Enter your menu items below, select the food categories in the
-                        order you want them to appear.  For example for a special select the special first
-                        then the food category.  Then the special icon will be the first icon shown.
-                    </DialogContentText>
                     <TextField
-                        TextField
-                        autoFocus
                         id="title"
                         label="Title"
                         type="text"
@@ -78,14 +60,12 @@ const EnterMenuItem = () => {
                         onChange={changeTitle}
                     />
                     <TextField
-                        TextField
-                        autoFocus
                         id="description"
                         label="Description"
                         type="text"
                         fullWidth
                         variant="filled"
-                        multiline="true"
+                        multiline={true}
                         rows="3"
                         value={dataAndMethodsContext.editMenuItemValues.description}
                         onChange={changeDescription}
@@ -140,7 +120,6 @@ const EnterMenuItem = () => {
                         </div>
                     </Toolbar>
                     <TextField
-                        TextField
                         id="price"
                         label="Price"
                         type="number"
@@ -154,7 +133,7 @@ const EnterMenuItem = () => {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleSave} color="primary">
+                    <Button onClick={() => handleSave()} color="primary">
                         Save
                     </Button>
                 </DialogActions>

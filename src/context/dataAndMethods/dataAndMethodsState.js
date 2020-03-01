@@ -6,9 +6,9 @@ import AlertDialogContext from '../alertDialog/alertDialogContext';
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
-    SET_MENU_IDS,
     SET_RESTAURANTS,
     SET_EDIT_MENU_ITEM,
+    SET_EDIT_MENU_OPEN
 } from '../types';
 
 const DataAndMethodsState = props => {
@@ -30,15 +30,16 @@ const DataAndMethodsState = props => {
             special: false,
             restuarant: false,
         },
-        menuIds: [],
+        editMenuOpen: false,
         menuItems: [],
         restaurants: [],
         editMenuItemValues: {
             title: "",
             description: "",
-            category: ["meat", "poultry", "pasta", "sandwich", "fish", "shellfish", "vegetarian", "dessert", "special"],
+            category: [],
             price: 0,
             isEdit: false,
+            id: "",
         }
     };
 
@@ -120,11 +121,34 @@ const DataAndMethodsState = props => {
         setEditMenuItem('category', myNewCategories)
     }
 
-    const setMenuIds = (menuIds) => { dispatch({ type: SET_MENU_IDS, payload: menuIds }) }
+    const handleClickOpen = (index) => {
+        for (let i = 0; 1 < state.menuItems.length; i++) {
+            if (index === state.menuItems[i].id) {
+                console.log(state.menuItems[i].category)
+                let myCategories = []
+                for (let myKey in state.menuItems[i].category.contents) {
+                    myCategories.push(myKey);
+                }
+                let myEditItem = {
+                    title: state.menuItems[i].title,
+                    description: state.menuItems[i].description,
+                    category: myCategories,
+                    price: state.menuItems[i].price,
+                    id: state.menuItems[i].id,
+                    isEdit: true,
+                }
+                editMenuItem(myEditItem);
+                setEditMenuOpen(true);
+                break;
+            }
+        }
+    };
+
     const setMenuItems = (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
     const setRestaurants = (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
     const setFoodChoices = (myStates) => { dispatch({ type: SET_FOOD_CHOICES, payload: myStates }) }
     const editMenuItem = (myEditMenuItem) => { dispatch({ type: SET_EDIT_MENU_ITEM, payload: myEditMenuItem }) }
+    const setEditMenuOpen = (isOpen) => { dispatch({ type: SET_EDIT_MENU_OPEN, payload: isOpen }) }
 
     return (
         <DataAndMethodsContext.Provider
@@ -136,13 +160,15 @@ const DataAndMethodsState = props => {
                 restaurantTableName: state.restaurantTableName,
                 restaurants: state.restaurants,
                 editMenuItemValues: state.editMenuItemValues,
+                editMenuOpen: state.editMenuOpen,
                 setFoodChoice,
                 setFoodChoices,
                 scanDynamoDB,
-                setMenuIds,
                 setRestaurants,
                 setEditMenuItem,
                 setEditMenuItemCategory,
+                setEditMenuOpen,
+                handleClickOpen,
             }}
         >
             {props.children}

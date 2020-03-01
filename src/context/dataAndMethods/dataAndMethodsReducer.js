@@ -2,8 +2,8 @@ import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
     SET_RESTAURANTS,
-    SET_MENU_STATES,
     SET_EDIT_MENU_ITEM,
+    SET_EDIT_MENU_OPEN
 } from '../types';
 
 export default (state, action) => {
@@ -12,11 +12,6 @@ export default (state, action) => {
             return {
                 ...state,
                 myStates: action.payload,
-            };
-        case SET_MENU_STATES:
-            return {
-                ...state,
-                myMenuItemStates: action.payload,
             };
         case SET_MENU_ITEMS:
             return {
@@ -32,6 +27,12 @@ export default (state, action) => {
             return {
                 ...state,
                 editMenuItemValues: action.payload,
+            };
+        case SET_EDIT_MENU_OPEN:
+            console.log(action.payload)
+            return {
+                ...state,
+                editMenuOpen: action.payload,
             };
         default:
             return state;

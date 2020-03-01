@@ -1,6 +1,19 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
-const MenuItemCard = ({ menuItem, myStates, restaurants }) => {
+const useStyles = makeStyles(theme => ({
+    root: {
+        '& .MuiButton-root': {
+            margin: theme.spacing(1),
+            marginLeft: 0,
+        },
+
+    },
+}));
+
+const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickOpen }) => {
+    const classes = useStyles();
     const items = []
     for (const myKey in menuItem.category.contents) {
         switch (myKey) {
@@ -61,8 +74,17 @@ const MenuItemCard = ({ menuItem, myStates, restaurants }) => {
 
     return (
         myFinalShowIt && <div className='card'>
-            <h3>{items}{menuItem.title}{' - '}{price}</h3>
+            <h3>{items}{menuItem.title}{' - '}{price}
+            </h3>
             <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
+            <div className={classes.root} >
+                <Button variant="outlined" color="primary" onClick={() => handleClickOpen(menuItem.id)}>
+                    <i className="fas fa-edit"></i>
+                </Button>
+                <Button variant="outlined" color="primary">
+                    <i className="fas fa-trash"></i>
+                </Button>
+            </div>
             <p>{menuItem.description}</p>
         </div>
     );
