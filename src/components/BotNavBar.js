@@ -37,10 +37,11 @@ const useStyles = makeStyles(theme => ({
 const BottomNavBar = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
+    // console.log(dataAndMethodsContext)
     return (
         <div className={classes.stickToBottom} color="primary">
-            <BottomNavigation classes={{ root: classes.root }} position="fixed" color="primary">
-                <Toolbar color="primary">
+            <BottomNavigation classes={{ root: classes.root }} showLabel="false" position="fixed" color="primary">
+                <Toolbar showLabel="false" color="primary">
                     <IconButton aria-label=""
                         href="https://jimmysoftllc.com"
                         color={"primary"}>
@@ -65,6 +66,11 @@ const BottomNavBar = () => {
                         color={dataAndMethodsContext.myStates['restuarant'] ? "secondary" : "primary"}
                         onClick={() => dataAndMethodsContext.setFoodChoice('restuarant')}>
                         <i className="icon-resturant"></i>
+                    </IconButton>
+                    <IconButton aria-label=""
+                        color={dataAndMethodsContext.myStates['restuarant'] ? "secondary" : "primary"}
+                        onClick={() => dataAndMethodsContext.setFoodChoice('restuarant')}>
+                        <i className="fas fa-sign-in-alt"></i>
                     </IconButton>
                 </Toolbar>
             </BottomNavigation>

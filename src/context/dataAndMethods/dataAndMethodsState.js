@@ -8,6 +8,7 @@ import {
     SET_MENU_ITEMS,
     SET_MENU_IDS,
     SET_RESTAURANTS,
+    SET_EDIT_MENU_ITEM,
 } from '../types';
 
 const DataAndMethodsState = props => {
@@ -32,6 +33,13 @@ const DataAndMethodsState = props => {
         menuIds: [],
         menuItems: [],
         restaurants: [],
+        editMenuItemValues: {
+            title: "",
+            description: "",
+            category: ["meat", "poultry", "pasta", "sandwich", "fish", "shellfish", "vegetarian", "dessert", "special"],
+            price: 0,
+            isEdit: false,
+        }
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
@@ -95,24 +103,46 @@ const DataAndMethodsState = props => {
         }
     };
 
+    const setEditMenuItem = async (key, value) => {
+        let myEditMenuItem = JSON.parse(JSON.stringify(state.editMenuItemValues))
+        myEditMenuItem[key] = value;
+        editMenuItem(myEditMenuItem);
+    }
+
+    const setMenuItem = async (key) => {
+        let myNewCategories = JSON.parse(JSON.stringify(state.editMenuItemValues.category))
+        let myIndex = myNewCategories.indexOf(key, 0)
+        if (myIndex !== -1) {
+            myNewCategories.splice(myIndex, 1)
+        } else {
+            myNewCategories.push(key)
+        }
+        setEditMenuItem('category', myNewCategories)
+    }
+
     const setMenuIds = (menuIds) => { dispatch({ type: SET_MENU_IDS, payload: menuIds }) }
     const setMenuItems = (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
     const setRestaurants = (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
     const setFoodChoices = (myStates) => { dispatch({ type: SET_FOOD_CHOICES, payload: myStates }) }
+    const editMenuItem = (myEditMenuItem) => { dispatch({ type: SET_EDIT_MENU_ITEM, payload: myEditMenuItem }) }
 
     return (
         <DataAndMethodsContext.Provider
             value={{
                 myStates: state.myStates,
+                myMenuItemStates: state.myMenuItemStates,
                 menuItems: state.menuItems,
                 tableName: state.tableName,
                 restaurantTableName: state.restaurantTableName,
                 restaurants: state.restaurants,
+                editMenuItemValues: state.editMenuItemValues,
                 setFoodChoice,
                 setFoodChoices,
                 scanDynamoDB,
                 setMenuIds,
                 setRestaurants,
+                setEditMenuItem,
+                setMenuItem,
             }}
         >
             {props.children}
