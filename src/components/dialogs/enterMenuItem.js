@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
@@ -25,10 +24,12 @@ const EnterMenuItem = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
     const handleClose = () => {
+
         dataAndMethodsContext.setEditMenuOpen(false);
     };
 
     const handleSave = () => {
+        dataAndMethodsContext.saveItem()
         dataAndMethodsContext.setEditMenuOpen(false);
     };
 
@@ -112,8 +113,8 @@ const EnterMenuItem = () => {
                             >
                                 <i className='fas fa-cheese'></i>
                             </IconButton>
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("special", 0) !== -1 ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('special')}
+                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("specials", 0) !== -1 ? "inherit" : "default"}
+                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('specials')}
                             >
                                 <i className="fas fa-tag"></i>
                             </IconButton>

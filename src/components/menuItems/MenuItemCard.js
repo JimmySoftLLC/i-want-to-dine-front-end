@@ -41,6 +41,9 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickOpen }) => {
             case 'dessert':
                 items.push(<i className='fas fa-cheese' key={menuItem.id + "_cheese"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
+            case 'specials':
+                items.push(<i className='fas fa-tag' key={menuItem.id + "_specials"} style={{ paddingRight: '.25rem' }}></i>)
+                break;
             default:
         }
     }

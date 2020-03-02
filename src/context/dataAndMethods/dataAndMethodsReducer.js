@@ -29,7 +29,6 @@ export default (state, action) => {
                 editMenuItemValues: action.payload,
             };
         case SET_EDIT_MENU_OPEN:
-            console.log(action.payload)
             return {
                 ...state,
                 editMenuOpen: action.payload,

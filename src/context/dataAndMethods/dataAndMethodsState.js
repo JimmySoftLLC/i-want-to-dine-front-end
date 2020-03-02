@@ -1,8 +1,8 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer } from 'react';
 import axios from 'axios';
 import DataAndMethodsContext from './dataAndMethodsContext';
 import DataAndMethodsReducer from './dataAndMethodsReducer';
-import AlertDialogContext from '../alertDialog/alertDialogContext';
+//import AlertDialogContext from '../alertDialog/alertDialogContext';
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
@@ -44,7 +44,7 @@ const DataAndMethodsState = props => {
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
-    const alertDialogContext = useContext(AlertDialogContext);
+    // const alertDialogContext = useContext(AlertDialogContext);
     const lambdaFunctionURL =
         'https://yfyft0meu9.execute-api.us-east-1.amazonaws.com/default/restapi';
 
@@ -77,7 +77,6 @@ const DataAndMethodsState = props => {
                 }
             );
             let myResData = res.data;
-            //console.log(myResData);
             switch (TableName) {
                 case 'menuItems':
                     setMenuItems(myResData.Items)
@@ -87,10 +86,8 @@ const DataAndMethodsState = props => {
                     break;
                 default:
             }
-
             //return myResData.Items;
         } catch (err) {
-            console.log(err);
             //alertDialogContext.setAlertDialog(true, err.message, 'Error');
             switch (TableName) {
                 case 'menuItems':
@@ -124,7 +121,6 @@ const DataAndMethodsState = props => {
     const handleClickOpen = (index) => {
         for (let i = 0; 1 < state.menuItems.length; i++) {
             if (index === state.menuItems[i].id) {
-                console.log(state.menuItems[i].category)
                 let myCategories = []
                 for (let myKey in state.menuItems[i].category.contents) {
                     myCategories.push(myKey);
@@ -139,6 +135,24 @@ const DataAndMethodsState = props => {
                 }
                 editMenuItem(myEditItem);
                 setEditMenuOpen(true);
+                break;
+            }
+        }
+    };
+
+    const saveItem = () => {
+        let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
+        for (let i = 0; i < myNewMenuItems.length; i++) {
+            if (state.editMenuItemValues.id === myNewMenuItems[i].id) {
+                let myCategories = { datatype: "SS", contents: {} }
+                for (let j = 0; j < state.editMenuItemValues.category.length; j++) {
+                    myCategories.contents[state.editMenuItemValues.category[j]] = state.editMenuItemValues.category[j]
+                }
+                myNewMenuItems[i].title = state.editMenuItemValues.title
+                myNewMenuItems[i].description = state.editMenuItemValues.description
+                myNewMenuItems[i].category = myCategories
+                myNewMenuItems[i].price = state.editMenuItemValues.price
+                setMenuItems(myNewMenuItems)
                 break;
             }
         }
@@ -169,6 +183,7 @@ const DataAndMethodsState = props => {
                 setEditMenuItemCategory,
                 setEditMenuOpen,
                 handleClickOpen,
+                saveItem,
             }}
         >
             {props.children}
