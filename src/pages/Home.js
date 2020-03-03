@@ -5,7 +5,7 @@ import About from '../pages/about';
 import MenuItems from '../components/menuItems/MenuItems';
 import BotNavBar from '../components/BotNavBar';
 import RestaurantItems from '../components/restaurantItems/RestaurantItems';
-import EnterMenuItem from '../components/dialogs/enterMenuItem';
+import MenuItemDialog from '../components/dialogs/MenuItemDialog';
 
 // import AlertDialog from '../layout/AlertDialog';
 
@@ -25,7 +25,7 @@ const Home = () => {
                 {dataAndMethodsContext.myStates['info'] && <About />}
                 <RestaurantItems />
                 <MenuItems />
-                <EnterMenuItem />
+                <MenuItemDialog />
             </div>
             <p className='p page-bottom-margin'></p>
             <BotNavBar />

@@ -9,7 +9,8 @@ const MenuItems = () => {
     return menuItems.map(menuItem => <MenuItemCard menuItem={menuItem}
         myStates={dataAndMethodsContext.myStates}
         restaurants={dataAndMethodsContext.restaurants}
-        handleClickOpen={dataAndMethodsContext.handleClickOpen}
+        handleClickEdit={dataAndMethodsContext.handleClickEdit}
+        handleClickCopy={dataAndMethodsContext.handleClickCopy}
         key={menuItem.id} />);
 };
 

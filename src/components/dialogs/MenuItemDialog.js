@@ -19,17 +19,26 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const EnterMenuItem = () => {
+const MenuItemDialog = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
-    const handleClose = () => {
+    const { categoryJSON } = dataAndMethodsContext.editMenuItemValues;
 
+    const handleClose = () => {
         dataAndMethodsContext.setEditMenuOpen(false);
     };
 
     const handleSave = () => {
-        dataAndMethodsContext.saveItem()
+        switch (dataAndMethodsContext.editMenuItemValues.menuDialogType) {
+            case "Edit":
+                dataAndMethodsContext.saveItem()
+                break;
+            case "Add":
+                dataAndMethodsContext.saveItemCopy()
+                break;
+            default:
+        }
         dataAndMethodsContext.setEditMenuOpen(false);
     };
 
@@ -45,10 +54,18 @@ const EnterMenuItem = () => {
         dataAndMethodsContext.setEditMenuItem('price', e.target.value)
     };
 
+    const checkIfPresent = (value) => {
+        if (categoryJSON) {
+            if (categoryJSON.indexOf(value) !== -1) { return true }
+        }
+        return false
+    }
+
     return (
         <div>
             <Dialog className={classes.root} open={dataAndMethodsContext.editMenuOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Add menu item</DialogTitle>
+                <DialogTitle id="form-dialog-title">
+                    {dataAndMethodsContext.editMenuItemValues.menuDialogType + " menu item"}</DialogTitle>
                 <DialogContent>
                     <TextField
                         id="title"
@@ -73,47 +90,47 @@ const EnterMenuItem = () => {
                     />
                     <Toolbar>
                         <div >
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("meat", 0) !== -1 ? "inherit" : "default"}
+                            <IconButton aria-label="" color={checkIfPresent("meat") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('meat')}
                             >
                                 <i className='icon-steak'></i>
                             </IconButton>
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("poultry", 0) !== -1 ? "inherit" : "default"}
+                            <IconButton aria-label="" color={checkIfPresent("poultry") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('poultry')}
                             >
                                 <i className="fas fa-feather"></i>
                             </IconButton>
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("pasta", 0) !== -1 ? "inherit" : "default"}
+                            <IconButton aria-label="" color={checkIfPresent("pasta") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pasta')}
                             >
                                 <i className='icon-pasta'></i>
                             </IconButton>
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("sandwich", 0) !== -1 ? "inherit" : "default"}
+                            <IconButton aria-label="" color={checkIfPresent("sandwich") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('sandwich')}
                             >
                                 <i className='fas fa-hamburger'></i>
                             </IconButton>
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("fish", 0) !== -1 ? "inherit" : "default"}
+                            <IconButton aria-label="" color={checkIfPresent("fish") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('fish')}
                             >
                                 <i className='fas fa-fish'></i>
                             </IconButton>
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("shellfish", 0) !== -1 ? "inherit" : "default"}
+                            <IconButton aria-label="" color={checkIfPresent("shellfish") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('shellfish')}
                             >
                                 <i className='icon-shell'></i>
                             </IconButton>
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("vegetarian", 0) !== -1 ? "inherit" : "default"}
+                            <IconButton aria-label="" color={checkIfPresent("vegetarian") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('vegetarian')}
                             >
                                 <i className='fas fa-seedling'></i>
                             </IconButton>
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("dessert", 0) !== -1 ? "inherit" : "default"}
+                            <IconButton aria-label="" color={checkIfPresent("dessert") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('dessert')}
                             >
                                 <i className='fas fa-cheese'></i>
                             </IconButton>
-                            <IconButton aria-label="" color={dataAndMethodsContext.editMenuItemValues.category.indexOf("specials", 0) !== -1 ? "inherit" : "default"}
+                            <IconButton aria-label="" color={checkIfPresent("specials") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('specials')}
                             >
                                 <i className="fas fa-tag"></i>
@@ -143,6 +160,6 @@ const EnterMenuItem = () => {
     );
 }
 
-export default EnterMenuItem;
+export default MenuItemDialog;
 
 

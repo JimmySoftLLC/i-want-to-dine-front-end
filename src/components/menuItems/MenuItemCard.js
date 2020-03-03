@@ -12,11 +12,11 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickOpen }) => {
+const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickEdit, handleClickCopy }) => {
     const classes = useStyles();
     const items = []
-    for (const myKey in menuItem.category.contents) {
-        switch (myKey) {
+    for (let i = 0; i < menuItem.categoryJSON.length; i++) {
+        switch (menuItem.categoryJSON[i]) {
             case 'meat':
                 items.push(<i className='icon-steak' key={menuItem.id + "_poultry"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
@@ -57,14 +57,15 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickOpen }) => {
     if (myStates.dollar_3 && menuItem.price > 35) { inPriceRange = true }
 
     if (inPriceRange) {
-        for (const myKey in menuItem.category.contents) {
-            if (myStates[myKey]) {
+        for (let i = 0; i < menuItem.categoryJSON.length; i++) {
+            if (myStates[menuItem.categoryJSON[i]]) {
                 showIt = true;
                 break
             }
         }
-        price = menuItem.price === 1000 ? 'MP' : menuItem.price;
+        price = menuItem.price == 1000 ? 'MP' : menuItem.price;
     }
+
     let myUrl = ""
     for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].name === menuItem.restaurant) {
@@ -81,12 +82,15 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickOpen }) => {
             </h3>
             <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickOpen(menuItem.id)}>
+                {/* <Button variant="outlined" color="primary" onClick={() => handleClickEdit(menuItem.id)}>
                     <i className="fas fa-edit"></i>
+                </Button>
+                <Button variant="outlined" color="primary" onClick={() => handleClickCopy(menuItem.id)}>
+                    <i className="fas fa-copy"></i>
                 </Button>
                 <Button variant="outlined" color="primary">
                     <i className="fas fa-trash"></i>
-                </Button>
+                </Button> */}
             </div>
             <p>{menuItem.description}</p>
         </div>

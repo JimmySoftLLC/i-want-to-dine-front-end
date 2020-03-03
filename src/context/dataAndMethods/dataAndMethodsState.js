@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import axios from 'axios';
 import DataAndMethodsContext from './dataAndMethodsContext';
 import DataAndMethodsReducer from './dataAndMethodsReducer';
+import { v4 as uuidv4 } from 'uuid';
 //import AlertDialogContext from '../alertDialog/alertDialogContext';
 import {
     SET_FOOD_CHOICES,
@@ -38,7 +39,7 @@ const DataAndMethodsState = props => {
             description: "",
             category: [],
             price: 0,
-            isEdit: false,
+            menuDialogType: "",
             id: "",
         }
     };
@@ -51,12 +52,7 @@ const DataAndMethodsState = props => {
     //set food choices
     const setFoodChoice = async key => {
         let myNewFoodChoices = JSON.parse(JSON.stringify(state.myStates))
-        let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
-        myNewMenuItems.sort(function (a, b) {
-            return a.price - b.price;
-        });
         myNewFoodChoices[key] ? myNewFoodChoices[key] = false : myNewFoodChoices[key] = true;
-        setMenuItems(myNewMenuItems);
         setFoodChoices(myNewFoodChoices);
     };
 
@@ -79,14 +75,31 @@ const DataAndMethodsState = props => {
             let myResData = res.data;
             switch (TableName) {
                 case 'menuItems':
+                    for (let i = 0; i < myResData.Items.length; i++) {
+                        myResData.Items[i].categoryJSON = JSON.parse(myResData.Items[i].categoryJSON)
+                    }
+                    myResData.Items.sort(function (a, b) {
+                        return a.price - b.price;
+                    });
                     setMenuItems(myResData.Items)
                     break;
                 case 'resturants':
+                    function compare(a, b) {
+                        const keyA = a.name.toUpperCase();
+                        const keyB = b.name.toUpperCase();
+                        let comparison = 0;
+                        if (keyA > keyB) {
+                            comparison = 1;
+                        } else if (keyA < keyB) {
+                            comparison = -1;
+                        }
+                        return comparison;
+                    }
+                    myResData.Items.sort(compare);
                     setRestaurants(myResData.Items)
                     break;
                 default:
             }
-            //return myResData.Items;
         } catch (err) {
             //alertDialogContext.setAlertDialog(true, err.message, 'Error');
             switch (TableName) {
@@ -101,6 +114,70 @@ const DataAndMethodsState = props => {
         }
     };
 
+    const updateItemDynamoDB = async (TableName, menuItem) => {
+        try {
+            const res = await axios.post(
+                lambdaFunctionURL,
+                {
+                    myBody: {
+                        TableName: TableName,
+                        Item: {
+                            id: menuItem.id,
+                            title: menuItem.title,
+                            description: menuItem.description,
+                            categoryJSON: JSON.stringify(menuItem.categoryJSON),
+                            restaurant: menuItem.restaurant,
+                            price: menuItem.price,
+                        },
+                        ReturnConsumedCapacity: 'TOTAL',
+                    },
+                    myMethod: 'putItem',
+                },
+                {
+                    headers: {
+                        Accept: '*/*',
+                    },
+                }
+            );
+            scanDynamoDB(state.tableName)
+        } catch (err) {
+            console.log(err);
+            //alertDialogContext.setAlertDialog(true, 'Put not completed because this team is write protected.', 'Error');
+        }
+    };
+
+    const putItemDynamoDB = async (TableName, menuItem) => {
+        try {
+            const res = await axios.post(
+                lambdaFunctionURL,
+                {
+                    myBody: {
+                        TableName: TableName,
+                        Item: {
+                            id: uuidv4(), // create uuidv4 as the id
+                            title: menuItem.title,
+                            description: menuItem.description,
+                            categoryJSON: JSON.stringify(menuItem.categoryJSON),
+                            restaurant: menuItem.restaurant,
+                            price: menuItem.price,
+                        },
+                        ReturnConsumedCapacity: 'TOTAL',
+                    },
+                    myMethod: 'putItem',
+                },
+                {
+                    headers: {
+                        Accept: '*/*',
+                    },
+                }
+            );
+            scanDynamoDB(state.tableName)
+        } catch (err) {
+            console.log(err);
+            //alertDialogContext.setAlertDialog(true, 'Put not completed because this team is write protected.', 'Error');
+        }
+    };
+
     const setEditMenuItem = async (key, value) => {
         let myEditMenuItem = JSON.parse(JSON.stringify(state.editMenuItemValues))
         myEditMenuItem[key] = value;
@@ -108,30 +185,44 @@ const DataAndMethodsState = props => {
     }
 
     const setEditMenuItemCategory = async (key) => {
-        let myNewCategories = JSON.parse(JSON.stringify(state.editMenuItemValues.category))
+        let myNewCategories = JSON.parse(JSON.stringify(state.editMenuItemValues.categoryJSON))
         let myIndex = myNewCategories.indexOf(key, 0)
         if (myIndex !== -1) {
             myNewCategories.splice(myIndex, 1)
         } else {
             myNewCategories.push(key)
         }
-        setEditMenuItem('category', myNewCategories)
+        setEditMenuItem('categoryJSON', myNewCategories)
     }
 
-    const handleClickOpen = (index) => {
+    const handleClickEdit = (index) => {
         for (let i = 0; 1 < state.menuItems.length; i++) {
             if (index === state.menuItems[i].id) {
-                let myCategories = []
-                for (let myKey in state.menuItems[i].category.contents) {
-                    myCategories.push(myKey);
-                }
                 let myEditItem = {
                     title: state.menuItems[i].title,
                     description: state.menuItems[i].description,
-                    category: myCategories,
+                    categoryJSON: state.menuItems[i].categoryJSON,
                     price: state.menuItems[i].price,
                     id: state.menuItems[i].id,
-                    isEdit: true,
+                    menuDialogType: "Edit",
+                }
+                editMenuItem(myEditItem);
+                setEditMenuOpen(true);
+                break;
+            }
+        }
+    };
+
+    const handleClickCopy = (index) => {
+        for (let i = 0; 1 < state.menuItems.length; i++) {
+            if (index === state.menuItems[i].id) {
+                let myEditItem = {
+                    title: state.menuItems[i].title,
+                    description: state.menuItems[i].description,
+                    categoryJSON: state.menuItems[i].categoryJSON,
+                    price: state.menuItems[i].price,
+                    id: state.menuItems[i].id,
+                    menuDialogType: "Add",
                 }
                 editMenuItem(myEditItem);
                 setEditMenuOpen(true);
@@ -144,15 +235,27 @@ const DataAndMethodsState = props => {
         let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
         for (let i = 0; i < myNewMenuItems.length; i++) {
             if (state.editMenuItemValues.id === myNewMenuItems[i].id) {
-                let myCategories = { datatype: "SS", contents: {} }
-                for (let j = 0; j < state.editMenuItemValues.category.length; j++) {
-                    myCategories.contents[state.editMenuItemValues.category[j]] = state.editMenuItemValues.category[j]
-                }
-                myNewMenuItems[i].title = state.editMenuItemValues.title
-                myNewMenuItems[i].description = state.editMenuItemValues.description
-                myNewMenuItems[i].category = myCategories
-                myNewMenuItems[i].price = state.editMenuItemValues.price
-                setMenuItems(myNewMenuItems)
+                myNewMenuItems[i].title = state.editMenuItemValues.title;
+                myNewMenuItems[i].description = state.editMenuItemValues.description;
+                myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
+                myNewMenuItems[i].price = state.editMenuItemValues.price;
+                updateItemDynamoDB(state.tableName, myNewMenuItems[i]);
+                setMenuItems(myNewMenuItems);
+                break;
+            }
+        }
+    };
+
+    const saveItemCopy = () => {
+        let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
+        for (let i = 0; i < myNewMenuItems.length; i++) {
+            if (state.editMenuItemValues.id === myNewMenuItems[i].id) {
+                myNewMenuItems[i].title = state.editMenuItemValues.title;
+                myNewMenuItems[i].description = state.editMenuItemValues.description;
+                myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
+                myNewMenuItems[i].price = state.editMenuItemValues.price;
+                putItemDynamoDB(state.tableName, myNewMenuItems[i]);
+                setMenuItems(myNewMenuItems);
                 break;
             }
         }
@@ -182,8 +285,12 @@ const DataAndMethodsState = props => {
                 setEditMenuItem,
                 setEditMenuItemCategory,
                 setEditMenuOpen,
-                handleClickOpen,
+                handleClickEdit,
                 saveItem,
+                updateItemDynamoDB,
+                putItemDynamoDB,
+                handleClickCopy,
+                saveItemCopy,
             }}
         >
             {props.children}
