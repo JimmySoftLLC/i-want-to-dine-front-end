@@ -1,38 +1,38 @@
 import React, { useReducer } from 'react';
 import AlertDialogContext from './alertDialogContext';
 import AlertDialogReducer from './alertDialogReducer';
-import { SET_ALERT_DIALOG, CLOSE_ALERT_DIALOG } from '../types';
+import { SET_DIALOG, CLOSE_DIALOG } from '../types';
 
 const AlertDialogState = props => {
   const initialState = {
-    alertOpen: false,
-    alertMessage: 'dude',
-    alertTitle: 'error',
+    dialogOpen: false,
+    message: '',
+    title: '',
   };
 
   const [state, dispatch] = useReducer(AlertDialogReducer, initialState);
 
-  const setAlertDialog = (alertOpen, alertMessage, alertTitle) => {
+  const setDialog = (dialogOpen, message, title) => {
     dispatch({
-      type: SET_ALERT_DIALOG,
+      type: SET_DIALOG,
       payload: {
-        alertOpen,
-        alertMessage,
-        alertTitle,
+        dialogOpen,
+        message,
+        title,
       },
     });
   };
 
-  const closeAlertDialog = () => {
-    dispatch({ type: CLOSE_ALERT_DIALOG });
+  const closeDialog = () => {
+    dispatch({ type: CLOSE_DIALOG });
   };
 
   return (
     <AlertDialogContext.Provider
       value={{
         alertDialog: state,
-        setAlertDialog,
-        closeAlertDialog,
+        setDialog,
+        closeDialog,
       }}
     >
       {props.children}

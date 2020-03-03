@@ -11,6 +11,7 @@ const MenuItems = () => {
         restaurants={dataAndMethodsContext.restaurants}
         handleClickEdit={dataAndMethodsContext.handleClickEdit}
         handleClickCopy={dataAndMethodsContext.handleClickCopy}
+        handleClickDelete={dataAndMethodsContext.handleClickDelete}
         key={menuItem.id} />);
 };
 

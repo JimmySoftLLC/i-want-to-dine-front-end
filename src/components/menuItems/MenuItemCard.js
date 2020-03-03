@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickEdit, handleClickCopy }) => {
+const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickEdit, handleClickCopy, handleClickDelete }) => {
     const classes = useStyles();
     const items = []
     for (let i = 0; i < menuItem.categoryJSON.length; i++) {
@@ -63,7 +63,7 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickEdit, handle
                 break
             }
         }
-        price = menuItem.price == 1000 ? 'MP' : menuItem.price;
+        price = menuItem.price >= 1000 ? 'MP' : menuItem.price;
     }
 
     let myUrl = ""
@@ -82,15 +82,15 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickEdit, handle
             </h3>
             <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
             <div className={classes.root} >
-                {/* <Button variant="outlined" color="primary" onClick={() => handleClickEdit(menuItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickEdit(menuItem.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickCopy(menuItem.id)}>
                     <i className="fas fa-copy"></i>
                 </Button>
-                <Button variant="outlined" color="primary">
+                <Button variant="outlined" color="primary" onClick={() => handleClickDelete(menuItem.id)}>
                     <i className="fas fa-trash"></i>
-                </Button> */}
+                </Button>
             </div>
             <p>{menuItem.description}</p>
         </div>

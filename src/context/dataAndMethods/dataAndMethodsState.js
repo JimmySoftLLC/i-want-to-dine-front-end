@@ -1,9 +1,10 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useContext } from 'react';
 import axios from 'axios';
 import DataAndMethodsContext from './dataAndMethodsContext';
 import DataAndMethodsReducer from './dataAndMethodsReducer';
 import { v4 as uuidv4 } from 'uuid';
-//import AlertDialogContext from '../alertDialog/alertDialogContext';
+import AlertDialogContext from '../alertDialog/alertDialogContext';
+import DeleteConfirmDialogContext from '../deleteConfirmDialog/deleteConfirmDialogContext';
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
@@ -45,7 +46,9 @@ const DataAndMethodsState = props => {
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
-    // const alertDialogContext = useContext(AlertDialogContext);
+    const alertDialogContext = useContext(AlertDialogContext);
+    const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
+
     const lambdaFunctionURL =
         'https://yfyft0meu9.execute-api.us-east-1.amazonaws.com/default/restapi';
 
@@ -101,7 +104,7 @@ const DataAndMethodsState = props => {
                 default:
             }
         } catch (err) {
-            //alertDialogContext.setAlertDialog(true, err.message, 'Error');
+            alertDialogContext.setAlertDialog(true, err.message, 'Error');
             switch (TableName) {
                 case 'menuItems':
                     setMenuItems([])
@@ -141,8 +144,7 @@ const DataAndMethodsState = props => {
             );
             scanDynamoDB(state.tableName)
         } catch (err) {
-            console.log(err);
-            //alertDialogContext.setAlertDialog(true, 'Put not completed because this team is write protected.', 'Error');
+            alertDialogContext.setAlertDialog(true, err.message, 'Error', '', 'OK', '');
         }
     };
 
@@ -173,8 +175,32 @@ const DataAndMethodsState = props => {
             );
             scanDynamoDB(state.tableName)
         } catch (err) {
-            console.log(err);
-            //alertDialogContext.setAlertDialog(true, 'Put not completed because this team is write protected.', 'Error');
+            alertDialogContext.setAlertDialog(true, err.message, 'Error');
+        }
+    };
+
+    const deleteItemDynamoDB = async (TableName, menuItem) => {
+        try {
+            const res = await axios.post(
+                lambdaFunctionURL,
+                {
+                    myMethod: 'deleteItem',
+                    myBody: {
+                        TableName: TableName,
+                        Key: {
+                            id: menuItem.id,
+                        },
+                    },
+                },
+                {
+                    headers: {
+                        Accept: '*/*',
+                    },
+                },
+            );
+            scanDynamoDB(state.tableName)
+        } catch (err) {
+            alertDialogContext.setAlertDialog(true, err.message, 'Error');
         }
     };
 
@@ -226,6 +252,24 @@ const DataAndMethodsState = props => {
                 }
                 editMenuItem(myEditItem);
                 setEditMenuOpen(true);
+                break;
+            }
+        }
+    };
+
+    const handleClickDelete = (index) => {
+        for (let i = 0; 1 < state.menuItems.length; i++) {
+            if (index === state.menuItems[i].id) {
+                deleteConfirmDialogContext.setDialog(true, state.menuItems[i].title, 'Delete warning', index, deleteMenuItem);
+                break;
+            }
+        }
+    };
+
+    const deleteMenuItem = (index) => {
+        for (let i = 0; 1 < state.menuItems.length; i++) {
+            if (index === state.menuItems[i].id) {
+                deleteItemDynamoDB(state.tableName, state.menuItems[i]);
                 break;
             }
         }
@@ -291,6 +335,7 @@ const DataAndMethodsState = props => {
                 putItemDynamoDB,
                 handleClickCopy,
                 saveItemCopy,
+                handleClickDelete,
             }}
         >
             {props.children}
