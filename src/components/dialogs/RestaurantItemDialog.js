@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const MenuItemDialog = () => {
+const RestaurantItemDialog = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
@@ -95,22 +95,21 @@ const MenuItemDialog = () => {
                             >
                                 <i className='icon-tbone'></i>
                             </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("pork") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pork')}
-                            >
-                                <i className='icon-ham'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("lamb") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('lamb')}
-                            >
-                                <i className='icon-lamb'></i>
-                            </IconButton>
                             <IconButton aria-label="" color={checkIfPresent("poultry") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('poultry')}
                             >
                                 <i className="fas fa-feather"></i>
                             </IconButton>
-
+                            <IconButton aria-label="" color={checkIfPresent("pasta") ? "inherit" : "default"}
+                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pasta')}
+                            >
+                                <i className='icon-pasta'></i>
+                            </IconButton>
+                            <IconButton aria-label="" color={checkIfPresent("sandwich") ? "inherit" : "default"}
+                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('sandwich')}
+                            >
+                                <i className='fas fa-hamburger'></i>
+                            </IconButton>
                             <IconButton aria-label="" color={checkIfPresent("fish") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('fish')}
                             >
@@ -125,21 +124,6 @@ const MenuItemDialog = () => {
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('vegetarian')}
                             >
                                 <i className='fas fa-seedling'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("cheese") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('cheese')}
-                            >
-                                <i className='fas fa-cheese'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("pasta") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pasta')}
-                            >
-                                <i className='icon-pasta'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("sandwich") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('sandwich')}
-                            >
-                                <i className='fas fa-hamburger'></i>
                             </IconButton>
                             <IconButton aria-label="" color={checkIfPresent("dessert") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('dessert')}
@@ -167,15 +151,13 @@ const MenuItemDialog = () => {
                     <Button onClick={handleClose} color="default">
                         Cancel
                     </Button>
-                    <Button onClick={() => handleSave()} color="primary">
+                    {/* <Button onClick={() => handleSave()} color="primary">
                         Save
-                    </Button>
+                    </Button> */}
                 </DialogActions>
             </Dialog>
         </div>
     );
 }
 
-export default MenuItemDialog;
-
-
+export default RestaurantItemDialog;

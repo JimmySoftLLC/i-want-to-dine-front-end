@@ -69,7 +69,7 @@ const BottomNavBar = () => {
                     </IconButton>
                     <IconButton aria-label=""
                         color="primary">
-                        <i className="fas fa-sign-in-alt"></i>
+                        <i className="icon-fav-resturant"></i>
                     </IconButton>
                 </Toolbar>
             </BottomNavigation>

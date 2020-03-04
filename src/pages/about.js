@@ -28,16 +28,16 @@ const About = () => {
                 </p>
             <ul style={{ paddingLeft: '1.5rem' }}>
                 <li>
-                    <i className='icon-steak'></i> Meat
+                    <i className='icon-tbone'></i> Meat and other
+                    </li>
+                <li>
+                    <i className='icon-ham'></i> Pork
+                    </li>
+                <li>
+                    <i className='icon-lamb'></i> Lamb
                     </li>
                 <li>
                     <i className="fas fa-feather"></i> Poultry
-                    </li>
-                <li>
-                    <i className='icon-pasta'></i> Pasta
-                    </li>
-                <li>
-                    <i className="fas fa-hamburger"></i> Sandwiches
                     </li>
                 <li>
                     <i className="fas fa-fish"></i> Fish
@@ -49,9 +49,20 @@ const About = () => {
                     <i className="fas fa-seedling"></i> Vegetarian
                     </li>
                 <li>
-                    <i className="fas fa-cheese"></i> Dessert
+                    <i className="fas fa-cheese"></i> Cheese
                     </li>
-
+                <li>
+                    <i className='icon-pasta'></i> Pasta
+                    </li>
+                <li>
+                    <i className="fas fa-hamburger"></i> Sandwiches
+                    </li>
+                <li>
+                    <i className="icon-dessert"></i> Dessert
+                    </li>
+                <li>
+                    <i className="fas fa-tag"></i> Specials
+                    </li>
             </ul>
             <p className='p'>
                 Set the price by clicking on the $ buttons, when active they will be blue.
