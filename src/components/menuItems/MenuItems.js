@@ -8,10 +8,10 @@ const MenuItems = () => {
 
     return menuItems.map(menuItem => <MenuItemCard menuItem={menuItem}
         myStates={dataAndMethodsContext.myStates}
-        restaurants={dataAndMethodsContext.restaurants}
-        handleClickEdit={dataAndMethodsContext.handleClickEdit}
-        handleClickCopy={dataAndMethodsContext.handleClickCopy}
-        handleClickDelete={dataAndMethodsContext.handleClickDelete}
+        resturants={dataAndMethodsContext.resturants}
+        handleClickMenuItemEdit={dataAndMethodsContext.handleClickMenuItemEdit}
+        handleClickMenuItemCopy={dataAndMethodsContext.handleClickMenuItemCopy}
+        handleClickMenuItemDelete={dataAndMethodsContext.handleClickMenuItemDelete}
         key={menuItem.id} />);
 };
 

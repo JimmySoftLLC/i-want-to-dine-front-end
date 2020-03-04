@@ -6,6 +6,7 @@ import MenuItems from '../components/menuItems/MenuItems';
 import BotNavBar from '../components/BotNavBar';
 import RestaurantItems from '../components/restaurantItems/RestaurantItems';
 import MenuItemDialog from '../components/dialogs/MenuItemDialog';
+import RestaurantItemDialog from '../components/dialogs/RestaurantItemDialog';
 import AlertDialog from '../components/dialogs/AlertDialog';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 
@@ -27,6 +28,7 @@ const Home = () => {
                 <RestaurantItems />
                 <MenuItems />
                 <MenuItemDialog />
+                <RestaurantItemDialog />
             </div>
             <p className='p page-bottom-margin'></p>
             <BotNavBar />

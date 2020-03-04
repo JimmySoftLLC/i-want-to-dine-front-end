@@ -1,7 +1,9 @@
 export const SET_FOOD_CHOICES = 'SET_FOOD_CHOICES';
 export const SET_MENU_ITEMS = 'SET_MENU_ITEMS';
-export const SET_RESTAURANTS = 'SET_RESTAURANTS';
+export const SET_resturants = 'SET_resturants';
 export const SET_EDIT_MENU_ITEM = 'SET_EDIT_MENU_ITEM';
 export const SET_EDIT_MENU_OPEN = 'SET_EDIT_MENU_OPEN';
 export const SET_DIALOG = 'SET_ALERT_DIALOG';
 export const CLOSE_DIALOG = 'CLOSE_ALERT_DIALOG';
+export const SET_EDIT_RESTURANT = 'CLOSE_ALERT_DIALOG';
+export const SET_EDIT_RESTURANT_OPEN = 'SET_EDIT_RESTURANT_OPEN';

@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickEdit, handleClickCopy, handleClickDelete }) => {
+const MenuItemCard = ({ menuItem, myStates, resturants, handleClickMenuItemEdit, handleClickMenuItemCopy, handleClickMenuItemDelete }) => {
     const classes = useStyles();
     const items = []
     for (let i = 0; i < menuItem.categoryJSON.length; i++) {
@@ -76,9 +76,9 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickEdit, handle
     }
 
     let myUrl = ""
-    for (let i = 0; i < restaurants.length; i++) {
-        if (restaurants[i].name === menuItem.restaurant) {
-            myUrl = restaurants[i].url
+    for (let i = 0; i < resturants.length; i++) {
+        if (resturants[i].name === menuItem.restaurant) {
+            myUrl = resturants[i].url
             break;
         }
     }
@@ -91,13 +91,13 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickEdit, handle
             </h3>
             <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickEdit(menuItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickCopy(menuItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemCopy(menuItem.id)}>
                     <i className="fas fa-copy"></i>
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickDelete(menuItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemDelete(menuItem.id)}>
                     <i className="fas fa-trash"></i>
                 </Button>
             </div>

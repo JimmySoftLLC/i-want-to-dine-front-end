@@ -8,9 +8,11 @@ import DeleteConfirmDialogContext from '../deleteConfirmDialog/deleteConfirmDial
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
-    SET_RESTAURANTS,
+    SET_resturants,
     SET_EDIT_MENU_ITEM,
-    SET_EDIT_MENU_OPEN
+    SET_EDIT_MENU_OPEN,
+    SET_EDIT_RESTURANT,
+    SET_EDIT_RESTURANT_OPEN
 } from '../types';
 
 const DataAndMethodsState = props => {
@@ -37,14 +39,34 @@ const DataAndMethodsState = props => {
             restuarant: false,
         },
         editMenuOpen: false,
+        editResturantOpen: false,
         menuItems: [],
-        restaurants: [],
+        resturants: [],
         editMenuItemValues: {
             title: "",
+            name: "",
             description: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
+            phoneNumber: "",
+            url: "",
             category: [],
             price: 0,
-            menuDialogType: "",
+            dialogType: "",
+            id: "",
+        },
+        editResturantValues: {
+            name: "",
+            description: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
+            phoneNumber: "",
+            url: "",
+            dialogType: "",
             id: "",
         }
     };
@@ -103,7 +125,7 @@ const DataAndMethodsState = props => {
                         return comparison;
                     }
                     myResData.Items.sort(compare);
-                    setRestaurants(myResData.Items)
+                    setresturants(myResData.Items)
                     break;
                 default:
             }
@@ -114,7 +136,7 @@ const DataAndMethodsState = props => {
                     setMenuItems([])
                     break;
                 case 'resturants':
-                    setRestaurants([])
+                    setresturants([])
                     break;
                 default:
             }
@@ -225,16 +247,16 @@ const DataAndMethodsState = props => {
         setEditMenuItem('categoryJSON', myNewCategories)
     }
 
-    const handleClickEdit = (index) => {
+    const handleClickMenuItemEdit = (menuId) => {
         for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (index === state.menuItems[i].id) {
+            if (menuId === state.menuItems[i].id) {
                 let myEditItem = {
                     title: state.menuItems[i].title,
                     description: state.menuItems[i].description,
                     categoryJSON: state.menuItems[i].categoryJSON,
                     price: state.menuItems[i].price,
                     id: state.menuItems[i].id,
-                    menuDialogType: "Edit",
+                    dialogType: "Edit",
                 }
                 editMenuItem(myEditItem);
                 setEditMenuOpen(true);
@@ -243,16 +265,16 @@ const DataAndMethodsState = props => {
         }
     };
 
-    const handleClickCopy = (index) => {
+    const handleClickMenuItemCopy = (menuId) => {
         for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (index === state.menuItems[i].id) {
+            if (menuId === state.menuItems[i].id) {
                 let myEditItem = {
                     title: state.menuItems[i].title,
                     description: state.menuItems[i].description,
                     categoryJSON: state.menuItems[i].categoryJSON,
                     price: state.menuItems[i].price,
                     id: state.menuItems[i].id,
-                    menuDialogType: "Add",
+                    dialogType: "Add",
                 }
                 editMenuItem(myEditItem);
                 setEditMenuOpen(true);
@@ -261,18 +283,71 @@ const DataAndMethodsState = props => {
         }
     };
 
-    const handleClickDelete = (index) => {
+    const handleClickMenuItemDelete = (menuId) => {
         for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (index === state.menuItems[i].id) {
-                deleteConfirmDialogContext.setDialog(true, state.menuItems[i].title, 'Delete warning', index, deleteMenuItem);
+            if (menuId === state.menuItems[i].id) {
+                deleteConfirmDialogContext.setDialog(true, state.menuItems[i].title, 'Delete warning', menuId, deleteMenuItem);
                 break;
             }
         }
     };
 
-    const deleteMenuItem = (index) => {
+    const handleClickResturantEdit = (resturantId) => {
+        for (let i = 0; 1 < state.resturants.length; i++) {
+            if (resturantId === state.resturants[i].id) {
+                let myEditItem = {
+                    name: state.resturants[i].name,
+                    description: state.resturants[i].description,
+                    street: state.resturants[i].street,
+                    city: state.resturants[i].city,
+                    state: state.resturants[i].state,
+                    zipCode: state.resturants[i].zipCode,
+                    phoneNumber: state.resturants[i].phoneNumber,
+                    url: state.resturants[i].url,
+                    id: state.resturants[i].id,
+                    dialogType: "Edit",
+                }
+                editResturant(myEditItem);
+                setEditResturantOpen(true);
+                break;
+            }
+        }
+    };
+
+    const handleClickResturantCopy = (resturantId) => {
+        for (let i = 0; 1 < state.resturants.length; i++) {
+            if (resturantId === state.resturants[i].id) {
+                let myEditItem = {
+                    name: state.resturants[i].name,
+                    description: state.resturants[i].description,
+                    street: state.resturants[i].street,
+                    city: state.resturants[i].city,
+                    state: state.resturants[i].state,
+                    zipCode: state.resturants[i].zipCode,
+                    phoneNumber: state.resturants[i].phoneNumber,
+                    url: state.resturants[i].url,
+                    id: state.resturants[i].id,
+                    dialogType: "Add",
+                }
+                editResturant(myEditItem);
+                setEditResturantOpen(true);
+                break;
+            }
+        }
+    };
+
+    const handleClickResturantDelete = (resturantId) => {
+        for (let i = 0; 1 < state.resturants.length; i++) {
+            if (resturantId === state.resturants[i].id) {
+                deleteConfirmDialogContext.setDialog(true, state.resturants[i].name, 'Delete warning', resturantId, deleteMenuItem);
+                break;
+            }
+        }
+    };
+
+    const deleteMenuItem = (resturantId) => {
         for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (index === state.menuItems[i].id) {
+            if (resturantId === state.menuItems[i].id) {
                 deleteItemDynamoDB(state.tableName, state.menuItems[i]);
                 break;
             }
@@ -310,10 +385,12 @@ const DataAndMethodsState = props => {
     };
 
     const setMenuItems = (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
-    const setRestaurants = (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
+    const setresturants = (resturants) => { dispatch({ type: SET_resturants, payload: resturants }) }
     const setFoodChoices = (myStates) => { dispatch({ type: SET_FOOD_CHOICES, payload: myStates }) }
     const editMenuItem = (myEditMenuItem) => { dispatch({ type: SET_EDIT_MENU_ITEM, payload: myEditMenuItem }) }
     const setEditMenuOpen = (isOpen) => { dispatch({ type: SET_EDIT_MENU_OPEN, payload: isOpen }) }
+    const editResturant = (myResturant) => { dispatch({ type: SET_EDIT_RESTURANT, payload: myResturant }) }
+    const setEditResturantOpen = (isOpen) => { dispatch({ type: SET_EDIT_RESTURANT_OPEN, payload: isOpen }) }
 
     return (
         <DataAndMethodsContext.Provider
@@ -323,23 +400,29 @@ const DataAndMethodsState = props => {
                 menuItems: state.menuItems,
                 tableName: state.tableName,
                 restaurantTableName: state.restaurantTableName,
-                restaurants: state.restaurants,
+                resturants: state.resturants,
                 editMenuItemValues: state.editMenuItemValues,
+                editResturantValues: state.editResturantValues,
                 editMenuOpen: state.editMenuOpen,
+                editResturantOpen: state.editResturantOpen,
                 setFoodChoice,
                 setFoodChoices,
                 scanDynamoDB,
-                setRestaurants,
+                setresturants,
                 setEditMenuItem,
                 setEditMenuItemCategory,
                 setEditMenuOpen,
-                handleClickEdit,
+                setEditResturantOpen,
+                handleClickMenuItemEdit,
                 saveItem,
                 updateItemDynamoDB,
                 putItemDynamoDB,
-                handleClickCopy,
+                handleClickMenuItemCopy,
                 saveItemCopy,
-                handleClickDelete,
+                handleClickMenuItemDelete,
+                handleClickResturantEdit,
+                handleClickResturantCopy,
+                handleClickResturantDelete,
             }}
         >
             {props.children}

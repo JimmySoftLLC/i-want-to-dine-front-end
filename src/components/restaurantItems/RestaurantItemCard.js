@@ -1,7 +1,20 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
 
-const RestaurantItemCard = ({ restuarantItem, myStates }) => {
+const useStyles = makeStyles(theme => ({
+    root: {
+        '& .MuiButton-root': {
+            margin: theme.spacing(1),
+            marginLeft: 0,
+        },
+
+    },
+}));
+
+const RestaurantItemCard = ({ restuarantItem, myStates, handleClickResturantEdit, handleClickResturantCopy, handleClickResturantDelete }) => {
+    const classes = useStyles();
     let showIt = myStates['restuarant']
     let myPhoneLink = "tel:" + restuarantItem.phoneNumber
     return (
@@ -22,6 +35,17 @@ const RestaurantItemCard = ({ restuarantItem, myStates }) => {
                     <i className="fas fa-phone"></i>
                 </IconButton></h4>
             <p>{restuarantItem.description}</p>
+            <div className={classes.root} >
+                <Button variant="outlined" color="primary" onClick={() => handleClickResturantEdit(restuarantItem.id)}>
+                    <i className="fas fa-edit"></i>
+                </Button>
+                <Button variant="outlined" color="primary" onClick={() => handleClickResturantCopy(restuarantItem.id)}>
+                    <i className="fas fa-copy"></i>
+                </Button>
+                <Button variant="outlined" color="primary" onClick={() => handleClickResturantDelete(restuarantItem.id)}>
+                    <i className="fas fa-trash"></i>
+                </Button>
+            </div>
         </div>
     );
 };

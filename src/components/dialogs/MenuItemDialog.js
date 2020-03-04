@@ -30,7 +30,7 @@ const MenuItemDialog = () => {
     };
 
     const handleSave = () => {
-        switch (dataAndMethodsContext.editMenuItemValues.menuDialogType) {
+        switch (dataAndMethodsContext.editMenuItemValues.dialogType) {
             case "Edit":
                 dataAndMethodsContext.saveItem()
                 break;
@@ -65,7 +65,7 @@ const MenuItemDialog = () => {
         <div>
             <Dialog className={classes.root} open={dataAndMethodsContext.editMenuOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {dataAndMethodsContext.editMenuItemValues.menuDialogType + " menu item"}</DialogTitle>
+                    {dataAndMethodsContext.editMenuItemValues.dialogType + " menu item"}</DialogTitle>
                 <DialogContent>
                     <TextField
                         id="title"

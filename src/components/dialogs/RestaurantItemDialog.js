@@ -23,59 +23,70 @@ const RestaurantItemDialog = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
-    const { categoryJSON } = dataAndMethodsContext.editMenuItemValues;
-
     const handleClose = () => {
-        dataAndMethodsContext.setEditMenuOpen(false);
+        dataAndMethodsContext.setEditResturantOpen(false);
     };
 
     const handleSave = () => {
-        switch (dataAndMethodsContext.editMenuItemValues.menuDialogType) {
-            case "Edit":
-                dataAndMethodsContext.saveItem()
-                break;
-            case "Add":
-                dataAndMethodsContext.saveItemCopy()
-                break;
-            default:
-        }
-        dataAndMethodsContext.setEditMenuOpen(false);
+        // switch (dataAndMethodsContext.editResturantValues.dialogType) {
+        //     case "Edit":
+        //         dataAndMethodsContext.saveItem()
+        //         break;
+        //     case "Add":
+        //         dataAndMethodsContext.saveItemCopy()
+        //         break;
+        //     default:
+        // }
+        dataAndMethodsContext.setEditResturantOpen(false);
     };
 
-    const changeTitle = (e) => {
-        dataAndMethodsContext.setEditMenuItem('title', e.target.value)
+    const changeName = (e) => {
+        dataAndMethodsContext.editResturant('name', e.target.value)
     };
 
     const changeDescription = (e) => {
-        dataAndMethodsContext.setEditMenuItem('description', e.target.value)
+        dataAndMethodsContext.editResturant('description', e.target.value)
     };
 
-    const changePrice = (e) => {
-        dataAndMethodsContext.setEditMenuItem('price', e.target.value)
+    const changeStreet = (e) => {
+        dataAndMethodsContext.editResturant('street', e.target.value)
     };
 
-    const checkIfPresent = (value) => {
-        if (categoryJSON) {
-            if (categoryJSON.indexOf(value) !== -1) { return true }
-        }
-        return false
-    }
+    const changeCity = (e) => {
+        dataAndMethodsContext.editResturant('city', e.target.value)
+    };
+
+    const changeState = (e) => {
+        dataAndMethodsContext.editResturant('state', e.target.value)
+    };
+
+    const changeZipCode = (e) => {
+        dataAndMethodsContext.editResturant('zipCode', e.target.value)
+    };
+
+    const changePhoneNumber = (e) => {
+        dataAndMethodsContext.editResturant('phoneNumber', e.target.value)
+    };
+
+    const changeUrl = (e) => {
+        dataAndMethodsContext.editResturant('url', e.target.value)
+    };
 
     return (
         <div>
-            <Dialog className={classes.root} open={dataAndMethodsContext.editMenuOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog className={classes.root} open={dataAndMethodsContext.editResturantOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {dataAndMethodsContext.editMenuItemValues.menuDialogType + " menu item"}</DialogTitle>
+                    {dataAndMethodsContext.editResturantValues.dialogType + " resturant details"}</DialogTitle>
                 <DialogContent>
                     <TextField
-                        id="title"
-                        label="Title"
+                        id="name"
+                        label="Name"
                         type="text"
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.editMenuItemValues.title}
-                        onChange={changeTitle}
+                        value={dataAndMethodsContext.editResturantValues.name}
+                        onChange={changeName}
                     />
                     <TextField
                         id="description"
@@ -85,75 +96,72 @@ const RestaurantItemDialog = () => {
                         variant="filled"
                         multiline={true}
                         rows="3"
-                        value={dataAndMethodsContext.editMenuItemValues.description}
+                        value={dataAndMethodsContext.editResturantValues.description}
                         onChange={changeDescription}
                     />
-                    <Toolbar>
-                        <div >
-                            <IconButton aria-label="" color={checkIfPresent("meat") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('meat')}
-                            >
-                                <i className='icon-tbone'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("poultry") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('poultry')}
-                            >
-                                <i className="fas fa-feather"></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("pasta") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pasta')}
-                            >
-                                <i className='icon-pasta'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("sandwich") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('sandwich')}
-                            >
-                                <i className='fas fa-hamburger'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("fish") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('fish')}
-                            >
-                                <i className='fas fa-fish'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("shellfish") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('shellfish')}
-                            >
-                                <i className='icon-shell'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("vegetarian") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('vegetarian')}
-                            >
-                                <i className='fas fa-seedling'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("dessert") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('dessert')}
-                            >
-                                <i className='icon-dessert'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("specials") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('specials')}
-                            >
-                                <i className="fas fa-tag"></i>
-                            </IconButton>
-                        </div>
-                    </Toolbar>
                     <TextField
-                        id="price"
-                        label="Price"
-                        type="number"
+                        id="street"
+                        label="Street Address"
+                        type="text"
                         fullWidth
                         variant="filled"
-                        value={dataAndMethodsContext.editMenuItemValues.price}
-                        onChange={changePrice}
+                        size="small"
+                        value={dataAndMethodsContext.editResturantValues.street}
+                        onChange={changeStreet}
+                    />
+                    <TextField
+                        id="city"
+                        label="City"
+                        type="text"
+                        variant="filled"
+                        size="small"
+                        value={dataAndMethodsContext.editResturantValues.city}
+                        onChange={changeCity}
+                    />
+                    <TextField
+                        id="state"
+                        label="State"
+                        type="text"
+                        variant="filled"
+                        size="small"
+                        value={dataAndMethodsContext.editResturantValues.state}
+                        onChange={changeState}
+                    />
+                    <TextField
+                        id="zipCode"
+                        label="Zip code"
+                        type="text"
+                        variant="filled"
+                        size="small"
+                        value={dataAndMethodsContext.editResturantValues.zipCode}
+                        onChange={changeZipCode}
+                    />
+                    <TextField
+                        id="phone"
+                        label="Phone Number xxx-xxx-xxxx"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        value={dataAndMethodsContext.editResturantValues.phoneNumber}
+                        onChange={changePhoneNumber}
+                    />
+                    <TextField
+                        id="url"
+                        label="Website Url"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        value={dataAndMethodsContext.editResturantValues.url}
+                        onChange={changeUrl}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="default">
                         Cancel
                     </Button>
-                    {/* <Button onClick={() => handleSave()} color="primary">
+                    <Button onClick={() => handleSave()} color="primary">
                         Save
-                    </Button> */}
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>
