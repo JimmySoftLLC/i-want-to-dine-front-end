@@ -80,6 +80,33 @@ const About = () => {
                     <i className='icon-dollar_3'></i> 35 and up dollars
                     </li>
             </ul>
+            <h2 >A message to our resturant clients</h2>
+            <p className='p'>
+                We are obsessed about helping your buisiness succeed.  We want to give you the tools to get your message out.
+                It is your responsibility craft menus and a message that is compelling to the public.  We believe this will
+                benifit the dining going public and invigorate the dining experience in Rehoboth.
+                </p>
+            <p className='p'>
+                We do not accept advertisements or reviews.  Our service is paid for by our resturant clients to run
+                the the service.  Its main vision is to get unbiased information to the resturant going public.
+                </p>
+            <h2 >A message to our resturant clients</h2>
+            We are creating a full suite of tools to enhance the your use of the platform.  Some of them are as follows.
+                <ul style={{ paddingLeft: '1.5rem' }}>
+                <li><i className="fas fa-check"></i>{'   '}
+                    Data can be used by your website, so your website content can automatically update by accessing our database
+                    </li>
+                <li><i className="fas fa-check"></i>{'   '}
+                    Expanded information for your resturant, about us, history, owners profiles, staff profiles.  Looking for input on this.
+                    </li>
+                <li><i className="fas fa-check"></i>{'   '}
+                    Who is in, you can checkin.  So if you want customers to know what staff is in on a particular night they can know their
+                    favorite bartender or server is in.
+                    </li>
+                <li><i className="fas fa-check"></i>{'   '}
+                    Event services.  You can detail in a seperate area what event services you provide and menu of options.
+                    </li>
+            </ul>
         </Fragment >
     );
 };

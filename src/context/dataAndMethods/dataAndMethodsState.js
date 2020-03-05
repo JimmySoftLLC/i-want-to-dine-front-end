@@ -75,8 +75,9 @@ const DataAndMethodsState = props => {
     const alertDialogContext = useContext(AlertDialogContext);
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
 
-    const lambdaFunctionURL =
-        'https://yfyft0meu9.execute-api.us-east-1.amazonaws.com/default/restapi';
+    // const lambdaFunctionURL = 'https://yfyft0meu9.execute-api.us-east-1.amazonaws.com/default/restapi';
+
+    const lambdaFunctionURL = 'https://kd7snpev85.execute-api.us-east-1.amazonaws.com/default/i_want_to_dine_api';
 
     //set food choices
     const setFoodChoice = async key => {
@@ -182,7 +183,7 @@ const DataAndMethodsState = props => {
                         Item: myItem,
                         ReturnConsumedCapacity: 'TOTAL',
                     },
-                    myMethod: 'putItem',
+                    myMethod: 'put',
                 },
                 {
                     headers: {
@@ -233,7 +234,7 @@ const DataAndMethodsState = props => {
                         Item: myItem,
                         ReturnConsumedCapacity: 'TOTAL',
                     },
-                    myMethod: 'putItem',
+                    myMethod: 'put',
                 },
                 {
                     headers: {
@@ -252,7 +253,7 @@ const DataAndMethodsState = props => {
             const res = await axios.post(
                 lambdaFunctionURL,
                 {
-                    myMethod: 'deleteItem',
+                    myMethod: 'delete',
                     myBody: {
                         TableName: TableName,
                         Key: {
