@@ -32,10 +32,10 @@ const MenuItemDialog = () => {
     const handleSave = () => {
         switch (dataAndMethodsContext.editMenuItemValues.dialogType) {
             case "Edit":
-                dataAndMethodsContext.saveItem()
+                dataAndMethodsContext.saveMenuItem()
                 break;
             case "Add":
-                dataAndMethodsContext.saveItemCopy()
+                dataAndMethodsContext.saveMenuItemCopy()
                 break;
             default:
         }

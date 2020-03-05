@@ -91,7 +91,7 @@ const MenuItemCard = ({ menuItem, myStates, resturants, handleClickMenuItemEdit,
             </h3>
             <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
+                {/* <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemCopy(menuItem.id)}>
@@ -99,7 +99,7 @@ const MenuItemCard = ({ menuItem, myStates, resturants, handleClickMenuItemEdit,
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemDelete(menuItem.id)}>
                     <i className="fas fa-trash"></i>
-                </Button>
+                </Button> */}
             </div>
             <p>{menuItem.description}</p>
         </div>

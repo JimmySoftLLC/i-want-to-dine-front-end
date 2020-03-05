@@ -67,10 +67,10 @@ const BottomNavBar = () => {
                         onClick={() => dataAndMethodsContext.setFoodChoice('restuarant')}>
                         <i className="icon-resturant"></i>
                     </IconButton>
-                    <IconButton aria-label=""
+                    {/* <IconButton aria-label=""
                         color="primary">
                         <i className="icon-fav-resturant"></i>
-                    </IconButton>
+                    </IconButton> */}
                 </Toolbar>
             </BottomNavigation>
         </div>

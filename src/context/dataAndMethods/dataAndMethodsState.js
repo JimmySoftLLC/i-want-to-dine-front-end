@@ -85,6 +85,8 @@ const DataAndMethodsState = props => {
         setFoodChoices(myNewFoodChoices);
     };
 
+    // api calls ----------------------------------------------------------------
+
     const scanDynamoDB = async TableName => {
         try {
             const res = await axios.post(
@@ -130,7 +132,7 @@ const DataAndMethodsState = props => {
                 default:
             }
         } catch (err) {
-            alertDialogContext.setAlertDialog(true, err.message, 'Error');
+            alertDialogContext.setDialog(true, err.message, 'Error');
             switch (TableName) {
                 case 'menuItems':
                     setMenuItems([])
@@ -144,20 +146,40 @@ const DataAndMethodsState = props => {
     };
 
     const updateItemDynamoDB = async (TableName, menuItem) => {
+        let myItem = {}
+        switch (TableName) {
+            case state.tableName:
+                myItem = {
+                    id: menuItem.id,
+                    title: menuItem.title,
+                    description: menuItem.description,
+                    categoryJSON: JSON.stringify(menuItem.categoryJSON),
+                    restaurant: menuItem.restaurant,
+                    price: menuItem.price,
+                }
+                break;
+            case state.restaurantTableName:
+                myItem = {
+                    id: menuItem.id,
+                    name: menuItem.name,
+                    description: menuItem.description,
+                    street: menuItem.street,
+                    city: menuItem.city,
+                    state: menuItem.state,
+                    zipCode: menuItem.zipCode,
+                    phoneNumber: menuItem.phoneNumber,
+                    url: menuItem.url,
+                }
+                break;
+            default:
+        }
         try {
             const res = await axios.post(
                 lambdaFunctionURL,
                 {
                     myBody: {
                         TableName: TableName,
-                        Item: {
-                            id: menuItem.id,
-                            title: menuItem.title,
-                            description: menuItem.description,
-                            categoryJSON: JSON.stringify(menuItem.categoryJSON),
-                            restaurant: menuItem.restaurant,
-                            price: menuItem.price,
-                        },
+                        Item: myItem,
                         ReturnConsumedCapacity: 'TOTAL',
                     },
                     myMethod: 'putItem',
@@ -168,27 +190,47 @@ const DataAndMethodsState = props => {
                     },
                 }
             );
-            scanDynamoDB(state.tableName)
+            scanDynamoDB(TableName)
         } catch (err) {
-            alertDialogContext.setAlertDialog(true, err.message, 'Error', '', 'OK', '');
+            alertDialogContext.setDialog(true, err.message, 'Error', '', 'OK', '');
         }
     };
 
     const putItemDynamoDB = async (TableName, menuItem) => {
+        let myItem = {}
+        switch (TableName) {
+            case state.tableName:
+                myItem = {
+                    id: uuidv4(), // create uuidv4 as the id
+                    title: menuItem.title,
+                    description: menuItem.description,
+                    categoryJSON: JSON.stringify(menuItem.categoryJSON),
+                    restaurant: menuItem.restaurant,
+                    price: menuItem.price,
+                }
+                break;
+            case state.restaurantTableName:
+                myItem = {
+                    id: uuidv4(), // create uuidv4 as the id
+                    name: menuItem.name,
+                    description: menuItem.description,
+                    street: menuItem.street,
+                    city: menuItem.city,
+                    state: menuItem.state,
+                    zipCode: menuItem.zipCode,
+                    phoneNumber: menuItem.phoneNumber,
+                    url: menuItem.url,
+                }
+                break;
+            default:
+        }
         try {
             const res = await axios.post(
                 lambdaFunctionURL,
                 {
                     myBody: {
                         TableName: TableName,
-                        Item: {
-                            id: uuidv4(), // create uuidv4 as the id
-                            title: menuItem.title,
-                            description: menuItem.description,
-                            categoryJSON: JSON.stringify(menuItem.categoryJSON),
-                            restaurant: menuItem.restaurant,
-                            price: menuItem.price,
-                        },
+                        Item: myItem,
                         ReturnConsumedCapacity: 'TOTAL',
                     },
                     myMethod: 'putItem',
@@ -199,9 +241,9 @@ const DataAndMethodsState = props => {
                     },
                 }
             );
-            scanDynamoDB(state.tableName)
+            scanDynamoDB(TableName)
         } catch (err) {
-            alertDialogContext.setAlertDialog(true, err.message, 'Error');
+            alertDialogContext.setDialog(true, err.message, 'Error');
         }
     };
 
@@ -224,11 +266,13 @@ const DataAndMethodsState = props => {
                     },
                 },
             );
-            scanDynamoDB(state.tableName)
+            scanDynamoDB(TableName)
         } catch (err) {
-            alertDialogContext.setAlertDialog(true, err.message, 'Error');
+            alertDialogContext.setDialog(true, err.message, 'Error');
         }
     };
+
+    // menu item calls ----------------------------------------------------------------
 
     const setEditMenuItem = async (key, value) => {
         let myEditMenuItem = JSON.parse(JSON.stringify(state.editMenuItemValues))
@@ -292,6 +336,51 @@ const DataAndMethodsState = props => {
         }
     };
 
+    const deleteMenuItem = (resturantId) => {
+        for (let i = 0; 1 < state.menuItems.length; i++) {
+            if (resturantId === state.menuItems[i].id) {
+                deleteItemDynamoDB(state.tableName, state.menuItems[i]);
+                break;
+            }
+        }
+    };
+
+    const saveMenuItem = () => {
+        let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
+        for (let i = 0; i < myNewMenuItems.length; i++) {
+            if (state.editMenuItemValues.id === myNewMenuItems[i].id) {
+                myNewMenuItems[i].title = state.editMenuItemValues.title;
+                myNewMenuItems[i].description = state.editMenuItemValues.description;
+                myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
+                myNewMenuItems[i].price = state.editMenuItemValues.price;
+                updateItemDynamoDB(state.tableName, myNewMenuItems[i]);
+                break;
+            }
+        }
+    };
+
+    const saveMenuItemCopy = () => {
+        let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
+        for (let i = 0; i < myNewMenuItems.length; i++) {
+            if (state.editMenuItemValues.id === myNewMenuItems[i].id) {
+                myNewMenuItems[i].title = state.editMenuItemValues.title;
+                myNewMenuItems[i].description = state.editMenuItemValues.description;
+                myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
+                myNewMenuItems[i].price = state.editMenuItemValues.price;
+                putItemDynamoDB(state.tableName, myNewMenuItems[i]);
+                break;
+            }
+        }
+    };
+
+    // resturant calls ----------------------------------------------------------------------
+
+    const setResturantItem = async (key, value) => {
+        let myEditResturant = JSON.parse(JSON.stringify(state.editResturantValues))
+        myEditResturant[key] = value;
+        editResturant(myEditResturant);
+    }
+
     const handleClickResturantEdit = (resturantId) => {
         for (let i = 0; 1 < state.resturants.length; i++) {
             if (resturantId === state.resturants[i].id) {
@@ -339,51 +428,58 @@ const DataAndMethodsState = props => {
     const handleClickResturantDelete = (resturantId) => {
         for (let i = 0; 1 < state.resturants.length; i++) {
             if (resturantId === state.resturants[i].id) {
-                deleteConfirmDialogContext.setDialog(true, state.resturants[i].name, 'Delete warning', resturantId, deleteMenuItem);
+                deleteConfirmDialogContext.setDialog(true, state.resturants[i].name, 'Delete warning', resturantId, deleteResturant);
                 break;
             }
         }
     };
 
-    const deleteMenuItem = (resturantId) => {
-        for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (resturantId === state.menuItems[i].id) {
-                deleteItemDynamoDB(state.tableName, state.menuItems[i]);
+    const deleteResturant = (resturantId) => {
+        for (let i = 0; 1 < state.resturants.length; i++) {
+            if (resturantId === state.resturants[i].id) {
+                deleteItemDynamoDB(state.restaurantTableName, state.resturants[i]);
                 break;
             }
         }
     };
 
-    const saveItem = () => {
-        let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
-        for (let i = 0; i < myNewMenuItems.length; i++) {
-            if (state.editMenuItemValues.id === myNewMenuItems[i].id) {
-                myNewMenuItems[i].title = state.editMenuItemValues.title;
-                myNewMenuItems[i].description = state.editMenuItemValues.description;
-                myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
-                myNewMenuItems[i].price = state.editMenuItemValues.price;
-                updateItemDynamoDB(state.tableName, myNewMenuItems[i]);
-                setMenuItems(myNewMenuItems);
+    const saveResturant = () => {
+        let myNewResturants = JSON.parse(JSON.stringify(state.resturants))
+        for (let i = 0; i < myNewResturants.length; i++) {
+            if (state.editResturantValues.id === myNewResturants[i].id) {
+                myNewResturants[i].name = state.editResturantValues.name;
+                myNewResturants[i].description = state.editResturantValues.description;
+                myNewResturants[i].street = state.editResturantValues.street;
+                myNewResturants[i].city = state.editResturantValues.city;
+                myNewResturants[i].state = state.editResturantValues.state;
+                myNewResturants[i].zipCode = state.editResturantValues.zipCode;
+                myNewResturants[i].phoneNumber = state.editResturantValues.phoneNumber;
+                myNewResturants[i].url = state.editResturantValues.url;
+                updateItemDynamoDB(state.restaurantTableName, myNewResturants[i]);
                 break;
             }
         }
     };
 
-    const saveItemCopy = () => {
-        let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
-        for (let i = 0; i < myNewMenuItems.length; i++) {
-            if (state.editMenuItemValues.id === myNewMenuItems[i].id) {
-                myNewMenuItems[i].title = state.editMenuItemValues.title;
-                myNewMenuItems[i].description = state.editMenuItemValues.description;
-                myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
-                myNewMenuItems[i].price = state.editMenuItemValues.price;
-                putItemDynamoDB(state.tableName, myNewMenuItems[i]);
-                setMenuItems(myNewMenuItems);
+    const saveResturantCopy = () => {
+        let myNewResturants = JSON.parse(JSON.stringify(state.resturants))
+        for (let i = 0; i < myNewResturants.length; i++) {
+            if (state.editResturantValues.id === myNewResturants[i].id) {
+                myNewResturants[i].name = state.editResturantValues.name;
+                myNewResturants[i].description = state.editResturantValues.description;
+                myNewResturants[i].street = state.editResturantValues.street;
+                myNewResturants[i].city = state.editResturantValues.city;
+                myNewResturants[i].state = state.editResturantValues.state;
+                myNewResturants[i].zipCode = state.editResturantValues.zipCode;
+                myNewResturants[i].phoneNumber = state.editResturantValues.phoneNumber;
+                myNewResturants[i].url = state.editResturantValues.url;
+                putItemDynamoDB(state.restaurantTableName, myNewResturants[i]);
                 break;
             }
         }
     };
 
+    // dispatch changes to the reducer ---------------------------------------------------------------------
     const setMenuItems = (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
     const setresturants = (resturants) => { dispatch({ type: SET_resturants, payload: resturants }) }
     const setFoodChoices = (myStates) => { dispatch({ type: SET_FOOD_CHOICES, payload: myStates }) }
@@ -414,15 +510,18 @@ const DataAndMethodsState = props => {
                 setEditMenuOpen,
                 setEditResturantOpen,
                 handleClickMenuItemEdit,
-                saveItem,
+                saveMenuItem,
                 updateItemDynamoDB,
                 putItemDynamoDB,
                 handleClickMenuItemCopy,
-                saveItemCopy,
+                saveMenuItemCopy,
                 handleClickMenuItemDelete,
                 handleClickResturantEdit,
                 handleClickResturantCopy,
                 handleClickResturantDelete,
+                saveResturant,
+                saveResturantCopy,
+                setResturantItem,
             }}
         >
             {props.children}

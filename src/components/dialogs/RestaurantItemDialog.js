@@ -28,48 +28,48 @@ const RestaurantItemDialog = () => {
     };
 
     const handleSave = () => {
-        // switch (dataAndMethodsContext.editResturantValues.dialogType) {
-        //     case "Edit":
-        //         dataAndMethodsContext.saveItem()
-        //         break;
-        //     case "Add":
-        //         dataAndMethodsContext.saveItemCopy()
-        //         break;
-        //     default:
-        // }
+        switch (dataAndMethodsContext.editResturantValues.dialogType) {
+            case "Edit":
+                dataAndMethodsContext.saveResturant()
+                break;
+            case "Add":
+                dataAndMethodsContext.saveResturantCopy()
+                break;
+            default:
+        }
         dataAndMethodsContext.setEditResturantOpen(false);
     };
 
     const changeName = (e) => {
-        dataAndMethodsContext.editResturant('name', e.target.value)
+        dataAndMethodsContext.setResturantItem('name', e.target.value)
     };
 
     const changeDescription = (e) => {
-        dataAndMethodsContext.editResturant('description', e.target.value)
+        dataAndMethodsContext.setResturantItem('description', e.target.value)
     };
 
     const changeStreet = (e) => {
-        dataAndMethodsContext.editResturant('street', e.target.value)
+        dataAndMethodsContext.setResturantItem('street', e.target.value)
     };
 
     const changeCity = (e) => {
-        dataAndMethodsContext.editResturant('city', e.target.value)
+        dataAndMethodsContext.setResturantItem('city', e.target.value)
     };
 
     const changeState = (e) => {
-        dataAndMethodsContext.editResturant('state', e.target.value)
+        dataAndMethodsContext.setResturantItem('state', e.target.value)
     };
 
     const changeZipCode = (e) => {
-        dataAndMethodsContext.editResturant('zipCode', e.target.value)
+        dataAndMethodsContext.setResturantItem('zipCode', e.target.value)
     };
 
     const changePhoneNumber = (e) => {
-        dataAndMethodsContext.editResturant('phoneNumber', e.target.value)
+        dataAndMethodsContext.setResturantItem('phoneNumber', e.target.value)
     };
 
     const changeUrl = (e) => {
-        dataAndMethodsContext.editResturant('url', e.target.value)
+        dataAndMethodsContext.setResturantItem('url', e.target.value)
     };
 
     return (
