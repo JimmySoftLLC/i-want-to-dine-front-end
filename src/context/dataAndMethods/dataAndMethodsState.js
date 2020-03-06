@@ -20,7 +20,7 @@ const DataAndMethodsState = props => {
         tableName: 'menuItems',
         restaurantTableName: 'resturants',
         myStates: {
-            meat: false,
+            meat: true,
             ham: false,
             lamb: false,
             poultry: false,
@@ -34,7 +34,7 @@ const DataAndMethodsState = props => {
             special: false,
             info: false,
             dollar_1: false,
-            dollar_2: false,
+            dollar_2: true,
             dollar_3: false,
             restuarant: false,
         },
@@ -74,8 +74,6 @@ const DataAndMethodsState = props => {
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
     const alertDialogContext = useContext(AlertDialogContext);
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
-
-    // const lambdaFunctionURL = 'https://yfyft0meu9.execute-api.us-east-1.amazonaws.com/default/restapi';
 
     const lambdaFunctionURL = 'https://kd7snpev85.execute-api.us-east-1.amazonaws.com/default/i_want_to_dine_api';
 
@@ -273,6 +271,31 @@ const DataAndMethodsState = props => {
         }
     };
 
+    const getItemDynamoDB = async (TableName, id) => {
+        try {
+            const res = await axios.post(
+                lambdaFunctionURL,
+                {
+                    myMethod: 'get',
+                    myBody: {
+                        TableName: TableName,
+                        Key: {
+                            id: id,
+                        },
+                    },
+                },
+                {
+                    headers: {
+                        Accept: '*/*',
+                    },
+                },
+            );
+            console.log(res.data);
+        } catch (err) {
+            alertDialogContext.setDialog(true, err.message, 'Error');
+        }
+    };
+
     // menu item calls ----------------------------------------------------------------
 
     const setEditMenuItem = async (key, value) => {
@@ -355,6 +378,7 @@ const DataAndMethodsState = props => {
                 myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
                 myNewMenuItems[i].price = state.editMenuItemValues.price;
                 updateItemDynamoDB(state.tableName, myNewMenuItems[i]);
+                //getItemDynamoDB(state.tableName, myNewMenuItems[i].id);
                 break;
             }
         }

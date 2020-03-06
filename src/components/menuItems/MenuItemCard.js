@@ -83,10 +83,10 @@ const MenuItemCard = ({ menuItem, myStates, resturants, handleClickMenuItemEdit,
         }
     }
 
-    let myFinalShowIt = showIt && !myStates['restuarant']
+    // let myFinalShowIt = showIt && !myStates['restuarant']
 
     return (
-        myFinalShowIt && <div className='card'>
+        showIt && <div className='card'>
             <h3>{items}{menuItem.title}{' - '}{price}
             </h3>
             <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>

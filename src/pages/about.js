@@ -24,7 +24,7 @@ const About = () => {
             <h2 >How to use</h2>
             <p className='p'>
                 Select the foods you are interested by clicking the food icons.  The selected ones will darken.
-                Menu items with those foods will show up in the list.  The icons are defined as follows:
+                Menu items with those foods will show up in the list.  The icons represent:
                 </p>
             <ul style={{ paddingLeft: '1.5rem' }}>
                 <li>
