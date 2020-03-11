@@ -36,7 +36,7 @@
 .icon-shell:before {
   content: "\e901";
 }
-.icon-resturant:before {
+.icon-Restaurant:before {
   content: "\e902";
 }
 .icon-pasta:before {
@@ -51,7 +51,7 @@
 .icon-dollar_3:before {
   content: "\e906";
 }
-.icon-fav-resturant:before {
+.icon-fav-Restaurant:before {
   content: "\e907";
 }
 .icon-ham:before {

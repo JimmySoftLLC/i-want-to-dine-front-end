@@ -4,15 +4,15 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 
 const RestaurantItems = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const { resturants } = dataAndMethodsContext;
+    const { Restaurants } = dataAndMethodsContext;
 
-    return resturants.map(resturantItem => <RestaurantItemCard
-        restuarantItem={resturantItem}
+    return Restaurants.map(RestaurantItem => <RestaurantItemCard
+        restuarantItem={RestaurantItem}
         myStates={dataAndMethodsContext.myStates}
-        handleClickResturantEdit={dataAndMethodsContext.handleClickResturantEdit}
-        handleClickResturantCopy={dataAndMethodsContext.handleClickResturantCopy}
-        handleClickResturantDelete={dataAndMethodsContext.handleClickResturantDelete}
-        key={resturantItem.id} />);
+        handleClickRestaurantEdit={dataAndMethodsContext.handleClickRestaurantEdit}
+        handleClickRestaurantCopy={dataAndMethodsContext.handleClickRestaurantCopy}
+        handleClickRestaurantDelete={dataAndMethodsContext.handleClickRestaurantDelete}
+        key={RestaurantItem.id} />);
 };
 
 export default RestaurantItems;

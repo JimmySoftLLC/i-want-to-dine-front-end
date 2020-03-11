@@ -1,0 +1,6 @@
+Pool Id 'us-east-1_4ajU9e1Yn'
+region 'us-east-1'
+App client id '2e70bconmpetsff86vakbqikn1'
+
+
+

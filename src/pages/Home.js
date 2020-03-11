@@ -9,6 +9,7 @@ import MenuItemDialog from '../components/dialogs/MenuItemDialog';
 import RestaurantItemDialog from '../components/dialogs/RestaurantItemDialog';
 import AlertDialog from '../components/dialogs/AlertDialog';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
+import SignUp from '../auth/SignUp';
 
 
 const Home = () => {
@@ -22,6 +23,7 @@ const Home = () => {
         <Fragment>
             <AlertDialog />
             <DeleteConfirmDialog />
+            <SignUp />
             <TopNavBar />
             <div className='container page-top-margin'>
                 {dataAndMethodsContext.myStates['info'] && <About />}
@@ -32,7 +34,6 @@ const Home = () => {
             </div>
             <p className='p page-bottom-margin'></p>
             <BotNavBar />
-
         </Fragment>
     );
 };

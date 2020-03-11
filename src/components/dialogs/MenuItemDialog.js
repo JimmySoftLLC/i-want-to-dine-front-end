@@ -50,6 +50,10 @@ const MenuItemDialog = () => {
         dataAndMethodsContext.setEditMenuItem('description', e.target.value)
     };
 
+    const changeRestaurant = (e) => {
+        dataAndMethodsContext.setEditMenuItem('restaurant', e.target.value)
+    };
+
     const changePrice = (e) => {
         dataAndMethodsContext.setEditMenuItem('price', e.target.value)
     };
@@ -87,6 +91,16 @@ const MenuItemDialog = () => {
                         rows="3"
                         value={dataAndMethodsContext.editMenuItemValues.description}
                         onChange={changeDescription}
+                    />
+                    <TextField
+                        id="restaurant"
+                        label="Restaurant"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        size="small"
+                        value={dataAndMethodsContext.editMenuItemValues.restaurant}
+                        onChange={changeRestaurant}
                     />
                     <Toolbar>
                         <div >

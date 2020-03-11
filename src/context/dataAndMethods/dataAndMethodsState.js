@@ -8,12 +8,14 @@ import DeleteConfirmDialogContext from '../deleteConfirmDialog/deleteConfirmDial
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
-    SET_resturants,
+    SET_RESTUARANTS,
     SET_EDIT_MENU_ITEM,
     SET_EDIT_MENU_OPEN,
-    SET_EDIT_RESTURANT,
-    SET_EDIT_RESTURANT_OPEN
+    SET_EDIT_RESTUARANTS,
+    SET_EDIT_RESTUARANTS_OPEN,
+    SET_SIGN_UP_DIALOG_OPEN
 } from '../types';
+let auth = require('../../auth/auth');
 
 const DataAndMethodsState = props => {
     const initialState = {
@@ -39,9 +41,10 @@ const DataAndMethodsState = props => {
             restuarant: false,
         },
         editMenuOpen: false,
-        editResturantOpen: false,
+        signUpDialogOpen: false,
+        editRestaurantOpen: false,
         menuItems: [],
-        resturants: [],
+        Restaurants: [],
         editMenuItemValues: {
             title: "",
             name: "",
@@ -56,8 +59,9 @@ const DataAndMethodsState = props => {
             price: 0,
             dialogType: "",
             id: "",
+            Restaurant: "",
         },
-        editResturantValues: {
+        editRestaurantValues: {
             name: "",
             description: "",
             street: "",
@@ -75,7 +79,11 @@ const DataAndMethodsState = props => {
     const alertDialogContext = useContext(AlertDialogContext);
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
 
+
     const lambdaFunctionURL = 'https://kd7snpev85.execute-api.us-east-1.amazonaws.com/default/i_want_to_dine_api';
+    // const lambdaFunctionURL = 'https://544oilp830.execute-api.us-east-1.amazonaws.com/default/cognitoTest';
+
+
 
     //set food choices
     const setFoodChoice = async key => {
@@ -99,6 +107,8 @@ const DataAndMethodsState = props => {
                 {
                     headers: {
                         Accept: '*/*',
+                        'Content-Type': 'application/json',
+                        'Authorization': 'eyJraWQiOiJVXC81ZWtVREhHNVJ4czUzOU95N3FwdjlBeWhKVStOaFpxdk9qdkVvWkdyWT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1ZjdlZjQwZS0yZjkzLTQ1YzUtYmFhMy1mMmVhM2QyMzUwODgiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfNGFqVTllMVluIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6IjVmN2VmNDBlLTJmOTMtNDVjNS1iYWEzLWYyZWEzZDIzNTA4OCIsImF1ZCI6IjJlNzBiY29ubXBldHNmZjg2dmFrYnFpa24xIiwiZXZlbnRfaWQiOiIzYWQwNzQyNi01ZDQyLTRjMDktYmE5Ni03YTk1MDI0ZGFkMDIiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTU4Mzg2ODI1MSwicGhvbmVfbnVtYmVyIjoiKzE3MDM1NTUxMjEyIiwiZXhwIjoxNTgzODcxODUxLCJpYXQiOjE1ODM4NjgyNTEsImVtYWlsIjoiamJhaWxleUBqaW1teXNvZnRsbGMuY29tIn0.NrHqqejSt3BLIngo1AdHLt_49idwup_q0M40pPDVxoVOAupX5XNtNaQPj0KiKVgH3oZeTYW3ULYkY0UKzIiGLT8A9XItYPdXhb3rFXAq6LvCbobb9Ach3oyXLcYDyP3281QOt4FF0aFbpy6WYrB_3qC049I3WF5Ec0_EYd-kP2TUsC2Bq_vgtRysj3o40CDNNWOod_meKnz5lTiNJVEz-oDIW5lKT2eOWKO-peahZjezIWLR4bdj1woprvU9IB3ZLtOgWxHSl_qkAcTekx9pXqBdOFu-G3ksrT4dxqbl6_k-_ua--IRjuzIzNejkn7XQpnRT6q6yohgGV1Ax_pGluQ'
                     },
                 }
             );
@@ -126,7 +136,7 @@ const DataAndMethodsState = props => {
                         return comparison;
                     }
                     myResData.Items.sort(compare);
-                    setresturants(myResData.Items)
+                    setRestaurants(myResData.Items)
                     break;
                 default:
             }
@@ -136,8 +146,8 @@ const DataAndMethodsState = props => {
                 case 'menuItems':
                     setMenuItems([])
                     break;
-                case 'resturants':
-                    setresturants([])
+                case 'Restaurants':
+                    setRestaurants([])
                     break;
                 default:
             }
@@ -324,6 +334,7 @@ const DataAndMethodsState = props => {
                     categoryJSON: state.menuItems[i].categoryJSON,
                     price: state.menuItems[i].price,
                     id: state.menuItems[i].id,
+                    restaurant: state.menuItems[i].restaurant,
                     dialogType: "Edit",
                 }
                 editMenuItem(myEditItem);
@@ -342,6 +353,7 @@ const DataAndMethodsState = props => {
                     categoryJSON: state.menuItems[i].categoryJSON,
                     price: state.menuItems[i].price,
                     id: state.menuItems[i].id,
+                    restaurant: state.menuItems[i].restaurant,
                     dialogType: "Add",
                 }
                 editMenuItem(myEditItem);
@@ -360,9 +372,9 @@ const DataAndMethodsState = props => {
         }
     };
 
-    const deleteMenuItem = (resturantId) => {
+    const deleteMenuItem = (RestaurantId) => {
         for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (resturantId === state.menuItems[i].id) {
+            if (RestaurantId === state.menuItems[i].id) {
                 deleteItemDynamoDB(state.tableName, state.menuItems[i]);
                 break;
             }
@@ -377,6 +389,7 @@ const DataAndMethodsState = props => {
                 myNewMenuItems[i].description = state.editMenuItemValues.description;
                 myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
                 myNewMenuItems[i].price = state.editMenuItemValues.price;
+                myNewMenuItems[i].restaurant = state.editMenuItemValues.restaurant;
                 updateItemDynamoDB(state.tableName, myNewMenuItems[i]);
                 //getItemDynamoDB(state.tableName, myNewMenuItems[i].id);
                 break;
@@ -392,113 +405,114 @@ const DataAndMethodsState = props => {
                 myNewMenuItems[i].description = state.editMenuItemValues.description;
                 myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
                 myNewMenuItems[i].price = state.editMenuItemValues.price;
+                myNewMenuItems[i].restaurant = state.editMenuItemValues.restaurant;
                 putItemDynamoDB(state.tableName, myNewMenuItems[i]);
                 break;
             }
         }
     };
 
-    // resturant calls ----------------------------------------------------------------------
+    // Restaurant calls ----------------------------------------------------------------------
 
-    const setResturantItem = async (key, value) => {
-        let myEditResturant = JSON.parse(JSON.stringify(state.editResturantValues))
-        myEditResturant[key] = value;
-        editResturant(myEditResturant);
+    const setRestaurantItem = async (key, value) => {
+        let myEditRestaurant = JSON.parse(JSON.stringify(state.editRestaurantValues))
+        myEditRestaurant[key] = value;
+        editRestaurant(myEditRestaurant);
     }
 
-    const handleClickResturantEdit = (resturantId) => {
-        for (let i = 0; 1 < state.resturants.length; i++) {
-            if (resturantId === state.resturants[i].id) {
+    const handleClickRestaurantEdit = (RestaurantId) => {
+        for (let i = 0; 1 < state.Restaurants.length; i++) {
+            if (RestaurantId === state.Restaurants[i].id) {
                 let myEditItem = {
-                    name: state.resturants[i].name,
-                    description: state.resturants[i].description,
-                    street: state.resturants[i].street,
-                    city: state.resturants[i].city,
-                    state: state.resturants[i].state,
-                    zipCode: state.resturants[i].zipCode,
-                    phoneNumber: state.resturants[i].phoneNumber,
-                    url: state.resturants[i].url,
-                    id: state.resturants[i].id,
+                    name: state.Restaurants[i].name,
+                    description: state.Restaurants[i].description,
+                    street: state.Restaurants[i].street,
+                    city: state.Restaurants[i].city,
+                    state: state.Restaurants[i].state,
+                    zipCode: state.Restaurants[i].zipCode,
+                    phoneNumber: state.Restaurants[i].phoneNumber,
+                    url: state.Restaurants[i].url,
+                    id: state.Restaurants[i].id,
                     dialogType: "Edit",
                 }
-                editResturant(myEditItem);
-                setEditResturantOpen(true);
+                editRestaurant(myEditItem);
+                setEditRestaurantOpen(true);
                 break;
             }
         }
     };
 
-    const handleClickResturantCopy = (resturantId) => {
-        for (let i = 0; 1 < state.resturants.length; i++) {
-            if (resturantId === state.resturants[i].id) {
+    const handleClickRestaurantCopy = (RestaurantId) => {
+        for (let i = 0; 1 < state.Restaurants.length; i++) {
+            if (RestaurantId === state.Restaurants[i].id) {
                 let myEditItem = {
-                    name: state.resturants[i].name,
-                    description: state.resturants[i].description,
-                    street: state.resturants[i].street,
-                    city: state.resturants[i].city,
-                    state: state.resturants[i].state,
-                    zipCode: state.resturants[i].zipCode,
-                    phoneNumber: state.resturants[i].phoneNumber,
-                    url: state.resturants[i].url,
-                    id: state.resturants[i].id,
+                    name: state.Restaurants[i].name,
+                    description: state.Restaurants[i].description,
+                    street: state.Restaurants[i].street,
+                    city: state.Restaurants[i].city,
+                    state: state.Restaurants[i].state,
+                    zipCode: state.Restaurants[i].zipCode,
+                    phoneNumber: state.Restaurants[i].phoneNumber,
+                    url: state.Restaurants[i].url,
+                    id: state.Restaurants[i].id,
                     dialogType: "Add",
                 }
-                editResturant(myEditItem);
-                setEditResturantOpen(true);
+                editRestaurant(myEditItem);
+                setEditRestaurantOpen(true);
                 break;
             }
         }
     };
 
-    const handleClickResturantDelete = (resturantId) => {
-        for (let i = 0; 1 < state.resturants.length; i++) {
-            if (resturantId === state.resturants[i].id) {
-                deleteConfirmDialogContext.setDialog(true, state.resturants[i].name, 'Delete warning', resturantId, deleteResturant);
+    const handleClickRestaurantDelete = (RestaurantId) => {
+        for (let i = 0; 1 < state.Restaurants.length; i++) {
+            if (RestaurantId === state.Restaurants[i].id) {
+                deleteConfirmDialogContext.setDialog(true, state.Restaurants[i].name, 'Delete warning', RestaurantId, deleteRestaurant);
                 break;
             }
         }
     };
 
-    const deleteResturant = (resturantId) => {
-        for (let i = 0; 1 < state.resturants.length; i++) {
-            if (resturantId === state.resturants[i].id) {
-                deleteItemDynamoDB(state.restaurantTableName, state.resturants[i]);
+    const deleteRestaurant = (RestaurantId) => {
+        for (let i = 0; 1 < state.Restaurants.length; i++) {
+            if (RestaurantId === state.Restaurants[i].id) {
+                deleteItemDynamoDB(state.restaurantTableName, state.Restaurants[i]);
                 break;
             }
         }
     };
 
-    const saveResturant = () => {
-        let myNewResturants = JSON.parse(JSON.stringify(state.resturants))
-        for (let i = 0; i < myNewResturants.length; i++) {
-            if (state.editResturantValues.id === myNewResturants[i].id) {
-                myNewResturants[i].name = state.editResturantValues.name;
-                myNewResturants[i].description = state.editResturantValues.description;
-                myNewResturants[i].street = state.editResturantValues.street;
-                myNewResturants[i].city = state.editResturantValues.city;
-                myNewResturants[i].state = state.editResturantValues.state;
-                myNewResturants[i].zipCode = state.editResturantValues.zipCode;
-                myNewResturants[i].phoneNumber = state.editResturantValues.phoneNumber;
-                myNewResturants[i].url = state.editResturantValues.url;
-                updateItemDynamoDB(state.restaurantTableName, myNewResturants[i]);
+    const saveRestaurant = () => {
+        let myNewRestaurants = JSON.parse(JSON.stringify(state.Restaurants))
+        for (let i = 0; i < myNewRestaurants.length; i++) {
+            if (state.editRestaurantValues.id === myNewRestaurants[i].id) {
+                myNewRestaurants[i].name = state.editRestaurantValues.name;
+                myNewRestaurants[i].description = state.editRestaurantValues.description;
+                myNewRestaurants[i].street = state.editRestaurantValues.street;
+                myNewRestaurants[i].city = state.editRestaurantValues.city;
+                myNewRestaurants[i].state = state.editRestaurantValues.state;
+                myNewRestaurants[i].zipCode = state.editRestaurantValues.zipCode;
+                myNewRestaurants[i].phoneNumber = state.editRestaurantValues.phoneNumber;
+                myNewRestaurants[i].url = state.editRestaurantValues.url;
+                updateItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
                 break;
             }
         }
     };
 
-    const saveResturantCopy = () => {
-        let myNewResturants = JSON.parse(JSON.stringify(state.resturants))
-        for (let i = 0; i < myNewResturants.length; i++) {
-            if (state.editResturantValues.id === myNewResturants[i].id) {
-                myNewResturants[i].name = state.editResturantValues.name;
-                myNewResturants[i].description = state.editResturantValues.description;
-                myNewResturants[i].street = state.editResturantValues.street;
-                myNewResturants[i].city = state.editResturantValues.city;
-                myNewResturants[i].state = state.editResturantValues.state;
-                myNewResturants[i].zipCode = state.editResturantValues.zipCode;
-                myNewResturants[i].phoneNumber = state.editResturantValues.phoneNumber;
-                myNewResturants[i].url = state.editResturantValues.url;
-                putItemDynamoDB(state.restaurantTableName, myNewResturants[i]);
+    const saveRestaurantCopy = () => {
+        let myNewRestaurants = JSON.parse(JSON.stringify(state.Restaurants))
+        for (let i = 0; i < myNewRestaurants.length; i++) {
+            if (state.editRestaurantValues.id === myNewRestaurants[i].id) {
+                myNewRestaurants[i].name = state.editRestaurantValues.name;
+                myNewRestaurants[i].description = state.editRestaurantValues.description;
+                myNewRestaurants[i].street = state.editRestaurantValues.street;
+                myNewRestaurants[i].city = state.editRestaurantValues.city;
+                myNewRestaurants[i].state = state.editRestaurantValues.state;
+                myNewRestaurants[i].zipCode = state.editRestaurantValues.zipCode;
+                myNewRestaurants[i].phoneNumber = state.editRestaurantValues.phoneNumber;
+                myNewRestaurants[i].url = state.editRestaurantValues.url;
+                putItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
                 break;
             }
         }
@@ -506,12 +520,13 @@ const DataAndMethodsState = props => {
 
     // dispatch changes to the reducer ---------------------------------------------------------------------
     const setMenuItems = (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
-    const setresturants = (resturants) => { dispatch({ type: SET_resturants, payload: resturants }) }
+    const setRestaurants = (Restaurants) => { dispatch({ type: SET_RESTUARANTS, payload: Restaurants }) }
     const setFoodChoices = (myStates) => { dispatch({ type: SET_FOOD_CHOICES, payload: myStates }) }
     const editMenuItem = (myEditMenuItem) => { dispatch({ type: SET_EDIT_MENU_ITEM, payload: myEditMenuItem }) }
     const setEditMenuOpen = (isOpen) => { dispatch({ type: SET_EDIT_MENU_OPEN, payload: isOpen }) }
-    const editResturant = (myResturant) => { dispatch({ type: SET_EDIT_RESTURANT, payload: myResturant }) }
-    const setEditResturantOpen = (isOpen) => { dispatch({ type: SET_EDIT_RESTURANT_OPEN, payload: isOpen }) }
+    const editRestaurant = (myRestaurant) => { dispatch({ type: SET_EDIT_RESTUARANTS, payload: myRestaurant }) }
+    const setEditRestaurantOpen = (isOpen) => { dispatch({ type: SET_EDIT_RESTUARANTS_OPEN, payload: isOpen }) }
+    const setSignUpDialogOpen = (isOpen) => { dispatch({ type: SET_SIGN_UP_DIALOG_OPEN, payload: isOpen }) }
 
     return (
         <DataAndMethodsContext.Provider
@@ -521,19 +536,20 @@ const DataAndMethodsState = props => {
                 menuItems: state.menuItems,
                 tableName: state.tableName,
                 restaurantTableName: state.restaurantTableName,
-                resturants: state.resturants,
+                Restaurants: state.Restaurants,
                 editMenuItemValues: state.editMenuItemValues,
-                editResturantValues: state.editResturantValues,
+                editRestaurantValues: state.editRestaurantValues,
                 editMenuOpen: state.editMenuOpen,
-                editResturantOpen: state.editResturantOpen,
+                editRestaurantOpen: state.editRestaurantOpen,
+                signUpDialogOpen: state.signUpDialogOpen,
                 setFoodChoice,
                 setFoodChoices,
                 scanDynamoDB,
-                setresturants,
+                setRestaurants,
                 setEditMenuItem,
                 setEditMenuItemCategory,
                 setEditMenuOpen,
-                setEditResturantOpen,
+                setEditRestaurantOpen,
                 handleClickMenuItemEdit,
                 saveMenuItem,
                 updateItemDynamoDB,
@@ -541,12 +557,13 @@ const DataAndMethodsState = props => {
                 handleClickMenuItemCopy,
                 saveMenuItemCopy,
                 handleClickMenuItemDelete,
-                handleClickResturantEdit,
-                handleClickResturantCopy,
-                handleClickResturantDelete,
-                saveResturant,
-                saveResturantCopy,
-                setResturantItem,
+                handleClickRestaurantEdit,
+                handleClickRestaurantCopy,
+                handleClickRestaurantDelete,
+                saveRestaurant,
+                saveRestaurantCopy,
+                setRestaurantItem,
+                setSignUpDialogOpen,
             }}
         >
             {props.children}

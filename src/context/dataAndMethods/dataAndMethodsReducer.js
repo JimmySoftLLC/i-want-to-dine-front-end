@@ -1,11 +1,12 @@
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
-    SET_resturants,
+    SET_RESTUARANTS,
     SET_EDIT_MENU_ITEM,
     SET_EDIT_MENU_OPEN,
-    SET_EDIT_RESTURANT,
-    SET_EDIT_RESTURANT_OPEN
+    SET_EDIT_RESTUARANTS,
+    SET_EDIT_RESTUARANTS_OPEN,
+    SET_SIGN_UP_DIALOG_OPEN
 } from '../types';
 
 export default (state, action) => {
@@ -20,10 +21,10 @@ export default (state, action) => {
                 ...state,
                 menuItems: action.payload,
             };
-        case SET_resturants:
+        case SET_RESTUARANTS:
             return {
                 ...state,
-                resturants: action.payload,
+                Restaurants: action.payload,
             };
         case SET_EDIT_MENU_ITEM:
             return {
@@ -35,15 +36,20 @@ export default (state, action) => {
                 ...state,
                 editMenuOpen: action.payload,
             };
-        case SET_EDIT_RESTURANT:
+        case SET_EDIT_RESTUARANTS:
             return {
                 ...state,
-                editResturantValues: action.payload,
+                editRestaurantValues: action.payload,
             };
-        case SET_EDIT_RESTURANT_OPEN:
+        case SET_EDIT_RESTUARANTS_OPEN:
             return {
                 ...state,
-                editResturantOpen: action.payload,
+                editRestaurantOpen: action.payload,
+            };
+        case SET_SIGN_UP_DIALOG_OPEN:
+            return {
+                ...state,
+                signUpDialogOpen: action.payload,
             };
         default:
             return state;

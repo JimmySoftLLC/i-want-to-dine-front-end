@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const RestaurantItemCard = ({ restuarantItem, myStates, handleClickResturantEdit, handleClickResturantCopy, handleClickResturantDelete }) => {
+const RestaurantItemCard = ({ restuarantItem, myStates, handleClickRestaurantEdit, handleClickRestaurantCopy, handleClickRestaurantDelete }) => {
     const classes = useStyles();
     let showIt = myStates['restuarant']
     let myPhoneLink = "tel:" + restuarantItem.phoneNumber
@@ -36,15 +36,15 @@ const RestaurantItemCard = ({ restuarantItem, myStates, handleClickResturantEdit
                 </IconButton></h4>
             <p>{restuarantItem.description}</p>
             <div className={classes.root} >
-                {/* <Button variant="outlined" color="primary" onClick={() => handleClickResturantEdit(restuarantItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantEdit(restuarantItem.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickResturantCopy(restuarantItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantCopy(restuarantItem.id)}>
                     <i className="fas fa-copy"></i>
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickResturantDelete(restuarantItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantDelete(restuarantItem.id)}>
                     <i className="fas fa-trash"></i>
-                </Button> */}
+                </Button>
             </div>
         </div>
     );

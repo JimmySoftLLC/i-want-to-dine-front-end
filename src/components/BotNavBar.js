@@ -43,11 +43,6 @@ const BottomNavBar = () => {
             <BottomNavigation classes={{ root: classes.root }} showLabel="false" position="fixed" color="primary">
                 <Toolbar showLabel="false" color="primary">
                     <IconButton aria-label=""
-                        href="https://jimmysoftllc.com"
-                        color={"primary"}>
-                        <i className="fas fa-external-link-alt"></i>
-                    </IconButton>
-                    <IconButton aria-label=""
                         color={dataAndMethodsContext.myStates['dollar_1'] ? "secondary" : "primary"}
                         onClick={() => dataAndMethodsContext.setFoodChoice('dollar_1')}>
                         <i className="icon-dollar_1"></i>
@@ -65,11 +60,16 @@ const BottomNavBar = () => {
                     <IconButton aria-label=""
                         color={dataAndMethodsContext.myStates['restuarant'] ? "secondary" : "primary"}
                         onClick={() => dataAndMethodsContext.setFoodChoice('restuarant')}>
-                        <i className="icon-resturant"></i>
+                        <i className="icon-Restaurant"></i>
+                    </IconButton>
+                    <IconButton aria-label=""
+                        color="primary"
+                        onClick={() => dataAndMethodsContext.setSignUpDialogOpen(true)}>
+                        <i className="fas fa-sign-in-alt"></i>
                     </IconButton>
                     {/* <IconButton aria-label=""
                         color="primary">
-                        <i className="icon-fav-resturant"></i>
+                        <i className="icon-fav-Restaurant"></i>
                     </IconButton> */}
                 </Toolbar>
             </BottomNavigation>

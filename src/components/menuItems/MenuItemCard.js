@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const MenuItemCard = ({ menuItem, myStates, resturants, handleClickMenuItemEdit, handleClickMenuItemCopy, handleClickMenuItemDelete }) => {
+const MenuItemCard = ({ menuItem, myStates, Restaurants, handleClickMenuItemEdit, handleClickMenuItemCopy, handleClickMenuItemDelete }) => {
     const classes = useStyles();
     const items = []
     for (let i = 0; i < menuItem.categoryJSON.length; i++) {
@@ -76,9 +76,9 @@ const MenuItemCard = ({ menuItem, myStates, resturants, handleClickMenuItemEdit,
     }
 
     let myUrl = ""
-    for (let i = 0; i < resturants.length; i++) {
-        if (resturants[i].name === menuItem.restaurant) {
-            myUrl = resturants[i].url
+    for (let i = 0; i < Restaurants.length; i++) {
+        if (Restaurants[i].name === menuItem.restaurant) {
+            myUrl = Restaurants[i].url
             break;
         }
     }

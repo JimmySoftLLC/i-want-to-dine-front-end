@@ -6,6 +6,10 @@ import * as serviceWorker from './serviceWorker';
 // THEME
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import muiTheme from './theme/muiTheme';
+import Amplify from 'aws-amplify';
+import awsConfig from './amplify-config';
+
+Amplify.configure(awsConfig);
 
 ReactDOM.render(
     <MuiThemeProvider theme={muiTheme}>
