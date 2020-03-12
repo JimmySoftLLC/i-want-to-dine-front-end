@@ -36,7 +36,7 @@ const RestaurantItemCard = ({ restuarantItem, myStates, handleClickRestaurantEdi
                 </IconButton></h4>
             <p>{restuarantItem.description}</p>
             <div className={classes.root} >
-                {/* <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantEdit(restuarantItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantEdit(restuarantItem.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantCopy(restuarantItem.id)}>
@@ -44,7 +44,7 @@ const RestaurantItemCard = ({ restuarantItem, myStates, handleClickRestaurantEdi
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantDelete(restuarantItem.id)}>
                     <i className="fas fa-trash"></i>
-                </Button> */}
+                </Button>
             </div>
         </div>
     );

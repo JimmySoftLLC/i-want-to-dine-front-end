@@ -13,16 +13,12 @@ const awsConfig = {
     API: {
         endpoints: [
             {
-                name: 'WildRydes',
-                endpoint: 'https://33kwuizula.execute-api.us-east-1.amazonaws.com/prod', // example: 'https://u8swuvl00f.execute-api.us-east-2.amazonaws.com/prod'
+                name: 'i_want_to_dine_restaurant_api',
+                endpoint: 'https://pf7biibdkk.execute-api.us-east-1.amazonaws.com/prod', // example: 'https://u8swuvl00f.execute-api.us-east-2.amazonaws.com/prod'
                 region: 'us-east-1' // example: 'us-east-2'
             }
         ]
     },
-    Storage: {
-        bucket: '', //example: 'wildrydesbackend-profilepicturesbucket-1wgssc97ekdph'
-        region: '' // example: 'us-east-2'
-    }
 }
 
 export default awsConfig;

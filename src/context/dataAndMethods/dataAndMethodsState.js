@@ -5,6 +5,7 @@ import DataAndMethodsReducer from './dataAndMethodsReducer';
 import { v4 as uuidv4 } from 'uuid';
 import AlertDialogContext from '../alertDialog/alertDialogContext';
 import DeleteConfirmDialogContext from '../deleteConfirmDialog/deleteConfirmDialogContext';
+import { API } from 'aws-amplify';
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
@@ -14,14 +15,23 @@ import {
     SET_EDIT_RESTUARANTS,
     SET_EDIT_RESTUARANTS_OPEN,
     SET_SIGN_IN_REG_DIALOG_TYPE,
-    SET_SIGN_IN_REG_DIALOG_TITLE
+    SET_SIGN_IN_REG_DIALOG_TITLE,
+    SET_AUTH_TOKEN,
+    SET_ID_TOKEN,
+    SET_CUSTOM_ID,
 } from '../types';
-let auth = require('../../auth/auth');
+import awsConfig from '../../amplify-config';
 
 const DataAndMethodsState = props => {
     const initialState = {
         tableName: 'menuItems',
         restaurantTableName: 'resturants',
+        authToken: {},
+        idToken: {},
+        customId: '',
+        apiName: 'i_want_to_dine_restaurant_api',
+        apiPath: '/',
+        canEdit: false,
         myStates: {
             meat: true,
             ham: false,
@@ -80,11 +90,7 @@ const DataAndMethodsState = props => {
     const alertDialogContext = useContext(AlertDialogContext);
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
 
-
     const lambdaFunctionURL = 'https://kd7snpev85.execute-api.us-east-1.amazonaws.com/default/i_want_to_dine_api';
-    // const lambdaFunctionURL = 'https://544oilp830.execute-api.us-east-1.amazonaws.com/default/cognitoTest';
-
-
 
     //set food choices
     const setFoodChoice = async key => {
@@ -184,25 +190,28 @@ const DataAndMethodsState = props => {
             default:
         }
         try {
-            const res = await axios.post(
-                lambdaFunctionURL,
-                {
+            const apiRequest = {
+                body: {
                     myBody: {
                         TableName: TableName,
                         Item: myItem,
                         ReturnConsumedCapacity: 'TOTAL',
                     },
                     myMethod: 'put',
+                    myId: state.customId,
                 },
-                {
-                    headers: {
-                        Accept: '*/*',
-                    },
+                headers: {
+                    'Authorization': state.idToken,
+                    'Content-Type': 'application/json'
                 }
-            );
+            };
+            //console.log('API Request:', apiRequest, state.idToken);
+            const data = await API.post(state.apiName, state.apiPath, apiRequest);
+            console.log(data);
             scanDynamoDB(TableName)
         } catch (err) {
-            alertDialogContext.setDialog(true, err.message, 'Error', '', 'OK', '');
+            //console.log(err)
+            alertDialogContext.setDialog(true, "Not authorized.", 'Error', '', 'OK', '');
         }
     };
 
@@ -529,6 +538,9 @@ const DataAndMethodsState = props => {
     const setEditRestaurantOpen = (isOpen) => { dispatch({ type: SET_EDIT_RESTUARANTS_OPEN, payload: isOpen }) }
     const setSignInRegDialogType = (type) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: type }) }
     const setSignInRegDialogTitle = (title) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: title }) }
+    const setAuthToken = (authToken) => { dispatch({ type: SET_AUTH_TOKEN, payload: authToken }) }
+    const setIdToken = (idToken) => { dispatch({ type: SET_ID_TOKEN, payload: idToken }) }
+    const setCustomId = (customId) => { dispatch({ type: SET_CUSTOM_ID, payload: customId }) }
 
     return (
         <DataAndMethodsContext.Provider
@@ -545,6 +557,11 @@ const DataAndMethodsState = props => {
                 editRestaurantOpen: state.editRestaurantOpen,
                 signInRegDialogType: state.signInRegDialogType,
                 signInRegDialogTitle: state.signInRegDialogTitle,
+                authToken: state.authToken,
+                idToken: state.idToken,
+                apiPath: state.apiPath,
+                apiName: state.apiName,
+                canEdit: state.canEdit,
                 setFoodChoice,
                 setFoodChoices,
                 scanDynamoDB,
@@ -567,7 +584,10 @@ const DataAndMethodsState = props => {
                 saveRestaurantCopy,
                 setRestaurantItem,
                 setSignInRegDialogType,
-                setSignInRegDialogTitle
+                setSignInRegDialogTitle,
+                setAuthToken,
+                setIdToken,
+                setCustomId,
             }}
         >
             {props.children}

@@ -9,6 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
+import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,7 +34,12 @@ const SignUp = () => {
     const { signInRegDialogType,
         signInRegDialogTitle,
         setSignInRegDialogType,
-        setSignInRegDialogTitle } = dataAndMethodsContext;
+        setSignInRegDialogTitle,
+        setAuthToken,
+        setIdToken,
+        setCustomId,
+    } = dataAndMethodsContext;
+
 
     const closeDialog = () => {
         dataAndMethodsContext.setSignInRegDialogType('false');
@@ -55,6 +61,7 @@ const SignUp = () => {
                     password: password,
                     attributes: {
                         email: email,
+                        'custom:id': uuidv4(),
                     },
                     validationData: []
                 };
@@ -73,18 +80,48 @@ const SignUp = () => {
     };
 
     const setUpRegisterDialog = () => {
+        setDialogBackToDefaults()
         setSignInRegDialogTitle('Register your restuarant');
         setSignInRegDialogType('register')
     }
 
     const setUpForgotPasswordDialog = () => {
+        setDialogBackToDefaults()
         setSignInRegDialogTitle('Enter your email');
         setSignInRegDialogType('forgotPassword')
     }
 
-    const signIn = () => {
-        dataAndMethodsContext.setSignInRegDialogType('false');
-        setDialogBackToDefaults();
+    const signIn = async () => {
+        try {
+            const userObject = await Auth.signIn(
+                email,
+                password
+            );
+            console.log('userObject', userObject);
+            if (userObject.challengeName) {
+                // Auth challenges are pending prior to token issuance
+                console.error(userObject);
+            } else {
+                // No remaining auth challenges need to be satisfied
+                const session = await Auth.currentSession();
+                setCustomId(session.idToken.payload['custom:id']);
+                setAuthToken(session.accessToken.jwtToken);
+                setIdToken(session.idToken.jwtToken);
+                console.log('custom:id', session.idToken.payload['custom:id']);
+                console.log('authToken', session.accessToken.jwtToken);
+                console.log('idToken', session.idToken.jwtToken);
+                // console.log('Cognito User Access Token:', session.getAccessToken().getJwtToken());
+                // console.log('Cognito User Identity Token:', session.getIdToken().getJwtToken());
+                // console.log('Cognito User Refresh Token', session.getRefreshToken().getToken());
+                dataAndMethodsContext.setSignInRegDialogType('false');
+                setDialogBackToDefaults();
+            }
+        } catch (err) {
+            console.error(err)
+            setMessage(err.message)
+        }
+
+
     }
 
     const checkPasswordsMatch = () => {

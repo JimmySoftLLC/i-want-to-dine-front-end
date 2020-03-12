@@ -7,7 +7,10 @@ import {
     SET_EDIT_RESTUARANTS,
     SET_EDIT_RESTUARANTS_OPEN,
     SET_SIGN_IN_REG_DIALOG_TYPE,
-    SET_SIGN_IN_REG_DIALOG_TITLE
+    SET_SIGN_IN_REG_DIALOG_TITLE,
+    SET_AUTH_TOKEN,
+    SET_ID_TOKEN,
+    SET_CUSTOM_ID,
 } from '../types';
 
 export default (state, action) => {
@@ -56,6 +59,21 @@ export default (state, action) => {
             return {
                 ...state,
                 signInRegDialogTitle: action.payload,
+            };
+        case SET_AUTH_TOKEN:
+            return {
+                ...state,
+                authToken: action.payload,
+            };
+        case SET_ID_TOKEN:
+            return {
+                ...state,
+                idToken: action.payload,
+            };
+        case SET_CUSTOM_ID:
+            return {
+                ...state,
+                customId: action.payload,
             };
         default:
             return state;
