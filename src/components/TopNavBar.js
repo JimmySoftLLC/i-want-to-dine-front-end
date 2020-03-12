@@ -77,7 +77,7 @@ const TopNavBar = () => {
                         <IconButton aria-label="" color={dataAndMethodsContext.myStates['dessert'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setFoodChoice('dessert')}
                         >
-                            <i className='icon-dessert'></i>
+                            <i className="fas fa-birthday-cake"></i>
                         </IconButton>
                         <IconButton aria-label="" color={dataAndMethodsContext.myStates['specials'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setFoodChoice('specials')}

@@ -158,7 +158,7 @@ const MenuItemDialog = () => {
                             <IconButton aria-label="" color={checkIfPresent("dessert") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('dessert')}
                             >
-                                <i className='icon-dessert'></i>
+                                <i className="fas fa-birthday-cake"></i>
                             </IconButton>
                             <IconButton aria-label="" color={checkIfPresent("specials") ? "inherit" : "default"}
                                 onClick={() => dataAndMethodsContext.setEditMenuItemCategory('specials')}

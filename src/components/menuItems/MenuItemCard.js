@@ -48,7 +48,7 @@ const MenuItemCard = ({ menuItem, myStates, Restaurants, handleClickMenuItemEdit
                 items.push(<i className='fas fa-hamburger' key={menuItem.id + "_hamburger"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'dessert':
-                items.push(<i className='icon-dessert' key={menuItem.id + "_dessert"} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='fas fa-birthday-cake' key={menuItem.id + "_dessert"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'specials':
                 items.push(<i className='fas fa-tag' key={menuItem.id + "_specials"} style={{ paddingRight: '.25rem' }}></i>)
@@ -91,7 +91,7 @@ const MenuItemCard = ({ menuItem, myStates, Restaurants, handleClickMenuItemEdit
             </h3>
             <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
+                {/* <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemCopy(menuItem.id)}>
@@ -99,7 +99,7 @@ const MenuItemCard = ({ menuItem, myStates, Restaurants, handleClickMenuItemEdit
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemDelete(menuItem.id)}>
                     <i className="fas fa-trash"></i>
-                </Button>
+                </Button> */}
             </div>
             <p>{menuItem.description}</p>
         </div>
