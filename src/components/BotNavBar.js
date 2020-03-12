@@ -37,6 +37,13 @@ const useStyles = makeStyles(theme => ({
 const BottomNavBar = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
+
+    const setUpRegistrationDialog = () => {
+
+        dataAndMethodsContext.setSignInRegDialogTitle('Restuarant Sign In');
+        dataAndMethodsContext.setSignInRegDialogType('signIn')
+    }
+
     // console.log(dataAndMethodsContext)
     return (
         <div className={classes.stickToBottom} color="primary">
@@ -64,7 +71,7 @@ const BottomNavBar = () => {
                     </IconButton>
                     <IconButton aria-label=""
                         color="primary"
-                        onClick={() => dataAndMethodsContext.setSignUpDialogOpen(true)}>
+                        onClick={() => setUpRegistrationDialog()}>
                         <i className="fas fa-sign-in-alt"></i>
                     </IconButton>
                     {/* <IconButton aria-label=""

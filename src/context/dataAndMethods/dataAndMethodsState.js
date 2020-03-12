@@ -13,7 +13,8 @@ import {
     SET_EDIT_MENU_OPEN,
     SET_EDIT_RESTUARANTS,
     SET_EDIT_RESTUARANTS_OPEN,
-    SET_SIGN_UP_DIALOG_OPEN
+    SET_SIGN_IN_REG_DIALOG_TYPE,
+    SET_SIGN_IN_REG_DIALOG_TITLE
 } from '../types';
 let auth = require('../../auth/auth');
 
@@ -41,7 +42,7 @@ const DataAndMethodsState = props => {
             restuarant: false,
         },
         editMenuOpen: false,
-        signUpDialogOpen: false,
+        signInRegDialogType: 'false',
         editRestaurantOpen: false,
         menuItems: [],
         Restaurants: [],
@@ -526,7 +527,8 @@ const DataAndMethodsState = props => {
     const setEditMenuOpen = (isOpen) => { dispatch({ type: SET_EDIT_MENU_OPEN, payload: isOpen }) }
     const editRestaurant = (myRestaurant) => { dispatch({ type: SET_EDIT_RESTUARANTS, payload: myRestaurant }) }
     const setEditRestaurantOpen = (isOpen) => { dispatch({ type: SET_EDIT_RESTUARANTS_OPEN, payload: isOpen }) }
-    const setSignUpDialogOpen = (isOpen) => { dispatch({ type: SET_SIGN_UP_DIALOG_OPEN, payload: isOpen }) }
+    const setSignInRegDialogType = (type) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: type }) }
+    const setSignInRegDialogTitle = (title) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: title }) }
 
     return (
         <DataAndMethodsContext.Provider
@@ -541,7 +543,8 @@ const DataAndMethodsState = props => {
                 editRestaurantValues: state.editRestaurantValues,
                 editMenuOpen: state.editMenuOpen,
                 editRestaurantOpen: state.editRestaurantOpen,
-                signUpDialogOpen: state.signUpDialogOpen,
+                signInRegDialogType: state.signInRegDialogType,
+                signInRegDialogTitle: state.signInRegDialogTitle,
                 setFoodChoice,
                 setFoodChoices,
                 scanDynamoDB,
@@ -563,7 +566,8 @@ const DataAndMethodsState = props => {
                 saveRestaurant,
                 saveRestaurantCopy,
                 setRestaurantItem,
-                setSignUpDialogOpen,
+                setSignInRegDialogType,
+                setSignInRegDialogTitle
             }}
         >
             {props.children}

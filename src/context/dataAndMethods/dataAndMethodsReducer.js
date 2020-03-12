@@ -6,7 +6,8 @@ import {
     SET_EDIT_MENU_OPEN,
     SET_EDIT_RESTUARANTS,
     SET_EDIT_RESTUARANTS_OPEN,
-    SET_SIGN_UP_DIALOG_OPEN
+    SET_SIGN_IN_REG_DIALOG_TYPE,
+    SET_SIGN_IN_REG_DIALOG_TITLE
 } from '../types';
 
 export default (state, action) => {
@@ -46,10 +47,15 @@ export default (state, action) => {
                 ...state,
                 editRestaurantOpen: action.payload,
             };
-        case SET_SIGN_UP_DIALOG_OPEN:
+        case SET_SIGN_IN_REG_DIALOG_TYPE:
             return {
                 ...state,
-                signUpDialogOpen: action.payload,
+                signInRegDialogType: action.payload,
+            };
+        case SET_SIGN_IN_REG_DIALOG_TITLE:
+            return {
+                ...state,
+                signInRegDialogTitle: action.payload,
             };
         default:
             return state;
