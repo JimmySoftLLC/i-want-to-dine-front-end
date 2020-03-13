@@ -20,7 +20,6 @@ import {
     SET_ID_TOKEN,
     SET_CUSTOM_ID,
 } from '../types';
-import awsConfig from '../../amplify-config';
 
 const DataAndMethodsState = props => {
     const initialState = {
@@ -115,7 +114,7 @@ const DataAndMethodsState = props => {
                     headers: {
                         Accept: '*/*',
                         'Content-Type': 'application/json',
-                        'Authorization': 'eyJraWQiOiJVXC81ZWtVREhHNVJ4czUzOU95N3FwdjlBeWhKVStOaFpxdk9qdkVvWkdyWT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI1ZjdlZjQwZS0yZjkzLTQ1YzUtYmFhMy1mMmVhM2QyMzUwODgiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLWVhc3QtMS5hbWF6b25hd3MuY29tXC91cy1lYXN0LTFfNGFqVTllMVluIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjpmYWxzZSwiY29nbml0bzp1c2VybmFtZSI6IjVmN2VmNDBlLTJmOTMtNDVjNS1iYWEzLWYyZWEzZDIzNTA4OCIsImF1ZCI6IjJlNzBiY29ubXBldHNmZjg2dmFrYnFpa24xIiwiZXZlbnRfaWQiOiIzYWQwNzQyNi01ZDQyLTRjMDktYmE5Ni03YTk1MDI0ZGFkMDIiLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTU4Mzg2ODI1MSwicGhvbmVfbnVtYmVyIjoiKzE3MDM1NTUxMjEyIiwiZXhwIjoxNTgzODcxODUxLCJpYXQiOjE1ODM4NjgyNTEsImVtYWlsIjoiamJhaWxleUBqaW1teXNvZnRsbGMuY29tIn0.NrHqqejSt3BLIngo1AdHLt_49idwup_q0M40pPDVxoVOAupX5XNtNaQPj0KiKVgH3oZeTYW3ULYkY0UKzIiGLT8A9XItYPdXhb3rFXAq6LvCbobb9Ach3oyXLcYDyP3281QOt4FF0aFbpy6WYrB_3qC049I3WF5Ec0_EYd-kP2TUsC2Bq_vgtRysj3o40CDNNWOod_meKnz5lTiNJVEz-oDIW5lKT2eOWKO-peahZjezIWLR4bdj1woprvU9IB3ZLtOgWxHSl_qkAcTekx9pXqBdOFu-G3ksrT4dxqbl6_k-_ua--IRjuzIzNejkn7XQpnRT6q6yohgGV1Ax_pGluQ'
+                        'Authorization': state.idToken
                     },
                 }
             );
@@ -202,7 +201,8 @@ const DataAndMethodsState = props => {
                 },
                 headers: {
                     'Authorization': state.idToken,
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
                 }
             };
             //console.log('API Request:', apiRequest, state.idToken);
@@ -244,22 +244,25 @@ const DataAndMethodsState = props => {
             default:
         }
         try {
-            const res = await axios.post(
-                lambdaFunctionURL,
-                {
+            const apiRequest = {
+                body: {
                     myBody: {
                         TableName: TableName,
                         Item: myItem,
                         ReturnConsumedCapacity: 'TOTAL',
                     },
                     myMethod: 'put',
+                    myId: state.customId,
                 },
-                {
-                    headers: {
-                        Accept: '*/*',
-                    },
+                headers: {
+                    'Authorization': state.idToken,
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
                 }
-            );
+            };
+            //console.log('API Request:', apiRequest, state.idToken);
+            const data = await API.post(state.apiName, state.apiPath, apiRequest);
+            console.log(data);
             scanDynamoDB(TableName)
         } catch (err) {
             alertDialogContext.setDialog(true, err.message, 'Error');
@@ -268,9 +271,8 @@ const DataAndMethodsState = props => {
 
     const deleteItemDynamoDB = async (TableName, menuItem) => {
         try {
-            const res = await axios.post(
-                lambdaFunctionURL,
-                {
+            const apiRequest = {
+                body: {
                     myMethod: 'delete',
                     myBody: {
                         TableName: TableName,
@@ -278,13 +280,17 @@ const DataAndMethodsState = props => {
                             id: menuItem.id,
                         },
                     },
+                    myId: state.customId,
                 },
-                {
-                    headers: {
-                        Accept: '*/*',
-                    },
-                },
-            );
+                headers: {
+                    'Authorization': state.idToken,
+                    'Content-Type': 'application/json',
+                    'Accept': '*/*',
+                }
+            };
+            //console.log('API Request:', apiRequest, state.idToken);
+            const data = await API.post(state.apiName, state.apiPath, apiRequest);
+            console.log(data);
             scanDynamoDB(TableName)
         } catch (err) {
             alertDialogContext.setDialog(true, err.message, 'Error');

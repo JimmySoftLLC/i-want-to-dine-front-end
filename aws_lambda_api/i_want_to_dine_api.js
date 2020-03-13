@@ -47,6 +47,3 @@ exports.handler = (event, context, callback) => {
             done(new Error(`Unsupported method "${event.httpMethod}"`));
     }
 };
-
-// i_want_to_dine_restaurant_api
-//245

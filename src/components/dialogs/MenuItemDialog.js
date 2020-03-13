@@ -182,7 +182,7 @@ const MenuItemDialog = () => {
                         Cancel
                     </Button>
                     <Button onClick={() => handleSave()} color="primary">
-                        Save It
+                        Save
                     </Button>
                 </DialogActions>
             </Dialog>
