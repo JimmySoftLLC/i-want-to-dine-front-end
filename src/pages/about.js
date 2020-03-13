@@ -102,7 +102,7 @@ const About = () => {
                 </p>
             <h2 >Features</h2>
             We are creating a full suite of tools to enhance the your use of the platform.  Some of them are as follows.
-                <ul style={{ paddingLeft: '1.5rem' }}>
+            <ul style={{ paddingLeft: '1.5rem' }}>
                 <li><i className="fas fa-check"></i>{'   '}
                     Data can be used by your website, so your website content can automatically update by accessing our database
                     </li>

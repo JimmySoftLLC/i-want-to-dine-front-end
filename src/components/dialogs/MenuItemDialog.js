@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import Toolbar from '@material-ui/core/Toolbar';
+import { Tooltip } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -104,67 +105,92 @@ const MenuItemDialog = () => {
                     />
                     <Toolbar>
                         <div >
-                            <IconButton aria-label="" color={checkIfPresent("meat") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('meat')}
-                            >
-                                <i className='icon-tbone'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("pork") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pork')}
-                            >
-                                <i className='icon-ham'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("lamb") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('lamb')}
-                            >
-                                <i className='icon-lamb'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("poultry") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('poultry')}
-                            >
-                                <i className="fas fa-feather"></i>
-                            </IconButton>
+                            <Tooltip title="Beef and other">
+                                <IconButton aria-label="" color={checkIfPresent("meat") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('meat')}
+                                >
+                                    <i className='icon-tbone'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Pork">
+                                <IconButton aria-label="" color={checkIfPresent("pork") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pork')}
+                                >
+                                    <i className='icon-ham'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Lamb">
+                                <IconButton aria-label="" color={checkIfPresent("lamb") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('lamb')}
+                                >
+                                    <i className='icon-lamb'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Poultry">
+                                <IconButton aria-label="" color={checkIfPresent("poultry") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('poultry')}
+                                >
+                                    <i className="fas fa-feather"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Fish">
+                                <IconButton aria-label="" color={checkIfPresent("fish") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('fish')}
+                                >
+                                    <i className='fas fa-fish'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Shellfish">
+                                <IconButton aria-label="" color={checkIfPresent("shellfish") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('shellfish')}
+                                >
+                                    <i className='icon-shell'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Vegetarian">
+                                <IconButton aria-label="" color={checkIfPresent("vegetarian") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('vegetarian')}
+                                >
+                                    <i className='fas fa-seedling'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Cheese">
+                                <IconButton aria-label="" color={checkIfPresent("cheese") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('cheese')}
+                                >
+                                    <i className='fas fa-cheese'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Pasta">
+                                <IconButton aria-label="" color={checkIfPresent("pasta") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pasta')}
+                                >
+                                    <i className='icon-pasta'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Sandwiches">
+                                <IconButton aria-label="" color={checkIfPresent("sandwich") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('sandwich')}
+                                >
+                                    <i className='fas fa-hamburger'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Dessert">
+                                <IconButton aria-label="" color={checkIfPresent("dessert") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('dessert')}
+                                >
+                                    <i className="fas fa-birthday-cake"></i>
+                                </IconButton>
+                            </Tooltip>
 
-                            <IconButton aria-label="" color={checkIfPresent("fish") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('fish')}
-                            >
-                                <i className='fas fa-fish'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("shellfish") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('shellfish')}
-                            >
-                                <i className='icon-shell'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("vegetarian") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('vegetarian')}
-                            >
-                                <i className='fas fa-seedling'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("cheese") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('cheese')}
-                            >
-                                <i className='fas fa-cheese'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("pasta") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pasta')}
-                            >
-                                <i className='icon-pasta'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("sandwich") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('sandwich')}
-                            >
-                                <i className='fas fa-hamburger'></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("dessert") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('dessert')}
-                            >
-                                <i className="fas fa-birthday-cake"></i>
-                            </IconButton>
-                            <IconButton aria-label="" color={checkIfPresent("specials") ? "inherit" : "default"}
-                                onClick={() => dataAndMethodsContext.setEditMenuItemCategory('specials')}
-                            >
-                                <i className="fas fa-tag"></i>
-                            </IconButton>
+                            <Tooltip title="Specials">
+                                <IconButton aria-label="" color={checkIfPresent("specials") ? "inherit" : "default"}
+                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('specials')}
+                                >
+                                    <i className="fas fa-tag"></i>
+                                </IconButton>
+                            </Tooltip>
+
                         </div>
                     </Toolbar>
                     <TextField

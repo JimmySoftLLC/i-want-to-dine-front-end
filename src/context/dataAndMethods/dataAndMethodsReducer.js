@@ -28,7 +28,7 @@ export default (state, action) => {
         case SET_RESTUARANTS:
             return {
                 ...state,
-                Restaurants: action.payload,
+                restaurants: action.payload,
             };
         case SET_EDIT_MENU_ITEM:
             return {

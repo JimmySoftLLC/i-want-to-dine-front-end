@@ -8,7 +8,7 @@ const MenuItems = () => {
 
     return menuItems.map(menuItem => <MenuItemCard menuItem={menuItem}
         myStates={dataAndMethodsContext.myStates}
-        Restaurants={dataAndMethodsContext.Restaurants}
+        restaurants={dataAndMethodsContext.restaurants}
         handleClickMenuItemEdit={dataAndMethodsContext.handleClickMenuItemEdit}
         handleClickMenuItemCopy={dataAndMethodsContext.handleClickMenuItemCopy}
         handleClickMenuItemDelete={dataAndMethodsContext.handleClickMenuItemDelete}

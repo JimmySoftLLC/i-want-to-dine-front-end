@@ -13,36 +13,36 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const RestaurantItemCard = ({ restuarantItem, myStates, handleClickRestaurantEdit, handleClickRestaurantCopy, handleClickRestaurantDelete }) => {
+const RestaurantItemCard = ({ restaurantItem, myStates, handleClickRestaurantEdit, handleClickRestaurantCopy, handleClickRestaurantDelete }) => {
     const classes = useStyles();
-    let showIt = myStates['restuarant']
-    let myPhoneLink = "tel:" + restuarantItem.phoneNumber
+    let showIt = myStates['restaurant']
+    let myPhoneLink = "tel:" + restaurantItem.phoneNumber
     return (
         showIt && <div className='card'>
-            <h3>{restuarantItem.name}
+            <h3>{restaurantItem.name}
                 <IconButton aria-label=""
-                    href={restuarantItem.url}
+                    href={restaurantItem.url}
                     rel="noopener noreferrer" target="_blank"
                     color={"primary"}>
                     <i className="fas fa-external-link-alt"></i>
                 </IconButton>
             </h3>
-            <h4>{restuarantItem.street}{' - '}{restuarantItem.city}</h4>
-            <h4 href={myPhoneLink}>{restuarantItem.phoneNumber}
+            <h4>{restaurantItem.street}{' - '}{restaurantItem.city}</h4>
+            <h4 href={myPhoneLink}>{restaurantItem.phoneNumber}
                 <IconButton aria-label=""
                     href={myPhoneLink}
                     color={"primary"}>
                     <i className="fas fa-phone"></i>
                 </IconButton></h4>
-            <p>{restuarantItem.description}</p>
+            <p>{restaurantItem.description}</p>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantEdit(restuarantItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantEdit(restaurantItem.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantCopy(restuarantItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantCopy(restaurantItem.id)}>
                     <i className="fas fa-copy"></i>
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantDelete(restuarantItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantDelete(restaurantItem.id)}>
                     <i className="fas fa-trash"></i>
                 </Button>
             </div>

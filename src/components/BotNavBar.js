@@ -4,6 +4,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
+import { Tooltip } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     grow: {
@@ -40,7 +41,7 @@ const BottomNavBar = () => {
 
     const setUpRegistrationDialog = () => {
 
-        dataAndMethodsContext.setSignInRegDialogTitle('Restuarant Sign In');
+        dataAndMethodsContext.setSignInRegDialogTitle('Restaurant Sign In');
         dataAndMethodsContext.setSignInRegDialogType('signIn')
     }
 
@@ -49,31 +50,41 @@ const BottomNavBar = () => {
         <div className={classes.stickToBottom} color="primary">
             <BottomNavigation classes={{ root: classes.root }} showLabel="false" position="fixed" color="primary">
                 <Toolbar showLabel="false" color="primary">
-                    <IconButton aria-label=""
-                        color={dataAndMethodsContext.myStates['dollar_1'] ? "secondary" : "primary"}
-                        onClick={() => dataAndMethodsContext.setFoodChoice('dollar_1')}>
-                        <i className="icon-dollar_1"></i>
-                    </IconButton>
-                    <IconButton aria-label=""
-                        color={dataAndMethodsContext.myStates['dollar_2'] ? "secondary" : "primary"}
-                        onClick={() => dataAndMethodsContext.setFoodChoice('dollar_2')}>
-                        <i className="icon-dollar_2"></i>
-                    </IconButton>
-                    <IconButton aria-label=""
-                        color={dataAndMethodsContext.myStates['dollar_3'] ? "secondary" : "primary"}
-                        onClick={() => dataAndMethodsContext.setFoodChoice('dollar_3')}>
-                        <i className="icon-dollar_3"></i>
-                    </IconButton>
-                    <IconButton aria-label=""
-                        color={dataAndMethodsContext.myStates['restuarant'] ? "secondary" : "primary"}
-                        onClick={() => dataAndMethodsContext.setFoodChoice('restuarant')}>
-                        <i className="icon-Restaurant"></i>
-                    </IconButton>
-                    <IconButton aria-label=""
-                        color="primary"
-                        onClick={() => setUpRegistrationDialog()}>
-                        <i className="fas fa-sign-in-alt"></i>
-                    </IconButton>
+                    <Tooltip title="0-20 dollars">
+                        <IconButton aria-label=""
+                            color={dataAndMethodsContext.myStates['dollar_1'] ? "secondary" : "primary"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('dollar_1')}>
+                            <i className="icon-dollar_1"></i>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="20-35 dollars">
+                        <IconButton aria-label=""
+                            color={dataAndMethodsContext.myStates['dollar_2'] ? "secondary" : "primary"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('dollar_2')}>
+                            <i className="icon-dollar_2"></i>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="35 and up dollars">
+                        <IconButton aria-label=""
+                            color={dataAndMethodsContext.myStates['dollar_3'] ? "secondary" : "primary"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('dollar_3')}>
+                            <i className="icon-dollar_3"></i>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Restaurants">
+                        <IconButton aria-label=""
+                            color={dataAndMethodsContext.myStates['restaurant'] ? "secondary" : "primary"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('restaurant')}>
+                            <i className="icon-Restaurant"></i>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Log in">
+                        <IconButton aria-label=""
+                            color="primary"
+                            onClick={() => setUpRegistrationDialog()}>
+                            <i className="fas fa-sign-in-alt"></i>
+                        </IconButton>
+                    </Tooltip>
                     {/* <IconButton aria-label=""
                         color="primary">
                         <i className="icon-fav-Restaurant"></i>

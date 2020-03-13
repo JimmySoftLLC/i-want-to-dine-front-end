@@ -81,7 +81,7 @@ const SignUp = () => {
 
     const setUpRegisterDialog = () => {
         setDialogBackToDefaults()
-        setSignInRegDialogTitle('Register your restuarant');
+        setSignInRegDialogTitle('Register your restaurant');
         setSignInRegDialogType('register')
     }
 
@@ -97,7 +97,7 @@ const SignUp = () => {
                 email,
                 password
             );
-            console.log('userObject', userObject);
+            // console.log('userObject', userObject);
             if (userObject.challengeName) {
                 // Auth challenges are pending prior to token issuance
                 console.error(userObject);
@@ -107,9 +107,9 @@ const SignUp = () => {
                 setCustomId(session.idToken.payload['custom:id']);
                 setAuthToken(session.accessToken.jwtToken);
                 setIdToken(session.idToken.jwtToken);
-                console.log('custom:id', session.idToken.payload['custom:id']);
-                console.log('authToken', session.accessToken.jwtToken);
-                console.log('idToken', session.idToken.jwtToken);
+                // console.log('custom:id', session.idToken.payload['custom:id']);
+                // console.log('authToken', session.accessToken.jwtToken);
+                // console.log('idToken', session.idToken.jwtToken);
                 // console.log('Cognito User Access Token:', session.getAccessToken().getJwtToken());
                 // console.log('Cognito User Identity Token:', session.getIdToken().getJwtToken());
                 // console.log('Cognito User Refresh Token', session.getRefreshToken().getToken());
@@ -120,8 +120,6 @@ const SignUp = () => {
             console.error(err)
             setMessage(err.message)
         }
-
-
     }
 
     const checkPasswordsMatch = () => {
@@ -159,8 +157,6 @@ const SignUp = () => {
     const changeResetCode = (e) => {
         setResetCode(e.target.value);
     };
-
-
 
 
     let showEmail = false;
