@@ -2,16 +2,15 @@ import React, { useContext } from 'react';
 import RestaurantItemCard from './RestaurantItemCard';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 
-const RestaurantItems = () => {
+const AssociateRestaurantItems = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
-        restaurants,
+        associateRestaurants,
         handleClickRestaurantEdit,
         handleClickRestaurantCopy,
         handleClickRestaurantDelete,
     } = dataAndMethodsContext;
-
-    return restaurants.map(restaurantItem => <RestaurantItemCard
+    return associateRestaurants.map(restaurantItem => <RestaurantItemCard
         restaurantItem={restaurantItem}
         handleClickRestaurantEdit={handleClickRestaurantEdit}
         handleClickRestaurantCopy={handleClickRestaurantCopy}
@@ -19,4 +18,4 @@ const RestaurantItems = () => {
         key={restaurantItem.id} />);
 };
 
-export default RestaurantItems;
+export default AssociateRestaurantItems;

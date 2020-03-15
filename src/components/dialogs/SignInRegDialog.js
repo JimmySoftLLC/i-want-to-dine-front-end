@@ -8,7 +8,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
+import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles(theme => ({
@@ -24,7 +24,7 @@ const SignUp = () => {
     const classes = useStyles();
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [password, setPassword] = useState('Dudeperson2$');
     const [password2, setPassword2] = useState('');
     const [resetCode, setResetCode] = useState('');
     const [message, setMessage] = useState('');
@@ -38,11 +38,14 @@ const SignUp = () => {
         setAuthToken,
         setIdToken,
         setCustomId,
+        setLogInType,
+        getAssociatesResturants,
+        restaurants,
     } = dataAndMethodsContext;
 
 
     const closeDialog = () => {
-        dataAndMethodsContext.setSignInRegDialogType('false');
+        setSignInRegDialogType('false');
         setDialogBackToDefaults();
     };
 
@@ -107,12 +110,14 @@ const SignUp = () => {
                 setCustomId(session.idToken.payload['custom:id']);
                 setAuthToken(session.accessToken.jwtToken);
                 setIdToken(session.idToken.jwtToken);
+                getAssociatesResturants(restaurants, session.idToken.payload['custom:id']);
                 // console.log('custom:id', session.idToken.payload['custom:id']);
                 // console.log('authToken', session.accessToken.jwtToken);
                 // console.log('idToken', session.idToken.jwtToken);
                 // console.log('Cognito User Access Token:', session.getAccessToken().getJwtToken());
                 // console.log('Cognito User Identity Token:', session.getIdToken().getJwtToken());
                 // console.log('Cognito User Refresh Token', session.getRefreshToken().getToken());
+                setLogInType('signedIn')
                 dataAndMethodsContext.setSignInRegDialogType('false');
                 setDialogBackToDefaults();
             }

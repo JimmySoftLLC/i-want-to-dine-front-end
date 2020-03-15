@@ -9,14 +9,16 @@ const useStyles = makeStyles(theme => ({
             margin: theme.spacing(1),
             marginLeft: 0,
         },
-
     },
 }));
 
-const RestaurantItemCard = ({ restaurantItem, myStates, handleClickRestaurantEdit, handleClickRestaurantCopy, handleClickRestaurantDelete }) => {
+const RestaurantItemCard = ({ restaurantItem, handleClickRestaurantEdit, handleClickRestaurantCopy, handleClickRestaurantDelete }) => {
     const classes = useStyles();
-    let showIt = myStates['restaurant']
+    let showIt = true;
     let myPhoneLink = "tel:" + restaurantItem.phoneNumber
+
+    if (!restaurantItem.approved) { showIt = false };
+
     return (
         showIt && <div className='card'>
             <h3>{restaurantItem.name}

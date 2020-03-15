@@ -4,14 +4,21 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 
 const MenuItems = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const { menuItems } = dataAndMethodsContext;
+    const {
+        menuItems,
+        myStates,
+        restaurants,
+        handleClickMenuItemEdit,
+        handleClickMenuItemCopy,
+        handleClickMenuItemDelete,
+    } = dataAndMethodsContext;
 
     return menuItems.map(menuItem => <MenuItemCard menuItem={menuItem}
-        myStates={dataAndMethodsContext.myStates}
-        restaurants={dataAndMethodsContext.restaurants}
-        handleClickMenuItemEdit={dataAndMethodsContext.handleClickMenuItemEdit}
-        handleClickMenuItemCopy={dataAndMethodsContext.handleClickMenuItemCopy}
-        handleClickMenuItemDelete={dataAndMethodsContext.handleClickMenuItemDelete}
+        myStates={myStates}
+        restaurants={restaurants}
+        handleClickMenuItemEdit={handleClickMenuItemEdit}
+        handleClickMenuItemCopy={handleClickMenuItemCopy}
+        handleClickMenuItemDelete={handleClickMenuItemDelete}
         key={menuItem.id} />);
 };
 

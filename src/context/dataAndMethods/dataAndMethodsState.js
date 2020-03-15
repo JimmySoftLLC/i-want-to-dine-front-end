@@ -9,28 +9,30 @@ import { API } from 'aws-amplify';
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
-    SET_RESTUARANTS,
+    SET_RESTAURANTS,
     SET_EDIT_MENU_ITEM,
     SET_EDIT_MENU_OPEN,
-    SET_EDIT_RESTUARANTS,
-    SET_EDIT_RESTUARANTS_OPEN,
+    SET_EDIT_RESTAURANTS,
+    SET_EDIT_RESTAURANTS_OPEN,
     SET_SIGN_IN_REG_DIALOG_TYPE,
     SET_SIGN_IN_REG_DIALOG_TITLE,
     SET_AUTH_TOKEN,
     SET_ID_TOKEN,
     SET_CUSTOM_ID,
+    SET_LOGIN_TYPE,
+    SET_ASSOCIATE_RESTAURANTS,
 } from '../types';
 
 const DataAndMethodsState = props => {
     const initialState = {
         tableName: 'menuItems',
-        restaurantTableName: 'resturants',
+        restaurantTableName: 'restaurants',
         authToken: {},
         idToken: {},
         customId: '',
         apiName: 'i_want_to_dine_restaurant_api',
         apiPath: '/',
-        canEdit: false,
+        logInType: 'default',
         myStates: {
             meat: true,
             ham: false,
@@ -55,22 +57,15 @@ const DataAndMethodsState = props => {
         editRestaurantOpen: false,
         menuItems: [],
         restaurants: [],
+        associateRestaurants: [],
         editMenuItemValues: {
             title: "",
-            name: "",
             description: "",
-            street: "",
-            city: "",
-            state: "",
-            zipCode: "",
-            phoneNumber: "",
-            url: "",
-            category: [],
+            categoryJSON: [],
             price: 0,
-            dialogType: "",
             id: "",
             restaurant: "",
-            restaurantId: "",
+            dialogType: "",
         },
         editRestaurantValues: {
             name: "",
@@ -81,9 +76,20 @@ const DataAndMethodsState = props => {
             zipCode: "",
             phoneNumber: "",
             url: "",
-            dialogType: "",
             id: "",
-            menuItemIds: [],
+            menuItemIdsJSON: [],
+            associateIdsJSON: [],
+            dialogType: "Edit",
+            approved: false,
+        },
+        editAssociateValues: {
+            id: "",
+            canWrite: false,
+            canAdmin: false,
+            firstName: "",
+            lastName: "",
+            email: "",
+            restaurantIdsJSON: [],
         }
     };
 
@@ -109,7 +115,13 @@ const DataAndMethodsState = props => {
                 myMenuItemIds.push(state.menuItems[i].id)
             }
         }
-        restaurantItem.menuItemIds = myMenuItemIds;
+        restaurantItem.menuItemIdsJSON = myMenuItemIds;
+        updateItemDynamoDB(state.restaurantTableName, restaurantItem)
+    }
+
+    const updateAssociateIdsForRestaurant = (restaurantItem) => {
+        let myAssociateIdsJSON = ['3fb19b1a-e35a-4b72-aa81-03594ab73a69'];
+        restaurantItem.associateIdsJSON = myAssociateIdsJSON;
         updateItemDynamoDB(state.restaurantTableName, restaurantItem)
     }
 
@@ -146,6 +158,9 @@ const DataAndMethodsState = props => {
                     for (let i = 0; i < myResData.Items.length; i++) {
                         myResData.Items[i].menuItemIdsJSON = JSON.parse(myResData.Items[i].menuItemIdsJSON)
                     }
+                    for (let i = 0; i < myResData.Items.length; i++) {
+                        myResData.Items[i].associateIdsJSON = JSON.parse(myResData.Items[i].associateIdsJSON)
+                    }
                     function compare(a, b) {
                         const keyA = a.name.toUpperCase();
                         const keyB = b.name.toUpperCase();
@@ -159,7 +174,7 @@ const DataAndMethodsState = props => {
                     }
                     myResData.Items.sort(compare);
                     setRestaurants(myResData.Items)
-                    console.log(myResData.Items)
+                    //console.log(myResData.Items)
                     break;
                 default:
             }
@@ -201,7 +216,9 @@ const DataAndMethodsState = props => {
                     zipCode: menuItem.zipCode,
                     phoneNumber: menuItem.phoneNumber,
                     url: menuItem.url,
-                    menuItemIdsJSON: JSON.stringify(menuItem.menuItemIds)
+                    menuItemIdsJSON: JSON.stringify(menuItem.menuItemIdsJSON),
+                    associateIdsJSON: JSON.stringify(menuItem.associateIdsJSON),
+                    approved: true,
                 }
                 break;
             default:
@@ -225,7 +242,7 @@ const DataAndMethodsState = props => {
             };
             //console.log('API Request:', apiRequest, state.idToken);
             const data = await API.post(state.apiName, state.apiPath, apiRequest);
-            console.log(data);
+            //console.log(data);
             scanDynamoDB(TableName)
         } catch (err) {
             //console.log(err)
@@ -238,7 +255,7 @@ const DataAndMethodsState = props => {
         switch (TableName) {
             case state.tableName:
                 myItem = {
-                    id: uuidv4(), // create uuidv4 as the id
+                    id: menuItem.id,
                     title: menuItem.title,
                     description: menuItem.description,
                     categoryJSON: JSON.stringify(menuItem.categoryJSON),
@@ -248,7 +265,7 @@ const DataAndMethodsState = props => {
                 break;
             case state.restaurantTableName:
                 myItem = {
-                    id: uuidv4(), // create uuidv4 as the id
+                    id: menuItem.id,
                     name: menuItem.name,
                     description: menuItem.description,
                     street: menuItem.street,
@@ -257,6 +274,9 @@ const DataAndMethodsState = props => {
                     zipCode: menuItem.zipCode,
                     phoneNumber: menuItem.phoneNumber,
                     url: menuItem.url,
+                    menuItemIdsJSON: JSON.stringify(menuItem.menuItemIdsJSON),
+                    associateIdsJSON: JSON.stringify(menuItem.associateIdsJSON),
+                    approved: true,
                 }
                 break;
             default:
@@ -280,7 +300,7 @@ const DataAndMethodsState = props => {
             };
             //console.log('API Request:', apiRequest, state.idToken);
             const data = await API.post(state.apiName, state.apiPath, apiRequest);
-            console.log(data);
+            //console.log(data);
             scanDynamoDB(TableName)
         } catch (err) {
             alertDialogContext.setDialog(true, err.message, 'Error');
@@ -308,7 +328,7 @@ const DataAndMethodsState = props => {
             };
             //console.log('API Request:', apiRequest, state.idToken);
             const data = await API.post(state.apiName, state.apiPath, apiRequest);
-            console.log(data);
+            //console.log(data);
             scanDynamoDB(TableName)
         } catch (err) {
             alertDialogContext.setDialog(true, err.message, 'Error');
@@ -336,7 +356,7 @@ const DataAndMethodsState = props => {
             };
             //console.log('API Request:', apiRequest, state.idToken);
             const data = await API.post(state.apiName, state.apiPath, apiRequest);
-            console.log(data);
+            //console.log(data);
         } catch (err) {
             alertDialogContext.setDialog(true, err.message, 'Error');
         }
@@ -369,9 +389,9 @@ const DataAndMethodsState = props => {
                     'Accept': '*/*',
                 }
             };
-            console.log('API Request:', apiRequest);
+            //console.log('API Request:', apiRequest);
             const data = await API.post(state.apiName, state.apiPath, apiRequest);
-            console.log(data);
+            //console.log(data);
         } catch (err) {
             alertDialogContext.setDialog(true, err.message, 'Error');
         }
@@ -456,14 +476,13 @@ const DataAndMethodsState = props => {
         let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
         for (let i = 0; i < myNewMenuItems.length; i++) {
             if (state.editMenuItemValues.id === myNewMenuItems[i].id) {
+                myNewMenuItems[i].id = state.editMenuItemValues.id;
                 myNewMenuItems[i].title = state.editMenuItemValues.title;
                 myNewMenuItems[i].description = state.editMenuItemValues.description;
                 myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
                 myNewMenuItems[i].price = state.editMenuItemValues.price;
                 myNewMenuItems[i].restaurant = state.editMenuItemValues.restaurant;
                 updateItemDynamoDB(state.tableName, myNewMenuItems[i]);
-                //getItemDynamoDB(state.tableName, myNewMenuItems[i].id);
-                //batchGetItemDynamoDB(state.tableName, [myNewMenuItems[i].id, '1', '16'], 'id, categoryJSON, description, price, restaurant, title');
                 break;
             }
         }
@@ -473,6 +492,7 @@ const DataAndMethodsState = props => {
         let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
         for (let i = 0; i < myNewMenuItems.length; i++) {
             if (state.editMenuItemValues.id === myNewMenuItems[i].id) {
+                myNewMenuItems[i].id = uuidv4(); // create uuidv4 as the id
                 myNewMenuItems[i].title = state.editMenuItemValues.title;
                 myNewMenuItems[i].description = state.editMenuItemValues.description;
                 myNewMenuItems[i].categoryJSON = state.editMenuItemValues.categoryJSON;
@@ -505,6 +525,8 @@ const DataAndMethodsState = props => {
                     phoneNumber: state.restaurants[i].phoneNumber,
                     url: state.restaurants[i].url,
                     id: state.restaurants[i].id,
+                    menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
+                    associateIdsJSON: state.restaurants[i].associateIdsJSON,
                     dialogType: "Edit",
                 }
                 editRestaurant(myEditItem);
@@ -527,6 +549,8 @@ const DataAndMethodsState = props => {
                     phoneNumber: state.restaurants[i].phoneNumber,
                     url: state.restaurants[i].url,
                     id: state.restaurants[i].id,
+                    menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
+                    associateIdsJSON: state.restaurants[i].associateIdsJSON,
                     dialogType: "Add",
                 }
                 editRestaurant(myEditItem);
@@ -545,19 +569,11 @@ const DataAndMethodsState = props => {
         }
     };
 
-    const deleteRestaurant = (RestaurantId) => {
-        for (let i = 0; 1 < state.restaurants.length; i++) {
-            if (RestaurantId === state.restaurants[i].id) {
-                deleteItemDynamoDB(state.restaurantTableName, state.restaurants[i]);
-                break;
-            }
-        }
-    };
-
     const saveRestaurant = () => {
         let myNewRestaurants = JSON.parse(JSON.stringify(state.restaurants))
         for (let i = 0; i < myNewRestaurants.length; i++) {
             if (state.editRestaurantValues.id === myNewRestaurants[i].id) {
+                myNewRestaurants[i].id = state.editRestaurantValues.id;
                 myNewRestaurants[i].name = state.editRestaurantValues.name;
                 myNewRestaurants[i].description = state.editRestaurantValues.description;
                 myNewRestaurants[i].street = state.editRestaurantValues.street;
@@ -566,8 +582,11 @@ const DataAndMethodsState = props => {
                 myNewRestaurants[i].zipCode = state.editRestaurantValues.zipCode;
                 myNewRestaurants[i].phoneNumber = state.editRestaurantValues.phoneNumber;
                 myNewRestaurants[i].url = state.editRestaurantValues.url;
-                updateMenuIdsForRestaurant(myNewRestaurants[i])
-                //updateItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
+                myNewRestaurants[i].menuItemIdsJSON = state.editRestaurantValues.menuItemIdsJSON
+                myNewRestaurants[i].associateIdsJSON = state.editRestaurantValues.associateIdsJSON
+                myNewRestaurants[i].approved = state.editRestaurantValues.approved
+                updateItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
+                //getAssociatesResturants(myNewRestaurants, state.customId)
                 break;
             }
         }
@@ -575,35 +594,68 @@ const DataAndMethodsState = props => {
 
     const saveRestaurantCopy = () => {
         let myNewRestaurants = JSON.parse(JSON.stringify(state.restaurants))
+        let myNewRestaurant = {};
         for (let i = 0; i < myNewRestaurants.length; i++) {
             if (state.editRestaurantValues.id === myNewRestaurants[i].id) {
-                myNewRestaurants[i].name = state.editRestaurantValues.name;
-                myNewRestaurants[i].description = state.editRestaurantValues.description;
-                myNewRestaurants[i].street = state.editRestaurantValues.street;
-                myNewRestaurants[i].city = state.editRestaurantValues.city;
-                myNewRestaurants[i].state = state.editRestaurantValues.state;
-                myNewRestaurants[i].zipCode = state.editRestaurantValues.zipCode;
-                myNewRestaurants[i].phoneNumber = state.editRestaurantValues.phoneNumber;
-                myNewRestaurants[i].url = state.editRestaurantValues.url;
-                putItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
+                myNewRestaurant.id = uuidv4(); // create uuidv4 as the id
+                myNewRestaurant.name = state.editRestaurantValues.name;
+                myNewRestaurant.description = state.editRestaurantValues.description;
+                myNewRestaurant.street = state.editRestaurantValues.street;
+                myNewRestaurant.city = state.editRestaurantValues.city;
+                myNewRestaurant.state = state.editRestaurantValues.state;
+                myNewRestaurant.zipCode = state.editRestaurantValues.zipCode;
+                myNewRestaurant.phoneNumber = state.editRestaurantValues.phoneNumber;
+                myNewRestaurant.url = state.editRestaurantValues.url;
+                myNewRestaurant.menuItemIdsJSON = state.editRestaurantValues.menuItemIdsJSON
+                myNewRestaurant.associateIdsJSON = state.editRestaurantValues.associateIdsJSON
+                myNewRestaurant.approved = state.editRestaurantValues.approved
+                myNewRestaurants.push(myNewRestaurant);
+                putItemDynamoDB(state.restaurantTableName, myNewRestaurant);
+                //getAssociatesResturants(myNewRestaurants, state.customId)
                 break;
             }
         }
     };
 
+    const deleteRestaurant = (RestaurantId) => {
+        let myNewRestaurants = JSON.parse(JSON.stringify(state.restaurants))
+        for (let i = 0; 1 < myNewRestaurants.length; i++) {
+            if (RestaurantId === myNewRestaurants[i].id) {
+                deleteItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
+                myNewRestaurants.splice(i, 1);
+                getAssociatesResturants(myNewRestaurants, state.customId);
+                break;
+            }
+        }
+    };
+
+    const getAssociatesResturants = (myNewRestaurants, customId) => {
+        let myAssociateRestaurants = [];
+        for (let i = 0; i < myNewRestaurants.length; i++) {
+            for (let j = 0; j < myNewRestaurants[i].associateIdsJSON.length; j++) {
+                if (myNewRestaurants[i].associateIdsJSON[j] === customId) {
+                    myAssociateRestaurants.push(myNewRestaurants[i]);
+                }
+            }
+        }
+        setAssociateRestaurants(myAssociateRestaurants);
+    }
+
     // dispatch changes to the reducer ---------------------------------------------------------------------
     const setMenuItems = (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
-    const setRestaurants = (restaurants) => { dispatch({ type: SET_RESTUARANTS, payload: restaurants }) }
+    const setRestaurants = (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
     const setFoodChoices = (myStates) => { dispatch({ type: SET_FOOD_CHOICES, payload: myStates }) }
     const editMenuItem = (myEditMenuItem) => { dispatch({ type: SET_EDIT_MENU_ITEM, payload: myEditMenuItem }) }
     const setEditMenuOpen = (isOpen) => { dispatch({ type: SET_EDIT_MENU_OPEN, payload: isOpen }) }
-    const editRestaurant = (myRestaurant) => { dispatch({ type: SET_EDIT_RESTUARANTS, payload: myRestaurant }) }
-    const setEditRestaurantOpen = (isOpen) => { dispatch({ type: SET_EDIT_RESTUARANTS_OPEN, payload: isOpen }) }
+    const editRestaurant = (myRestaurant) => { dispatch({ type: SET_EDIT_RESTAURANTS, payload: myRestaurant }) }
+    const setEditRestaurantOpen = (isOpen) => { dispatch({ type: SET_EDIT_RESTAURANTS_OPEN, payload: isOpen }) }
     const setSignInRegDialogType = (type) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: type }) }
     const setSignInRegDialogTitle = (title) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: title }) }
     const setAuthToken = (authToken) => { dispatch({ type: SET_AUTH_TOKEN, payload: authToken }) }
     const setIdToken = (idToken) => { dispatch({ type: SET_ID_TOKEN, payload: idToken }) }
     const setCustomId = (customId) => { dispatch({ type: SET_CUSTOM_ID, payload: customId }) }
+    const setLogInType = (logInType) => { dispatch({ type: SET_LOGIN_TYPE, payload: logInType }) }
+    const setAssociateRestaurants = (associateRestaurants) => { dispatch({ type: SET_ASSOCIATE_RESTAURANTS, payload: associateRestaurants }) }
 
     return (
         <DataAndMethodsContext.Provider
@@ -625,6 +677,9 @@ const DataAndMethodsState = props => {
                 apiPath: state.apiPath,
                 apiName: state.apiName,
                 canEdit: state.canEdit,
+                logInType: state.logInType,
+                customId: state.customId,
+                associateRestaurants: state.associateRestaurants,
                 setFoodChoice,
                 setFoodChoices,
                 scanDynamoDB,
@@ -651,6 +706,8 @@ const DataAndMethodsState = props => {
                 setAuthToken,
                 setIdToken,
                 setCustomId,
+                setLogInType,
+                getAssociatesResturants,
             }}
         >
             {props.children}

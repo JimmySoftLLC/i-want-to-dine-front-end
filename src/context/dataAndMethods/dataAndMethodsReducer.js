@@ -1,16 +1,18 @@
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
-    SET_RESTUARANTS,
+    SET_RESTAURANTS,
     SET_EDIT_MENU_ITEM,
     SET_EDIT_MENU_OPEN,
-    SET_EDIT_RESTUARANTS,
-    SET_EDIT_RESTUARANTS_OPEN,
+    SET_EDIT_RESTAURANTS,
+    SET_EDIT_RESTAURANTS_OPEN,
     SET_SIGN_IN_REG_DIALOG_TYPE,
     SET_SIGN_IN_REG_DIALOG_TITLE,
     SET_AUTH_TOKEN,
     SET_ID_TOKEN,
     SET_CUSTOM_ID,
+    SET_LOGIN_TYPE,
+    SET_ASSOCIATE_RESTAURANTS,
 } from '../types';
 
 export default (state, action) => {
@@ -25,7 +27,7 @@ export default (state, action) => {
                 ...state,
                 menuItems: action.payload,
             };
-        case SET_RESTUARANTS:
+        case SET_RESTAURANTS:
             return {
                 ...state,
                 restaurants: action.payload,
@@ -40,12 +42,12 @@ export default (state, action) => {
                 ...state,
                 editMenuOpen: action.payload,
             };
-        case SET_EDIT_RESTUARANTS:
+        case SET_EDIT_RESTAURANTS:
             return {
                 ...state,
                 editRestaurantValues: action.payload,
             };
-        case SET_EDIT_RESTUARANTS_OPEN:
+        case SET_EDIT_RESTAURANTS_OPEN:
             return {
                 ...state,
                 editRestaurantOpen: action.payload,
@@ -74,6 +76,16 @@ export default (state, action) => {
             return {
                 ...state,
                 customId: action.payload,
+            };
+        case SET_LOGIN_TYPE:
+            return {
+                ...state,
+                logInType: action.payload,
+            };
+        case SET_ASSOCIATE_RESTAURANTS:
+            return {
+                ...state,
+                associateRestaurants: action.payload,
             };
         default:
             return state;

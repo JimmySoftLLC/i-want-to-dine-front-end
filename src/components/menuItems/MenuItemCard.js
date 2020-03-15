@@ -78,12 +78,11 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickMenuItemEdit
     let myUrl = ""
     for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].name === menuItem.restaurant) {
+            if (!restaurants[i].approved) { showIt = false };
             myUrl = restaurants[i].url
             break;
         }
     }
-
-    // let myFinalShowIt = showIt && !myStates['restaurant']
 
     return (
         showIt && <div className='card'>
