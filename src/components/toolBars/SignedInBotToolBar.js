@@ -11,6 +11,7 @@ const SignedInBotToolBar = () => {
         setIdToken,
         setCustomId,
         setLogInType,
+        setAssociate,
     } = dataAndMethodsContext;
 
     const logOut = () => {
@@ -26,7 +27,7 @@ const SignedInBotToolBar = () => {
                 <Tooltip title="Edit associate details">
                     <IconButton aria-label=""
                         color="primary"
-                        onClick={() => logOut()}>
+                        onClick={() => setAssociate()}>
                         <i className="fas fa-user-edit"></i>
                     </IconButton>
                 </Tooltip>

@@ -13,6 +13,7 @@ import {
     SET_CUSTOM_ID,
     SET_LOGIN_TYPE,
     SET_ASSOCIATE_RESTAURANTS,
+    SET_ASSOCIATE,
 } from '../types';
 
 export default (state, action) => {
@@ -87,7 +88,13 @@ export default (state, action) => {
                 ...state,
                 associateRestaurants: action.payload,
             };
+        case SET_ASSOCIATE:
+            return {
+                ...state,
+                associate: action.payload,
+            };
         default:
             return state;
     }
 };
+

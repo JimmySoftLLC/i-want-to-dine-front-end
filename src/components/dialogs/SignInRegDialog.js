@@ -1,4 +1,3 @@
-
 import { Auth } from 'aws-amplify';
 import React, { useContext, useState } from 'react';
 import Button from '@material-ui/core/Button';
@@ -10,6 +9,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import { v4 as uuidv4 } from 'uuid';
+import getItemDynamoDB from '../../api/getItemDynamoDB';
+import batchGetItemDynamoDB from '../../api/batchGetItemDynamoDB';
+import {
+    tableName,
+    restaurantTableName,
+    associatesTableName,
+    apiName,
+    apiPath,
+    projectionExpressionRestaurant,
+} from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,7 +33,7 @@ const SignUp = () => {
     const classes = useStyles();
 
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('Dudeperson2$');
+    const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
     const [resetCode, setResetCode] = useState('');
     const [message, setMessage] = useState('');
@@ -39,8 +48,9 @@ const SignUp = () => {
         setIdToken,
         setCustomId,
         setLogInType,
-        getAssociatesResturants,
+        setAssociate,
         restaurants,
+        setAssociateRestaurants,
     } = dataAndMethodsContext;
 
 
@@ -110,7 +120,7 @@ const SignUp = () => {
                 setCustomId(session.idToken.payload['custom:id']);
                 setAuthToken(session.accessToken.jwtToken);
                 setIdToken(session.idToken.jwtToken);
-                getAssociatesResturants(restaurants, session.idToken.payload['custom:id']);
+                getAssociatesResturants(session.idToken.jwtToken, session.idToken.payload['custom:id']);
                 // console.log('custom:id', session.idToken.payload['custom:id']);
                 // console.log('authToken', session.accessToken.jwtToken);
                 // console.log('idToken', session.idToken.jwtToken);
@@ -118,7 +128,7 @@ const SignUp = () => {
                 // console.log('Cognito User Identity Token:', session.getIdToken().getJwtToken());
                 // console.log('Cognito User Refresh Token', session.getRefreshToken().getToken());
                 setLogInType('signedIn')
-                dataAndMethodsContext.setSignInRegDialogType('false');
+                setSignInRegDialogType('false');
                 setDialogBackToDefaults();
             }
         } catch (err) {
@@ -134,6 +144,21 @@ const SignUp = () => {
         } else {
             return false;
         }
+    }
+
+    const getAssociatesResturants = async (myToken, myCustomId) => {
+        //console.log(state.associatesTableName, myToken, id);
+        const data = await getItemDynamoDB(associatesTableName, myToken, myCustomId)
+        let associate = data.payload.Item
+        associate.restaurantIdsJSON = JSON.parse(associate.restaurantIdsJSON)
+        setAssociate(associate)
+        console.log(associate)
+        let myAssociateRestaurants = []
+        let myIds = associate.restaurantIdsJSON
+        const mydata = await batchGetItemDynamoDB(restaurantTableName, myToken, myIds, myCustomId, projectionExpressionRestaurant)
+        console.log(mydata);
+        //myAssociateRestaurants.push(restaurants[i]);
+        //setAssociateRestaurants(myAssociateRestaurants);
     }
 
     const sendResetCode = () => {
@@ -163,7 +188,6 @@ const SignUp = () => {
         setResetCode(e.target.value);
     };
 
-
     let showEmail = false;
     signInRegDialogType === 'signIn' || signInRegDialogType === 'register' || signInRegDialogType === 'forgotPassword' ? showEmail = true : showEmail = false
 
@@ -175,7 +199,6 @@ const SignUp = () => {
 
     let showResetCode = false;
     signInRegDialogType === 'codeSent' ? showResetCode = true : showResetCode = false
-
 
     return (
         <div>
