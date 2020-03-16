@@ -77,10 +77,10 @@ const DataAndMethodsState = props => {
             description: "",
             street: "",
             city: "",
-            state: "",
+            stateUS: "",
             zipCode: "",
             phoneNumber: "",
-            url: "",
+            urlLink: "",
             id: "",
             menuItemIdsJSON: [],
             associateIdsJSON: [],
@@ -232,10 +232,10 @@ const DataAndMethodsState = props => {
                     description: state.restaurants[i].description,
                     street: state.restaurants[i].street,
                     city: state.restaurants[i].city,
-                    state: state.restaurants[i].state,
+                    stateUS: state.restaurants[i].stateUS,
                     zipCode: state.restaurants[i].zipCode,
                     phoneNumber: state.restaurants[i].phoneNumber,
-                    url: state.restaurants[i].url,
+                    urlLink: state.restaurants[i].urlLink,
                     id: state.restaurants[i].id,
                     menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
                     associateIdsJSON: state.restaurants[i].associateIdsJSON,
@@ -256,10 +256,10 @@ const DataAndMethodsState = props => {
                     description: state.restaurants[i].description,
                     street: state.restaurants[i].street,
                     city: state.restaurants[i].city,
-                    state: state.restaurants[i].state,
+                    stateUS: state.restaurants[i].stateUS,
                     zipCode: state.restaurants[i].zipCode,
                     phoneNumber: state.restaurants[i].phoneNumber,
-                    url: state.restaurants[i].url,
+                    urlLink: state.restaurants[i].urlLink,
                     id: state.restaurants[i].id,
                     menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
                     associateIdsJSON: state.restaurants[i].associateIdsJSON,
@@ -290,10 +290,10 @@ const DataAndMethodsState = props => {
                 myNewRestaurants[i].description = state.editRestaurantValues.description;
                 myNewRestaurants[i].street = state.editRestaurantValues.street;
                 myNewRestaurants[i].city = state.editRestaurantValues.city;
-                myNewRestaurants[i].state = state.editRestaurantValues.state;
+                myNewRestaurants[i].stateUS = state.editRestaurantValues.stateUS;
                 myNewRestaurants[i].zipCode = state.editRestaurantValues.zipCode;
                 myNewRestaurants[i].phoneNumber = state.editRestaurantValues.phoneNumber;
-                myNewRestaurants[i].url = state.editRestaurantValues.url;
+                myNewRestaurants[i].urlLink = state.editRestaurantValues.urlLink;
                 myNewRestaurants[i].menuItemIdsJSON = state.editRestaurantValues.menuItemIdsJSON
                 myNewRestaurants[i].associateIdsJSON = state.editRestaurantValues.associateIdsJSON
                 myNewRestaurants[i].approved = state.editRestaurantValues.approved
@@ -314,10 +314,10 @@ const DataAndMethodsState = props => {
                 myNewRestaurant.description = state.editRestaurantValues.description;
                 myNewRestaurant.street = state.editRestaurantValues.street;
                 myNewRestaurant.city = state.editRestaurantValues.city;
-                myNewRestaurant.state = state.editRestaurantValues.state;
+                myNewRestaurant.stateUS = state.editRestaurantValues.stateUS;
                 myNewRestaurant.zipCode = state.editRestaurantValues.zipCode;
                 myNewRestaurant.phoneNumber = state.editRestaurantValues.phoneNumber;
-                myNewRestaurant.url = state.editRestaurantValues.url;
+                myNewRestaurant.urlLink = state.editRestaurantValues.urlLink;
                 myNewRestaurant.menuItemIdsJSON = state.editRestaurantValues.menuItemIdsJSON
                 myNewRestaurant.associateIdsJSON = state.editRestaurantValues.associateIdsJSON
                 myNewRestaurant.approved = state.editRestaurantValues.approved

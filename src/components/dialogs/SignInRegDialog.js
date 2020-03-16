@@ -53,7 +53,6 @@ const SignUp = () => {
         setAssociateRestaurants,
     } = dataAndMethodsContext;
 
-
     const closeDialog = () => {
         setSignInRegDialogType('false');
         setDialogBackToDefaults();

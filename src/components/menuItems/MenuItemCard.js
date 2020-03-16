@@ -75,11 +75,11 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickMenuItemEdit
         price = menuItem.price >= 1000 ? 'MP' : menuItem.price;
     }
 
-    let myUrl = ""
+    let myUrlLink = ""
     for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].name === menuItem.restaurant) {
             if (!restaurants[i].approved) { showIt = false };
-            myUrl = restaurants[i].url
+            myUrlLink = restaurants[i].urlLink
             break;
         }
     }
@@ -88,9 +88,9 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickMenuItemEdit
         showIt && <div className='card'>
             <h3>{items}{menuItem.title}{' - '}{price}
             </h3>
-            <a href={myUrl} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
+            <a href={myUrlLink} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
+                {/* <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemCopy(menuItem.id)}>
@@ -98,7 +98,7 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickMenuItemEdit
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemDelete(menuItem.id)}>
                     <i className="fas fa-trash"></i>
-                </Button>
+                </Button> */}
             </div>
             <p>{menuItem.description}</p>
         </div>

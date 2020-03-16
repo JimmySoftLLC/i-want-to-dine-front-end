@@ -23,7 +23,7 @@ const RestaurantItemCard = ({ restaurantItem, handleClickRestaurantEdit, handleC
         showIt && <div className='card'>
             <h3>{restaurantItem.name}
                 <IconButton aria-label=""
-                    href={restaurantItem.url}
+                    href={restaurantItem.urlLink}
                     rel="noopener noreferrer" target="_blank"
                     color={"primary"}>
                     <i className="fas fa-external-link-alt"></i>
@@ -38,7 +38,7 @@ const RestaurantItemCard = ({ restaurantItem, handleClickRestaurantEdit, handleC
                 </IconButton></h4>
             <p>{restaurantItem.description}</p>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantEdit(restaurantItem.id)}>
+                {/* <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantEdit(restaurantItem.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantCopy(restaurantItem.id)}>
@@ -46,7 +46,7 @@ const RestaurantItemCard = ({ restaurantItem, handleClickRestaurantEdit, handleC
                 </Button>
                 <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantDelete(restaurantItem.id)}>
                     <i className="fas fa-trash"></i>
-                </Button>
+                </Button> */}
             </div>
         </div>
     );

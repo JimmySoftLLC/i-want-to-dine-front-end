@@ -7,4 +7,4 @@ export const apiPath = '/';
 export const projectionExpressionRestaurant = 'id,approved,city,street,zipCode,menuItemIdsJSON,associateIdsJSON';
 
 
-// ,state,street,url,zipCode,menuItemIdsJSON,associateIdsJSON
+// note state and url are reserved need to rename my table

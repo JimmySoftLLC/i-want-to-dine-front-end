@@ -55,7 +55,7 @@ const RestaurantItemDialog = () => {
     };
 
     const changeState = (e) => {
-        dataAndMethodsContext.setRestaurantItem('state', e.target.value)
+        dataAndMethodsContext.setRestaurantItem('stateUS', e.target.value)
     };
 
     const changeZipCode = (e) => {
@@ -66,8 +66,8 @@ const RestaurantItemDialog = () => {
         dataAndMethodsContext.setRestaurantItem('phoneNumber', e.target.value)
     };
 
-    const changeUrl = (e) => {
-        dataAndMethodsContext.setRestaurantItem('url', e.target.value)
+    const changeUrlLink = (e) => {
+        dataAndMethodsContext.setRestaurantItem('urlLink', e.target.value)
     };
 
     return (
@@ -117,12 +117,12 @@ const RestaurantItemDialog = () => {
                         onChange={changeCity}
                     />
                     <TextField
-                        id="state"
+                        id="stateUS"
                         label="State"
                         type="text"
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.editRestaurantValues.state}
+                        value={dataAndMethodsContext.editRestaurantValues.stateUS}
                         onChange={changeState}
                     />
                     <TextField
@@ -144,13 +144,13 @@ const RestaurantItemDialog = () => {
                         onChange={changePhoneNumber}
                     />
                     <TextField
-                        id="url"
+                        id="urlLink"
                         label="Website Url"
                         type="text"
                         fullWidth
                         variant="filled"
-                        value={dataAndMethodsContext.editRestaurantValues.url}
-                        onChange={changeUrl}
+                        value={dataAndMethodsContext.editRestaurantValues.urlLink}
+                        onChange={changeUrlLink}
                     />
                 </DialogContent>
                 <DialogActions>
