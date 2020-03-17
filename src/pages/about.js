@@ -62,7 +62,7 @@ const About = () => {
                     <i className="fas fa-cheese"></i> Cheese
                     </li>
                 <li>
-                    <i className='icon-pasta'></i> Pasta
+                    <i className='icon-spaghetti'></i> Pasta
                     </li>
                 <li>
                     <i className="fas fa-hamburger"></i> Sandwiches

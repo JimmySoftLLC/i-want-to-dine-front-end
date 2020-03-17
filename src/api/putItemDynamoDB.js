@@ -7,11 +7,8 @@ import {
     apiPath,
 } from './apiConstants';
 
-// let myReturnObject = { err: false, payload: null };
-// myReturnObject.err = true;
-// myReturnObject.payload = err.message;
-
 const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
+    // console.log(myTableName, myIdToken, myItem, myCustomId);
     let myNewItem = {}
     switch (myTableName) {
         case tableName:
@@ -27,7 +24,7 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
         case restaurantTableName:
             myNewItem = {
                 id: myItem.id,
-                name: myItem.name,
+                restaurantName: myItem.restaurantName,
                 description: myItem.description,
                 street: myItem.street,
                 city: myItem.city,
@@ -50,6 +47,7 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
                 email: myItem.email,
                 restaurantIdsJSON: JSON.stringify(myItem.restaurantIdsJSON),
             }
+            break;
         default:
     }
     let myReturnObject = { err: false, payload: null };

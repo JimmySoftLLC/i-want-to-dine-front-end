@@ -2,10 +2,10 @@ import React, { useReducer, useContext } from 'react';
 import DataAndMethodsContext from './dataAndMethodsContext';
 import DataAndMethodsReducer from './dataAndMethodsReducer';
 import { v4 as uuidv4 } from 'uuid';
-import AlertDialogContext from '../alertDialog/alertDialogContext';
+// import AlertDialogContext from '../alertDialog/alertDialogContext';
 import DeleteConfirmDialogContext from '../deleteConfirmDialog/deleteConfirmDialogContext';
-import getItemDynamoDB from '../../api/getItemDynamoDB';
-import putItemDynamoDB from '../../api/putItemDynamoDB';
+// import getItemDynamoDB from '../../api/getItemDynamoDB';
+
 import {
     SET_FOOD_CHOICES,
     SET_MENU_ITEMS,
@@ -24,11 +24,11 @@ import {
     SET_ASSOCIATE,
 } from '../types';
 import {
-    tableName,
-    restaurantTableName,
-    associatesTableName,
-    apiName,
-    apiPath,
+    // tableName,
+    // restaurantTableName,
+    // associatesTableName,
+    // apiName,
+    // apiPath,
 } from '../../api/apiConstants';
 
 const DataAndMethodsState = props => {
@@ -73,7 +73,7 @@ const DataAndMethodsState = props => {
             dialogType: "",
         },
         editRestaurantValues: {
-            name: "",
+            restaurantName: "",
             description: "",
             street: "",
             city: "",
@@ -86,6 +86,7 @@ const DataAndMethodsState = props => {
             associateIdsJSON: [],
             dialogType: "Edit",
             approved: false,
+            myAssociate: {},
         },
         editAssociateValues: {
             id: "",
@@ -99,7 +100,7 @@ const DataAndMethodsState = props => {
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
-    const alertDialogContext = useContext(AlertDialogContext);
+    // const alertDialogContext = useContext(AlertDialogContext);
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
 
     //set food choices
@@ -216,147 +217,10 @@ const DataAndMethodsState = props => {
         }
     };
 
-    // Restaurant calls ----------------------------------------------------------------------
-
     const setRestaurantItem = async (key, value) => {
         let myEditRestaurant = JSON.parse(JSON.stringify(state.editRestaurantValues))
         myEditRestaurant[key] = value;
         editRestaurant(myEditRestaurant);
-    }
-
-    const handleClickRestaurantEdit = (restaurantId) => {
-        for (let i = 0; 1 < state.restaurants.length; i++) {
-            if (restaurantId === state.restaurants[i].id) {
-                let myEditItem = {
-                    name: state.restaurants[i].name,
-                    description: state.restaurants[i].description,
-                    street: state.restaurants[i].street,
-                    city: state.restaurants[i].city,
-                    stateUS: state.restaurants[i].stateUS,
-                    zipCode: state.restaurants[i].zipCode,
-                    phoneNumber: state.restaurants[i].phoneNumber,
-                    urlLink: state.restaurants[i].urlLink,
-                    id: state.restaurants[i].id,
-                    menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
-                    associateIdsJSON: state.restaurants[i].associateIdsJSON,
-                    dialogType: "Edit",
-                }
-                editRestaurant(myEditItem);
-                setEditRestaurantOpen(true);
-                break;
-            }
-        }
-    };
-
-    const handleClickRestaurantCopy = (restaurantId) => {
-        for (let i = 0; 1 < state.restaurants.length; i++) {
-            if (restaurantId === state.restaurants[i].id) {
-                let myEditItem = {
-                    name: state.restaurants[i].name,
-                    description: state.restaurants[i].description,
-                    street: state.restaurants[i].street,
-                    city: state.restaurants[i].city,
-                    stateUS: state.restaurants[i].stateUS,
-                    zipCode: state.restaurants[i].zipCode,
-                    phoneNumber: state.restaurants[i].phoneNumber,
-                    urlLink: state.restaurants[i].urlLink,
-                    id: state.restaurants[i].id,
-                    menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
-                    associateIdsJSON: state.restaurants[i].associateIdsJSON,
-                    dialogType: "Add",
-                }
-                editRestaurant(myEditItem);
-                setEditRestaurantOpen(true);
-                break;
-            }
-        }
-    };
-
-    const handleClickRestaurantDelete = (restaurantId) => {
-        for (let i = 0; 1 < state.restaurants.length; i++) {
-            if (restaurantId === state.restaurants[i].id) {
-                deleteConfirmDialogContext.setDialog(true, state.restaurants[i].name, 'Delete warning', restaurantId, deleteRestaurant);
-                break;
-            }
-        }
-    };
-
-    const saveRestaurant = () => {
-        let myNewRestaurants = JSON.parse(JSON.stringify(state.restaurants))
-        for (let i = 0; i < myNewRestaurants.length; i++) {
-            if (state.editRestaurantValues.id === myNewRestaurants[i].id) {
-                myNewRestaurants[i].id = state.editRestaurantValues.id;
-                myNewRestaurants[i].name = state.editRestaurantValues.name;
-                myNewRestaurants[i].description = state.editRestaurantValues.description;
-                myNewRestaurants[i].street = state.editRestaurantValues.street;
-                myNewRestaurants[i].city = state.editRestaurantValues.city;
-                myNewRestaurants[i].stateUS = state.editRestaurantValues.stateUS;
-                myNewRestaurants[i].zipCode = state.editRestaurantValues.zipCode;
-                myNewRestaurants[i].phoneNumber = state.editRestaurantValues.phoneNumber;
-                myNewRestaurants[i].urlLink = state.editRestaurantValues.urlLink;
-                myNewRestaurants[i].menuItemIdsJSON = state.editRestaurantValues.menuItemIdsJSON
-                myNewRestaurants[i].associateIdsJSON = state.editRestaurantValues.associateIdsJSON
-                myNewRestaurants[i].approved = state.editRestaurantValues.approved
-                //putItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
-                //getAssociatesResturants(myNewRestaurants, state.customId)
-                break;
-            }
-        }
-    };
-
-    const saveRestaurantCopy = () => {
-        let myNewRestaurants = JSON.parse(JSON.stringify(state.restaurants))
-        let myNewRestaurant = {};
-        for (let i = 0; i < myNewRestaurants.length; i++) {
-            if (state.editRestaurantValues.id === myNewRestaurants[i].id) {
-                myNewRestaurant.id = uuidv4(); // create uuidv4 as the id
-                myNewRestaurant.name = state.editRestaurantValues.name;
-                myNewRestaurant.description = state.editRestaurantValues.description;
-                myNewRestaurant.street = state.editRestaurantValues.street;
-                myNewRestaurant.city = state.editRestaurantValues.city;
-                myNewRestaurant.stateUS = state.editRestaurantValues.stateUS;
-                myNewRestaurant.zipCode = state.editRestaurantValues.zipCode;
-                myNewRestaurant.phoneNumber = state.editRestaurantValues.phoneNumber;
-                myNewRestaurant.urlLink = state.editRestaurantValues.urlLink;
-                myNewRestaurant.menuItemIdsJSON = state.editRestaurantValues.menuItemIdsJSON
-                myNewRestaurant.associateIdsJSON = state.editRestaurantValues.associateIdsJSON
-                myNewRestaurant.approved = state.editRestaurantValues.approved
-                myNewRestaurants.push(myNewRestaurant);
-                //putItemDynamoDB(state.restaurantTableName, myNewRestaurant);
-                //getAssociatesResturants(myNewRestaurants, state.customId)
-                break;
-            }
-        }
-    };
-
-    const deleteRestaurant = (RestaurantId) => {
-        let myNewRestaurants = JSON.parse(JSON.stringify(state.restaurants))
-        for (let i = 0; 1 < myNewRestaurants.length; i++) {
-            if (RestaurantId === myNewRestaurants[i].id) {
-                //deleteItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
-                myNewRestaurants.splice(i, 1);
-                break;
-            }
-        }
-    };
-
-    const saveAssociate = async () => {
-        let myRestaurantIdsJSON = [];
-        for (let i = 0; i < state.restaurants.length; i++) {
-            myRestaurantIdsJSON.push(state.restaurants[i].id);
-        }
-        let myAssociate = {
-            id: state.customId, // create uuidv4 as the id,
-            canWrite: false,
-            canAdmin: false,
-            firstName: "James",
-            lastName: "Bailey",
-            email: "jbailey969@gmail.com",
-            restaurantIdsJSON: myRestaurantIdsJSON,
-        }
-        console.log(myAssociate)
-        const data = await putItemDynamoDB(associatesTableName, state.idToken, myAssociate, state.customId)
-        console.log(data);
     }
 
     // dispatch changes to the reducer ---------------------------------------------------------------------
@@ -412,12 +276,6 @@ const DataAndMethodsState = props => {
                 handleClickMenuItemCopy,
                 saveMenuItemCopy,
                 handleClickMenuItemDelete,
-                handleClickRestaurantEdit,
-                handleClickRestaurantCopy,
-                handleClickRestaurantDelete,
-                saveRestaurant,
-                saveRestaurantCopy,
-                setRestaurantItem,
                 setSignInRegDialogType,
                 setSignInRegDialogTitle,
                 setAuthToken,
@@ -427,6 +285,8 @@ const DataAndMethodsState = props => {
                 setAssociate,
                 setMenuItems,
                 setAssociateRestaurants,
+                editRestaurant,
+                setRestaurantItem,
             }}
         >
             {props.children}

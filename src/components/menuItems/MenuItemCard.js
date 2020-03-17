@@ -42,7 +42,7 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickMenuItemEdit
                 items.push(<i className='fas fa-cheese' key={menuItem.id + "_cheese"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'pasta':
-                items.push(<i className='icon-pasta' key={menuItem.id + "_pasta"} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='icon-spaghetti' key={menuItem.id + "_pasta"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'sandwich':
                 items.push(<i className='fas fa-hamburger' key={menuItem.id + "_hamburger"} style={{ paddingRight: '.25rem' }}></i>)
@@ -77,7 +77,7 @@ const MenuItemCard = ({ menuItem, myStates, restaurants, handleClickMenuItemEdit
 
     let myUrlLink = ""
     for (let i = 0; i < restaurants.length; i++) {
-        if (restaurants[i].name === menuItem.restaurant) {
+        if (restaurants[i].restaurantName === menuItem.restaurant) {
             if (!restaurants[i].approved) { showIt = false };
             myUrlLink = restaurants[i].urlLink
             break;

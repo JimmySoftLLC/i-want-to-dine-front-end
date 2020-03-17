@@ -21,7 +21,7 @@ const RestaurantItemCard = ({ restaurantItem, handleClickRestaurantEdit, handleC
 
     return (
         showIt && <div className='card'>
-            <h3>{restaurantItem.name}
+            <h3>{restaurantItem.restaurantName}
                 <IconButton aria-label=""
                     href={restaurantItem.urlLink}
                     rel="noopener noreferrer" target="_blank"
@@ -37,17 +37,6 @@ const RestaurantItemCard = ({ restaurantItem, handleClickRestaurantEdit, handleC
                     <i className="fas fa-phone"></i>
                 </IconButton></h4>
             <p>{restaurantItem.description}</p>
-            <div className={classes.root} >
-                {/* <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantEdit(restaurantItem.id)}>
-                    <i className="fas fa-edit"></i>
-                </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantCopy(restaurantItem.id)}>
-                    <i className="fas fa-copy"></i>
-                </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickRestaurantDelete(restaurantItem.id)}>
-                    <i className="fas fa-trash"></i>
-                </Button> */}
-            </div>
         </div>
     );
 };

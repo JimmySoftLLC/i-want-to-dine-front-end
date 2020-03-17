@@ -41,7 +41,7 @@ const DefaultBotToolBar = () => {
                     <IconButton aria-label=""
                         color={myStates['restaurant'] ? "secondary" : "primary"}
                         onClick={() => setFoodChoice('restaurant')}>
-                        <i className="icon-Restaurant"></i>
+                        <i className="icon-resturant"></i>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Log in">

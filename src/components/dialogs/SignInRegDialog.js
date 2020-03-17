@@ -9,14 +9,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import { v4 as uuidv4 } from 'uuid';
-import getItemDynamoDB from '../../api/getItemDynamoDB';
-import batchGetItemDynamoDB from '../../api/batchGetItemDynamoDB';
+import getAssociate from '../../model/getAssociate';
+import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
 import {
-    tableName,
+    // tableName,
     restaurantTableName,
     associatesTableName,
-    apiName,
-    apiPath,
+    // apiName,
+    // apiPath,
     projectionExpressionRestaurant,
 } from '../../api/apiConstants';
 
@@ -49,7 +49,6 @@ const SignUp = () => {
         setCustomId,
         setLogInType,
         setAssociate,
-        restaurants,
         setAssociateRestaurants,
     } = dataAndMethodsContext;
 
@@ -119,7 +118,12 @@ const SignUp = () => {
                 setCustomId(session.idToken.payload['custom:id']);
                 setAuthToken(session.accessToken.jwtToken);
                 setIdToken(session.idToken.jwtToken);
-                getAssociatesResturants(session.idToken.jwtToken, session.idToken.payload['custom:id']);
+                const associate = await getAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                //console.log(associate);
+                setAssociate(associate);
+                const associateRestaurants = await getAssociatesRestaurants(associate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                //console.log(associateRestaurants);
+                setAssociateRestaurants(associateRestaurants);
                 // console.log('custom:id', session.idToken.payload['custom:id']);
                 // console.log('authToken', session.accessToken.jwtToken);
                 // console.log('idToken', session.idToken.jwtToken);
@@ -143,21 +147,6 @@ const SignUp = () => {
         } else {
             return false;
         }
-    }
-
-    const getAssociatesResturants = async (myToken, myCustomId) => {
-        //console.log(state.associatesTableName, myToken, id);
-        const data = await getItemDynamoDB(associatesTableName, myToken, myCustomId)
-        let associate = data.payload.Item
-        associate.restaurantIdsJSON = JSON.parse(associate.restaurantIdsJSON)
-        setAssociate(associate)
-        console.log(associate)
-        let myAssociateRestaurants = []
-        let myIds = associate.restaurantIdsJSON
-        const mydata = await batchGetItemDynamoDB(restaurantTableName, myToken, myIds, myCustomId, projectionExpressionRestaurant)
-        console.log(mydata);
-        //myAssociateRestaurants.push(restaurants[i]);
-        //setAssociateRestaurants(myAssociateRestaurants);
     }
 
     const sendResetCode = () => {

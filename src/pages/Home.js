@@ -6,7 +6,7 @@ import About from '../pages/about';
 import MenuItems from '../components/menuItems/MenuItems';
 import BotNavBar from '../components/BotNavBar';
 import RestaurantItems from '../components/restaurantItems/RestaurantItems';
-import AssociateRestaurantItems from '../components/restaurantItems/AssociateRestaurantItems';
+// import AssociateRestaurantItems from '../components/restaurantItems/AssociateRestaurantItems';
 import MenuItemDialog from '../components/dialogs/MenuItemDialog';
 import RestaurantItemDialog from '../components/dialogs/RestaurantItemDialog';
 import AlertDialog from '../components/dialogs/AlertDialog';
@@ -16,7 +16,7 @@ import scanDynamoDB from '../api/scanDynamoDB';
 import {
     tableName,
     restaurantTableName,
-    associatesTableName,
+    // associatesTableName,
 } from '../api/apiConstants';
 
 const Home = () => {
@@ -26,9 +26,9 @@ const Home = () => {
             myMenuItems.err ? setDialog(true, myMenuItems.payload, 'Error', '', 'OK', '') : setMenuItems(myMenuItems.payload)
             const myRestaurants = await scanDynamoDB(restaurantTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
-            // eslint-disable-next-line
         }
         fetchData();
+        // eslint-disable-next-line
     }, []);
 
     const dataAndMethodsContext = useContext(DataAndMethodsContext);

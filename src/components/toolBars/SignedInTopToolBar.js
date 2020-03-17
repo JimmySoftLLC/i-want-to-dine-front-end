@@ -3,21 +3,77 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import { Tooltip } from '@material-ui/core';
-import NativeSelect from '@material-ui/core/NativeSelect';
 import Select from '@material-ui/core/Select';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
+import { v4 as uuidv4 } from 'uuid';
 
 const SignedInTopToolBar = () => {
+    const noSelectedRestaurant = 'Select Your Restaurant'
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const { associateRestaurants } = dataAndMethodsContext;
-
-    const [myRestaurant, setRestaurant] = React.useState('Select Your Restaurant');
+    const { associateRestaurants, editRestaurant, setEditRestaurantOpen, associate } = dataAndMethodsContext;
+    const [myRestaurantId, setRestaurant] = useState(noSelectedRestaurant);
 
     const handleChange = event => {
-        console.log(event.target.value);
+        //console.log(event.target.value);
         setRestaurant(event.target.value);
+    };
+
+    const handleEditRestaurant = () => {
+        for (let i = 0; 1 < associateRestaurants.length; i++) {
+            if (myRestaurantId === associateRestaurants[i].id) {
+                let myEditItem = {
+                    restaurantName: associateRestaurants[i].restaurantName,
+                    description: associateRestaurants[i].description,
+                    street: associateRestaurants[i].street,
+                    city: associateRestaurants[i].city,
+                    stateUS: associateRestaurants[i].stateUS,
+                    zipCode: associateRestaurants[i].zipCode,
+                    phoneNumber: associateRestaurants[i].phoneNumber,
+                    urlLink: associateRestaurants[i].urlLink,
+                    id: associateRestaurants[i].id,
+                    menuItemIdsJSON: associateRestaurants[i].menuItemIdsJSON,
+                    associateIdsJSON: associateRestaurants[i].associateIdsJSON,
+                    approved: associateRestaurants[i].approved,
+                    dialogType: "Edit",
+                    myAssociate: associate,
+                }
+                editRestaurant(myEditItem);
+                setEditRestaurantOpen(true);
+                break;
+            }
+        }
+    };
+
+    const handleNewRestaurant = () => {
+        let myAssociateIdsJSON = []
+        myAssociateIdsJSON.push(associate.id)
+        let myNewId = uuidv4()
+        let myNewAssociate = JSON.parse(JSON.stringify(associate))
+        myNewAssociate.restaurantIdsJSON.push(myNewId)
+        let myEditItem = {
+            restaurantName: '',
+            description: '',
+            street: '',
+            city: '',
+            stateUS: '',
+            zipCode: '',
+            phoneNumber: '',
+            urlLink: '',
+            id: myNewId,
+            menuItemIdsJSON: [],
+            associateIdsJSON: myAssociateIdsJSON,
+            approved: false,
+            dialogType: "New",
+            myAssociate: myNewAssociate,
+        }
+        editRestaurant(myEditItem);
+        setEditRestaurantOpen(true);
+    };
+
+    const handleDeleteRestaurant = () => {
+
     };
 
     const BootstrapInput = withStyles(theme => ({
@@ -58,7 +114,7 @@ const SignedInTopToolBar = () => {
     const dude = associateRestaurants.map(restaurant => <MenuItem
         value={restaurant.id}
         key={restaurant.id}>
-        {restaurant.name}
+        {restaurant.restaurantName}
     </MenuItem>);
 
     return (
@@ -68,13 +124,34 @@ const SignedInTopToolBar = () => {
                     <Select
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
-                        value={myRestaurant}
+                        value={myRestaurantId}
                         onChange={handleChange}
                         input={<BootstrapInput />}
                     >
                         <MenuItem value={'Select Your Restaurant'}>{'Select Your Restaurant'}</MenuItem>
                         {dude}
                     </Select>
+                    {myRestaurantId !== noSelectedRestaurant && <Tooltip title="Edit restaurant">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => handleEditRestaurant()}>
+                            <i className="icon-restaurant-edit"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    <Tooltip title="Add restaurant">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => handleNewRestaurant()}>
+                            <i className="icon-restaurant-plus"></i>
+                        </IconButton>
+                    </Tooltip>
+                    {myRestaurantId !== noSelectedRestaurant && <Tooltip title="Delete restaurant">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => handleDeleteRestaurant()}>
+                            <i className="icon-restaurant-minus"></i>
+                        </IconButton>
+                    </Tooltip>}
                 </div>
             </Toolbar>
         </Fragment >

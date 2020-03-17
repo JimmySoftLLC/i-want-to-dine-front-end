@@ -78,7 +78,7 @@ const DefaultTopToolBar = () => {
                         <IconButton aria-label="" color={myStates['pasta'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setFoodChoice('pasta')}
                         >
-                            <i className='icon-pasta'></i>
+                            <i className='icon-spaghetti'></i>
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Sandwiches">

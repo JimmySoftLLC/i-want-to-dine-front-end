@@ -4,11 +4,6 @@ import {
     apiPath,
 } from './apiConstants';
 
-// let myReturnObject = { err: false, payload: null };
-// myReturnObject.err = true;
-// myReturnObject.payload = err.message;
-// return myReturnObject;
-
 const getItemDynamoDB = async (myTableName, myIdToken, myId) => {
     let myReturnObject = { err: false, payload: null };
     try {
@@ -29,7 +24,7 @@ const getItemDynamoDB = async (myTableName, myIdToken, myId) => {
                 'Accept': '*/*',
             }
         };
-        console.log('API Request:', apiRequest, myIdToken);
+        //console.log('API Request:', apiRequest, myIdToken);
         const data = await API.post(apiName, apiPath, apiRequest);
         myReturnObject.payload = data;
         return myReturnObject;

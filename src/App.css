@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?cymqbe');
-  src:  url('fonts/icomoon.eot?cymqbe#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?cymqbe') format('truetype'),
-    url('fonts/icomoon.woff?cymqbe') format('woff'),
-    url('fonts/icomoon.svg?cymqbe#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?basd3z');
+  src:  url('fonts/icomoon.eot?basd3z#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?basd3z') format('truetype'),
+    url('fonts/icomoon.woff?basd3z') format('woff'),
+    url('fonts/icomoon.svg?basd3z#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -27,39 +27,46 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-dessert:before {
-  content: "\e90a";
-}
-.icon-tbone:before {
+.icon-dollar_1:before {
   content: "\e900";
 }
-.icon-shell:before {
+.icon-dollar_2:before {
   content: "\e901";
 }
-.icon-Restaurant:before {
+.icon-dollar_3:before {
   content: "\e902";
 }
-.icon-pasta:before {
+.icon-fav-resturant:before {
   content: "\e903";
 }
-.icon-dollar_1:before {
+.icon-ham:before {
   content: "\e904";
 }
-.icon-dollar_2:before {
+.icon-lamb:before {
   content: "\e905";
 }
-.icon-dollar_3:before {
+.icon-restaurant-edit:before {
   content: "\e906";
 }
-.icon-fav-Restaurant:before {
+.icon-restaurant-minus:before {
   content: "\e907";
 }
-.icon-ham:before {
+.icon-restaurant-plus:before {
   content: "\e908";
 }
-.icon-lamb:before {
+.icon-resturant:before {
   content: "\e909";
 }
+.icon-shell:before {
+  content: "\e90a";
+}
+.icon-spaghetti:before {
+  content: "\e90b";
+}
+.icon-tbone:before {
+  content: "\e90c";
+}
+
 
 /* Global Styles */
 :root {

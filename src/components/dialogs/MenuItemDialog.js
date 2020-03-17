@@ -165,7 +165,7 @@ const MenuItemDialog = () => {
                                 <IconButton aria-label="" color={checkIfPresent("pasta") ? "inherit" : "default"}
                                     onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pasta')}
                                 >
-                                    <i className='icon-pasta'></i>
+                                    <i className='icon-spaghetti'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Sandwiches">

@@ -9,9 +9,6 @@ const batchGetItemDynamoDB = async (myTableName, myIdToken, myIds, myCustomId, p
     for (let i = 0; i < myIds.length; i++) {
         myKeys.push({ 'id': myIds[i] })
     }
-    // for (let i = 0; i < 1; i++) {
-    //     myKeys.push({ 'id': myIds[i] })
-    // }
     let myReturnObject = { err: false, payload: null };
     try {
         const apiRequest = {
@@ -34,7 +31,7 @@ const batchGetItemDynamoDB = async (myTableName, myIdToken, myIds, myCustomId, p
                 'Accept': '*/*',
             }
         };
-        console.log('API Request:', apiRequest);
+        //console.log('API Request:', apiRequest);
         const data = await API.post(apiName, apiPath, apiRequest);
         myReturnObject.payload = data;
         return myReturnObject;

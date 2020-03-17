@@ -45,8 +45,8 @@ let scanDynamoDB = async myTableName => {
                     myResData.Items[i].associateIdsJSON = JSON.parse(myResData.Items[i].associateIdsJSON)
                 }
                 function compare(a, b) {
-                    const keyA = a.name.toUpperCase();
-                    const keyB = b.name.toUpperCase();
+                    const keyA = a.restaurantName.toUpperCase();
+                    const keyB = b.restaurantName.toUpperCase();
                     let comparison = 0;
                     if (keyA > keyB) {
                         comparison = 1;

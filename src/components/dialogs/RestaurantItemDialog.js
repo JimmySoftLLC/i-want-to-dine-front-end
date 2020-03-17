@@ -7,6 +7,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
+import putItemDynamoDB from '../../api/putItemDynamoDB';
+import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
+import {
+    restaurantTableName,
+    associatesTableName,
+} from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -21,69 +27,104 @@ const RestaurantItemDialog = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
+    const { setEditRestaurantOpen,
+        editRestaurantValues,
+        setRestaurantItem,
+        idToken,
+        customId,
+        setAssociate,
+        setAssociateRestaurants,
+        editRestaurantOpen,
+    } = dataAndMethodsContext;
+
     const handleClose = () => {
-        dataAndMethodsContext.setEditRestaurantOpen(false);
+        setEditRestaurantOpen(false);
     };
 
-    const handleSave = () => {
-        switch (dataAndMethodsContext.editRestaurantValues.dialogType) {
-            case "Edit":
-                dataAndMethodsContext.saveRestaurant()
-                break;
-            case "Add":
-                dataAndMethodsContext.saveRestaurantCopy()
-                break;
-            default:
+    const saveRestaurant = async () => {
+        let myRestaurant = {};
+        myRestaurant.id = editRestaurantValues.id;
+        myRestaurant.restaurantName = editRestaurantValues.restaurantName !== '' ? editRestaurantValues.restaurantName : String.fromCharCode(30);
+        myRestaurant.description = editRestaurantValues.description !== '' ? editRestaurantValues.description : String.fromCharCode(30);
+        myRestaurant.street = editRestaurantValues.street !== '' ? editRestaurantValues.street : String.fromCharCode(30);
+        myRestaurant.city = editRestaurantValues.city !== '' ? editRestaurantValues.city : String.fromCharCode(30);
+        myRestaurant.stateUS = editRestaurantValues.stateUS !== '' ? editRestaurantValues.stateUS : String.fromCharCode(30);
+        myRestaurant.zipCode = editRestaurantValues.zipCode !== '' ? editRestaurantValues.zipCode : String.fromCharCode(30);
+        myRestaurant.phoneNumber = editRestaurantValues.phoneNumber !== '' ? editRestaurantValues.phoneNumber : String.fromCharCode(30);
+        myRestaurant.urlLink = editRestaurantValues.urlLink !== '' ? editRestaurantValues.urlLink : String.fromCharCode(30);
+        myRestaurant.menuItemIdsJSON = editRestaurantValues.menuItemIdsJSON
+        myRestaurant.associateIdsJSON = editRestaurantValues.associateIdsJSON
+        myRestaurant.approved = editRestaurantValues.approved
+        const successRestaurantPut = await putItemDynamoDB(restaurantTableName, idToken, myRestaurant, customId)
+        if (successRestaurantPut) {
+            let myAssociate = JSON.parse(JSON.stringify(editRestaurantValues.myAssociate))
+            const associateRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
+            setAssociateRestaurants(associateRestaurants);
+            if (editRestaurantValues.dialogType === 'New') {
+                const successAssociatePut = await putItemDynamoDB(associatesTableName, idToken, myAssociate, customId)
+                setAssociate(myAssociate)
+            }
         }
-        dataAndMethodsContext.setEditRestaurantOpen(false);
+        setEditRestaurantOpen(false);
+    };
+
+    const deleteRestaurant = (RestaurantId) => {
+        // let myNewRestaurants = JSON.parse(JSON.stringify(state.restaurants))
+        // for (let i = 0; 1 < myNewRestaurants.length; i++) {
+        //     if (RestaurantId === myNewRestaurants[i].id) {
+        //         //deleteItemDynamoDB(restaurantTableName, myNewRestaurants[i]);
+        //         myNewRestaurants.splice(i, 1);
+        //         break;
+        //     }
+        // }
     };
 
     const changeName = (e) => {
-        dataAndMethodsContext.setRestaurantItem('name', e.target.value)
+        setRestaurantItem('restaurantName', e.target.value)
     };
 
     const changeDescription = (e) => {
-        dataAndMethodsContext.setRestaurantItem('description', e.target.value)
+        setRestaurantItem('description', e.target.value)
     };
 
     const changeStreet = (e) => {
-        dataAndMethodsContext.setRestaurantItem('street', e.target.value)
+        setRestaurantItem('street', e.target.value)
     };
 
     const changeCity = (e) => {
-        dataAndMethodsContext.setRestaurantItem('city', e.target.value)
+        setRestaurantItem('city', e.target.value)
     };
 
     const changeState = (e) => {
-        dataAndMethodsContext.setRestaurantItem('stateUS', e.target.value)
+        setRestaurantItem('stateUS', e.target.value)
     };
 
     const changeZipCode = (e) => {
-        dataAndMethodsContext.setRestaurantItem('zipCode', e.target.value)
+        setRestaurantItem('zipCode', e.target.value)
     };
 
     const changePhoneNumber = (e) => {
-        dataAndMethodsContext.setRestaurantItem('phoneNumber', e.target.value)
+        setRestaurantItem('phoneNumber', e.target.value)
     };
 
     const changeUrlLink = (e) => {
-        dataAndMethodsContext.setRestaurantItem('urlLink', e.target.value)
+        setRestaurantItem('urlLink', e.target.value)
     };
 
     return (
         <div>
-            <Dialog className={classes.root} open={dataAndMethodsContext.editRestaurantOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog className={classes.root} open={editRestaurantOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {dataAndMethodsContext.editRestaurantValues.dialogType + " Restaurant details"}</DialogTitle>
+                    {editRestaurantValues.dialogType + " restaurant details"}</DialogTitle>
                 <DialogContent>
                     <TextField
-                        id="name"
+                        id="restaurantName"
                         label="Name"
                         type="text"
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.editRestaurantValues.name}
+                        value={editRestaurantValues.restaurantName}
                         onChange={changeName}
                     />
                     <TextField
@@ -93,8 +134,8 @@ const RestaurantItemDialog = () => {
                         fullWidth
                         variant="filled"
                         multiline={true}
-                        rows="3"
-                        value={dataAndMethodsContext.editRestaurantValues.description}
+                        rows="8"
+                        value={editRestaurantValues.description}
                         onChange={changeDescription}
                     />
                     <TextField
@@ -104,7 +145,7 @@ const RestaurantItemDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.editRestaurantValues.street}
+                        value={editRestaurantValues.street}
                         onChange={changeStreet}
                     />
                     <TextField
@@ -113,7 +154,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.editRestaurantValues.city}
+                        value={editRestaurantValues.city}
                         onChange={changeCity}
                     />
                     <TextField
@@ -122,7 +163,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.editRestaurantValues.stateUS}
+                        value={editRestaurantValues.stateUS}
                         onChange={changeState}
                     />
                     <TextField
@@ -131,7 +172,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.editRestaurantValues.zipCode}
+                        value={editRestaurantValues.zipCode}
                         onChange={changeZipCode}
                     />
                     <TextField
@@ -140,7 +181,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         fullWidth
                         variant="filled"
-                        value={dataAndMethodsContext.editRestaurantValues.phoneNumber}
+                        value={editRestaurantValues.phoneNumber}
                         onChange={changePhoneNumber}
                     />
                     <TextField
@@ -149,7 +190,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         fullWidth
                         variant="filled"
-                        value={dataAndMethodsContext.editRestaurantValues.urlLink}
+                        value={editRestaurantValues.urlLink}
                         onChange={changeUrlLink}
                     />
                 </DialogContent>
@@ -157,7 +198,7 @@ const RestaurantItemDialog = () => {
                     <Button onClick={handleClose} color="default">
                         Cancel
                     </Button>
-                    <Button onClick={() => handleSave()} color="primary">
+                    <Button onClick={() => saveRestaurant()} color="primary">
                         Save
                     </Button>
                 </DialogActions>
