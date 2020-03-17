@@ -8,7 +8,8 @@ import BotNavBar from '../components/BotNavBar';
 import RestaurantItems from '../components/restaurantItems/RestaurantItems';
 // import AssociateRestaurantItems from '../components/restaurantItems/AssociateRestaurantItems';
 import MenuItemDialog from '../components/dialogs/MenuItemDialog';
-import RestaurantItemDialog from '../components/dialogs/RestaurantItemDialog';
+import RestaurantDialog from '../components/dialogs/RestaurantDialog';
+import AssociateDialog from '../components/dialogs/AssociateDialog';
 import AlertDialog from '../components/dialogs/AlertDialog';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
@@ -51,7 +52,8 @@ const Home = () => {
                 {showRestaurants && <RestaurantItems />}
                 {logInType === 'default' && <MenuItems />}
                 <MenuItemDialog />
-                <RestaurantItemDialog />
+                <RestaurantDialog />
+                <AssociateDialog />
             </div>
             <p className='p page-bottom-margin'></p>
             <BotNavBar />

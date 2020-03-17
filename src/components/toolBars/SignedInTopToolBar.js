@@ -8,22 +8,41 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import { v4 as uuidv4 } from 'uuid';
+import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
+import deleteItemDynamoDB from '../../api/deleteItemDynamoDB';
+import putItemDynamoDB from '../../api/deleteItemDynamoDB';
+import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
+import updateAssociatesRestaurants from '../../model/updateAssociatesRestaurants';
+import {
+    restaurantTableName,
+    associatesTableName,
+} from '../../api/apiConstants';
 
 const SignedInTopToolBar = () => {
     const noSelectedRestaurant = 'Select Your Restaurant'
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const { associateRestaurants, editRestaurant, setEditRestaurantOpen, associate } = dataAndMethodsContext;
-    const [myRestaurantId, setRestaurant] = useState(noSelectedRestaurant);
+    const { associateRestaurants,
+        setRestaurantDialogData,
+        setRestaurantDialogOpen,
+        associate,
+        setAssociatesRestaurants,
+        setAssociate,
+        idToken,
+        customId,
+        restaurants,
+    } = dataAndMethodsContext;
+    const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
+
+    const [myRestaurantId, setRestaurantId] = useState(noSelectedRestaurant);
 
     const handleChange = event => {
-        //console.log(event.target.value);
-        setRestaurant(event.target.value);
+        setRestaurantId(event.target.value);
     };
 
     const handleEditRestaurant = () => {
         for (let i = 0; 1 < associateRestaurants.length; i++) {
             if (myRestaurantId === associateRestaurants[i].id) {
-                let myEditItem = {
+                let myRestaurantData = {
                     restaurantName: associateRestaurants[i].restaurantName,
                     description: associateRestaurants[i].description,
                     street: associateRestaurants[i].street,
@@ -36,11 +55,11 @@ const SignedInTopToolBar = () => {
                     menuItemIdsJSON: associateRestaurants[i].menuItemIdsJSON,
                     associateIdsJSON: associateRestaurants[i].associateIdsJSON,
                     approved: associateRestaurants[i].approved,
-                    dialogType: "Edit",
                     myAssociate: associate,
+                    dialogType: "Edit",
                 }
-                editRestaurant(myEditItem);
-                setEditRestaurantOpen(true);
+                setRestaurantDialogData(myRestaurantData);
+                setRestaurantDialogOpen(true);
                 break;
             }
         }
@@ -52,7 +71,7 @@ const SignedInTopToolBar = () => {
         let myNewId = uuidv4()
         let myNewAssociate = JSON.parse(JSON.stringify(associate))
         myNewAssociate.restaurantIdsJSON.push(myNewId)
-        let myEditItem = {
+        let myRestaurantData = {
             restaurantName: '',
             description: '',
             street: '',
@@ -65,16 +84,42 @@ const SignedInTopToolBar = () => {
             menuItemIdsJSON: [],
             associateIdsJSON: myAssociateIdsJSON,
             approved: false,
-            dialogType: "New",
             myAssociate: myNewAssociate,
+            dialogType: "New",
         }
-        editRestaurant(myEditItem);
-        setEditRestaurantOpen(true);
+        setRestaurantDialogData(myRestaurantData);
+        setRestaurantDialogOpen(true);
     };
 
-    const handleDeleteRestaurant = () => {
-
+    const loadDeleteRestaurantWarningDialog = () => {
+        for (let i = 0; i < associateRestaurants.length; i++) {
+            if (myRestaurantId === associateRestaurants[i].id) {
+                deleteConfirmDialogContext.setDialog(true, associateRestaurants[i].restaurantName, 'Delete restaurant warning', myRestaurantId, deleteRestaurant);
+                break;
+            }
+        }
     };
+
+    const deleteRestaurant = async () => {
+        let myAssociate = JSON.parse(JSON.stringify(associate));
+        let indexOfRestaurantId = myAssociate.restaurantIdsJSON.indexOf(myRestaurantId);
+        if (indexOfRestaurantId !== -1) {
+            myAssociate.restaurantIdsJSON.splice(indexOfRestaurantId, 1);
+        }
+        console.log(associate, myAssociate, myRestaurantId);
+        const successRestaurantDelete = await deleteItemDynamoDB(restaurantTableName, idToken, myRestaurantId, customId)
+        if (successRestaurantDelete) {
+            const associateRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
+            setAssociatesRestaurants(associateRestaurants);
+            const successAssociatePut = await putItemDynamoDB(associatesTableName, idToken, myAssociate, customId)
+            setAssociate(myAssociate)
+            setRestaurantId(noSelectedRestaurant);
+        }
+    }
+
+    const updateAssociatesRestaurantsNow = async () => {
+        const mytest = await updateAssociatesRestaurants(idToken, customId, associate, restaurants)
+    }
 
     const BootstrapInput = withStyles(theme => ({
         root: {
@@ -111,7 +156,7 @@ const SignedInTopToolBar = () => {
         },
     }))(InputBase);
 
-    const dude = associateRestaurants.map(restaurant => <MenuItem
+    const myRestaurantMenuItems = associateRestaurants.map(restaurant => <MenuItem
         value={restaurant.id}
         key={restaurant.id}>
         {restaurant.restaurantName}
@@ -129,7 +174,7 @@ const SignedInTopToolBar = () => {
                         input={<BootstrapInput />}
                     >
                         <MenuItem value={'Select Your Restaurant'}>{'Select Your Restaurant'}</MenuItem>
-                        {dude}
+                        {myRestaurantMenuItems}
                     </Select>
                     {myRestaurantId !== noSelectedRestaurant && <Tooltip title="Edit restaurant">
                         <IconButton aria-label=""
@@ -148,10 +193,15 @@ const SignedInTopToolBar = () => {
                     {myRestaurantId !== noSelectedRestaurant && <Tooltip title="Delete restaurant">
                         <IconButton aria-label=""
                             color="inherit"
-                            onClick={() => handleDeleteRestaurant()}>
+                            onClick={() => loadDeleteRestaurantWarningDialog()}>
                             <i className="icon-restaurant-minus"></i>
                         </IconButton>
                     </Tooltip>}
+                    <IconButton aria-label=""
+                        color="inherit"
+                        onClick={() => updateAssociatesRestaurantsNow()}>
+                        Update
+                    </IconButton>
                 </div>
             </Toolbar>
         </Fragment >

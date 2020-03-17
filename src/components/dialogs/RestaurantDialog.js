@@ -23,99 +23,88 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const RestaurantItemDialog = () => {
+const RestaurantDialog = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
-    const { setEditRestaurantOpen,
-        editRestaurantValues,
-        setRestaurantItem,
+    const { setRestaurantDialogOpen,
+        restaurantDialogData,
+        setRestaurantDialogDataItem,
         idToken,
         customId,
         setAssociate,
-        setAssociateRestaurants,
-        editRestaurantOpen,
+        setAssociatesRestaurants,
+        restaurantDialogOpen,
     } = dataAndMethodsContext;
 
     const handleClose = () => {
-        setEditRestaurantOpen(false);
+        setRestaurantDialogOpen(false);
     };
 
     const saveRestaurant = async () => {
         let myRestaurant = {};
-        myRestaurant.id = editRestaurantValues.id;
-        myRestaurant.restaurantName = editRestaurantValues.restaurantName !== '' ? editRestaurantValues.restaurantName : String.fromCharCode(30);
-        myRestaurant.description = editRestaurantValues.description !== '' ? editRestaurantValues.description : String.fromCharCode(30);
-        myRestaurant.street = editRestaurantValues.street !== '' ? editRestaurantValues.street : String.fromCharCode(30);
-        myRestaurant.city = editRestaurantValues.city !== '' ? editRestaurantValues.city : String.fromCharCode(30);
-        myRestaurant.stateUS = editRestaurantValues.stateUS !== '' ? editRestaurantValues.stateUS : String.fromCharCode(30);
-        myRestaurant.zipCode = editRestaurantValues.zipCode !== '' ? editRestaurantValues.zipCode : String.fromCharCode(30);
-        myRestaurant.phoneNumber = editRestaurantValues.phoneNumber !== '' ? editRestaurantValues.phoneNumber : String.fromCharCode(30);
-        myRestaurant.urlLink = editRestaurantValues.urlLink !== '' ? editRestaurantValues.urlLink : String.fromCharCode(30);
-        myRestaurant.menuItemIdsJSON = editRestaurantValues.menuItemIdsJSON
-        myRestaurant.associateIdsJSON = editRestaurantValues.associateIdsJSON
-        myRestaurant.approved = editRestaurantValues.approved
+        myRestaurant.id = restaurantDialogData.id;
+        myRestaurant.restaurantName = restaurantDialogData.restaurantName !== '' ? restaurantDialogData.restaurantName : String.fromCharCode(30);
+        myRestaurant.description = restaurantDialogData.description !== '' ? restaurantDialogData.description : String.fromCharCode(30);
+        myRestaurant.street = restaurantDialogData.street !== '' ? restaurantDialogData.street : String.fromCharCode(30);
+        myRestaurant.city = restaurantDialogData.city !== '' ? restaurantDialogData.city : String.fromCharCode(30);
+        myRestaurant.stateUS = restaurantDialogData.stateUS !== '' ? restaurantDialogData.stateUS : String.fromCharCode(30);
+        myRestaurant.zipCode = restaurantDialogData.zipCode !== '' ? restaurantDialogData.zipCode : String.fromCharCode(30);
+        myRestaurant.phoneNumber = restaurantDialogData.phoneNumber !== '' ? restaurantDialogData.phoneNumber : String.fromCharCode(30);
+        myRestaurant.urlLink = restaurantDialogData.urlLink !== '' ? restaurantDialogData.urlLink : String.fromCharCode(30);
+        myRestaurant.menuItemIdsJSON = restaurantDialogData.menuItemIdsJSON
+        myRestaurant.associateIdsJSON = restaurantDialogData.associateIdsJSON
+        myRestaurant.approved = restaurantDialogData.approved
         const successRestaurantPut = await putItemDynamoDB(restaurantTableName, idToken, myRestaurant, customId)
         if (successRestaurantPut) {
-            let myAssociate = JSON.parse(JSON.stringify(editRestaurantValues.myAssociate))
+            let myAssociate = JSON.parse(JSON.stringify(restaurantDialogData.myAssociate))
             const associateRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
-            setAssociateRestaurants(associateRestaurants);
-            if (editRestaurantValues.dialogType === 'New') {
+            setAssociatesRestaurants(associateRestaurants);
+            if (restaurantDialogData.dialogType === 'New') {
                 const successAssociatePut = await putItemDynamoDB(associatesTableName, idToken, myAssociate, customId)
                 setAssociate(myAssociate)
             }
         }
-        setEditRestaurantOpen(false);
-    };
-
-    const deleteRestaurant = (RestaurantId) => {
-        // let myNewRestaurants = JSON.parse(JSON.stringify(state.restaurants))
-        // for (let i = 0; 1 < myNewRestaurants.length; i++) {
-        //     if (RestaurantId === myNewRestaurants[i].id) {
-        //         //deleteItemDynamoDB(restaurantTableName, myNewRestaurants[i]);
-        //         myNewRestaurants.splice(i, 1);
-        //         break;
-        //     }
-        // }
+        setRestaurantDialogOpen(false);
     };
 
     const changeName = (e) => {
-        setRestaurantItem('restaurantName', e.target.value)
+        setRestaurantDialogDataItem('restaurantName', e.target.value)
     };
 
     const changeDescription = (e) => {
-        setRestaurantItem('description', e.target.value)
+        setRestaurantDialogDataItem('description', e.target.value)
     };
 
     const changeStreet = (e) => {
-        setRestaurantItem('street', e.target.value)
+        setRestaurantDialogDataItem('street', e.target.value)
     };
 
     const changeCity = (e) => {
-        setRestaurantItem('city', e.target.value)
+        setRestaurantDialogDataItem('city', e.target.value)
     };
 
     const changeState = (e) => {
-        setRestaurantItem('stateUS', e.target.value)
+        setRestaurantDialogDataItem('stateUS', e.target.value)
     };
 
     const changeZipCode = (e) => {
-        setRestaurantItem('zipCode', e.target.value)
+        setRestaurantDialogDataItem('zipCode', e.target.value)
     };
 
     const changePhoneNumber = (e) => {
-        setRestaurantItem('phoneNumber', e.target.value)
+        setRestaurantDialogDataItem('phoneNumber', e.target.value)
     };
 
     const changeUrlLink = (e) => {
-        setRestaurantItem('urlLink', e.target.value)
+        setRestaurantDialogDataItem('urlLink', e.target.value)
     };
 
     return (
         <div>
-            <Dialog className={classes.root} open={editRestaurantOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog className={classes.root} open={restaurantDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {editRestaurantValues.dialogType + " restaurant details"}</DialogTitle>
+                    {restaurantDialogData.dialogType + " restaurant details"}</DialogTitle>
                 <DialogContent>
                     <TextField
                         id="restaurantName"
@@ -124,7 +113,7 @@ const RestaurantItemDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={editRestaurantValues.restaurantName}
+                        value={restaurantDialogData.restaurantName}
                         onChange={changeName}
                     />
                     <TextField
@@ -135,7 +124,7 @@ const RestaurantItemDialog = () => {
                         variant="filled"
                         multiline={true}
                         rows="8"
-                        value={editRestaurantValues.description}
+                        value={restaurantDialogData.description}
                         onChange={changeDescription}
                     />
                     <TextField
@@ -145,7 +134,7 @@ const RestaurantItemDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={editRestaurantValues.street}
+                        value={restaurantDialogData.street}
                         onChange={changeStreet}
                     />
                     <TextField
@@ -154,7 +143,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         variant="filled"
                         size="small"
-                        value={editRestaurantValues.city}
+                        value={restaurantDialogData.city}
                         onChange={changeCity}
                     />
                     <TextField
@@ -163,7 +152,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         variant="filled"
                         size="small"
-                        value={editRestaurantValues.stateUS}
+                        value={restaurantDialogData.stateUS}
                         onChange={changeState}
                     />
                     <TextField
@@ -172,7 +161,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         variant="filled"
                         size="small"
-                        value={editRestaurantValues.zipCode}
+                        value={restaurantDialogData.zipCode}
                         onChange={changeZipCode}
                     />
                     <TextField
@@ -181,7 +170,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         fullWidth
                         variant="filled"
-                        value={editRestaurantValues.phoneNumber}
+                        value={restaurantDialogData.phoneNumber}
                         onChange={changePhoneNumber}
                     />
                     <TextField
@@ -190,7 +179,7 @@ const RestaurantItemDialog = () => {
                         type="text"
                         fullWidth
                         variant="filled"
-                        value={editRestaurantValues.urlLink}
+                        value={restaurantDialogData.urlLink}
                         onChange={changeUrlLink}
                     />
                 </DialogContent>
@@ -207,4 +196,4 @@ const RestaurantItemDialog = () => {
     );
 }
 
-export default RestaurantItemDialog;
+export default RestaurantDialog;

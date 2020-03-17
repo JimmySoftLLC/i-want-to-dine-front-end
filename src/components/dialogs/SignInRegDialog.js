@@ -11,6 +11,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import { v4 as uuidv4 } from 'uuid';
 import getAssociate from '../../model/getAssociate';
 import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
+import createNewAssociate from '../../model/createNewAssociate';
 import {
     // tableName,
     restaurantTableName,
@@ -49,7 +50,7 @@ const SignUp = () => {
         setCustomId,
         setLogInType,
         setAssociate,
-        setAssociateRestaurants,
+        setAssociatesRestaurants,
     } = dataAndMethodsContext;
 
     const closeDialog = () => {
@@ -119,20 +120,27 @@ const SignUp = () => {
                 setAuthToken(session.accessToken.jwtToken);
                 setIdToken(session.idToken.jwtToken);
                 const associate = await getAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'])
-                //console.log(associate);
-                setAssociate(associate);
-                const associateRestaurants = await getAssociatesRestaurants(associate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
-                //console.log(associateRestaurants);
-                setAssociateRestaurants(associateRestaurants);
-                // console.log('custom:id', session.idToken.payload['custom:id']);
-                // console.log('authToken', session.accessToken.jwtToken);
-                // console.log('idToken', session.idToken.jwtToken);
-                // console.log('Cognito User Access Token:', session.getAccessToken().getJwtToken());
-                // console.log('Cognito User Identity Token:', session.getIdToken().getJwtToken());
-                // console.log('Cognito User Refresh Token', session.getRefreshToken().getToken());
-                setLogInType('signedIn')
-                setSignInRegDialogType('false');
-                setDialogBackToDefaults();
+                if (!associate) {
+                    let myNewAssociate = await createNewAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'], session.idToken.payload['email'])
+                    if (myNewAssociate) {
+                        const associateRestaurants = await getAssociatesRestaurants(myNewAssociate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                        //console.log(associateRestaurants);
+                        setAssociatesRestaurants(associateRestaurants);
+                        setAssociate(myNewAssociate);
+                        setLogInType('signedIn')
+                        setSignInRegDialogType('false');
+                        setDialogBackToDefaults();
+                    }
+                } else {
+                    //console.log(associate);
+                    setAssociate(associate);
+                    const associateRestaurants = await getAssociatesRestaurants(associate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                    //console.log(associateRestaurants);
+                    setAssociatesRestaurants(associateRestaurants);
+                    setLogInType('signedIn')
+                    setSignInRegDialogType('false');
+                    setDialogBackToDefaults();
+                }
             }
         } catch (err) {
             console.error(err)

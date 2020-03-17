@@ -24,14 +24,14 @@ const MenuItemDialog = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
-    const { categoryJSON } = dataAndMethodsContext.editMenuItemValues;
+    const { categoryJSON } = dataAndMethodsContext.menuItemDialogData;
 
     const handleClose = () => {
-        dataAndMethodsContext.setEditMenuOpen(false);
+        dataAndMethodsContext.setMenuDialogOpen(false);
     };
 
     const handleSave = () => {
-        switch (dataAndMethodsContext.editMenuItemValues.dialogType) {
+        switch (dataAndMethodsContext.menuItemDialogData.dialogType) {
             case "Edit":
                 dataAndMethodsContext.saveMenuItem()
                 break;
@@ -40,23 +40,23 @@ const MenuItemDialog = () => {
                 break;
             default:
         }
-        dataAndMethodsContext.setEditMenuOpen(false);
+        dataAndMethodsContext.setMenuDialogOpen(false);
     };
 
     const changeTitle = (e) => {
-        dataAndMethodsContext.setEditMenuItem('title', e.target.value)
+        dataAndMethodsContext.setMenuItemDialogDataItem('title', e.target.value)
     };
 
     const changeDescription = (e) => {
-        dataAndMethodsContext.setEditMenuItem('description', e.target.value)
+        dataAndMethodsContext.setMenuItemDialogDataItem('description', e.target.value)
     };
 
     const changeRestaurant = (e) => {
-        dataAndMethodsContext.setEditMenuItem('restaurant', e.target.value)
+        dataAndMethodsContext.setMenuItemDialogDataItem('restaurant', e.target.value)
     };
 
     const changePrice = (e) => {
-        dataAndMethodsContext.setEditMenuItem('price', e.target.value)
+        dataAndMethodsContext.setMenuItemDialogDataItem('price', e.target.value)
     };
 
     const checkIfPresent = (value) => {
@@ -68,9 +68,9 @@ const MenuItemDialog = () => {
 
     return (
         <div>
-            <Dialog className={classes.root} open={dataAndMethodsContext.editMenuOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog className={classes.root} open={dataAndMethodsContext.menuItemDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {dataAndMethodsContext.editMenuItemValues.dialogType + " menu item"}</DialogTitle>
+                    {dataAndMethodsContext.menuItemDialogData.dialogType + " menu item"}</DialogTitle>
                 <DialogContent>
                     <TextField
                         id="title"
@@ -79,7 +79,7 @@ const MenuItemDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.editMenuItemValues.title}
+                        value={dataAndMethodsContext.menuItemDialogData.title}
                         onChange={changeTitle}
                     />
                     <TextField
@@ -90,7 +90,7 @@ const MenuItemDialog = () => {
                         variant="filled"
                         multiline={true}
                         rows="3"
-                        value={dataAndMethodsContext.editMenuItemValues.description}
+                        value={dataAndMethodsContext.menuItemDialogData.description}
                         onChange={changeDescription}
                     />
                     <TextField
@@ -100,7 +100,7 @@ const MenuItemDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.editMenuItemValues.restaurant}
+                        value={dataAndMethodsContext.menuItemDialogData.restaurant}
                         onChange={changeRestaurant}
                     />
                     <Toolbar>
@@ -199,7 +199,7 @@ const MenuItemDialog = () => {
                         type="number"
                         fullWidth
                         variant="filled"
-                        value={dataAndMethodsContext.editMenuItemValues.price}
+                        value={dataAndMethodsContext.menuItemDialogData.price}
                         onChange={changePrice}
                     />
                 </DialogContent>

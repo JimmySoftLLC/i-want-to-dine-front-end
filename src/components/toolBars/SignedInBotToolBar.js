@@ -11,7 +11,9 @@ const SignedInBotToolBar = () => {
         setIdToken,
         setCustomId,
         setLogInType,
-        setAssociate,
+        setAssociateDialogData,
+        setAssociateDialogOpen,
+        associate,
     } = dataAndMethodsContext;
 
     const logOut = () => {
@@ -21,13 +23,28 @@ const SignedInBotToolBar = () => {
         setLogInType('default');
     }
 
+    const handleEditAssociate = () => {
+        let myAssociateData = {
+            id: associate.id,
+            canWrite: associate.canWrite,
+            canAdmin: associate.canAdmin,
+            firstName: associate.firstName,
+            lastName: associate.lastName,
+            email: associate.email,
+            restaurantIdsJSON: associate.restaurantIdsJSON,
+            dialogType: "Edit",
+        };
+        setAssociateDialogData(myAssociateData);
+        setAssociateDialogOpen(true);
+    };
+
     return (
         <Fragment>
             <Toolbar showLabel="false" color="primary">
                 <Tooltip title="Edit associate details">
                     <IconButton aria-label=""
                         color="primary"
-                        onClick={() => setAssociate()}>
+                        onClick={() => handleEditAssociate()}>
                         <i className="fas fa-user-edit"></i>
                     </IconButton>
                 </Tooltip>

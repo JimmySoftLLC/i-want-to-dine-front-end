@@ -14,6 +14,8 @@ import {
     SET_LOGIN_TYPE,
     SET_ASSOCIATE_RESTAURANTS,
     SET_ASSOCIATE,
+    SET_ASSOCIATE_DIALOG_DATA,
+    SET_ASSOCIATE_DIALOG_OPEN,
 } from '../types';
 
 export default (state, action) => {
@@ -36,22 +38,22 @@ export default (state, action) => {
         case SET_EDIT_MENU_ITEM:
             return {
                 ...state,
-                editMenuItemValues: action.payload,
+                menuItemDialogData: action.payload,
             };
         case SET_EDIT_MENU_OPEN:
             return {
                 ...state,
-                editMenuOpen: action.payload,
+                menuItemDialogOpen: action.payload,
             };
         case SET_EDIT_RESTAURANTS:
             return {
                 ...state,
-                editRestaurantValues: action.payload,
+                restaurantDialogData: action.payload,
             };
         case SET_EDIT_RESTAURANTS_OPEN:
             return {
                 ...state,
-                editRestaurantOpen: action.payload,
+                restaurantDialogOpen: action.payload,
             };
         case SET_SIGN_IN_REG_DIALOG_TYPE:
             return {
@@ -93,8 +95,17 @@ export default (state, action) => {
                 ...state,
                 associate: action.payload,
             };
+        case SET_ASSOCIATE_DIALOG_DATA:
+            return {
+                ...state,
+                associateDialogData: action.payload,
+            };
+        case SET_ASSOCIATE_DIALOG_OPEN:
+            return {
+                ...state,
+                associateDialogOpen: action.payload,
+            };
         default:
             return state;
     }
 };
-
