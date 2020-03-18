@@ -30,6 +30,8 @@ const SignedInBotToolBar = () => {
             canAdmin: associate.canAdmin,
             firstName: associate.firstName,
             lastName: associate.lastName,
+            jobTitle: associate.jobTitle,
+            bio: associate.bio,
             email: associate.email,
             restaurantIdsJSON: associate.restaurantIdsJSON,
             dialogType: "Edit",

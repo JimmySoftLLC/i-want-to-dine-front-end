@@ -22,15 +22,6 @@ const About = () => {
                 There is no app today that gives you that experience. This will be exciting! The current test market is Rehoboth Beach Delaware.  Our target launch date is by the summer tourist
                 season.
                 </p>
-            <h2 >JimmySoft LLC <IconButton aria-label=""
-                href="https://jimmysoftllc.com"
-                color={"primary"}>
-                <i className="fas fa-external-link-alt"></i>
-            </IconButton></h2>
-            <p className='p'>
-                This program was created by JimmySoft LLC.  JimmySoft LLC specialises in DIY, scientific and customer apps.
-                </p>
-
             <h2 >How to use</h2>
             <p className='p'>
                 Select the foods you are interested by clicking the food icons.  The selected ones will darken.
@@ -90,6 +81,15 @@ const About = () => {
                     <i className='icon-dollar_3'></i> 35 and up dollars
                     </li>
             </ul>
+            <h2 >JimmySoft LLC <IconButton aria-label=""
+                href="https://jimmysoftllc.com"
+                rel="noopener noreferrer" target="_blank"
+                color={"primary"}>
+                <i className="fas fa-external-link-alt"></i>
+            </IconButton></h2>
+            <p className='p'>
+                This program was created by JimmySoft LLC.  JimmySoft LLC specialises in DIY, scientific and customer apps.
+                </p>
             <h2 >A message to our Restaurant clients</h2>
             <p className='p'>
                 We are obsessed about helping your buisiness succeed.  We want to give you the tools to get your message out.

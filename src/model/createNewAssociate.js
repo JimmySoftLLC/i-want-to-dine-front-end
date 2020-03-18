@@ -1,6 +1,5 @@
 
 import putItemDynamoDB from '../api/putItemDynamoDB';
-import { v4 as uuidv4 } from 'uuid';
 import {
     associatesTableName,
 } from '../api/apiConstants';
@@ -10,8 +9,10 @@ const createNewAssociate = async (myToken, myCustomId, myEmail) => {
         id: myCustomId,
         canWrite: false,
         canAdmin: false,
-        firstName: " ",
-        lastName: " ",
+        firstName: ' ',
+        lastName: ' ',
+        bio: ' ',
+        jobTitle: ' ',
         email: myEmail,
         restaurantIdsJSON: [],
     }

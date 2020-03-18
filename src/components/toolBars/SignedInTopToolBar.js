@@ -11,12 +11,11 @@ import { v4 as uuidv4 } from 'uuid';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
 import deleteItemDynamoDB from '../../api/deleteItemDynamoDB';
 import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
-import updateAssociatesRestaurants from '../../model/updateAssociatesRestaurants';
+// import updateAssociatesRestaurants from '../../model/updateAssociatesRestaurants';
 import putAssociate from '../../model/putAssociate';
 
 import {
     restaurantTableName,
-
 } from '../../api/apiConstants';
 
 const SignedInTopToolBar = () => {
@@ -30,6 +29,8 @@ const SignedInTopToolBar = () => {
         setAssociate,
         idToken,
         customId,
+        setMenuDialogData,
+        setMenuDialogOpen,
     } = dataAndMethodsContext;
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
 
@@ -92,6 +93,21 @@ const SignedInTopToolBar = () => {
         setRestaurantDialogOpen(true);
     };
 
+    const handleNewMenuItem = () => {
+        let myNewId = uuidv4()
+        let myEditItem = {
+            title: '',
+            description: '',
+            categoryJSON: [],
+            price: '',
+            id: myNewId,
+            restaurant: '',
+            dialogType: "Add",
+        }
+        setMenuDialogData(myEditItem);
+        setMenuDialogOpen(true);
+    };
+
     const loadDeleteRestaurantWarningDialog = () => {
         for (let i = 0; i < associateRestaurants.length; i++) {
             if (myRestaurantId === associateRestaurants[i].id) {
@@ -110,8 +126,8 @@ const SignedInTopToolBar = () => {
         let indexOfRestaurantId = myAssociate.restaurantIdsJSON.indexOf(myRestaurantId);
         myAssociate.restaurantIdsJSON.splice(indexOfRestaurantId, 1);
         setAssociate(myAssociate)
-        const successAssociatePut = await putAssociate(myAssociate, idToken, customId)
-        const successRestaurantDelete = await deleteItemDynamoDB(restaurantTableName, idToken, myRestaurantId, customId)
+        await putAssociate(myAssociate, idToken, customId)
+        await deleteItemDynamoDB(restaurantTableName, idToken, myRestaurantId, customId)
         const associateRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
         setAssociatesRestaurants(associateRestaurants);
         setRestaurantId(noSelectedRestaurant);
@@ -195,6 +211,13 @@ const SignedInTopToolBar = () => {
                             color="inherit"
                             onClick={() => loadDeleteRestaurantWarningDialog()}>
                             <i className="icon-restaurant-minus"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {myRestaurantId !== noSelectedRestaurant && <Tooltip title="Add menu item">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => handleNewMenuItem()}>
+                            <i className="fas fa-list"></i>
                         </IconButton>
                     </Tooltip>}
                     {/* <IconButton aria-label=""

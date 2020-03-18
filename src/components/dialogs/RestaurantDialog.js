@@ -7,8 +7,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import putItemDynamoDB from '../../api/putItemDynamoDB';
 import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
+import putRestaurant from '../../model/putRestaurant';
+import putAssociate from '../../model/putAssociate';
 import {
     restaurantTableName,
     associatesTableName,
@@ -55,13 +56,13 @@ const RestaurantDialog = () => {
         myRestaurant.menuItemIdsJSON = restaurantDialogData.menuItemIdsJSON
         myRestaurant.associateIdsJSON = restaurantDialogData.associateIdsJSON
         myRestaurant.approved = restaurantDialogData.approved
-        const successRestaurantPut = await putItemDynamoDB(restaurantTableName, idToken, myRestaurant, customId)
+        const successRestaurantPut = await putRestaurant(myRestaurant, idToken, customId)
         if (successRestaurantPut) {
             let myAssociate = JSON.parse(JSON.stringify(restaurantDialogData.myAssociate))
             const associateRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
             setAssociatesRestaurants(associateRestaurants);
             if (restaurantDialogData.dialogType === 'New') {
-                const successAssociatePut = await putItemDynamoDB(associatesTableName, idToken, myAssociate, customId)
+                await putAssociate(myAssociate, idToken, customId)
                 setAssociate(myAssociate)
             }
         }

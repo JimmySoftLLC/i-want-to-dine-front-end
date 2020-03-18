@@ -8,7 +8,7 @@ import {
 } from './apiConstants';
 
 const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
-    // console.log(myTableName, myIdToken, myItem, myCustomId);
+    console.log(myTableName, myIdToken, myItem, myCustomId);
     let myNewItem = {}
     switch (myTableName) {
         case tableName:
@@ -45,6 +45,8 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
                 firstName: myItem.firstName,
                 lastName: myItem.lastName,
                 email: myItem.email,
+                bio: myItem.bio,
+                jobTitle: myItem.jobTitle,
                 restaurantIdsJSON: JSON.stringify(myItem.restaurantIdsJSON),
             }
             break;

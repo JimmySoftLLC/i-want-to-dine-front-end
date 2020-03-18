@@ -431,7 +431,7 @@ const DataAndMethodsState = props => {
         setMenuDialogData(myEditMenuItem);
     }
 
-    const setEditMenuItemCategory = async (key) => {
+    const setMenuItemDialogDataCategory = async (key) => {
         let myNewCategories = JSON.parse(JSON.stringify(state.menuItemDialogData.categoryJSON))
         let myIndex = myNewCategories.indexOf(key, 0)
         if (myIndex !== -1) {
@@ -700,7 +700,7 @@ const DataAndMethodsState = props => {
                 setFoodChoices,
                 setRestaurants,
                 setMenuItemDialogDataItem,
-                setEditMenuItemCategory,
+                setMenuItemDialogDataCategory,
                 setMenuDialogOpen,
                 setRestaurantDialogOpen,
                 handleClickMenuItemEdit,

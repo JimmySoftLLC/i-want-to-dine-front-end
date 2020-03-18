@@ -10,6 +10,10 @@ import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Tooltip } from '@material-ui/core';
+import putItemDynamoDB from '../../api/putItemDynamoDB';
+import {
+    tableName,
+} from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,39 +28,69 @@ const MenuItemDialog = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
-    const { categoryJSON } = dataAndMethodsContext.menuItemDialogData;
+    const {
+        id,
+        title,
+        description,
+        categoryJSON,
+        restaurant,
+        price,
+        dialogType,
+    } = dataAndMethodsContext.menuItemDialogData;
+
+    const {
+        menuItemDialogOpen,
+        setMenuItemDialogDataCategory,
+        setMenuDialogOpen,
+        saveMenuItemCopy,
+        setMenuItemDialogDataItem,
+        idToken,
+        customId
+    } = dataAndMethodsContext;
 
     const handleClose = () => {
-        dataAndMethodsContext.setMenuDialogOpen(false);
+        setMenuDialogOpen(false);
     };
 
     const handleSave = () => {
-        switch (dataAndMethodsContext.menuItemDialogData.dialogType) {
+        switch (dialogType) {
             case "Edit":
-                dataAndMethodsContext.saveMenuItem()
+                saveMenuItem()
                 break;
             case "Add":
-                dataAndMethodsContext.saveMenuItemCopy()
+                saveMenuItem()
                 break;
             default:
         }
-        dataAndMethodsContext.setMenuDialogOpen(false);
+        setMenuDialogOpen(false);
+    };
+
+    const saveMenuItem = async () => {
+        let myNewMenuItem = {}
+        myNewMenuItem.id = id;
+        myNewMenuItem.title = title;
+        myNewMenuItem.description = description;
+        myNewMenuItem.categoryJSON = categoryJSON;
+        myNewMenuItem.restaurant = restaurant;
+        myNewMenuItem.price = price;
+        //console.log(tableName, idToken, myNewMenuItem, customId)
+        const successRestaurantPut = await putItemDynamoDB(tableName, idToken, myNewMenuItem, customId)
     };
 
     const changeTitle = (e) => {
-        dataAndMethodsContext.setMenuItemDialogDataItem('title', e.target.value)
+        setMenuItemDialogDataItem('title', e.target.value)
     };
 
     const changeDescription = (e) => {
-        dataAndMethodsContext.setMenuItemDialogDataItem('description', e.target.value)
+        setMenuItemDialogDataItem('description', e.target.value)
     };
 
     const changeRestaurant = (e) => {
-        dataAndMethodsContext.setMenuItemDialogDataItem('restaurant', e.target.value)
+        setMenuItemDialogDataItem('restaurant', e.target.value)
     };
 
     const changePrice = (e) => {
-        dataAndMethodsContext.setMenuItemDialogDataItem('price', e.target.value)
+        setMenuItemDialogDataItem('price', e.target.value)
     };
 
     const checkIfPresent = (value) => {
@@ -68,9 +102,9 @@ const MenuItemDialog = () => {
 
     return (
         <div>
-            <Dialog className={classes.root} open={dataAndMethodsContext.menuItemDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <Dialog className={classes.root} open={menuItemDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {dataAndMethodsContext.menuItemDialogData.dialogType + " menu item"}</DialogTitle>
+                    {dialogType + " menu item"}</DialogTitle>
                 <DialogContent>
                     <TextField
                         id="title"
@@ -79,7 +113,7 @@ const MenuItemDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.menuItemDialogData.title}
+                        value={title}
                         onChange={changeTitle}
                     />
                     <TextField
@@ -90,7 +124,7 @@ const MenuItemDialog = () => {
                         variant="filled"
                         multiline={true}
                         rows="3"
-                        value={dataAndMethodsContext.menuItemDialogData.description}
+                        value={description}
                         onChange={changeDescription}
                     />
                     <TextField
@@ -100,97 +134,95 @@ const MenuItemDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={dataAndMethodsContext.menuItemDialogData.restaurant}
+                        value={restaurant}
                         onChange={changeRestaurant}
                     />
                     <Toolbar>
                         <div >
                             <Tooltip title="Beef and other">
                                 <IconButton aria-label="" color={checkIfPresent("meat") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('meat')}
+                                    onClick={() => setMenuItemDialogDataCategory('meat')}
                                 >
                                     <i className='icon-tbone'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Pork">
                                 <IconButton aria-label="" color={checkIfPresent("pork") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pork')}
+                                    onClick={() => setMenuItemDialogDataCategory('pork')}
                                 >
                                     <i className='icon-ham'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Lamb">
                                 <IconButton aria-label="" color={checkIfPresent("lamb") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('lamb')}
+                                    onClick={() => setMenuItemDialogDataCategory('lamb')}
                                 >
                                     <i className='icon-lamb'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Poultry">
                                 <IconButton aria-label="" color={checkIfPresent("poultry") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('poultry')}
+                                    onClick={() => setMenuItemDialogDataCategory('poultry')}
                                 >
                                     <i className="fas fa-feather"></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Fish">
                                 <IconButton aria-label="" color={checkIfPresent("fish") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('fish')}
+                                    onClick={() => setMenuItemDialogDataCategory('fish')}
                                 >
                                     <i className='fas fa-fish'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Shellfish">
                                 <IconButton aria-label="" color={checkIfPresent("shellfish") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('shellfish')}
+                                    onClick={() => setMenuItemDialogDataCategory('shellfish')}
                                 >
                                     <i className='icon-shell'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Vegetarian">
                                 <IconButton aria-label="" color={checkIfPresent("vegetarian") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('vegetarian')}
+                                    onClick={() => setMenuItemDialogDataCategory('vegetarian')}
                                 >
                                     <i className='fas fa-seedling'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Cheese">
                                 <IconButton aria-label="" color={checkIfPresent("cheese") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('cheese')}
+                                    onClick={() => setMenuItemDialogDataCategory('cheese')}
                                 >
                                     <i className='fas fa-cheese'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Pasta">
                                 <IconButton aria-label="" color={checkIfPresent("pasta") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('pasta')}
+                                    onClick={() => setMenuItemDialogDataCategory('pasta')}
                                 >
                                     <i className='icon-spaghetti'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Sandwiches">
                                 <IconButton aria-label="" color={checkIfPresent("sandwich") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('sandwich')}
+                                    onClick={() => setMenuItemDialogDataCategory('sandwich')}
                                 >
                                     <i className='fas fa-hamburger'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Dessert">
                                 <IconButton aria-label="" color={checkIfPresent("dessert") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('dessert')}
+                                    onClick={() => setMenuItemDialogDataCategory('dessert')}
                                 >
                                     <i className="fas fa-birthday-cake"></i>
                                 </IconButton>
                             </Tooltip>
-
                             <Tooltip title="Specials">
                                 <IconButton aria-label="" color={checkIfPresent("specials") ? "inherit" : "default"}
-                                    onClick={() => dataAndMethodsContext.setEditMenuItemCategory('specials')}
+                                    onClick={() => setMenuItemDialogDataCategory('specials')}
                                 >
                                     <i className="fas fa-tag"></i>
                                 </IconButton>
                             </Tooltip>
-
                         </div>
                     </Toolbar>
                     <TextField
@@ -199,7 +231,7 @@ const MenuItemDialog = () => {
                         type="number"
                         fullWidth
                         variant="filled"
-                        value={dataAndMethodsContext.menuItemDialogData.price}
+                        value={price}
                         onChange={changePrice}
                     />
                 </DialogContent>

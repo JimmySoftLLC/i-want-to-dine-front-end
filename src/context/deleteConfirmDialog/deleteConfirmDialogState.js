@@ -6,24 +6,22 @@ import { SET_DIALOG, CLOSE_DIALOG } from '../types';
 const DeleteConfirmDialogState = props => {
     const initialState = {
         dialogOpen: false,
-        message: '',
+        name: '',
         title: '',
         index: 0,
-        deleteName: '',
-        confirmMessage: '',
     };
 
     const [state, dispatch] = useReducer(DeleteConfirmReducer, initialState);
 
-    const setDeleteConfirmDialog = (dialogOpen, message, title, index, deleteMenuItem) => {
+    const setDeleteConfirmDialog = (dialogOpen, name, title, index, deleteFunctionPassed) => {
         dispatch({
             type: SET_DIALOG,
             payload: {
                 dialogOpen,
-                message,
+                name,
                 title,
                 index,
-                deleteMenuItem,
+                deleteFunctionPassed,
             },
         });
     };
@@ -32,8 +30,8 @@ const DeleteConfirmDialogState = props => {
         dispatch({ type: CLOSE_DIALOG });
     };
 
-    const deleteItem = (index) => {
-        state.deleteMenuItem(index);
+    const deleteFunction = (index) => {
+        state.deleteFunctionPassed(index);
         dispatch({ type: CLOSE_DIALOG });
     };
 
@@ -43,7 +41,7 @@ const DeleteConfirmDialogState = props => {
                 deleteConfirmDialog: state,
                 setDeleteConfirmDialog,
                 closeDialog,
-                deleteItem,
+                deleteFunction,
             }}
         >
             {props.children}

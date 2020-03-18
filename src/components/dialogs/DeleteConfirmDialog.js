@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 const DeleteConfirmDialog = () => {
     const classes = useStyles();
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
-    const { deleteConfirmDialog, closeDialog, deleteItem } = deleteConfirmDialogContext;
+    const { deleteConfirmDialog, closeDialog, deleteFunction } = deleteConfirmDialogContext;
 
     const [deleteName, setDeleteName] = useState('');
     const [confirmMessage, setConfirmMessage] = useState('');
@@ -31,8 +31,8 @@ const DeleteConfirmDialog = () => {
     };
 
     const chooseDelete = () => {
-        if (deleteName === deleteConfirmDialog.message) {
-            deleteItem(deleteConfirmDialog.index)
+        if (deleteName === deleteConfirmDialog.name) {
+            deleteFunction(deleteConfirmDialog.index)
             setDeleteName('')
         } else {
             setConfirmMessage('Typed in name does not match')
@@ -62,7 +62,7 @@ const DeleteConfirmDialog = () => {
                     <DialogContent>
                         <DialogContentText id='alert-dialog-description'>
                             {`You about to delete `}
-                            <strong>{deleteConfirmDialog.message}</strong>
+                            <strong>{deleteConfirmDialog.name}</strong>
                             {`.  This process is irreversable are you sure?  To confirm delete type the name below.`}
                         </DialogContentText>
                         <TextField

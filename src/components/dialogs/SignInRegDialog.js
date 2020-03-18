@@ -14,11 +14,11 @@ import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
 import createNewAssociate from '../../model/createNewAssociate';
 import {
     // tableName,
-    restaurantTableName,
-    associatesTableName,
+    // restaurantTableName,
+    // associatesTableName,
     // apiName,
     // apiPath,
-    projectionExpressionRestaurant,
+    // projectionExpressionRestaurant,
 } from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({

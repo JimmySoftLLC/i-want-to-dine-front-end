@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 // import AlertDialogContext from '../alertDialog/alertDialogContext';
 import DeleteConfirmDialogContext from '../deleteConfirmDialog/deleteConfirmDialogContext';
 // import getItemDynamoDB from '../../api/getItemDynamoDB';
+import setFoodCategories from '../../model/setFoodCategories';
+
 
 import {
     SET_FOOD_CHOICES,
@@ -65,25 +67,25 @@ const DataAndMethodsState = props => {
         associate: {},
         menuItemDialogOpen: false,
         menuItemDialogData: {
-            title: "",
-            description: "",
+            title: '',
+            description: '',
             categoryJSON: [],
             price: 0,
-            id: "",
-            restaurant: "",
+            id: '',
+            restaurant: '',
             dialogType: "Edit",
         },
         restaurantDialogOpen: false,
         restaurantDialogData: {
-            restaurantName: "",
-            description: "",
-            street: "",
-            city: "",
-            stateUS: "",
-            zipCode: "",
-            phoneNumber: "",
-            urlLink: "",
-            id: "",
+            restaurantName: '',
+            description: '',
+            street: '',
+            city: '',
+            stateUS: '',
+            zipCode: '',
+            phoneNumber: '',
+            urlLink: '',
+            id: '',
             menuItemIdsJSON: [],
             associateIdsJSON: [],
             approved: false,
@@ -92,12 +94,14 @@ const DataAndMethodsState = props => {
         },
         associateDialogOpen: false,
         associateDialogData: {
-            id: "",
+            id: '',
             canWrite: false,
             canAdmin: false,
-            firstName: "",
-            lastName: "",
-            email: "",
+            firstName: '',
+            lastName: '',
+            bio: '',
+            title: '',
+            email: '',
             restaurantIdsJSON: [],
             dialogType: "Edit",
         }
@@ -119,7 +123,7 @@ const DataAndMethodsState = props => {
                     price: state.menuItems[i].price,
                     id: state.menuItems[i].id,
                     restaurant: state.menuItems[i].restaurant,
-                    dialogType: "Edit",
+                    dialogType: 'Edit',
                 }
                 setMenuDialogData(myEditItem);
                 setMenuDialogOpen(true);
@@ -165,22 +169,6 @@ const DataAndMethodsState = props => {
         }
     };
 
-    const saveMenuItem = () => {
-        let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
-        for (let i = 0; i < myNewMenuItems.length; i++) {
-            if (state.menuItemDialogData.id === myNewMenuItems[i].id) {
-                myNewMenuItems[i].id = state.menuItemDialogData.id;
-                myNewMenuItems[i].title = state.menuItemDialogData.title;
-                myNewMenuItems[i].description = state.menuItemDialogData.description;
-                myNewMenuItems[i].categoryJSON = state.menuItemDialogData.categoryJSON;
-                myNewMenuItems[i].price = state.menuItemDialogData.price;
-                myNewMenuItems[i].restaurant = state.menuItemDialogData.restaurant;
-                //putItemDynamoDB(state.tableName, myNewMenuItems[i]);
-                break;
-            }
-        }
-    };
-
     const saveMenuItemCopy = () => {
         let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
         for (let i = 0; i < myNewMenuItems.length; i++) {
@@ -214,7 +202,7 @@ const DataAndMethodsState = props => {
     //set food choices
     const setFoodChoice = async key => {
         let myNewFoodChoices = JSON.parse(JSON.stringify(state.myStates))
-        myNewFoodChoices[key] ? myNewFoodChoices[key] = false : myNewFoodChoices[key] = true;
+        myNewFoodChoices = setFoodCategories(myNewFoodChoices, key)
         setFoodChoices(myNewFoodChoices);
     };
     const setFoodChoices = async (foodChoices) => { dispatch({ type: SET_FOOD_CHOICES, payload: foodChoices }) }
@@ -227,7 +215,7 @@ const DataAndMethodsState = props => {
         menuItemDialogData[key] = value;
         setMenuDialogData(menuItemDialogData);
     }
-    const setEditMenuItemCategory = async (key) => {
+    const setMenuItemDialogDataCategory = async (key) => {
         let myNewCategories = JSON.parse(JSON.stringify(state.menuItemDialogData.categoryJSON))
         let myIndex = myNewCategories.indexOf(key, 0)
         if (myIndex !== -1) {
@@ -283,11 +271,10 @@ const DataAndMethodsState = props => {
                 setFoodChoices,
                 setRestaurants,
                 setMenuItemDialogDataItem,
-                setEditMenuItemCategory,
+                setMenuItemDialogDataCategory,
                 setMenuDialogOpen,
                 setRestaurantDialogOpen,
                 handleClickMenuItemEdit,
-                saveMenuItem,
                 handleClickMenuItemCopy,
                 saveMenuItemCopy,
                 handleClickMenuItemDelete,
@@ -305,6 +292,7 @@ const DataAndMethodsState = props => {
                 setAssociateDialogData,
                 setAssociateDialogOpen,
                 setAssociateDialogDataItem,
+                setMenuDialogData,
             }}
         >
             {props.children}
