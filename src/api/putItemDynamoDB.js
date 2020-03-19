@@ -18,6 +18,7 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
                 description: myItem.description,
                 categoryJSON: JSON.stringify(myItem.categoryJSON),
                 restaurant: myItem.restaurant,
+                restaurantId: myItem.restaurantId,
                 price: myItem.price,
             }
             break;
@@ -70,10 +71,10 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
                 'Accept': '*/*',
             }
         };
-        //console.log('API Request:', apiRequest, myIdToken);
+        console.log('API Request:', apiRequest, myIdToken);
         const data = await API.post(apiName, apiPath, apiRequest);
         myReturnObject.payload = data;
-        //console.log(myReturnObject);
+        console.log(myReturnObject);
         return myReturnObject;
     } catch (err) {
         myReturnObject.err = true;

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import MenuItemCard from './MenuItemCard';
+import MenuItemCardPublicFacing from './MenuItemCardPublicFacing';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 
-const MenuItems = () => {
+const MenuItemsPublicFacing = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
         menuItems,
@@ -13,7 +13,7 @@ const MenuItems = () => {
         handleClickMenuItemDelete,
     } = dataAndMethodsContext;
 
-    return menuItems.map(menuItem => <MenuItemCard menuItem={menuItem}
+    return menuItems.map(menuItem => <MenuItemCardPublicFacing menuItem={menuItem}
         myStates={myStates}
         restaurants={restaurants}
         handleClickMenuItemEdit={handleClickMenuItemEdit}
@@ -22,4 +22,4 @@ const MenuItems = () => {
         key={menuItem.id} />);
 };
 
-export default MenuItems;
+export default MenuItemsPublicFacing;

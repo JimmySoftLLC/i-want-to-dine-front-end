@@ -10,10 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Tooltip } from '@material-ui/core';
-import putItemDynamoDB from '../../api/putItemDynamoDB';
-import {
-    tableName,
-} from '../../api/apiConstants';
+import putMenuItem from '../../model/putMenuItem';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,6 +32,7 @@ const MenuItemDialog = () => {
         categoryJSON,
         restaurant,
         price,
+        restaurantId,
         dialogType,
     } = dataAndMethodsContext.menuItemDialogData;
 
@@ -73,8 +71,9 @@ const MenuItemDialog = () => {
         myNewMenuItem.categoryJSON = categoryJSON;
         myNewMenuItem.restaurant = restaurant;
         myNewMenuItem.price = price;
-        //console.log(tableName, idToken, myNewMenuItem, customId)
-        const successRestaurantPut = await putItemDynamoDB(tableName, idToken, myNewMenuItem, customId)
+        myNewMenuItem.restaurantId = restaurantId;
+        //console.log(tableName, idToken, myNewMenuItem, customId);
+        await putMenuItem(myNewMenuItem, idToken, customId);
     };
 
     const changeTitle = (e) => {

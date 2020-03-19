@@ -3,7 +3,8 @@ import TopNavBar from '../components/TopNavBar';
 import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
 import AlertDialogContext from '../context/alertDialog/alertDialogContext';
 import About from '../pages/about';
-import MenuItems from '../components/menuItems/MenuItems';
+import MenuItemsPublicFacing from '../components/menuItemsPublicFacing/MenuItemsPublicFacing';
+import MenuItemsInventory from '../components/menuItemInventory/MenuItemsInventory';
 import BotNavBar from '../components/BotNavBar';
 import RestaurantItems from '../components/restaurantItems/RestaurantItems';
 // import AssociateRestaurantItems from '../components/restaurantItems/AssociateRestaurantItems';
@@ -50,7 +51,8 @@ const Home = () => {
             <div className='container page-top-margin'>
                 {myStates.info && <About />}
                 {showRestaurants && <RestaurantItems />}
-                {logInType === 'default' && <MenuItems />}
+                {logInType === 'default' && <MenuItemsPublicFacing />}
+                {logInType === 'signedIn' && <MenuItemsInventory />}
                 <MenuItemDialog />
                 <RestaurantDialog />
                 <AssociateDialog />

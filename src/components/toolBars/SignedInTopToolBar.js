@@ -9,14 +9,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
-import deleteItemDynamoDB from '../../api/deleteItemDynamoDB';
 import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
+import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
 // import updateAssociatesRestaurants from '../../model/updateAssociatesRestaurants';
 import putAssociate from '../../model/putAssociate';
-
-import {
-    restaurantTableName,
-} from '../../api/apiConstants';
+import deleteRestaurant from '../../model/deleteRestaurant';
 
 const SignedInTopToolBar = () => {
     const noSelectedRestaurant = 'Select Your Restaurant'
@@ -42,29 +39,26 @@ const SignedInTopToolBar = () => {
     };
 
     const handleEditRestaurant = () => {
-        for (let i = 0; i < associateRestaurants.length; i++) {
-            if (myRestaurantId === associateRestaurants[i].id) {
-                let myRestaurantData = {
-                    restaurantName: associateRestaurants[i].restaurantName,
-                    description: associateRestaurants[i].description,
-                    street: associateRestaurants[i].street,
-                    city: associateRestaurants[i].city,
-                    stateUS: associateRestaurants[i].stateUS,
-                    zipCode: associateRestaurants[i].zipCode,
-                    phoneNumber: associateRestaurants[i].phoneNumber,
-                    urlLink: associateRestaurants[i].urlLink,
-                    id: associateRestaurants[i].id,
-                    menuItemIdsJSON: associateRestaurants[i].menuItemIdsJSON,
-                    associateIdsJSON: associateRestaurants[i].associateIdsJSON,
-                    approved: associateRestaurants[i].approved,
-                    myAssociate: associate,
-                    dialogType: "Edit",
-                }
-                setRestaurantDialogData(myRestaurantData);
-                setRestaurantDialogOpen(true);
-                break;
-            }
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associateRestaurants, myRestaurantId)
+        console.log(myRestaurant)
+        let myRestaurantData = {
+            restaurantName: myRestaurant.restaurantName,
+            description: myRestaurant.description,
+            street: myRestaurant.street,
+            city: myRestaurant.city,
+            stateUS: myRestaurant.stateUS,
+            zipCode: myRestaurant.zipCode,
+            phoneNumber: myRestaurant.phoneNumber,
+            urlLink: myRestaurant.urlLink,
+            id: myRestaurant.id,
+            menuItemIdsJSON: myRestaurant.menuItemIdsJSON,
+            associateIdsJSON: myRestaurant.associateIdsJSON,
+            approved: myRestaurant.approved,
+            myAssociate: associate,
+            dialogType: "Edit",
         }
+        setRestaurantDialogData(myRestaurantData);
+        setRestaurantDialogOpen(true);
     };
 
     const handleNewRestaurant = () => {
@@ -95,13 +89,15 @@ const SignedInTopToolBar = () => {
 
     const handleNewMenuItem = () => {
         let myNewId = uuidv4()
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associateRestaurants, myRestaurantId)
         let myEditItem = {
             title: '',
             description: '',
             categoryJSON: [],
             price: '',
             id: myNewId,
-            restaurant: '',
+            restaurant: myRestaurant.restaurantName,
+            restaurantId: myRestaurant.id,
             dialogType: "Add",
         }
         setMenuDialogData(myEditItem);
@@ -109,25 +105,21 @@ const SignedInTopToolBar = () => {
     };
 
     const loadDeleteRestaurantWarningDialog = () => {
-        for (let i = 0; i < associateRestaurants.length; i++) {
-            if (myRestaurantId === associateRestaurants[i].id) {
-                setDeleteConfirmDialog(true,
-                    associateRestaurants[i].restaurantName,
-                    'Delete restaurant warning',
-                    myRestaurantId,
-                    deleteRestaurant);
-                break;
-            }
-        }
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associateRestaurants, myRestaurantId)
+        setDeleteConfirmDialog(true,
+            myRestaurant.restaurantName,
+            'Delete restaurant warning',
+            myRestaurantId,
+            deleteRestaurantNow);
     };
 
-    const deleteRestaurant = async () => {
+    const deleteRestaurantNow = async () => {
         let myAssociate = JSON.parse(JSON.stringify(associate));
         let indexOfRestaurantId = myAssociate.restaurantIdsJSON.indexOf(myRestaurantId);
         myAssociate.restaurantIdsJSON.splice(indexOfRestaurantId, 1);
         setAssociate(myAssociate)
         await putAssociate(myAssociate, idToken, customId)
-        await deleteItemDynamoDB(restaurantTableName, idToken, myRestaurantId, customId)
+        await deleteRestaurant(myRestaurantId, idToken, customId)
         const associateRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
         setAssociatesRestaurants(associateRestaurants);
         setRestaurantId(noSelectedRestaurant);

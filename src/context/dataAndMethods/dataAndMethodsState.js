@@ -73,7 +73,8 @@ const DataAndMethodsState = props => {
             price: 0,
             id: '',
             restaurant: '',
-            dialogType: "Edit",
+            restaurantId: '',
+            dialogType: "Add",
         },
         restaurantDialogOpen: false,
         restaurantDialogData: {

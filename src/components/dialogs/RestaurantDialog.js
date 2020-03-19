@@ -10,10 +10,6 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
 import putRestaurant from '../../model/putRestaurant';
 import putAssociate from '../../model/putAssociate';
-import {
-    restaurantTableName,
-    associatesTableName,
-} from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({
     root: {

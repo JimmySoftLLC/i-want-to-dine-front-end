@@ -59,8 +59,8 @@ const About = () => {
                     <i className="fas fa-hamburger"></i> Sandwiches
                     </li>
                 <li>
-                    <i className="icon-dessert"></i> Dessert
-                    </li>
+                    <i className="fas fa-birthday-cake"></i> Dessert
+                </li>
                 <li>
                     <i className="fas fa-tag"></i> Specials
                     </li>
@@ -93,7 +93,7 @@ const About = () => {
             <h2 >A message to our Restaurant clients</h2>
             <p className='p'>
                 We are obsessed about helping your buisiness succeed.  We want to give you the tools to get your message out.
-                It is your responsibility craft menus and a message that is compelling to the public.  We believe this will
+                It is your responsibility to craft menus and a message that is compelling to the public.  We believe this will
                 benifit the dining going public and invigorate the dining experience in Rehoboth.
                 </p>
             <p className='p'>
