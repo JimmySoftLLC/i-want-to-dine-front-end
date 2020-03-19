@@ -11,6 +11,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import Toolbar from '@material-ui/core/Toolbar';
 import { Tooltip } from '@material-ui/core';
 import putMenuItem from '../../model/putMenuItem';
+import scanDynamoDB from '../../api/scanDynamoDB';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,10 +41,11 @@ const MenuItemDialog = () => {
         menuItemDialogOpen,
         setMenuItemDialogDataCategory,
         setMenuDialogOpen,
-        saveMenuItemCopy,
         setMenuItemDialogDataItem,
         idToken,
-        customId
+        customId,
+        setDialog,
+        setResturantMenuItems,
     } = dataAndMethodsContext;
 
     const handleClose = () => {
@@ -72,8 +74,10 @@ const MenuItemDialog = () => {
         myNewMenuItem.restaurant = restaurant;
         myNewMenuItem.price = price;
         myNewMenuItem.restaurantId = restaurantId;
-        //console.log(tableName, idToken, myNewMenuItem, customId);
+        //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
+        const myMenuItems = await scanDynamoDB('menuItems');
+        myMenuItems.err ? setDialog(true, myMenuItems.payload, 'Error', '', 'OK', '') : setResturantMenuItems(myMenuItems.payload)
     };
 
     const changeTitle = (e) => {

@@ -1,14 +1,14 @@
 import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
 
 import {
-    restaurantTableName,
+    restaurantsTableName,
     projectionExpressionRestaurant,
 } from '../api/apiConstants';
 
 const getAssociatesRestaurants = async (associate, myToken, myCustomId) => {
     let myAssociateRestaurants = []
     let myIds = associate.restaurantIdsJSON
-    const data = await batchGetItemDynamoDB(restaurantTableName, myToken, myIds, myCustomId, projectionExpressionRestaurant)
+    const data = await batchGetItemDynamoDB(restaurantsTableName, 'id', myToken, myIds, myCustomId, projectionExpressionRestaurant)
     // console.log(data);
     if (data.err) {
         return [];

@@ -108,7 +108,7 @@ const SignedInTopToolBar = () => {
         let myRestaurant = getRestaurantFromAssociateRestaurants(associateRestaurants, myRestaurantId)
         setDeleteConfirmDialog(true,
             myRestaurant.restaurantName,
-            'Delete restaurant warning',
+            'deleteRestaurant',
             myRestaurantId,
             deleteRestaurantNow);
     };

@@ -16,17 +16,18 @@ import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import scanDynamoDB from '../api/scanDynamoDB';
 import {
-    tableName,
-    restaurantTableName,
+    menuItemsTableName,
+    restaurantsTableName,
     // associatesTableName,
 } from '../api/apiConstants';
 
 const Home = () => {
     useEffect(() => {
         async function fetchData() {
-            const myMenuItems = await scanDynamoDB(tableName);
+            const myMenuItems = await scanDynamoDB(menuItemsTableName);
             myMenuItems.err ? setDialog(true, myMenuItems.payload, 'Error', '', 'OK', '') : setMenuItems(myMenuItems.payload)
-            const myRestaurants = await scanDynamoDB(restaurantTableName);
+            setResturantMenuItems(myMenuItems.payload)
+            const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
         }
         fetchData();
@@ -36,7 +37,7 @@ const Home = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const alertDialogContext = useContext(AlertDialogContext);
 
-    const { myStates, logInType, setMenuItems, setRestaurants } = dataAndMethodsContext
+    const { myStates, logInType, setMenuItems, setRestaurants, setResturantMenuItems } = dataAndMethodsContext
     const { setDialog } = alertDialogContext
 
     let showRestaurants = false;

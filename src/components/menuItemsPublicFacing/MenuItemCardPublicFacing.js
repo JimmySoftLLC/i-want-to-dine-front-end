@@ -1,6 +1,6 @@
 import React from 'react';
-// import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -76,30 +76,33 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants, handleClick
     }
 
     let myUrlLink = ""
+    let myPhoneLink = ""
+    let myPhoneNumber = ""
     for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].restaurantName === menuItem.restaurant) {
             if (!restaurants[i].approved) { showIt = false };
             myUrlLink = restaurants[i].urlLink
+            myPhoneLink = "tel:" + restaurants[i].phoneNumber
+            myPhoneNumber = restaurants[i].phoneNumber
             break;
         }
     }
+
+    var myStyle = {
+        marginLeft: '1rem',
+    };
 
     return (
         showIt && <div className='card'>
             <h3>{items}{menuItem.title}{' - '}{price}
             </h3>
             <a href={myUrlLink} rel="noopener noreferrer" target="_blank">{menuItem.restaurant}</a>
-            <div className={classes.root} >
-                {/* <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
-                    <i className="fas fa-edit"></i>
-                </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemCopy(menuItem.id)}>
-                    <i className="fas fa-copy"></i>
-                </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemDelete(menuItem.id)}>
-                    <i className="fas fa-trash"></i>
-                </Button> */}
-            </div>
+            <span style={myStyle}>{myPhoneNumber}
+                <IconButton aria-label=""
+                    href={myPhoneLink}
+                    color={"primary"}>
+                    <i className="fas fa-phone"></i>
+                </IconButton></span>
             <p>{menuItem.description}</p>
         </div>
     );

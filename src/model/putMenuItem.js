@@ -1,11 +1,11 @@
 import putItemDynamoDB from '../api/putItemDynamoDB';
 import {
-    tableName,
+    menuItemsTableName,
 } from '../api/apiConstants';
 
 const putMenuItem = async (myMenuItem, myToken, myCustomId) => {
     //console.log(myMenuItem, myToken, myCustomId);
-    const data = await putItemDynamoDB(tableName, myToken, myMenuItem, myCustomId)
+    const data = await putItemDynamoDB(menuItemsTableName, myToken, myMenuItem, myCustomId)
     if (data.err) {
         return null;
     }

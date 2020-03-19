@@ -13,13 +13,13 @@ const DeleteConfirmDialogState = props => {
 
     const [state, dispatch] = useReducer(DeleteConfirmReducer, initialState);
 
-    const setDeleteConfirmDialog = (dialogOpen, name, title, index, deleteFunctionPassed) => {
+    const setDeleteConfirmDialog = (dialogOpen, name, dialogType, index, deleteFunctionPassed) => {
         dispatch({
             type: SET_DIALOG,
             payload: {
                 dialogOpen,
                 name,
-                title,
+                dialogType,
                 index,
                 deleteFunctionPassed,
             },

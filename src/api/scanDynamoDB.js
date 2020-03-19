@@ -1,8 +1,8 @@
 import axios from 'axios';
 import {
     lambdaFunctionURL,
-    tableName,
-    restaurantTableName,
+    menuItemsTableName,
+    restaurantsTableName,
     associatesTableName,
 } from './apiConstants';
 
@@ -27,7 +27,7 @@ let scanDynamoDB = async myTableName => {
         let myResData = res.data;
 
         switch (myTableName) {
-            case tableName:
+            case menuItemsTableName:
                 for (let i = 0; i < myResData.Items.length; i++) {
                     myResData.Items[i].categoryJSON = JSON.parse(myResData.Items[i].categoryJSON)
                 }
@@ -37,7 +37,7 @@ let scanDynamoDB = async myTableName => {
                 myReturnObject.payload = myResData.Items
                 return myReturnObject;
             // console.log(myReturnObject)
-            case restaurantTableName:
+            case restaurantsTableName:
                 for (let i = 0; i < myResData.Items.length; i++) {
                     myResData.Items[i].menuItemIdsJSON = JSON.parse(myResData.Items[i].menuItemIdsJSON)
                 }

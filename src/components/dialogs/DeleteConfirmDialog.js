@@ -31,11 +31,19 @@ const DeleteConfirmDialog = () => {
     };
 
     const chooseDelete = () => {
-        if (deleteName === deleteConfirmDialog.name) {
+        if (deleteConfirmDialog.dialogType === "deleteRestaurant") {
+            if (deleteName === deleteConfirmDialog.name) {
+                deleteFunction(deleteConfirmDialog.index)
+                setDeleteName('')
+                setConfirmMessage('')
+            } else {
+                setConfirmMessage('Typed in name does not match')
+            }
+        }
+        if (deleteConfirmDialog.dialogType === "deleteMenuItem") {
             deleteFunction(deleteConfirmDialog.index)
             setDeleteName('')
-        } else {
-            setConfirmMessage('Typed in name does not match')
+            setConfirmMessage('')
         }
     }
 
@@ -54,18 +62,26 @@ const DeleteConfirmDialog = () => {
                     aria-labelledby='alert-dialog-title'
                     aria-describedby='alert-dialog-description'
                 >
-                    <DialogTitle id='alert-dialog-title'>
+                    {deleteConfirmDialog.dialogType === "deleteRestaurant" && <DialogTitle id='alert-dialog-title'>
                         <i className='fas fa-exclamation-triangle'></i>
-                        {'  '}
-                        {deleteConfirmDialog.title}
-                    </DialogTitle>
+                        {'  Delete restaurant warning'}
+                    </DialogTitle>}
+                    {deleteConfirmDialog.dialogType === "deleteMenuItem" && <DialogTitle id='alert-dialog-title'>
+                        <i className='fas fa-exclamation-triangle'></i>
+                        {'  Delete menu item warning'}
+                    </DialogTitle>}
                     <DialogContent>
-                        <DialogContentText id='alert-dialog-description'>
+                        {deleteConfirmDialog.dialogType === "deleteRestaurant" && <DialogContentText id='alert-dialog-description'>
                             {`You about to delete `}
                             <strong>{deleteConfirmDialog.name}</strong>
                             {`.  This process is irreversable are you sure?  To confirm delete type the name below.`}
-                        </DialogContentText>
-                        <TextField
+                        </DialogContentText>}
+                        {deleteConfirmDialog.dialogType === "deleteMenuItem" && <DialogContentText id='alert-dialog-description'>
+                            {`You about to delete `}
+                            <strong>{deleteConfirmDialog.name}</strong>
+                            {`.  This process is irreversable are you sure?`}
+                        </DialogContentText>}
+                        {deleteConfirmDialog.dialogType === "deleteRestaurant" && <TextField
                             id="name"
                             label="Name of item to delete"
                             type="text"
@@ -73,7 +89,7 @@ const DeleteConfirmDialog = () => {
                             variant="filled"
                             value={deleteName}
                             onChange={changeDeleteName}
-                        />
+                        />}
                         <p>{confirmMessage}</p>
                     </DialogContent>
                     <DialogActions>

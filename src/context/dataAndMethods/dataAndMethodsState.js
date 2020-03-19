@@ -26,10 +26,11 @@ import {
     SET_ASSOCIATE,
     SET_ASSOCIATE_DIALOG_DATA,
     SET_ASSOCIATE_DIALOG_OPEN,
+    SET_RESTAURANT_MENU_ITEMS,
 } from '../types';
 import {
-    // tableName,
-    // restaurantTableName,
+    // menuItemsTableName,
+    // restaurantsTableName,
     // associatesTableName,
     // apiName,
     // apiPath,
@@ -62,6 +63,7 @@ const DataAndMethodsState = props => {
         },
         signInRegDialogType: 'false',
         menuItems: [],
+        restaurantMenuItems: [],
         restaurants: [],
         associateRestaurants: [],
         associate: {},
@@ -112,79 +114,6 @@ const DataAndMethodsState = props => {
     // const alertDialogContext = useContext(AlertDialogContext);
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
 
-    // menu item calls ----------------------------------------------------------------
-
-    const handleClickMenuItemEdit = (menuId) => {
-        for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (menuId === state.menuItems[i].id) {
-                let myEditItem = {
-                    title: state.menuItems[i].title,
-                    description: state.menuItems[i].description,
-                    categoryJSON: state.menuItems[i].categoryJSON,
-                    price: state.menuItems[i].price,
-                    id: state.menuItems[i].id,
-                    restaurant: state.menuItems[i].restaurant,
-                    dialogType: 'Edit',
-                }
-                setMenuDialogData(myEditItem);
-                setMenuDialogOpen(true);
-                break;
-            }
-        }
-    };
-
-    const handleClickMenuItemCopy = (menuId) => {
-        for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (menuId === state.menuItems[i].id) {
-                let myEditItem = {
-                    title: state.menuItems[i].title,
-                    description: state.menuItems[i].description,
-                    categoryJSON: state.menuItems[i].categoryJSON,
-                    price: state.menuItems[i].price,
-                    id: state.menuItems[i].id,
-                    restaurant: state.menuItems[i].restaurant,
-                    dialogType: "Add",
-                }
-                setMenuDialogData(myEditItem);
-                setMenuDialogOpen(true);
-                break;
-            }
-        }
-    };
-
-    const handleClickMenuItemDelete = (menuId) => {
-        for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (menuId === state.menuItems[i].id) {
-                deleteConfirmDialogContext.setDialog(true, state.menuItems[i].title, 'Delete warning', menuId, deleteMenuItem);
-                break;
-            }
-        }
-    };
-
-    const deleteMenuItem = (RestaurantId) => {
-        for (let i = 0; 1 < state.menuItems.length; i++) {
-            if (RestaurantId === state.menuItems[i].id) {
-                //deleteItemDynamoDB(state.tableName, state.menuItems[i]);
-                break;
-            }
-        }
-    };
-
-    const saveMenuItemCopy = () => {
-        let myNewMenuItems = JSON.parse(JSON.stringify(state.menuItems))
-        for (let i = 0; i < myNewMenuItems.length; i++) {
-            if (state.menuItemDialogData.id === myNewMenuItems[i].id) {
-                myNewMenuItems[i].id = uuidv4(); // create uuidv4 as the id
-                myNewMenuItems[i].title = state.menuItemDialogData.title;
-                myNewMenuItems[i].description = state.menuItemDialogData.description;
-                myNewMenuItems[i].categoryJSON = state.menuItemDialogData.categoryJSON;
-                myNewMenuItems[i].price = state.menuItemDialogData.price;
-                myNewMenuItems[i].restaurant = state.menuItemDialogData.restaurant;
-                //putItemDynamoDB(state.tableName, myNewMenuItems[i]);
-                break;
-            }
-        }
-    };
 
     // setting states and dispatch changes to the reducer ---------------------------------------------------------------------
     const setAssociateDialogDataItem = async (key, value) => {
@@ -238,6 +167,7 @@ const DataAndMethodsState = props => {
     const setRestaurants = async (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
     const setRestaurantDialogData = async (restaurantDialogData) => { dispatch({ type: SET_EDIT_RESTAURANTS, payload: restaurantDialogData }) }
     const setRestaurantDialogOpen = async (restaurantDialogOpen) => { dispatch({ type: SET_EDIT_RESTAURANTS_OPEN, payload: restaurantDialogOpen }) }
+    const setResturantMenuItems = async (restaurantMenuItems) => { dispatch({ type: SET_RESTAURANT_MENU_ITEMS, payload: restaurantMenuItems }) }
 
     const setSignInRegDialogType = async (signInRegDialogType) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: signInRegDialogType }) }
     const setSignInRegDialogTitle = async (signInRegDialogTitle) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: signInRegDialogTitle }) }
@@ -248,8 +178,8 @@ const DataAndMethodsState = props => {
                 myStates: state.myStates,
                 myMenuItemStates: state.myMenuItemStates,
                 menuItems: state.menuItems,
-                tableName: state.tableName,
-                restaurantTableName: state.restaurantTableName,
+                menuItemsTableName: state.menuItemsTableName,
+                restaurantsTableName: state.restaurantsTableName,
                 restaurants: state.restaurants,
                 menuItemDialogData: state.menuItemDialogData,
                 restaurantDialogData: state.restaurantDialogData,
@@ -268,6 +198,7 @@ const DataAndMethodsState = props => {
                 associate: state.associate,
                 associateDialogData: state.associateDialogData,
                 associateDialogOpen: state.associateDialogOpen,
+                restaurantMenuItems: state.restaurantMenuItems,
                 setFoodChoice,
                 setFoodChoices,
                 setRestaurants,
@@ -275,10 +206,6 @@ const DataAndMethodsState = props => {
                 setMenuItemDialogDataCategory,
                 setMenuDialogOpen,
                 setRestaurantDialogOpen,
-                handleClickMenuItemEdit,
-                handleClickMenuItemCopy,
-                saveMenuItemCopy,
-                handleClickMenuItemDelete,
                 setSignInRegDialogType,
                 setSignInRegDialogTitle,
                 setAuthToken,
@@ -294,6 +221,7 @@ const DataAndMethodsState = props => {
                 setAssociateDialogOpen,
                 setAssociateDialogDataItem,
                 setMenuDialogData,
+                setResturantMenuItems,
             }}
         >
             {props.children}

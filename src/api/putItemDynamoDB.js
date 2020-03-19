@@ -1,7 +1,7 @@
 import { API } from 'aws-amplify';
 import {
-    tableName,
-    restaurantTableName,
+    menuItemsTableName,
+    restaurantsTableName,
     associatesTableName,
     apiName,
     apiPath,
@@ -11,7 +11,7 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
     console.log(myTableName, myIdToken, myItem, myCustomId);
     let myNewItem = {}
     switch (myTableName) {
-        case tableName:
+        case menuItemsTableName:
             myNewItem = {
                 id: myItem.id,
                 title: myItem.title,
@@ -22,7 +22,7 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
                 price: myItem.price,
             }
             break;
-        case restaurantTableName:
+        case restaurantsTableName:
             myNewItem = {
                 id: myItem.id,
                 restaurantName: myItem.restaurantName,

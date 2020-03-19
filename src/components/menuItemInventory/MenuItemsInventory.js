@@ -5,7 +5,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 const MenuItemsInventory = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
-        menuItems,
+        restaurantMenuItems,
         myStates,
         restaurants,
         handleClickMenuItemEdit,
@@ -13,7 +13,7 @@ const MenuItemsInventory = () => {
         handleClickMenuItemDelete,
     } = dataAndMethodsContext;
 
-    return menuItems.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
+    return restaurantMenuItems.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
         myStates={myStates}
         restaurants={restaurants}
         handleClickMenuItemEdit={handleClickMenuItemEdit}

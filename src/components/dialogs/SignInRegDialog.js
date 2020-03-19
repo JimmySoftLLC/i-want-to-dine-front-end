@@ -13,8 +13,8 @@ import getAssociate from '../../model/getAssociate';
 import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
 import createNewAssociate from '../../model/createNewAssociate';
 import {
-    // tableName,
-    // restaurantTableName,
+    // menuItemsTableName,
+    // restaurantsTableName,
     // associatesTableName,
     // apiName,
     // apiPath,

@@ -16,6 +16,7 @@ import {
     SET_ASSOCIATE,
     SET_ASSOCIATE_DIALOG_DATA,
     SET_ASSOCIATE_DIALOG_OPEN,
+    SET_RESTAURANT_MENU_ITEMS,
 } from '../types';
 
 export default (state, action) => {
@@ -104,6 +105,11 @@ export default (state, action) => {
             return {
                 ...state,
                 associateDialogOpen: action.payload,
+            };
+        case SET_RESTAURANT_MENU_ITEMS:
+            return {
+                ...state,
+                restaurantMenuItems: action.payload,
             };
         default:
             return state;

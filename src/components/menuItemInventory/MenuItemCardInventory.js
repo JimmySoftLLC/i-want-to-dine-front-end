@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import { v4 as uuidv4 } from 'uuid';
+import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
+import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
+import deleteMenuItem from '../../model/deleteMenuItem';
+import scanDynamoDB from '../../api/scanDynamoDB';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -12,8 +17,80 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const MenuItemCardInventory = ({ menuItem, myStates, restaurants, handleClickMenuItemEdit, handleClickMenuItemCopy, handleClickMenuItemDelete }) => {
+const MenuItemCardInventory = ({ menuItem }) => {
     const classes = useStyles();
+
+    const dataAndMethodsContext = useContext(DataAndMethodsContext);
+    const {
+        restaurantMenuItems,
+        setMenuDialogData,
+        setMenuDialogOpen,
+        idToken,
+        customId,
+        setResturantMenuItems,
+        setDialog,
+    } = dataAndMethodsContext;
+
+    const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
+    const { setDeleteConfirmDialog } = deleteConfirmDialogContext;
+
+    const handleClickMenuItemEdit = (menuId) => {
+        for (let i = 0; 1 < restaurantMenuItems.length; i++) {
+            if (menuId === restaurantMenuItems[i].id) {
+                let myEditItem = {
+                    title: restaurantMenuItems[i].title,
+                    description: restaurantMenuItems[i].description,
+                    categoryJSON: restaurantMenuItems[i].categoryJSON,
+                    price: restaurantMenuItems[i].price,
+                    id: restaurantMenuItems[i].id,
+                    restaurant: restaurantMenuItems[i].restaurant,
+                    dialogType: 'Edit',
+                }
+                setMenuDialogData(myEditItem);
+                setMenuDialogOpen(true);
+                break;
+            }
+        }
+    };
+
+    const handleClickMenuItemCopy = (menuId) => {
+        for (let i = 0; 1 < restaurantMenuItems.length; i++) {
+            if (menuId === restaurantMenuItems[i].id) {
+                let myEditItem = {
+                    title: restaurantMenuItems[i].title,
+                    description: restaurantMenuItems[i].description,
+                    categoryJSON: restaurantMenuItems[i].categoryJSON,
+                    price: restaurantMenuItems[i].price,
+                    id: uuidv4(),
+                    restaurant: restaurantMenuItems[i].restaurant,
+                    dialogType: "Add",
+                }
+                setMenuDialogData(myEditItem);
+                setMenuDialogOpen(true);
+                break;
+            }
+        }
+    };
+
+    const loadDeleteMenuItemDialog = (menuId) => {
+        for (let i = 0; 1 < restaurantMenuItems.length; i++) {
+            if (menuId === restaurantMenuItems[i].id) {
+                setDeleteConfirmDialog(true,
+                    restaurantMenuItems[i].title,
+                    'deleteMenuItem',
+                    menuId,
+                    deleteMenuItemNow);
+                break;
+            }
+        }
+    };
+
+    const deleteMenuItemNow = async (menuId) => {
+        await deleteMenuItem(menuId, idToken, customId)
+        const myMenuItems = await scanDynamoDB('menuItems');
+        myMenuItems.err ? setDialog(true, myMenuItems.payload, 'Error', '', 'OK', '') : setResturantMenuItems(myMenuItems.payload)
+    }
+
     const items = []
     for (let i = 0; i < menuItem.categoryJSON.length; i++) {
         switch (menuItem.categoryJSON[i]) {
@@ -68,7 +145,7 @@ const MenuItemCardInventory = ({ menuItem, myStates, restaurants, handleClickMen
                 <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemCopy(menuItem.id)}>
                     <i className="fas fa-copy"></i>
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemDelete(menuItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => loadDeleteMenuItemDialog(menuItem.id)}>
                     <i className="fas fa-trash"></i>
                 </Button>
             </div>

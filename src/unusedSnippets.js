@@ -6,13 +6,13 @@ const updateMenuIdsForRestaurant = async (restaurantItem, menuItems) => {
         }
     }
     restaurantItem.menuItemIdsJSON = myMenuItemIds;
-    putItemDynamoDB(restaurantTableName, restaurantItem)
+    putItemDynamoDB(restaurantsTableName, restaurantItem)
 }
 
 const updateAssociateIdsForRestaurant = async (restaurantItem) => {
     let myAssociateIdsJSON = ['3fb19b1a-e35a-4b72-aa81-03594ab73a69'];
     restaurantItem.associateIdsJSON = myAssociateIdsJSON;
-    putItemDynamoDB(restaurantTableName, restaurantItem)
+    putItemDynamoDB(restaurantsTableName, restaurantItem)
 }
 
 
@@ -338,8 +338,8 @@ import {
     SET_ASSOCIATE,
 } from '../types';
 import {
-    tableName,
-    restaurantTableName,
+    menuItemsTableName,
+    restaurantsTableName,
     associatesTableName,
     apiName,
     apiPath,
@@ -492,7 +492,7 @@ const DataAndMethodsState = props => {
     const deleteMenuItem = (RestaurantId) => {
         for (let i = 0; 1 < state.menuItems.length; i++) {
             if (RestaurantId === state.menuItems[i].id) {
-                //deleteItemDynamoDB(state.tableName, state.menuItems[i]);
+                //deleteItemDynamoDB(state.menuItemsTableName, state.menuItems[i]);
                 break;
             }
         }
@@ -508,7 +508,7 @@ const DataAndMethodsState = props => {
                 myNewMenuItems[i].categoryJSON = state.menuItemDialogData.categoryJSON;
                 myNewMenuItems[i].price = state.menuItemDialogData.price;
                 myNewMenuItems[i].restaurant = state.menuItemDialogData.restaurant;
-                //putItemDynamoDB(state.tableName, myNewMenuItems[i]);
+                //putItemDynamoDB(state.menuItemsTableName, myNewMenuItems[i]);
                 break;
             }
         }
@@ -524,7 +524,7 @@ const DataAndMethodsState = props => {
                 myNewMenuItems[i].categoryJSON = state.menuItemDialogData.categoryJSON;
                 myNewMenuItems[i].price = state.menuItemDialogData.price;
                 myNewMenuItems[i].restaurant = state.menuItemDialogData.restaurant;
-                //putItemDynamoDB(state.tableName, myNewMenuItems[i]);
+                //putItemDynamoDB(state.menuItemsTableName, myNewMenuItems[i]);
                 break;
             }
         }
@@ -611,7 +611,7 @@ const DataAndMethodsState = props => {
                 myNewRestaurants[i].menuItemIdsJSON = state.restaurantDialogData.menuItemIdsJSON
                 myNewRestaurants[i].associateIdsJSON = state.restaurantDialogData.associateIdsJSON
                 myNewRestaurants[i].approved = state.restaurantDialogData.approved
-                //putItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
+                //putItemDynamoDB(state.restaurantsTableName, myNewRestaurants[i]);
                 //getAssociatesResturants(myNewRestaurants, state.customId)
                 break;
             }
@@ -636,7 +636,7 @@ const DataAndMethodsState = props => {
                 myNewRestaurant.associateIdsJSON = state.restaurantDialogData.associateIdsJSON
                 myNewRestaurant.approved = state.restaurantDialogData.approved
                 myNewRestaurants.push(myNewRestaurant);
-                //putItemDynamoDB(state.restaurantTableName, myNewRestaurant);
+                //putItemDynamoDB(state.restaurantsTableName, myNewRestaurant);
                 //getAssociatesResturants(myNewRestaurants, state.customId)
                 break;
             }
@@ -647,7 +647,7 @@ const DataAndMethodsState = props => {
         let myNewRestaurants = JSON.parse(JSON.stringify(state.restaurants))
         for (let i = 0; 1 < myNewRestaurants.length; i++) {
             if (RestaurantId === myNewRestaurants[i].id) {
-                //deleteItemDynamoDB(state.restaurantTableName, myNewRestaurants[i]);
+                //deleteItemDynamoDB(state.restaurantsTableName, myNewRestaurants[i]);
                 myNewRestaurants.splice(i, 1);
                 break;
             }
@@ -678,8 +678,8 @@ const DataAndMethodsState = props => {
                 myStates: state.myStates,
                 myMenuItemStates: state.myMenuItemStates,
                 menuItems: state.menuItems,
-                tableName: state.tableName,
-                restaurantTableName: state.restaurantTableName,
+                menuItemsTableName: state.menuItemsTableName,
+                restaurantsTableName: state.restaurantsTableName,
                 restaurants: state.restaurants,
                 menuItemDialogData: state.menuItemDialogData,
                 restaurantDialogData: state.restaurantDialogData,
