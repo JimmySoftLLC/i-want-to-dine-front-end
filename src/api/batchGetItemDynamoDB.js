@@ -4,10 +4,10 @@ import {
     apiPath,
 } from './apiConstants';
 
-const batchGetItemDynamoDB = async (myTableName, keyType, myIdToken, myIds, myCustomId, projectionExpression) => {
+const batchGetItemDynamoDB = async (myTableName, myIdToken, myIds, myCustomId, projectionExpression) => {
     let myKeys = []
     for (let i = 0; i < myIds.length; i++) {
-        myKeys.push({ [keyType]: myIds[i] })
+        myKeys.push({ 'id': myIds[i] })
     }
     let myReturnObject = { err: false, payload: null };
     try {
@@ -31,7 +31,7 @@ const batchGetItemDynamoDB = async (myTableName, keyType, myIdToken, myIds, myCu
                 'Accept': '*/*',
             }
         };
-        //console.log('API Request:', apiRequest);
+        // console.log('API Request:', apiRequest);
         const data = await API.post(apiName, apiPath, apiRequest);
         myReturnObject.payload = data;
         return myReturnObject;

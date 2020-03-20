@@ -11,7 +11,9 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import Toolbar from '@material-ui/core/Toolbar';
 import { Tooltip } from '@material-ui/core';
 import putMenuItem from '../../model/putMenuItem';
-import scanDynamoDB from '../../api/scanDynamoDB';
+import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import getRestaurantsMenuItems from '../../model/getRestaurantsMenuItems';
+import putRestaurant from '../../model/putRestaurant';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,7 +35,6 @@ const MenuItemDialog = () => {
         categoryJSON,
         restaurant,
         price,
-        restaurantId,
         dialogType,
     } = dataAndMethodsContext.menuItemDialogData;
 
@@ -44,8 +45,9 @@ const MenuItemDialog = () => {
         setMenuItemDialogDataItem,
         idToken,
         customId,
-        setDialog,
         setResturantMenuItems,
+        associatesRestaurants,
+        restaurantId,
     } = dataAndMethodsContext;
 
     const handleClose = () => {
@@ -58,7 +60,7 @@ const MenuItemDialog = () => {
                 saveMenuItem()
                 break;
             case "Add":
-                saveMenuItem()
+                saveMenuItemAdd()
                 break;
             default:
         }
@@ -73,11 +75,28 @@ const MenuItemDialog = () => {
         myNewMenuItem.categoryJSON = categoryJSON;
         myNewMenuItem.restaurant = restaurant;
         myNewMenuItem.price = price;
-        myNewMenuItem.restaurantId = restaurantId;
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
-        const myMenuItems = await scanDynamoDB('menuItems');
-        myMenuItems.err ? setDialog(true, myMenuItems.payload, 'Error', '', 'OK', '') : setResturantMenuItems(myMenuItems.payload)
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        const myMenuItems = await getRestaurantsMenuItems(myRestaurant, idToken, customId)
+        setResturantMenuItems(myMenuItems)
+    };
+
+    const saveMenuItemAdd = async () => {
+        let myNewMenuItem = {}
+        myNewMenuItem.id = id;
+        myNewMenuItem.title = title;
+        myNewMenuItem.description = description;
+        myNewMenuItem.categoryJSON = categoryJSON;
+        myNewMenuItem.restaurant = restaurant;
+        myNewMenuItem.price = price;
+        //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
+        await putMenuItem(myNewMenuItem, idToken, customId);
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        myRestaurant.menuItemIdsJSON.push(myNewMenuItem.id)
+        await putRestaurant(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantsMenuItems(myRestaurant, idToken, customId)
+        setResturantMenuItems(myMenuItems)
     };
 
     const changeTitle = (e) => {

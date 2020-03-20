@@ -5,7 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
 import deleteMenuItem from '../../model/deleteMenuItem';
-import scanDynamoDB from '../../api/scanDynamoDB';
+import getRestaurantsMenuItems from '../../model/getRestaurantsMenuItems';
+import putRestaurant from '../../model/putRestaurant';
+import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -13,7 +15,6 @@ const useStyles = makeStyles(theme => ({
             margin: theme.spacing(1),
             marginLeft: 0,
         },
-
     },
 }));
 
@@ -28,14 +29,15 @@ const MenuItemCardInventory = ({ menuItem }) => {
         idToken,
         customId,
         setResturantMenuItems,
-        setDialog,
+        associatesRestaurants,
+        restaurantId,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
     const { setDeleteConfirmDialog } = deleteConfirmDialogContext;
 
     const handleClickMenuItemEdit = (menuId) => {
-        for (let i = 0; 1 < restaurantMenuItems.length; i++) {
+        for (let i = 0; i < restaurantMenuItems.length; i++) {
             if (menuId === restaurantMenuItems[i].id) {
                 let myEditItem = {
                     title: restaurantMenuItems[i].title,
@@ -54,7 +56,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
     };
 
     const handleClickMenuItemCopy = (menuId) => {
-        for (let i = 0; 1 < restaurantMenuItems.length; i++) {
+        for (let i = 0; i < restaurantMenuItems.length; i++) {
             if (menuId === restaurantMenuItems[i].id) {
                 let myEditItem = {
                     title: restaurantMenuItems[i].title,
@@ -73,7 +75,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
     };
 
     const loadDeleteMenuItemDialog = (menuId) => {
-        for (let i = 0; 1 < restaurantMenuItems.length; i++) {
+        for (let i = 0; i < restaurantMenuItems.length; i++) {
             if (menuId === restaurantMenuItems[i].id) {
                 setDeleteConfirmDialog(true,
                     restaurantMenuItems[i].title,
@@ -87,8 +89,12 @@ const MenuItemCardInventory = ({ menuItem }) => {
 
     const deleteMenuItemNow = async (menuId) => {
         await deleteMenuItem(menuId, idToken, customId)
-        const myMenuItems = await scanDynamoDB('menuItems');
-        myMenuItems.err ? setDialog(true, myMenuItems.payload, 'Error', '', 'OK', '') : setResturantMenuItems(myMenuItems.payload)
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myIndex = myRestaurant.menuItemIdsJSON.indexOf(menuId, 0)
+        myRestaurant.menuItemIdsJSON.splice(myIndex, 1)
+        await putRestaurant(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantsMenuItems(myRestaurant, idToken, customId)
+        setResturantMenuItems(myMenuItems)
     }
 
     const items = []
@@ -136,7 +142,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
 
     return (
         <div className='card'>
-            <h4>{items}{menuItem.title}{' - '}{menuItem.price}
+            <h4><i className="fas fa-list"></i>{' - '}{items}{menuItem.title}{' - '}{menuItem.price}
             </h4>
             <div className={classes.root} >
                 <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
@@ -154,3 +160,4 @@ const MenuItemCardInventory = ({ menuItem }) => {
 };
 
 export default MenuItemCardInventory;
+

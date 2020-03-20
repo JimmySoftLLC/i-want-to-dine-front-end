@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react';
+import React, { Fragment, useContext } from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
@@ -11,14 +11,18 @@ import { v4 as uuidv4 } from 'uuid';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
 import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import getRestaurantsMenuItems from '../../model/getRestaurantsMenuItems';
 // import updateAssociatesRestaurants from '../../model/updateAssociatesRestaurants';
 import putAssociate from '../../model/putAssociate';
 import deleteRestaurant from '../../model/deleteRestaurant';
+import {
+    noSelectedRestaurant,
+} from '../../api/apiConstants';
 
 const SignedInTopToolBar = () => {
-    const noSelectedRestaurant = 'Select Your Restaurant'
+
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const { associateRestaurants,
+    const { associatesRestaurants,
         setRestaurantDialogData,
         setRestaurantDialogOpen,
         associate,
@@ -28,18 +32,27 @@ const SignedInTopToolBar = () => {
         customId,
         setMenuDialogData,
         setMenuDialogOpen,
+        setResturantMenuItems,
+        setRestaurantId,
+        restaurantId,
     } = dataAndMethodsContext;
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
 
     const { setDeleteConfirmDialog } = deleteConfirmDialogContext
-    const [myRestaurantId, setRestaurantId] = useState(noSelectedRestaurant);
 
-    const handleChange = event => {
+    const handleChange = async (event) => {
         setRestaurantId(event.target.value);
+        if (event.target.value === noSelectedRestaurant) {
+            setResturantMenuItems([]);
+            return;
+        }
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, event.target.value)
+        const myMenuItems = await getRestaurantsMenuItems(myRestaurant, idToken, customId)
+        setResturantMenuItems(myMenuItems)
     };
 
     const handleEditRestaurant = () => {
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associateRestaurants, myRestaurantId)
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         console.log(myRestaurant)
         let myRestaurantData = {
             restaurantName: myRestaurant.restaurantName,
@@ -89,15 +102,14 @@ const SignedInTopToolBar = () => {
 
     const handleNewMenuItem = () => {
         let myNewId = uuidv4()
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associateRestaurants, myRestaurantId)
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         let myEditItem = {
             title: '',
             description: '',
             categoryJSON: [],
-            price: '',
+            price: 0,
             id: myNewId,
             restaurant: myRestaurant.restaurantName,
-            restaurantId: myRestaurant.id,
             dialogType: "Add",
         }
         setMenuDialogData(myEditItem);
@@ -105,23 +117,23 @@ const SignedInTopToolBar = () => {
     };
 
     const loadDeleteRestaurantWarningDialog = () => {
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associateRestaurants, myRestaurantId)
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         setDeleteConfirmDialog(true,
             myRestaurant.restaurantName,
             'deleteRestaurant',
-            myRestaurantId,
+            restaurantId,
             deleteRestaurantNow);
     };
 
     const deleteRestaurantNow = async () => {
         let myAssociate = JSON.parse(JSON.stringify(associate));
-        let indexOfRestaurantId = myAssociate.restaurantIdsJSON.indexOf(myRestaurantId);
+        let indexOfRestaurantId = myAssociate.restaurantIdsJSON.indexOf(restaurantId);
         myAssociate.restaurantIdsJSON.splice(indexOfRestaurantId, 1);
         setAssociate(myAssociate)
         await putAssociate(myAssociate, idToken, customId)
-        await deleteRestaurant(myRestaurantId, idToken, customId)
-        const associateRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
-        setAssociatesRestaurants(associateRestaurants);
+        await deleteRestaurant(restaurantId, idToken, customId)
+        const associatesRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
+        setAssociatesRestaurants(associatesRestaurants);
         setRestaurantId(noSelectedRestaurant);
     }
 
@@ -164,7 +176,7 @@ const SignedInTopToolBar = () => {
         },
     }))(InputBase);
 
-    const myRestaurantMenuItems = associateRestaurants.map(restaurant => <MenuItem
+    const myRestaurantMenuItems = associatesRestaurants.map(restaurant => <MenuItem
         value={restaurant.id}
         key={restaurant.id}>
         {restaurant.restaurantName}
@@ -177,14 +189,14 @@ const SignedInTopToolBar = () => {
                     <Select
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
-                        value={myRestaurantId}
+                        value={restaurantId}
                         onChange={handleChange}
                         input={<BootstrapInput />}
                     >
                         <MenuItem value={noSelectedRestaurant}>{noSelectedRestaurant}</MenuItem>
                         {myRestaurantMenuItems}
                     </Select>
-                    {myRestaurantId !== noSelectedRestaurant && <Tooltip title="Edit restaurant">
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Edit restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleEditRestaurant()}>
@@ -198,14 +210,14 @@ const SignedInTopToolBar = () => {
                             <i className="icon-restaurant-plus"></i>
                         </IconButton>
                     </Tooltip>
-                    {myRestaurantId !== noSelectedRestaurant && <Tooltip title="Delete restaurant">
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Delete restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => loadDeleteRestaurantWarningDialog()}>
                             <i className="icon-restaurant-minus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {myRestaurantId !== noSelectedRestaurant && <Tooltip title="Add menu item">
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Add menu item">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewMenuItem()}>

@@ -1,12 +1,10 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useReducer } from 'react';
 import DataAndMethodsContext from './dataAndMethodsContext';
 import DataAndMethodsReducer from './dataAndMethodsReducer';
-import { v4 as uuidv4 } from 'uuid';
-// import AlertDialogContext from '../alertDialog/alertDialogContext';
-import DeleteConfirmDialogContext from '../deleteConfirmDialog/deleteConfirmDialogContext';
-// import getItemDynamoDB from '../../api/getItemDynamoDB';
 import setFoodCategories from '../../model/setFoodCategories';
-
+import {
+    noSelectedRestaurant,
+} from '../../api/apiConstants';
 
 import {
     SET_FOOD_CHOICES,
@@ -27,6 +25,7 @@ import {
     SET_ASSOCIATE_DIALOG_DATA,
     SET_ASSOCIATE_DIALOG_OPEN,
     SET_RESTAURANT_MENU_ITEMS,
+    SET_RESTAURANT_ID,
 } from '../types';
 import {
     // menuItemsTableName,
@@ -65,9 +64,10 @@ const DataAndMethodsState = props => {
         menuItems: [],
         restaurantMenuItems: [],
         restaurants: [],
-        associateRestaurants: [],
+        associatesRestaurants: [],
         associate: {},
         menuItemDialogOpen: false,
+        restaurantId: noSelectedRestaurant,
         menuItemDialogData: {
             title: '',
             description: '',
@@ -75,7 +75,6 @@ const DataAndMethodsState = props => {
             price: 0,
             id: '',
             restaurant: '',
-            restaurantId: '',
             dialogType: "Add",
         },
         restaurantDialogOpen: false,
@@ -111,9 +110,6 @@ const DataAndMethodsState = props => {
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
-    // const alertDialogContext = useContext(AlertDialogContext);
-    const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
-
 
     // setting states and dispatch changes to the reducer ---------------------------------------------------------------------
     const setAssociateDialogDataItem = async (key, value) => {
@@ -124,7 +120,7 @@ const DataAndMethodsState = props => {
     const setAssociate = async (associate) => { dispatch({ type: SET_ASSOCIATE, payload: associate }) }
     const setAssociateDialogData = async (associateDialogData) => { dispatch({ type: SET_ASSOCIATE_DIALOG_DATA, payload: associateDialogData }) }
     const setAssociateDialogOpen = async (associateDialogOpen) => { dispatch({ type: SET_ASSOCIATE_DIALOG_OPEN, payload: associateDialogOpen }) }
-    const setAssociatesRestaurants = async (associateRestaurants) => { dispatch({ type: SET_ASSOCIATE_RESTAURANTS, payload: associateRestaurants }) }
+    const setAssociatesRestaurants = async (associatesRestaurants) => { dispatch({ type: SET_ASSOCIATE_RESTAURANTS, payload: associatesRestaurants }) }
 
     const setAuthToken = async (authToken) => { dispatch({ type: SET_AUTH_TOKEN, payload: authToken }) }
     const setCustomId = async (customId) => { dispatch({ type: SET_CUSTOM_ID, payload: customId }) }
@@ -168,6 +164,7 @@ const DataAndMethodsState = props => {
     const setRestaurantDialogData = async (restaurantDialogData) => { dispatch({ type: SET_EDIT_RESTAURANTS, payload: restaurantDialogData }) }
     const setRestaurantDialogOpen = async (restaurantDialogOpen) => { dispatch({ type: SET_EDIT_RESTAURANTS_OPEN, payload: restaurantDialogOpen }) }
     const setResturantMenuItems = async (restaurantMenuItems) => { dispatch({ type: SET_RESTAURANT_MENU_ITEMS, payload: restaurantMenuItems }) }
+    const setRestaurantId = async (restaurantId) => { dispatch({ type: SET_RESTAURANT_ID, payload: restaurantId }) }
 
     const setSignInRegDialogType = async (signInRegDialogType) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: signInRegDialogType }) }
     const setSignInRegDialogTitle = async (signInRegDialogTitle) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: signInRegDialogTitle }) }
@@ -194,11 +191,12 @@ const DataAndMethodsState = props => {
                 canEdit: state.canEdit,
                 logInType: state.logInType,
                 customId: state.customId,
-                associateRestaurants: state.associateRestaurants,
+                associatesRestaurants: state.associatesRestaurants,
                 associate: state.associate,
                 associateDialogData: state.associateDialogData,
                 associateDialogOpen: state.associateDialogOpen,
                 restaurantMenuItems: state.restaurantMenuItems,
+                restaurantId: state.restaurantId,
                 setFoodChoice,
                 setFoodChoices,
                 setRestaurants,
@@ -222,6 +220,7 @@ const DataAndMethodsState = props => {
                 setAssociateDialogDataItem,
                 setMenuDialogData,
                 setResturantMenuItems,
+                setRestaurantId,
             }}
         >
             {props.children}

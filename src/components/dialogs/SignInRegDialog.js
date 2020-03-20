@@ -123,9 +123,9 @@ const SignUp = () => {
                 if (!associate) {
                     let myNewAssociate = await createNewAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'], session.idToken.payload['email'])
                     if (myNewAssociate) {
-                        const associateRestaurants = await getAssociatesRestaurants(myNewAssociate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
-                        //console.log(associateRestaurants);
-                        setAssociatesRestaurants(associateRestaurants);
+                        const associatesRestaurants = await getAssociatesRestaurants(myNewAssociate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                        //console.log(associatesRestaurants);
+                        setAssociatesRestaurants(associatesRestaurants);
                         setAssociate(myNewAssociate);
                         setLogInType('signedIn')
                         setSignInRegDialogType('false');
@@ -134,9 +134,9 @@ const SignUp = () => {
                 } else {
                     //console.log(associate);
                     setAssociate(associate);
-                    const associateRestaurants = await getAssociatesRestaurants(associate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
-                    //console.log(associateRestaurants);
-                    setAssociatesRestaurants(associateRestaurants);
+                    const associatesRestaurants = await getAssociatesRestaurants(associate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                    //console.log(associatesRestaurants);
+                    setAssociatesRestaurants(associatesRestaurants);
                     setLogInType('signedIn')
                     setSignInRegDialogType('false');
                     setDialogBackToDefaults();

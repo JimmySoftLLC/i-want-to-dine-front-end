@@ -1,19 +1,7 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        '& .MuiButton-root': {
-            margin: theme.spacing(1),
-            marginLeft: 0,
-        },
-
-    },
-}));
-
 const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants, handleClickMenuItemEdit, handleClickMenuItemCopy, handleClickMenuItemDelete }) => {
-    const classes = useStyles();
     const items = []
     for (let i = 0; i < menuItem.categoryJSON.length; i++) {
         switch (menuItem.categoryJSON[i]) {

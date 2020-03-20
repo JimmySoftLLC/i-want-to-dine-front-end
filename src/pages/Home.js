@@ -26,7 +26,6 @@ const Home = () => {
         async function fetchData() {
             const myMenuItems = await scanDynamoDB(menuItemsTableName);
             myMenuItems.err ? setDialog(true, myMenuItems.payload, 'Error', '', 'OK', '') : setMenuItems(myMenuItems.payload)
-            setResturantMenuItems(myMenuItems.payload)
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
         }
@@ -37,7 +36,7 @@ const Home = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const alertDialogContext = useContext(AlertDialogContext);
 
-    const { myStates, logInType, setMenuItems, setRestaurants, setResturantMenuItems } = dataAndMethodsContext
+    const { myStates, logInType, setMenuItems, setRestaurants } = dataAndMethodsContext
     const { setDialog } = alertDialogContext
 
     let showRestaurants = false;
@@ -49,16 +48,19 @@ const Home = () => {
             <DeleteConfirmDialog />
             <SignInRegDialog />
             <TopNavBar />
-            <div className='container page-top-margin'>
+            {logInType === 'default' && <div className='container home-page-top-margin'>
                 {myStates.info && <About />}
                 {showRestaurants && <RestaurantItems />}
-                {logInType === 'default' && <MenuItemsPublicFacing />}
-                {logInType === 'signedIn' && <MenuItemsInventory />}
+                <MenuItemsPublicFacing />
+                <p className='p home-page-bottom-margin'></p>
+            </div>}
+            {logInType === 'signedIn' && <div className='container associate-page-top-margin'>
+                <MenuItemsInventory />
                 <MenuItemDialog />
                 <RestaurantDialog />
                 <AssociateDialog />
-            </div>
-            <p className='p page-bottom-margin'></p>
+                <p className='p associate-page-bottom-margin'></p>
+            </div>}
             <BotNavBar />
         </Fragment>
     );

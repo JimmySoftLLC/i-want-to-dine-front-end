@@ -16,7 +16,6 @@
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   font-style: normal;
-  speak: none;
   font-weight: normal;
   font-variant: normal;
   text-transform: none;
@@ -496,11 +495,19 @@
     margin-right: 0.6rem;
   }
   
-  .page-top-margin {
+  .home-page-top-margin {
     margin-top: 5rem;
   }
   
-  .page-bottom-margin {
+  .home-page-bottom-margin {
+    margin-bottom: 5rem;
+  }
+
+  .associate-page-top-margin {
+    margin-top: 5rem;
+  }
+  
+  .associate-page-bottom-margin {
     margin-bottom: 5rem;
   }
   
@@ -510,11 +517,27 @@
   }
   
   /* Mobile Styles */
-  @media (max-width: 840px) {
+  @media (max-width: 833px) {
     .hide-sm {
       display: none;
     }
   
+    .home-page-top-margin {
+      margin-top: 8rem;
+    }
+
+    .home-page-bottom-margin {
+      margin-bottom: 7rem;
+    }
+
+    .associate-page-top-margin {
+      margin-top: 5rem;
+    }
+  
+    .associate-page-bottom-margin {
+      margin-bottom: 5rem;
+    }
+
     .grid-2,
     .grid-3,
     .grid-4 {
@@ -558,12 +581,20 @@
       justify-content: center;
     }
   
-    .page-top-margin {
-      margin-top: 6rem;
+    .home-page-top-margin {
+      margin-top: 8rem;
+    }
+
+    .home-page-bottom-margin {
+      margin-bottom: 7rem;
+    }
+
+    .associate-page-top-margin {
+      margin-top: 5rem;
     }
   
-    .page-bottom-margin {
-      margin-bottom: 6rem;
+    .associate-page-bottom-margin {
+      margin-bottom: 5rem;
     }
   
     .alert-top-margin {
@@ -608,12 +639,20 @@
       justify-content: center;
     }
   
-    .page-top-margin {
+    .home-page-top-margin {
       margin-top: 8rem;
     }
   
-    .page-bottom-margin {
+    .home-page-bottom-margin {
       margin-bottom: 7rem;
+    }
+
+    .associate-page-top-margin {
+      margin-top: 5rem;
+    }
+  
+    .associate-page-bottom-margin {
+      margin-bottom: 5rem;
     }
   
     .alert-top-margin {
@@ -623,7 +662,7 @@
   }
   
   /* Mobile Styles */
-  @media (max-width: 446px) {
+  @media (max-width: 443px) {
     .hide-sm {
       display: none;
     }
@@ -658,11 +697,19 @@
       justify-content: center;
     }
   
-    .page-top-margin {
+    .home-page-top-margin {
       margin-top: 11rem;
     }
   
-    .page-bottom-margin {
+    .home-page-bottom-margin {
+      margin-bottom: 7rem;
+    }
+
+    .associate-page-top-margin {
+      margin-top: 8rem;
+    }
+  
+    .associate-page-bottom-margin {
       margin-bottom: 7rem;
     }
   

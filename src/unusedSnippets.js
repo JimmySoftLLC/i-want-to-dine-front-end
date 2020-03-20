@@ -375,7 +375,7 @@ const DataAndMethodsState = props => {
         restaurantDialogOpen: false,
         menuItems: [],
         restaurants: [],
-        associateRestaurants: [],
+        associatesRestaurants: [],
         associate: {},
         menuItemDialogData: {
             title: "",
@@ -669,7 +669,7 @@ const DataAndMethodsState = props => {
     const setIdToken = async (idToken) => { dispatch({ type: SET_ID_TOKEN, payload: idToken }) }
     const setCustomId = async (customId) => { dispatch({ type: SET_CUSTOM_ID, payload: customId }) }
     const setLogInType = async (logInType) => { dispatch({ type: SET_LOGIN_TYPE, payload: logInType }) }
-    const setAssociatesRestaurants = async (associateRestaurants) => { dispatch({ type: SET_ASSOCIATE_RESTAURANTS, payload: associateRestaurants }) }
+    const setAssociatesRestaurants = async (associatesRestaurants) => { dispatch({ type: SET_ASSOCIATE_RESTAURANTS, payload: associatesRestaurants }) }
     const setAssociate = async (associate) => { dispatch({ type: SET_ASSOCIATE, payload: associate }) }
 
     return (
@@ -694,7 +694,7 @@ const DataAndMethodsState = props => {
                 canEdit: state.canEdit,
                 logInType: state.logInType,
                 customId: state.customId,
-                associateRestaurants: state.associateRestaurants,
+                associatesRestaurants: state.associatesRestaurants,
                 associate: state.associate,
                 setFoodChoice,
                 setFoodChoices,

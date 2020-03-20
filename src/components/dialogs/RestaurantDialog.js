@@ -55,8 +55,8 @@ const RestaurantDialog = () => {
         const successRestaurantPut = await putRestaurant(myRestaurant, idToken, customId)
         if (successRestaurantPut) {
             let myAssociate = JSON.parse(JSON.stringify(restaurantDialogData.myAssociate))
-            const associateRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
-            setAssociatesRestaurants(associateRestaurants);
+            const associatesRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
+            setAssociatesRestaurants(associatesRestaurants);
             if (restaurantDialogData.dialogType === 'New') {
                 await putAssociate(myAssociate, idToken, customId)
                 setAssociate(myAssociate)

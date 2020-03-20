@@ -5,21 +5,17 @@ import {
     projectionExpressionMenuItem,
 } from '../api/apiConstants';
 
-const getRestaurantsMenuItems = async (associate, myToken, myCustomId) => {
+const getRestaurantsMenuItems = async (restaurant, myToken, myCustomId) => {
     let myRestaurantsMenuItems = []
-    let myIds = associate.restaurantIdsJSON
-    const data = await batchGetItemDynamoDB(menuItemsTableName, 'id', myToken, myIds, myCustomId, projectionExpressionMenuItem)
+    let myIds = restaurant.menuItemIdsJSON
+    const data = await batchGetItemDynamoDB(menuItemsTableName, myToken, myIds, myCustomId, projectionExpressionMenuItem)
     // console.log(data);
     if (data.err) {
         return [];
     }
-    myRestaurantsMenuItems = data.payload.Responses.restaurants;
-    // console.log("my associates restaurants: ", myAssociateRestaurants)
+    myRestaurantsMenuItems = data.payload.Responses.menuItems;
     for (let i = 0; i < myRestaurantsMenuItems.length; i++) {
-        myRestaurantsMenuItems[i].menuItemIdsJSON = JSON.parse(myRestaurantsMenuItems[i].menuItemIdsJSON)
-    }
-    for (let i = 0; i < myRestaurantsMenuItems.length; i++) {
-        myRestaurantsMenuItems[i].associateIdsJSON = JSON.parse(myRestaurantsMenuItems[i].associateIdsJSON)
+        myRestaurantsMenuItems[i].categoryJSON = JSON.parse(myRestaurantsMenuItems[i].categoryJSON)
     }
     return myRestaurantsMenuItems;
 }
