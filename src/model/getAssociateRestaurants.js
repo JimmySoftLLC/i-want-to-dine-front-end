@@ -5,7 +5,7 @@ import {
     projectionExpressionRestaurant,
 } from '../api/apiConstants';
 
-const getAssociatesRestaurants = async (associate, myToken, myCustomId) => {
+const getAssociateRestaurants = async (associate, myToken, myCustomId) => {
     let myAssociateRestaurants = []
     let myIds = associate.restaurantIdsJSON
     const data = await batchGetItemDynamoDB(restaurantsTableName, myToken, myIds, myCustomId, projectionExpressionRestaurant)
@@ -24,4 +24,4 @@ const getAssociatesRestaurants = async (associate, myToken, myCustomId) => {
     return myAssociateRestaurants;
 }
 
-export default getAssociatesRestaurants
+export default getAssociateRestaurants

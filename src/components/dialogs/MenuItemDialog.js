@@ -12,7 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import { Tooltip } from '@material-ui/core';
 import putMenuItem from '../../model/putMenuItem';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
-import getRestaurantsMenuItems from '../../model/getRestaurantsMenuItems';
+import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import putRestaurant from '../../model/putRestaurant';
 
 const useStyles = makeStyles(theme => ({
@@ -78,7 +78,7 @@ const MenuItemDialog = () => {
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
-        const myMenuItems = await getRestaurantsMenuItems(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantMenuItems(myRestaurant, idToken, customId)
         setResturantMenuItems(myMenuItems)
     };
 
@@ -95,7 +95,7 @@ const MenuItemDialog = () => {
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         myRestaurant.menuItemIdsJSON.push(myNewMenuItem.id)
         await putRestaurant(myRestaurant, idToken, customId)
-        const myMenuItems = await getRestaurantsMenuItems(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantMenuItems(myRestaurant, idToken, customId)
         setResturantMenuItems(myMenuItems)
     };
 

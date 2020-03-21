@@ -9,10 +9,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
-import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
+import getAssociateRestaurants from '../../model/getAssociateRestaurants';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
-import getRestaurantsMenuItems from '../../model/getRestaurantsMenuItems';
-// import updateAssociatesRestaurants from '../../model/updateAssociatesRestaurants';
+import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
+// import updateAssociateRestaurants from '../../model/updateAssociateRestaurants';
 import putAssociate from '../../model/putAssociate';
 import deleteRestaurant from '../../model/deleteRestaurant';
 import {
@@ -47,7 +47,7 @@ const SignedInTopToolBar = () => {
             return;
         }
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, event.target.value)
-        const myMenuItems = await getRestaurantsMenuItems(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantMenuItems(myRestaurant, idToken, customId)
         setResturantMenuItems(myMenuItems)
     };
 
@@ -132,13 +132,13 @@ const SignedInTopToolBar = () => {
         setAssociate(myAssociate)
         await putAssociate(myAssociate, idToken, customId)
         await deleteRestaurant(restaurantId, idToken, customId)
-        const associatesRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
+        const associatesRestaurants = await getAssociateRestaurants(myAssociate, idToken, customId)
         setAssociatesRestaurants(associatesRestaurants);
         setRestaurantId(noSelectedRestaurant);
     }
 
     // const updateAssociatesRestaurantsNow = async () => {
-    //     const mytest = await updateAssociatesRestaurants(idToken, customId, associate, restaurants)
+    //     const mytest = await updateAssociateRestaurants(idToken, customId, associate, restaurants)
     // }
 
     const BootstrapInput = withStyles(theme => ({

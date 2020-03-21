@@ -15,6 +15,7 @@ import AlertDialog from '../components/dialogs/AlertDialog';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import scanDynamoDB from '../api/scanDynamoDB';
+import getRestaurantsMenuItems from '../model/getRestaurantsMenuItems';
 import {
     menuItemsTableName,
     restaurantsTableName,
@@ -24,10 +25,10 @@ import {
 const Home = () => {
     useEffect(() => {
         async function fetchData() {
-            const myMenuItems = await scanDynamoDB(menuItemsTableName);
-            myMenuItems.err ? setDialog(true, myMenuItems.payload, 'Error', '', 'OK', '') : setMenuItems(myMenuItems.payload)
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
+            const myMenuItems = await getRestaurantsMenuItems(myRestaurants.payload);
+            setMenuItems(myMenuItems);
         }
         fetchData();
         // eslint-disable-next-line

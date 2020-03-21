@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
 import deleteMenuItem from '../../model/deleteMenuItem';
-import getRestaurantsMenuItems from '../../model/getRestaurantsMenuItems';
+import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import putRestaurant from '../../model/putRestaurant';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
 
@@ -93,7 +93,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
         let myIndex = myRestaurant.menuItemIdsJSON.indexOf(menuId, 0)
         myRestaurant.menuItemIdsJSON.splice(myIndex, 1)
         await putRestaurant(myRestaurant, idToken, customId)
-        const myMenuItems = await getRestaurantsMenuItems(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantMenuItems(myRestaurant, idToken, customId)
         setResturantMenuItems(myMenuItems)
     }
 

@@ -16,7 +16,7 @@ const awsConfig = {
                 name: 'i_want_to_dine_restaurant_api',
                 endpoint: 'https://pf7biibdkk.execute-api.us-east-1.amazonaws.com/prod', // example: 'https://u8swuvl00f.execute-api.us-east-2.amazonaws.com/prod'
                 region: 'us-east-1' // example: 'us-east-2'
-            }
+            },
         ]
     },
 }

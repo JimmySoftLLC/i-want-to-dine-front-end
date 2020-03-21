@@ -7,7 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import getAssociatesRestaurants from '../../model/getAssociatesRestaurants';
+import getAssociateRestaurants from '../../model/getAssociateRestaurants';
 import putRestaurant from '../../model/putRestaurant';
 import putAssociate from '../../model/putAssociate';
 
@@ -55,7 +55,7 @@ const RestaurantDialog = () => {
         const successRestaurantPut = await putRestaurant(myRestaurant, idToken, customId)
         if (successRestaurantPut) {
             let myAssociate = JSON.parse(JSON.stringify(restaurantDialogData.myAssociate))
-            const associatesRestaurants = await getAssociatesRestaurants(myAssociate, idToken, customId)
+            const associatesRestaurants = await getAssociateRestaurants(myAssociate, idToken, customId)
             setAssociatesRestaurants(associatesRestaurants);
             if (restaurantDialogData.dialogType === 'New') {
                 await putAssociate(myAssociate, idToken, customId)
