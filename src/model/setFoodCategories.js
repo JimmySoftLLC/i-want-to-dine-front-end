@@ -8,6 +8,14 @@ const turnOffAllCategories = (categories, key) => {
 }
 
 const setFoodCategories = (categories, key) => {
+    // if myKey = any of the loggin items, set login items to false and set key
+    if (key === 'restaurantSettngs' || key === 'menuSettngs' || key === 'menuDaySettngs') {
+        categories['restaurantSettngs'] = false;
+        categories['menuSettngs'] = false;
+        categories['menuDaySettngs'] = false;
+        categories[key] = true;
+        return categories;
+    }
     // if myKey = info and info off, turn all food categories off, turn info on
     if (key === 'info' && !categories['info']) {
         categories = turnOffAllCategories(categories);

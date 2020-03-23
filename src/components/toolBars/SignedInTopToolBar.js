@@ -35,9 +35,10 @@ const SignedInTopToolBar = () => {
         setResturantMenuItems,
         setRestaurantId,
         restaurantId,
+        myStates,
     } = dataAndMethodsContext;
-    const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
 
+    const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
     const { setDeleteConfirmDialog } = deleteConfirmDialogContext
 
     const handleChange = async (event) => {
@@ -196,32 +197,67 @@ const SignedInTopToolBar = () => {
                         <MenuItem value={noSelectedRestaurant}>{noSelectedRestaurant}</MenuItem>
                         {myRestaurantMenuItems}
                     </Select>
-                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Edit restaurant">
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Restaurant settings">
+                        <IconButton aria-label=""
+                            color={myStates['restaurantSettngs'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('restaurantSettngs')}>
+                            <i className="icon-restaurant-cog"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Menu settings">
+                        <IconButton aria-label=""
+                            color={myStates['menuSettngs'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('menuSettngs')}>
+                            <i className="icon-list-solid-cog"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Calendar settings">
+                        <IconButton aria-label=""
+                            color={myStates['menuDaySettngs'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setFoodChoice('menuDaySettngs')}>
+                            <i className="icon-calendar-cog"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {restaurantId === noSelectedRestaurant && <Tooltip title="Add restaurant">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => handleNewRestaurant()}>
+                            <i className="icon-restaurant-plus"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Add restaurant">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => handleNewRestaurant()}>
+                            <i className="icon-restaurant-plus"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Edit restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleEditRestaurant()}>
                             <i className="icon-restaurant-edit"></i>
                         </IconButton>
                     </Tooltip>}
-                    <Tooltip title="Add restaurant">
-                        <IconButton aria-label=""
-                            color="inherit"
-                            onClick={() => handleNewRestaurant()}>
-                            <i className="icon-restaurant-plus"></i>
-                        </IconButton>
-                    </Tooltip>
-                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Delete restaurant">
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Delete restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => loadDeleteRestaurantWarningDialog()}>
                             <i className="icon-restaurant-minus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Add menu item">
+                    {(restaurantId !== noSelectedRestaurant && myStates['menuSettngs']) && <Tooltip title="Add menu item">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewMenuItem()}>
-                            <i className="fas fa-list"></i>
+                            <i className="icon-list-solid-plus"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {(restaurantId !== noSelectedRestaurant && myStates['menuDaySettngs']) && <Tooltip title="Add menu day">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => handleNewMenuItem()}>
+                            <i className="icon-calendar-solid-plus"></i>
                         </IconButton>
                     </Tooltip>}
                     {/* <IconButton aria-label=""

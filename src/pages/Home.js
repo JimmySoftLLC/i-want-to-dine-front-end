@@ -56,7 +56,7 @@ const Home = () => {
                 <p className='p home-page-bottom-margin'></p>
             </div>}
             {logInType === 'signedIn' && <div className='container associate-page-top-margin'>
-                <MenuItemsInventory />
+                {myStates['menuSettngs'] && <MenuItemsInventory />}
                 <MenuItemDialog />
                 <RestaurantDialog />
                 <AssociateDialog />

@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?basd3z');
-  src:  url('fonts/icomoon.eot?basd3z#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?basd3z') format('truetype'),
-    url('fonts/icomoon.woff?basd3z') format('woff'),
-    url('fonts/icomoon.svg?basd3z#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?pt9rh8');
+  src:  url('fonts/icomoon.eot?pt9rh8#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?pt9rh8') format('truetype'),
+    url('fonts/icomoon.woff?pt9rh8') format('woff'),
+    url('fonts/icomoon.svg?pt9rh8#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -26,46 +26,75 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-dollar_1:before {
+.icon-calendar-cog:before {
   content: "\e900";
 }
-.icon-dollar_2:before {
+.icon-calendar-solid-edit:before {
   content: "\e901";
 }
-.icon-dollar_3:before {
+.icon-calendar-solid-minus:before {
   content: "\e902";
 }
-.icon-fav-resturant:before {
+.icon-calendar-solid-plus:before {
   content: "\e903";
 }
-.icon-ham:before {
+.icon-dollar_1:before {
   content: "\e904";
 }
-.icon-lamb:before {
+.icon-dollar_2:before {
   content: "\e905";
 }
-.icon-restaurant-edit:before {
+.icon-dollar_3:before {
   content: "\e906";
 }
-.icon-restaurant-minus:before {
+.icon-ham:before {
   content: "\e907";
 }
-.icon-restaurant-plus:before {
+.icon-lamb:before {
   content: "\e908";
 }
-.icon-resturant:before {
+.icon-list-solid-cog:before {
   content: "\e909";
 }
-.icon-shell:before {
+.icon-list-solid-edit:before {
   content: "\e90a";
 }
-.icon-spaghetti:before {
+.icon-list-solid-minus:before {
   content: "\e90b";
 }
-.icon-tbone:before {
+.icon-list-solid-plus:before {
   content: "\e90c";
 }
-
+.icon-map-marker-restaurant:before {
+  content: "\e90d";
+}
+.icon-restaurant-cog:before {
+  content: "\e90e";
+}
+.icon-restaurant-edit:before {
+  content: "\e90f";
+}
+.icon-restaurant-fav:before {
+  content: "\e910";
+}
+.icon-restaurant-minus:before {
+  content: "\e911";
+}
+.icon-restaurant-plus:before {
+  content: "\e912";
+}
+.icon-resturant:before {
+  content: "\e913";
+}
+.icon-shell:before {
+  content: "\e914";
+}
+.icon-spaghetti:before {
+  content: "\e915";
+}
+.icon-tbone:before {
+  content: "\e916";
+}
 
 /* Global Styles */
 :root {

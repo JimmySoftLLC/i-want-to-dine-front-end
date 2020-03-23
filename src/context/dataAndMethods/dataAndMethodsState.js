@@ -59,6 +59,9 @@ const DataAndMethodsState = props => {
             dollar_2: true,
             dollar_3: false,
             restaurant: false,
+            restaurantSettngs: false,
+            menuSettngs: false,
+            menuDaySettngs: false,
         },
         signInRegDialogType: 'false',
         menuItems: [],
@@ -96,6 +99,18 @@ const DataAndMethodsState = props => {
         },
         associateDialogOpen: false,
         associateDialogData: {
+            id: '',
+            canWrite: false,
+            canAdmin: false,
+            firstName: '',
+            lastName: '',
+            bio: '',
+            title: '',
+            email: '',
+            restaurantIdsJSON: [],
+            dialogType: "Edit",
+        },
+        menuDayDialogData: {
             id: '',
             canWrite: false,
             canAdmin: false,
@@ -197,6 +212,7 @@ const DataAndMethodsState = props => {
                 associateDialogOpen: state.associateDialogOpen,
                 restaurantMenuItems: state.restaurantMenuItems,
                 restaurantId: state.restaurantId,
+                menuDayDialogData: state.menuDayDialogData,
                 setFoodChoice,
                 setFoodChoices,
                 setRestaurants,
@@ -221,6 +237,7 @@ const DataAndMethodsState = props => {
                 setMenuDialogData,
                 setResturantMenuItems,
                 setRestaurantId,
+
             }}
         >
             {props.children}
