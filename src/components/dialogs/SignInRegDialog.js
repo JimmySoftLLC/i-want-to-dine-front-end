@@ -32,11 +32,10 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp = () => {
     const classes = useStyles();
-
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [password2, setPassword2] = useState('');
-    const [resetCode, setResetCode] = useState('');
+    const [verificationCode, setResetCode] = useState('');
     const [message, setMessage] = useState('');
 
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -63,6 +62,13 @@ const SignUp = () => {
         setPassword('');
         setPassword2('');
         setMessage('');
+    }
+
+    const ValidateEmail = (email) => {
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            return (true)
+        }
+        return (false)
     }
 
     const registerUser = async () => {
@@ -157,15 +163,41 @@ const SignUp = () => {
         }
     }
 
-    const sendResetCode = () => {
-        setSignInRegDialogType('codeSent')
-        setSignInRegDialogTitle('Code sent');
-        setMessage('A code was sent to ' + email + ". Enter the code above with your new password.")
+    const sendResetCode = async () => {
+        if (ValidateEmail(email)) {
+            try {
+                const data = await Auth.forgotPassword(email)
+                console.log(data);
+                setSignInRegDialogType('codeSent')
+                setSignInRegDialogTitle('Code sent');
+                setMessage('A verification code was sent to ' + email + ". Enter the code above with your new password.")
+            } catch (err) {
+                console.log(err)
+                setMessage(err.message)
+            }
+        } else {
+            setMessage('Invalid email entered, try again.')
+        }
     }
 
-    const resetPassword = (e) => {
-        dataAndMethodsContext.setSignInRegDialogType('false');
-        setDialogBackToDefaults();
+    const resetPassword = async (e) => {
+        if (checkPasswordsMatch()) {
+            if (ValidateEmail(email)) {
+                try {
+                    const data = await Auth.forgotPasswordSubmit(email, verificationCode, password)
+                    console.log(data);
+                    dataAndMethodsContext.setSignInRegDialogType('false');
+                    setDialogBackToDefaults();
+                } catch (err) {
+                    console.log(err)
+                    setMessage(err.message)
+                }
+            } else {
+                setMessage('Invalid email entered, try again.')
+            }
+        } else {
+            setMessage(`Passwords don't match, try again`)
+        }
     };
 
     const changeEmail = (e) => {
@@ -213,13 +245,13 @@ const SignUp = () => {
                         onChange={changeEmail}
                     />}
                     {showResetCode && <TextField
-                        id="resetCode"
-                        label="Reset Code"
+                        id="verificationCode"
+                        label="Verification Code"
                         type="number"
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={resetCode}
+                        value={verificationCode}
                         onChange={changeResetCode}
                     />}
                     {showPassword && <TextField
@@ -276,7 +308,7 @@ const SignUp = () => {
                         Cancel
                     </Button>
                     <Button onClick={() => sendResetCode()} color="primary">
-                        Send Reset Code
+                        Send Verification Code
                     </Button>
                 </DialogActions>}
                 {signInRegDialogType === 'codeSent' && <DialogActions>

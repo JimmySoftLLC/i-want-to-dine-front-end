@@ -20,10 +20,10 @@ const getBatch = async (myIds) => {
 }
 
 const getRestaurantsMenuItems = async (restaurants) => {
+    // create an array of all ids
     let allIds = [];
     let myRestaurantsMenuItems = [];
     for (let i = 0; i < restaurants.length; i++) {
-
         if (restaurants[i].approved) {
             for (let j = 0; j < restaurants[i].menuItemIdsJSON.length; j++) {
                 allIds.push(restaurants[i].menuItemIdsJSON[j])
@@ -31,6 +31,8 @@ const getRestaurantsMenuItems = async (restaurants) => {
         }
     }
     // console.log(allIds);
+
+    // get records in batches of 100
     let myIds = [];
     let currentCount = 0;
     let lastValidNextIndex = 0;
@@ -38,20 +40,28 @@ const getRestaurantsMenuItems = async (restaurants) => {
         myIds.push(allIds[i]);
         currentCount++;
         if (currentCount > 99) {
-            const dude = await getBatch(myIds);
+            const myBatch = await getBatch(myIds);
             myIds = [];
             currentCount = 0
-            myRestaurantsMenuItems = myRestaurantsMenuItems.concat(dude)
+            myRestaurantsMenuItems = myRestaurantsMenuItems.concat(myBatch)
             lastValidNextIndex = i + 1;
         }
     }
+
+    // get any leftover records
     myIds = [];
     for (let i = lastValidNextIndex; i < allIds.length; i++) {
         myIds.push(allIds[i]);
     }
-    const dude = await getBatch(myIds);
-    myRestaurantsMenuItems = myRestaurantsMenuItems.concat(dude)
-    // console.log(myRestaurantsMenuItems);
+    const myBatch = await getBatch(myIds);
+    myRestaurantsMenuItems = myRestaurantsMenuItems.concat(myBatch)
+
+    // now sort items by price
+    myRestaurantsMenuItems.sort(function (a, b) {
+        return a.price - b.price;
+    });
+
+    //console.log(myRestaurantsMenuItems);
     return myRestaurantsMenuItems;
 }
 

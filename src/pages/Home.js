@@ -17,7 +17,6 @@ import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import scanDynamoDB from '../api/scanDynamoDB';
 import getRestaurantsMenuItems from '../model/getRestaurantsMenuItems';
 import {
-    menuItemsTableName,
     restaurantsTableName,
     // associatesTableName,
 } from '../api/apiConstants';

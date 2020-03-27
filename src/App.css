@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?pt9rh8');
-  src:  url('fonts/icomoon.eot?pt9rh8#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?pt9rh8') format('truetype'),
-    url('fonts/icomoon.woff?pt9rh8') format('woff'),
-    url('fonts/icomoon.svg?pt9rh8#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?c1snl4');
+  src:  url('fonts/icomoon.eot?c1snl4#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?c1snl4') format('truetype'),
+    url('fonts/icomoon.woff?c1snl4') format('woff'),
+    url('fonts/icomoon.svg?c1snl4#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -26,6 +26,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-sort-dollar:before {
+  content: "\e917";
+}
 .icon-calendar-cog:before {
   content: "\e900";
 }
@@ -95,7 +98,6 @@
 .icon-tbone:before {
   content: "\e916";
 }
-
 /* Global Styles */
 :root {
     --primary-color: #dc3545;

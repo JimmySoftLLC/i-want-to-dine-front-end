@@ -78,7 +78,7 @@ const MenuItemDialog = () => {
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
-        const myMenuItems = await getRestaurantMenuItems(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantMenuItems(myRestaurant)
         setResturantMenuItems(myMenuItems)
     };
 
@@ -95,7 +95,7 @@ const MenuItemDialog = () => {
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         myRestaurant.menuItemIdsJSON.push(myNewMenuItem.id)
         await putRestaurant(myRestaurant, idToken, customId)
-        const myMenuItems = await getRestaurantMenuItems(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantMenuItems(myRestaurant)
         setResturantMenuItems(myMenuItems)
     };
 

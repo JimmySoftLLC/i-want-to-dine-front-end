@@ -48,13 +48,13 @@ const SignedInTopToolBar = () => {
             return;
         }
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, event.target.value)
-        const myMenuItems = await getRestaurantMenuItems(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantMenuItems(myRestaurant)
         setResturantMenuItems(myMenuItems)
     };
 
     const handleEditRestaurant = () => {
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
-        console.log(myRestaurant)
+        //console.log(myRestaurant)
         let myRestaurantData = {
             restaurantName: myRestaurant.restaurantName,
             description: myRestaurant.description,

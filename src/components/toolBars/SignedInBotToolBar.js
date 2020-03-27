@@ -3,6 +3,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import { Tooltip } from '@material-ui/core';
+import {
+    noSelectedRestaurant,
+} from '../../api/apiConstants';
 
 const SignedInBotToolBar = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -14,6 +17,8 @@ const SignedInBotToolBar = () => {
         setAssociateDialogData,
         setAssociateDialogOpen,
         associate,
+        restaurantId,
+        myStates,
     } = dataAndMethodsContext;
 
     const logOut = () => {
@@ -43,6 +48,20 @@ const SignedInBotToolBar = () => {
     return (
         <Fragment>
             <Toolbar showLabel="false" color="primary">
+                {(restaurantId !== noSelectedRestaurant && myStates['menuSettngs']) && <Tooltip title="Edit associate details">
+                    <IconButton aria-label=""
+                        color="primary"
+                        onClick={() => handleEditAssociate()}>
+                        <i className="fas fa-sort-alpha-down"></i>
+                    </IconButton>
+                </Tooltip>}
+                {(restaurantId !== noSelectedRestaurant && myStates['menuSettngs']) && <Tooltip title="Edit associate details">
+                    <IconButton aria-label=""
+                        color="primary"
+                        onClick={() => handleEditAssociate()}>
+                        <i className="icon-sort-dollar"></i>
+                    </IconButton>
+                </Tooltip>}
                 <Tooltip title="Edit associate details">
                     <IconButton aria-label=""
                         color="primary"

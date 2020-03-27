@@ -93,7 +93,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
         let myIndex = myRestaurant.menuItemIdsJSON.indexOf(menuId, 0)
         myRestaurant.menuItemIdsJSON.splice(myIndex, 1)
         await putRestaurant(myRestaurant, idToken, customId)
-        const myMenuItems = await getRestaurantMenuItems(myRestaurant, idToken, customId)
+        const myMenuItems = await getRestaurantMenuItems(myRestaurant)
         setResturantMenuItems(myMenuItems)
     }
 

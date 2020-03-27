@@ -112,14 +112,7 @@ const DataAndMethodsState = props => {
         },
         menuDayDialogData: {
             id: '',
-            canWrite: false,
-            canAdmin: false,
-            firstName: '',
-            lastName: '',
-            bio: '',
-            title: '',
-            email: '',
-            restaurantIdsJSON: [],
+            date: Date,
             dialogType: "Edit",
         }
     };
