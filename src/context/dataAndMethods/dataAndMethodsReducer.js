@@ -1,9 +1,9 @@
 import {
-    SET_FOOD_CHOICES,
+    SET_MY_STATES,
     SET_MENU_ITEMS,
     SET_RESTAURANTS,
-    SET_EDIT_MENU_ITEM,
-    SET_EDIT_MENU_OPEN,
+    SET_MENU_ITEM_DIALOG_DATA,
+    SET_MENU_ITEM_DIALOG_OPEN,
     SET_EDIT_RESTAURANTS,
     SET_EDIT_RESTAURANTS_OPEN,
     SET_SIGN_IN_REG_DIALOG_TYPE,
@@ -18,11 +18,14 @@ import {
     SET_ASSOCIATE_DIALOG_OPEN,
     SET_RESTAURANT_MENU_ITEMS,
     SET_RESTAURANT_ID,
+    SET_RESTAURANT_MENU_DAY_ITEMS,
+    SET_MENU_DAY_DIALOG_OPEN,
+    SET_MENU_DAY_DIALOG_DATA,
 } from '../types';
 
 export default (state, action) => {
     switch (action.type) {
-        case SET_FOOD_CHOICES:
+        case SET_MY_STATES:
             return {
                 ...state,
                 myStates: action.payload,
@@ -37,12 +40,12 @@ export default (state, action) => {
                 ...state,
                 restaurants: action.payload,
             };
-        case SET_EDIT_MENU_ITEM:
+        case SET_MENU_ITEM_DIALOG_DATA:
             return {
                 ...state,
                 menuItemDialogData: action.payload,
             };
-        case SET_EDIT_MENU_OPEN:
+        case SET_MENU_ITEM_DIALOG_OPEN:
             return {
                 ...state,
                 menuItemDialogOpen: action.payload,
@@ -117,6 +120,22 @@ export default (state, action) => {
                 ...state,
                 restaurantId: action.payload,
             };
+        case SET_RESTAURANT_MENU_DAY_ITEMS:
+            return {
+                ...state,
+                restaurantMenuDays: action.payload,
+            };
+        case SET_MENU_DAY_DIALOG_OPEN:
+            return {
+                ...state,
+                menuDayDialogOpen: action.payload,
+            };
+        case SET_MENU_DAY_DIALOG_DATA:
+            return {
+                ...state,
+                menuDayDialogData: action.payload,
+            };
+
         default:
             return state;
     }

@@ -3,6 +3,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import { Tooltip } from '@material-ui/core';
+import sortMenuItems from '../../model/sortMenuItems';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
@@ -19,6 +20,9 @@ const SignedInBotToolBar = () => {
         associate,
         restaurantId,
         myStates,
+        setMyState,
+        restaurantMenuItems,
+        setRestaurantMenuItems,
     } = dataAndMethodsContext;
 
     const logOut = () => {
@@ -45,20 +49,32 @@ const SignedInBotToolBar = () => {
         setAssociateDialogOpen(true);
     };
 
+    const sortBy = async (sortType) => {
+        let myRestaurantMenuItems = JSON.parse(JSON.stringify(restaurantMenuItems))
+        if (sortType === 'sortPrice') {
+            myRestaurantMenuItems = await sortMenuItems(myRestaurantMenuItems, 'price');
+        }
+        if (sortType === 'sortTitle') {
+            myRestaurantMenuItems = await sortMenuItems(myRestaurantMenuItems, 'title');
+        }
+        setMyState(sortType)
+        setRestaurantMenuItems(myRestaurantMenuItems);
+    }
+
     return (
         <Fragment>
             <Toolbar showLabel="false" color="primary">
-                {(restaurantId !== noSelectedRestaurant && myStates['menuSettngs']) && <Tooltip title="Edit associate details">
+                {(restaurantId !== noSelectedRestaurant && myStates['menuSettings']) && <Tooltip title="Edit associate details">
                     <IconButton aria-label=""
-                        color="primary"
-                        onClick={() => handleEditAssociate()}>
+                        color={myStates['sortTitle'] ? "secondary" : "primary"}
+                        onClick={() => sortBy('sortTitle')}>
                         <i className="fas fa-sort-alpha-down"></i>
                     </IconButton>
                 </Tooltip>}
-                {(restaurantId !== noSelectedRestaurant && myStates['menuSettngs']) && <Tooltip title="Edit associate details">
+                {(restaurantId !== noSelectedRestaurant && myStates['menuSettings']) && <Tooltip title="Edit associate details">
                     <IconButton aria-label=""
-                        color="primary"
-                        onClick={() => handleEditAssociate()}>
+                        color={myStates['sortPrice'] ? "secondary" : "primary"}
+                        onClick={() => sortBy('sortPrice')}>
                         <i className="icon-sort-dollar"></i>
                     </IconButton>
                 </Tooltip>}

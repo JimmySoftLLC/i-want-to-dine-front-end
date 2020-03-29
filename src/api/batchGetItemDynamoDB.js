@@ -1,18 +1,18 @@
-import { API } from 'aws-amplify';
+import axios from 'axios';
 import {
-    apiName,
-    apiPath,
+    lambdaFunctionURL,
 } from './apiConstants';
 
-const batchGetItemDynamoDB = async (myTableName, myIdToken, myIds, myCustomId, projectionExpression) => {
+const batchGetItemDynamoDB = async (myTableName, myIds, projectionExpression) => {
+    //console.log(myTableName, myIds);
     let myKeys = []
     for (let i = 0; i < myIds.length; i++) {
         myKeys.push({ 'id': myIds[i] })
     }
     let myReturnObject = { err: false, payload: null };
     try {
-        const apiRequest = {
-            body:
+        const res = await axios.post(
+            lambdaFunctionURL,
             {
                 myMethod: 'batchGet',
                 myBody: {
@@ -23,17 +23,16 @@ const batchGetItemDynamoDB = async (myTableName, myIdToken, myIds, myCustomId, p
                         }
                     }
                 },
-                myId: myCustomId,
             },
-            headers: {
-                'Authorization': myIdToken,
-                'Content-Type': 'application/json',
-                'Accept': '*/*',
+            {
+                headers: {
+                    Accept: '*/*',
+                    'Content-Type': 'application/json',
+                },
             }
-        };
-        //console.log('API Request:', apiRequest);
-        const data = await API.post(apiName, apiPath, apiRequest);
-        myReturnObject.payload = data;
+        );
+        myReturnObject.payload = res.data;
+        //console.log(myReturnObject);
         return myReturnObject;
     } catch (err) {
         myReturnObject.err = true;

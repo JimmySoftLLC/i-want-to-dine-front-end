@@ -321,11 +321,11 @@ import DeleteConfirmDialogContext from '../deleteConfirmDialog/deleteConfirmDial
 import getItemDynamoDB from '../../api/getItemDynamoDB';
 import putItemDynamoDB from '../../api/putItemDynamoDB';
 import {
-    SET_FOOD_CHOICES,
+    SET_MY_STATES,
     SET_MENU_ITEMS,
     SET_RESTAURANTS,
-    SET_EDIT_MENU_ITEM,
-    SET_EDIT_MENU_OPEN,
+    SET_MENU_ITEM_DIALOG_DATA,
+    SET_MENU_ITEM_DIALOG_OPEN,
     SET_EDIT_RESTAURANTS,
     SET_EDIT_RESTAURANTS_OPEN,
     SET_SIGN_IN_REG_DIALOG_TYPE,
@@ -417,10 +417,10 @@ const DataAndMethodsState = props => {
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
 
     //set food choices
-    const setFoodChoice = async key => {
+    const setMyState = async key => {
         let myNewFoodChoices = JSON.parse(JSON.stringify(state.myStates))
         myNewFoodChoices[key] ? myNewFoodChoices[key] = false : myNewFoodChoices[key] = true;
-        setFoodChoices(myNewFoodChoices);
+        setMyStates(myNewFoodChoices);
     };
 
     // menu item calls ----------------------------------------------------------------
@@ -428,7 +428,7 @@ const DataAndMethodsState = props => {
     const setMenuItemDialogDataItem = async (key, value) => {
         let myEditMenuItem = JSON.parse(JSON.stringify(state.menuItemDialogData))
         myEditMenuItem[key] = value;
-        setMenuDialogData(myEditMenuItem);
+        setMenuItemDialogData(myEditMenuItem);
     }
 
     const setMenuItemDialogDataCategory = async (key) => {
@@ -454,8 +454,8 @@ const DataAndMethodsState = props => {
                     restaurant: state.menuItems[i].restaurant,
                     dialogType: "Edit",
                 }
-                setMenuDialogData(myEditItem);
-                setMenuDialogOpen(true);
+                setMenuItemDialogData(myEditItem);
+                setMenuItemDialogOpen(true);
                 break;
             }
         }
@@ -473,8 +473,8 @@ const DataAndMethodsState = props => {
                     restaurant: state.menuItems[i].restaurant,
                     dialogType: "Add",
                 }
-                setMenuDialogData(myEditItem);
-                setMenuDialogOpen(true);
+                setMenuItemDialogData(myEditItem);
+                setMenuItemDialogOpen(true);
                 break;
             }
         }
@@ -658,9 +658,9 @@ const DataAndMethodsState = props => {
     // dispatch changes to the reducer ---------------------------------------------------------------------
     const setMenuItems = async (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
     const setRestaurants = async (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
-    const setFoodChoices = async (myStates) => { dispatch({ type: SET_FOOD_CHOICES, payload: myStates }) }
-    const setMenuDialogData = async (myEditMenuItem) => { dispatch({ type: SET_EDIT_MENU_ITEM, payload: myEditMenuItem }) }
-    const setMenuDialogOpen = async (isOpen) => { dispatch({ type: SET_EDIT_MENU_OPEN, payload: isOpen }) }
+    const setMyStates = async (myStates) => { dispatch({ type: SET_MY_STATES, payload: myStates }) }
+    const setMenuItemDialogData = async (myEditMenuItem) => { dispatch({ type: SET_MENU_ITEM_DIALOG_DATA, payload: myEditMenuItem }) }
+    const setMenuItemDialogOpen = async (isOpen) => { dispatch({ type: SET_MENU_ITEM_DIALOG_OPEN, payload: isOpen }) }
     const setRestaurantDialogData = async (myRestaurant) => { dispatch({ type: SET_EDIT_RESTAURANTS, payload: myRestaurant }) }
     const setRestaurantDialogOpen = async (isOpen) => { dispatch({ type: SET_EDIT_RESTAURANTS_OPEN, payload: isOpen }) }
     const setSignInRegDialogType = async (type) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: type }) }
@@ -696,12 +696,12 @@ const DataAndMethodsState = props => {
                 customId: state.customId,
                 associatesRestaurants: state.associatesRestaurants,
                 associate: state.associate,
-                setFoodChoice,
-                setFoodChoices,
+                setMyState,
+                setMyStates,
                 setRestaurants,
                 setMenuItemDialogDataItem,
                 setMenuItemDialogDataCategory,
-                setMenuDialogOpen,
+                setMenuItemDialogOpen,
                 setRestaurantDialogOpen,
                 handleClickMenuItemEdit,
                 saveMenuItem,

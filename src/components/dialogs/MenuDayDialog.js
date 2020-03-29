@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,14 +6,18 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import Toolbar from '@material-ui/core/Toolbar';
-import { Tooltip } from '@material-ui/core';
 import putMenuDay from '../../model/putMenuDay';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
 import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
 import putRestaurant from '../../model/putRestaurant';
+import Grid from '@material-ui/core/Grid';
+import DateFnsUtils from '@date-io/date-fns';
+import 'date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,20 +31,19 @@ const useStyles = makeStyles(theme => ({
 const MenuDayDialog = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-
     const {
         id,
         title,
+        dateFrom,
+        dateTo,
         description,
-        categoryJSON,
-        restaurant,
-        price,
+        menuIdsJSON,
         dialogType,
-    } = dataAndMethodsContext.MenuDayDialogData;
+    } = dataAndMethodsContext.menuDayDialogData;
 
     const {
-        MenuDayDialogOpen,
-        setMenuDialogOpen,
+        menuDayDialogOpen,
+        setMenuDayDialogOpen,
         setMenuDayDialogDataItem,
         idToken,
         customId,
@@ -50,7 +53,7 @@ const MenuDayDialog = () => {
     } = dataAndMethodsContext;
 
     const handleClose = () => {
-        setMenuDialogOpen(false);
+        setMenuDayDialogOpen(false);
     };
 
     const handleSave = () => {
@@ -63,17 +66,17 @@ const MenuDayDialog = () => {
                 break;
             default:
         }
-        setMenuDialogOpen(false);
+        setMenuDayDialogOpen(false);
     };
 
     const saveMenuDay = async () => {
         let myNewMenuDay = {}
         myNewMenuDay.id = id;
         myNewMenuDay.title = title;
+        myNewMenuDay.dateFrom = dateFrom;
+        myNewMenuDay.dateTo = dateTo;
         myNewMenuDay.description = description;
-        myNewMenuDay.categoryJSON = categoryJSON;
-        myNewMenuDay.restaurant = restaurant;
-        myNewMenuDay.price = price;
+        myNewMenuDay.menuIdsJSON = menuIdsJSON;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
@@ -85,10 +88,10 @@ const MenuDayDialog = () => {
         let myNewMenuDay = {}
         myNewMenuDay.id = id;
         myNewMenuDay.title = title;
+        myNewMenuDay.dateFrom = dateFrom;
+        myNewMenuDay.dateTo = dateTo;
         myNewMenuDay.description = description;
-        myNewMenuDay.categoryJSON = categoryJSON;
-        myNewMenuDay.restaurant = restaurant;
-        myNewMenuDay.price = price;
+        myNewMenuDay.menuIdsJSON = menuIdsJSON;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
@@ -102,65 +105,84 @@ const MenuDayDialog = () => {
         setMenuDayDialogDataItem('title', e.target.value)
     };
 
+    const changeDateFrom = (date) => {
+        setMenuDayDialogDataItem('dateFrom', date)
+    };
+
+    const changeDateTo = (date) => {
+        setMenuDayDialogDataItem('dateTo', date)
+    };
+
     const changeDescription = (e) => {
         setMenuDayDialogDataItem('description', e.target.value)
     };
 
-    const changeRestaurant = (e) => {
-        setMenuDayDialogDataItem('restaurant', e.target.value)
-    };
-
-    const changePrice = (e) => {
-        setMenuDayDialogDataItem('price', e.target.value)
-    };
-
-    const checkIfPresent = (value) => {
-        if (categoryJSON) {
-            if (categoryJSON.indexOf(value) !== -1) { return true }
-        }
-        return false
-    }
-
     return (
         <div>
-            <Dialog className={classes.root} open={MenuDayDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">
-                    {dialogType + " menu day"}</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        id="title"
-                        label="Title"
-                        type="text"
-                        fullWidth
-                        variant="filled"
-                        size="small"
-                        value={title}
-                        onChange={changeTitle}
-                    />
-                    <TextField
-                        id="restaurant"
-                        label="Restaurant"
-                        type="text"
-                        fullWidth
-                        variant="filled"
-                        size="small"
-                        value={restaurant}
-                        onChange={changeRestaurant}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="default">
-                        Cancel
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify="space-around">
+
+                    <Dialog className={classes.root} open={menuDayDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">
+                            {dialogType + " menu day"}</DialogTitle>
+                        <DialogContent>
+                            <TextField
+                                id="title"
+                                label="Title"
+                                type="text"
+                                fullWidth
+                                variant="filled"
+                                size="small"
+                                value={title}
+                                onChange={changeTitle}
+                            />
+                            <KeyboardDatePicker
+                                margin="normal"
+                                id="date-from"
+                                label="From"
+                                format="MM/dd/yyyy"
+                                value={dateFrom}
+                                onChange={changeDateFrom}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+                            <KeyboardDatePicker
+                                margin="normal"
+                                id="date-to"
+                                label="To"
+                                format="MM/dd/yyyy"
+                                value={dateTo}
+                                onChange={changeDateTo}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change date',
+                                }}
+                            />
+                            <TextField
+                                id="description"
+                                label="Description"
+                                type="text"
+                                fullWidth
+                                variant="filled"
+                                size="small"
+                                value={description}
+                                onChange={changeDescription}
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="default">
+                                Cancel
                     </Button>
-                    <Button onClick={() => handleSave()} color="primary">
-                        Save
+                            <Button onClick={() => handleSave()} color="primary">
+                                Save
                     </Button>
-                </DialogActions>
-            </Dialog>
+                        </DialogActions>
+                    </Dialog>
+                </Grid>
+            </MuiPickersUtilsProvider>
         </div>
     );
 }
 
 export default MenuDayDialog;
-
 

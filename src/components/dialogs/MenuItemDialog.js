@@ -14,6 +14,7 @@ import putMenuItem from '../../model/putMenuItem';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import putRestaurant from '../../model/putRestaurant';
+import sortMenuItems from '../../model/sortMenuItems';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,17 +42,18 @@ const MenuItemDialog = () => {
     const {
         menuItemDialogOpen,
         setMenuItemDialogDataCategory,
-        setMenuDialogOpen,
+        setMenuItemDialogOpen,
         setMenuItemDialogDataItem,
         idToken,
         customId,
-        setResturantMenuItems,
+        setRestaurantMenuItems,
         associatesRestaurants,
         restaurantId,
+        myStates,
     } = dataAndMethodsContext;
 
     const handleClose = () => {
-        setMenuDialogOpen(false);
+        setMenuItemDialogOpen(false);
     };
 
     const handleSave = () => {
@@ -64,7 +66,7 @@ const MenuItemDialog = () => {
                 break;
             default:
         }
-        setMenuDialogOpen(false);
+        setMenuItemDialogOpen(false);
     };
 
     const saveMenuItem = async () => {
@@ -78,8 +80,14 @@ const MenuItemDialog = () => {
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
-        const myMenuItems = await getRestaurantMenuItems(myRestaurant)
-        setResturantMenuItems(myMenuItems)
+        let myMenuItems = await getRestaurantMenuItems(myRestaurant)
+        if (myStates['sortPrice']) {
+            myMenuItems = await sortMenuItems(myMenuItems, 'price');
+        }
+        if (myStates['sortTitle']) {
+            myMenuItems = await sortMenuItems(myMenuItems, 'title');
+        }
+        setRestaurantMenuItems(myMenuItems)
     };
 
     const saveMenuItemAdd = async () => {
@@ -95,8 +103,14 @@ const MenuItemDialog = () => {
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         myRestaurant.menuItemIdsJSON.push(myNewMenuItem.id)
         await putRestaurant(myRestaurant, idToken, customId)
-        const myMenuItems = await getRestaurantMenuItems(myRestaurant)
-        setResturantMenuItems(myMenuItems)
+        let myMenuItems = await getRestaurantMenuItems(myRestaurant)
+        if (myStates['sortPrice']) {
+            myMenuItems = await sortMenuItems(myMenuItems, 'price');
+        }
+        if (myStates['sortTitle']) {
+            myMenuItems = await sortMenuItems(myMenuItems, 'title');
+        }
+        setRestaurantMenuItems(myMenuItems)
     };
 
     const changeTitle = (e) => {

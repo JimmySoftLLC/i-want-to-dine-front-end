@@ -15,6 +15,7 @@ import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 // import updateAssociateRestaurants from '../../model/updateAssociateRestaurants';
 import putAssociate from '../../model/putAssociate';
 import deleteRestaurant from '../../model/deleteRestaurant';
+import sortMenuItems from '../../model/sortMenuItems';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
@@ -30,12 +31,14 @@ const SignedInTopToolBar = () => {
         setAssociate,
         idToken,
         customId,
-        setMenuDialogData,
-        setMenuDialogOpen,
-        setResturantMenuItems,
+        setMenuItemDialogData,
+        setMenuItemDialogOpen,
+        setRestaurantMenuItems,
         setRestaurantId,
         restaurantId,
         myStates,
+        setMenuDayDialogData,
+        setMenuDayDialogOpen,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -44,18 +47,25 @@ const SignedInTopToolBar = () => {
     const handleChange = async (event) => {
         setRestaurantId(event.target.value);
         if (event.target.value === noSelectedRestaurant) {
-            setResturantMenuItems([]);
+            setRestaurantMenuItems([]);
             return;
         }
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, event.target.value)
-        const myMenuItems = await getRestaurantMenuItems(myRestaurant)
-        setResturantMenuItems(myMenuItems)
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, event.target.value);
+        let myMenuItems = await getRestaurantMenuItems(myRestaurant);
+        if (myStates['sortPrice']) {
+            myMenuItems = await sortMenuItems(myMenuItems, 'price');
+        }
+        if (myStates['sortTitle']) {
+            myMenuItems = await sortMenuItems(myMenuItems, 'title');
+        }
+        setRestaurantMenuItems(myMenuItems);
     };
 
     const handleEditRestaurant = () => {
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         //console.log(myRestaurant)
         let myRestaurantData = {
+            id: myRestaurant.id,
             restaurantName: myRestaurant.restaurantName,
             description: myRestaurant.description,
             street: myRestaurant.street,
@@ -64,7 +74,6 @@ const SignedInTopToolBar = () => {
             zipCode: myRestaurant.zipCode,
             phoneNumber: myRestaurant.phoneNumber,
             urlLink: myRestaurant.urlLink,
-            id: myRestaurant.id,
             menuItemIdsJSON: myRestaurant.menuItemIdsJSON,
             associateIdsJSON: myRestaurant.associateIdsJSON,
             approved: myRestaurant.approved,
@@ -82,6 +91,7 @@ const SignedInTopToolBar = () => {
         let myNewAssociate = JSON.parse(JSON.stringify(associate))
         myNewAssociate.restaurantIdsJSON.push(myNewId)
         let myRestaurantData = {
+            id: myNewId,
             restaurantName: '',
             description: '',
             street: '',
@@ -90,7 +100,6 @@ const SignedInTopToolBar = () => {
             zipCode: '',
             phoneNumber: '',
             urlLink: '',
-            id: myNewId,
             menuItemIdsJSON: [],
             associateIdsJSON: myAssociateIdsJSON,
             approved: false,
@@ -105,16 +114,31 @@ const SignedInTopToolBar = () => {
         let myNewId = uuidv4()
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         let myEditItem = {
+            id: myNewId,
             title: '',
             description: '',
             categoryJSON: [],
             price: 0,
-            id: myNewId,
             restaurant: myRestaurant.restaurantName,
             dialogType: "Add",
         }
-        setMenuDialogData(myEditItem);
-        setMenuDialogOpen(true);
+        setMenuItemDialogData(myEditItem);
+        setMenuItemDialogOpen(true);
+    };
+
+    const handleNewMenuDay = () => {
+        let myNewId = uuidv4()
+        let myEditItem = {
+            id: myNewId,
+            title: 'Dude person',
+            dateFrom: new Date('2014-08-18T21:11:54'),
+            dateTo: new Date('2014-08-18T21:11:54'),
+            description: 'descriptions stuff',
+            menuIdsJSON: [],
+            dialogType: "Add",
+        }
+        setMenuDayDialogData(myEditItem);
+        setMenuDayDialogOpen(true);
     };
 
     const loadDeleteRestaurantWarningDialog = () => {
@@ -133,7 +157,7 @@ const SignedInTopToolBar = () => {
         setAssociate(myAssociate)
         await putAssociate(myAssociate, idToken, customId)
         await deleteRestaurant(restaurantId, idToken, customId)
-        const associatesRestaurants = await getAssociateRestaurants(myAssociate, idToken, customId)
+        const associatesRestaurants = await getAssociateRestaurants(myAssociate)
         setAssociatesRestaurants(associatesRestaurants);
         setRestaurantId(noSelectedRestaurant);
     }
@@ -200,22 +224,29 @@ const SignedInTopToolBar = () => {
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Restaurant settings">
                         <IconButton aria-label=""
                             color={myStates['restaurantSettngs'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('restaurantSettngs')}>
+                            onClick={() => dataAndMethodsContext.setMyState('restaurantSettngs')}>
                             <i className="icon-restaurant-cog"></i>
                         </IconButton>
                     </Tooltip>}
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Menu settings">
                         <IconButton aria-label=""
-                            color={myStates['menuSettngs'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('menuSettngs')}>
+                            color={myStates['menuSettings'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setMyState('menuSettings')}>
                             <i className="icon-list-solid-cog"></i>
                         </IconButton>
                     </Tooltip>}
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Calendar settings">
                         <IconButton aria-label=""
                             color={myStates['menuDaySettngs'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setFoodChoice('menuDaySettngs')}>
+                            onClick={() => dataAndMethodsContext.setMyState('menuDaySettngs')}>
                             <i className="icon-calendar-cog"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Edit restaurant">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => handleEditRestaurant()}>
+                            <i className="icon-restaurant-edit"></i>
                         </IconButton>
                     </Tooltip>}
                     {restaurantId === noSelectedRestaurant && <Tooltip title="Add restaurant">
@@ -232,13 +263,6 @@ const SignedInTopToolBar = () => {
                             <i className="icon-restaurant-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Edit restaurant">
-                        <IconButton aria-label=""
-                            color="inherit"
-                            onClick={() => handleEditRestaurant()}>
-                            <i className="icon-restaurant-edit"></i>
-                        </IconButton>
-                    </Tooltip>}
                     {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Delete restaurant">
                         <IconButton aria-label=""
                             color="inherit"
@@ -246,7 +270,7 @@ const SignedInTopToolBar = () => {
                             <i className="icon-restaurant-minus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['menuSettngs']) && <Tooltip title="Add menu item">
+                    {(restaurantId !== noSelectedRestaurant && myStates['menuSettings']) && <Tooltip title="Add menu item">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewMenuItem()}>
@@ -256,7 +280,7 @@ const SignedInTopToolBar = () => {
                     {(restaurantId !== noSelectedRestaurant && myStates['menuDaySettngs']) && <Tooltip title="Add menu day">
                         <IconButton aria-label=""
                             color="inherit"
-                            onClick={() => handleNewMenuItem()}>
+                            onClick={() => handleNewMenuDay()}>
                             <i className="icon-calendar-solid-plus"></i>
                         </IconButton>
                     </Tooltip>}

@@ -1,18 +1,17 @@
-import batchGetItemDynamoDBNoKeys from '../api/batchGetItemDynamoDBNoKeys';
+import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
 
 import {
     menuItemsTableName,
     projectionExpressionMenuItem,
 } from '../api/apiConstants';
 
-
 const getBatch = async (myIds) => {
     let myRestaurantsMenuItems = []
-    const data = await batchGetItemDynamoDBNoKeys(menuItemsTableName, myIds, projectionExpressionMenuItem)
+    const data = await batchGetItemDynamoDB(menuItemsTableName, myIds, projectionExpressionMenuItem)
     if (data.err) {
         return [];
     }
-    myRestaurantsMenuItems = data.payload;
+    myRestaurantsMenuItems = data.payload.Responses.menuItems;
     for (let i = 0; i < myRestaurantsMenuItems.length; i++) {
         myRestaurantsMenuItems[i].categoryJSON = JSON.parse(myRestaurantsMenuItems[i].categoryJSON)
     }
@@ -56,12 +55,7 @@ const getRestaurantsMenuItems = async (restaurants) => {
     const myBatch = await getBatch(myIds);
     myRestaurantsMenuItems = myRestaurantsMenuItems.concat(myBatch)
 
-    // now sort items by price
-    myRestaurantsMenuItems.sort(function (a, b) {
-        return a.price - b.price;
-    });
-
-    //console.log(myRestaurantsMenuItems);
+    // console.log(myRestaurantsMenuItems);
     return myRestaurantsMenuItems;
 }
 

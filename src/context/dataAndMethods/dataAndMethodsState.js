@@ -1,17 +1,17 @@
 import React, { useReducer } from 'react';
 import DataAndMethodsContext from './dataAndMethodsContext';
 import DataAndMethodsReducer from './dataAndMethodsReducer';
-import setFoodCategories from '../../model/setFoodCategories';
+import setMyStatesLogic from '../../model/setMyStatesLogic';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
 
 import {
-    SET_FOOD_CHOICES,
+    SET_MY_STATES,
     SET_MENU_ITEMS,
     SET_RESTAURANTS,
-    SET_EDIT_MENU_ITEM,
-    SET_EDIT_MENU_OPEN,
+    SET_MENU_ITEM_DIALOG_DATA,
+    SET_MENU_ITEM_DIALOG_OPEN,
     SET_EDIT_RESTAURANTS,
     SET_EDIT_RESTAURANTS_OPEN,
     SET_SIGN_IN_REG_DIALOG_TYPE,
@@ -26,6 +26,9 @@ import {
     SET_ASSOCIATE_DIALOG_OPEN,
     SET_RESTAURANT_MENU_ITEMS,
     SET_RESTAURANT_ID,
+    SET_RESTAURANT_MENU_DAY_ITEMS,
+    SET_MENU_DAY_DIALOG_OPEN,
+    SET_MENU_DAY_DIALOG_DATA,
 } from '../types';
 import {
     // menuItemsTableName,
@@ -60,12 +63,15 @@ const DataAndMethodsState = props => {
             dollar_3: false,
             restaurant: false,
             restaurantSettngs: false,
-            menuSettngs: false,
+            menuSettings: false,
             menuDaySettngs: false,
+            sortTitle: true,
+            sortPrice: false,
         },
         signInRegDialogType: 'false',
         menuItems: [],
         restaurantMenuItems: [],
+        restaurantMenuDays: [],
         restaurants: [],
         associatesRestaurants: [],
         associate: {},
@@ -93,6 +99,7 @@ const DataAndMethodsState = props => {
             id: '',
             menuItemIdsJSON: [],
             associateIdsJSON: [],
+            menuDayIdsJSON: [],
             approved: false,
             myAssociate: {},
             dialogType: "Edit",
@@ -110,9 +117,13 @@ const DataAndMethodsState = props => {
             restaurantIdsJSON: [],
             dialogType: "Edit",
         },
+        menuDayDialogOpen: false,
         menuDayDialogData: {
             id: '',
-            date: Date,
+            dateFrom: '',
+            dateTo: '',
+            description: '',
+            menuIdsJSON: [],
             dialogType: "Edit",
         }
     };
@@ -133,13 +144,13 @@ const DataAndMethodsState = props => {
     const setAuthToken = async (authToken) => { dispatch({ type: SET_AUTH_TOKEN, payload: authToken }) }
     const setCustomId = async (customId) => { dispatch({ type: SET_CUSTOM_ID, payload: customId }) }
 
-    //set food choices
-    const setFoodChoice = async key => {
+    //set my states
+    const setMyState = async key => {
         let myNewFoodChoices = JSON.parse(JSON.stringify(state.myStates))
-        myNewFoodChoices = setFoodCategories(myNewFoodChoices, key)
-        setFoodChoices(myNewFoodChoices);
+        myNewFoodChoices = setMyStatesLogic(myNewFoodChoices, key)
+        setMyStates(myNewFoodChoices);
     };
-    const setFoodChoices = async (foodChoices) => { dispatch({ type: SET_FOOD_CHOICES, payload: foodChoices }) }
+    const setMyStates = async (myStates) => { dispatch({ type: SET_MY_STATES, payload: myStates }) }
 
     const setIdToken = async (idToken) => { dispatch({ type: SET_ID_TOKEN, payload: idToken }) }
     const setLogInType = async (logInType) => { dispatch({ type: SET_LOGIN_TYPE, payload: logInType }) }
@@ -147,7 +158,7 @@ const DataAndMethodsState = props => {
     const setMenuItemDialogDataItem = async (key, value) => {
         let menuItemDialogData = JSON.parse(JSON.stringify(state.menuItemDialogData))
         menuItemDialogData[key] = value;
-        setMenuDialogData(menuItemDialogData);
+        setMenuItemDialogData(menuItemDialogData);
     }
     const setMenuItemDialogDataCategory = async (key) => {
         let myNewCategories = JSON.parse(JSON.stringify(state.menuItemDialogData.categoryJSON))
@@ -160,8 +171,8 @@ const DataAndMethodsState = props => {
         setMenuItemDialogDataItem('categoryJSON', myNewCategories)
     }
     const setMenuItems = async (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
-    const setMenuDialogData = async (editMenuItem) => { dispatch({ type: SET_EDIT_MENU_ITEM, payload: editMenuItem }) }
-    const setMenuDialogOpen = async (menuItemDialogOpen) => { dispatch({ type: SET_EDIT_MENU_OPEN, payload: menuItemDialogOpen }) }
+    const setMenuItemDialogData = async (menuItemDialogData) => { dispatch({ type: SET_MENU_ITEM_DIALOG_DATA, payload: menuItemDialogData }) }
+    const setMenuItemDialogOpen = async (menuItemDialogOpen) => { dispatch({ type: SET_MENU_ITEM_DIALOG_OPEN, payload: menuItemDialogOpen }) }
 
     const setRestaurantDialogDataItem = async (key, value) => {
         let restaurantDialogData = JSON.parse(JSON.stringify(state.restaurantDialogData))
@@ -171,11 +182,20 @@ const DataAndMethodsState = props => {
     const setRestaurants = async (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
     const setRestaurantDialogData = async (restaurantDialogData) => { dispatch({ type: SET_EDIT_RESTAURANTS, payload: restaurantDialogData }) }
     const setRestaurantDialogOpen = async (restaurantDialogOpen) => { dispatch({ type: SET_EDIT_RESTAURANTS_OPEN, payload: restaurantDialogOpen }) }
-    const setResturantMenuItems = async (restaurantMenuItems) => { dispatch({ type: SET_RESTAURANT_MENU_ITEMS, payload: restaurantMenuItems }) }
+    const setRestaurantMenuItems = async (restaurantMenuItems) => { dispatch({ type: SET_RESTAURANT_MENU_ITEMS, payload: restaurantMenuItems }) }
+    const setrestaurantMenuDays = async (restaurantMenuDays) => { dispatch({ type: SET_RESTAURANT_MENU_DAY_ITEMS, payload: restaurantMenuDays }) }
     const setRestaurantId = async (restaurantId) => { dispatch({ type: SET_RESTAURANT_ID, payload: restaurantId }) }
 
     const setSignInRegDialogType = async (signInRegDialogType) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: signInRegDialogType }) }
     const setSignInRegDialogTitle = async (signInRegDialogTitle) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: signInRegDialogTitle }) }
+
+    const setMenuDayDialogDataItem = async (key, value) => {
+        let menuDayDialogData = JSON.parse(JSON.stringify(state.menuDayDialogData))
+        menuDayDialogData[key] = value;
+        setMenuDayDialogData(menuDayDialogData);
+    }
+    const setMenuDayDialogData = async (menuDayDialogData) => { dispatch({ type: SET_MENU_DAY_DIALOG_DATA, payload: menuDayDialogData }) }
+    const setMenuDayDialogOpen = async (menuDayDialogOpen) => { dispatch({ type: SET_MENU_DAY_DIALOG_OPEN, payload: menuDayDialogOpen }) }
 
     return (
         <DataAndMethodsContext.Provider
@@ -205,13 +225,15 @@ const DataAndMethodsState = props => {
                 associateDialogOpen: state.associateDialogOpen,
                 restaurantMenuItems: state.restaurantMenuItems,
                 restaurantId: state.restaurantId,
+                restaurantMenuDays: state.restaurantMenuDays,
                 menuDayDialogData: state.menuDayDialogData,
-                setFoodChoice,
-                setFoodChoices,
+                menuDayDialogOpen: state.menuDayDialogOpen,
+                setMyState,
+                setMyStates,
                 setRestaurants,
                 setMenuItemDialogDataItem,
                 setMenuItemDialogDataCategory,
-                setMenuDialogOpen,
+                setMenuItemDialogOpen,
                 setRestaurantDialogOpen,
                 setSignInRegDialogType,
                 setSignInRegDialogTitle,
@@ -227,10 +249,13 @@ const DataAndMethodsState = props => {
                 setAssociateDialogData,
                 setAssociateDialogOpen,
                 setAssociateDialogDataItem,
-                setMenuDialogData,
-                setResturantMenuItems,
+                setMenuItemDialogData,
+                setRestaurantMenuItems,
                 setRestaurantId,
-
+                setrestaurantMenuDays,
+                setMenuDayDialogData,
+                setMenuDayDialogOpen,
+                setMenuDayDialogDataItem,
             }}
         >
             {props.children}

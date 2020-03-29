@@ -3,6 +3,7 @@ import {
     menuItemsTableName,
     restaurantsTableName,
     associatesTableName,
+    menuDaysTableName,
     apiName,
     apiPath,
 } from './apiConstants';
@@ -48,6 +49,15 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
                 bio: myItem.bio,
                 jobTitle: myItem.jobTitle,
                 restaurantIdsJSON: JSON.stringify(myItem.restaurantIdsJSON),
+            }
+            break;
+        case menuDaysTableName:
+            myNewItem = {
+                id: myItem.id,
+                dateFrom: myItem.dateFrom,
+                dateTo: myItem.dateTo,
+                description: myItem.description,
+                menuIdsJSON: JSON.stringify(myItem.menuIdsJSON),
             }
             break;
         default:

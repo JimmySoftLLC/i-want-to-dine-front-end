@@ -1,27 +1,27 @@
 import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
 
 import {
-    menuItemsTableName,
+    menuDaysTableName,
     projectionExpressionMenuItem,
 } from '../api/apiConstants';
 
 const getBatch = async (myIds) => {
-    let myRestaurantsMenuItems = []
-    const data = await batchGetItemDynamoDB(menuItemsTableName, myIds, projectionExpressionMenuItem)
+    let myRestaurantMenuDays = []
+    const data = await batchGetItemDynamoDB(menuDaysTableName, myIds, projectionExpressionMenuItem)
     if (data.err) {
         return [];
     }
-    myRestaurantsMenuItems = data.payload.Responses.menuItems;
-    for (let i = 0; i < myRestaurantsMenuItems.length; i++) {
-        myRestaurantsMenuItems[i].categoryJSON = JSON.parse(myRestaurantsMenuItems[i].categoryJSON)
+    myRestaurantMenuDays = data.payload.Responses.menuDays;
+    for (let i = 0; i < myRestaurantMenuDays.length; i++) {
+        myRestaurantMenuDays[i].categoryJSON = JSON.parse(myRestaurantMenuDays[i].categoryJSON)
     }
-    return myRestaurantsMenuItems;
+    return myRestaurantMenuDays;
 }
 
-const getRestaurantMenuItems = async (restaurant) => {
+const getRestaurantMenuDays = async (restaurant) => {
     // create an array of all ids
-    let allIds = restaurant.menuItemIdsJSON;
-    let myRestaurantsMenuItems = [];
+    let allIds = restaurant.menuDayIdsJSON;
+    let myRestaurantMenuDays = [];
 
     // get records in batches of 100
     let myIds = [];
@@ -34,7 +34,7 @@ const getRestaurantMenuItems = async (restaurant) => {
             const myBatch = await getBatch(myIds);
             myIds = [];
             currentCount = 0
-            myRestaurantsMenuItems = myRestaurantsMenuItems.concat(myBatch)
+            myRestaurantMenuDays = myRestaurantMenuDays.concat(myBatch)
             lastValidNextIndex = i + 1;
         }
     }
@@ -45,10 +45,10 @@ const getRestaurantMenuItems = async (restaurant) => {
         myIds.push(allIds[i]);
     }
     const myBatch = await getBatch(myIds);
-    myRestaurantsMenuItems = myRestaurantsMenuItems.concat(myBatch)
+    myRestaurantMenuDays = myRestaurantMenuDays.concat(myBatch)
 
-    //console.log(myRestaurantsMenuItems);
-    return myRestaurantsMenuItems;
+    //console.log(myRestaurantMenuDays);
+    return myRestaurantMenuDays;
 }
 
-export default getRestaurantMenuItems
+export default getRestaurantMenuDays

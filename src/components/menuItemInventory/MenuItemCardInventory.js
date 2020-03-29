@@ -8,6 +8,7 @@ import deleteMenuItem from '../../model/deleteMenuItem';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import putRestaurant from '../../model/putRestaurant';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import sortMenuItems from '../../model/sortMenuItems';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -24,13 +25,14 @@ const MenuItemCardInventory = ({ menuItem }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
         restaurantMenuItems,
-        setMenuDialogData,
-        setMenuDialogOpen,
+        setMenuItemDialogData,
+        setMenuItemDialogOpen,
         idToken,
         customId,
-        setResturantMenuItems,
+        setRestaurantMenuItems,
         associatesRestaurants,
         restaurantId,
+        myStates,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -48,8 +50,8 @@ const MenuItemCardInventory = ({ menuItem }) => {
                     restaurant: restaurantMenuItems[i].restaurant,
                     dialogType: 'Edit',
                 }
-                setMenuDialogData(myEditItem);
-                setMenuDialogOpen(true);
+                setMenuItemDialogData(myEditItem);
+                setMenuItemDialogOpen(true);
                 break;
             }
         }
@@ -67,8 +69,8 @@ const MenuItemCardInventory = ({ menuItem }) => {
                     restaurant: restaurantMenuItems[i].restaurant,
                     dialogType: "Add",
                 }
-                setMenuDialogData(myEditItem);
-                setMenuDialogOpen(true);
+                setMenuItemDialogData(myEditItem);
+                setMenuItemDialogOpen(true);
                 break;
             }
         }
@@ -93,8 +95,14 @@ const MenuItemCardInventory = ({ menuItem }) => {
         let myIndex = myRestaurant.menuItemIdsJSON.indexOf(menuId, 0)
         myRestaurant.menuItemIdsJSON.splice(myIndex, 1)
         await putRestaurant(myRestaurant, idToken, customId)
-        const myMenuItems = await getRestaurantMenuItems(myRestaurant)
-        setResturantMenuItems(myMenuItems)
+        let myMenuItems = await getRestaurantMenuItems(myRestaurant)
+        if (myStates['sortPrice']) {
+            myMenuItems = await sortMenuItems(myMenuItems, 'price');
+        }
+        if (myStates['sortTitle']) {
+            myMenuItems = await sortMenuItems(myMenuItems, 'title');
+        }
+        setRestaurantMenuItems(myMenuItems)
     }
 
     const items = []

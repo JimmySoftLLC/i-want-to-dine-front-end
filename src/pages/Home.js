@@ -5,20 +5,21 @@ import AlertDialogContext from '../context/alertDialog/alertDialogContext';
 import About from '../pages/about';
 import MenuItemsPublicFacing from '../components/menuItemsPublicFacing/MenuItemsPublicFacing';
 import MenuItemsInventory from '../components/menuItemInventory/MenuItemsInventory';
+import MenuDays from '../components/menuDay/MenuDays';
 import BotNavBar from '../components/BotNavBar';
 import RestaurantItems from '../components/restaurantItems/RestaurantItems';
-// import AssociateRestaurantItems from '../components/restaurantItems/AssociateRestaurantItems';
 import MenuItemDialog from '../components/dialogs/MenuItemDialog';
 import RestaurantDialog from '../components/dialogs/RestaurantDialog';
 import AssociateDialog from '../components/dialogs/AssociateDialog';
+import MenuDayDialog from '../components/dialogs/MenuDayDialog';
 import AlertDialog from '../components/dialogs/AlertDialog';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import scanDynamoDB from '../api/scanDynamoDB';
 import getRestaurantsMenuItems from '../model/getRestaurantsMenuItems';
+import sortMenuItems from '../model/sortMenuItems';
 import {
     restaurantsTableName,
-    // associatesTableName,
 } from '../api/apiConstants';
 
 const Home = () => {
@@ -26,7 +27,8 @@ const Home = () => {
         async function fetchData() {
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
-            const myMenuItems = await getRestaurantsMenuItems(myRestaurants.payload);
+            let myMenuItems = await getRestaurantsMenuItems(myRestaurants.payload);
+            myMenuItems = await sortMenuItems(myMenuItems, 'price')
             setMenuItems(myMenuItems);
         }
         fetchData();
@@ -55,10 +57,12 @@ const Home = () => {
                 <p className='p home-page-bottom-margin'></p>
             </div>}
             {logInType === 'signedIn' && <div className='container associate-page-top-margin'>
-                {myStates['menuSettngs'] && <MenuItemsInventory />}
+                {myStates['menuSettings'] && <MenuItemsInventory />}
+                {myStates['menuDaySettngs'] && <MenuDays />}
                 <MenuItemDialog />
                 <RestaurantDialog />
                 <AssociateDialog />
+                <MenuDayDialog />
                 <p className='p associate-page-bottom-margin'></p>
             </div>}
             <BotNavBar />

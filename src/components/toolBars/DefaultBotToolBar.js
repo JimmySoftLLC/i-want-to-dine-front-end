@@ -6,7 +6,7 @@ import { Tooltip } from '@material-ui/core';
 
 const DefaultBotToolBar = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const { myStates, setFoodChoice } = dataAndMethodsContext;
+    const { myStates, setMyState } = dataAndMethodsContext;
 
     const setUpRegistrationDialog = () => {
         dataAndMethodsContext.setSignInRegDialogTitle('Restaurant Sign In');
@@ -19,28 +19,28 @@ const DefaultBotToolBar = () => {
                 <Tooltip title="0-20 dollars">
                     <IconButton aria-label=""
                         color={myStates['dollar_1'] ? "secondary" : "primary"}
-                        onClick={() => setFoodChoice('dollar_1')}>
+                        onClick={() => setMyState('dollar_1')}>
                         <i className="icon-dollar_1"></i>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="20-35 dollars">
                     <IconButton aria-label=""
                         color={myStates['dollar_2'] ? "secondary" : "primary"}
-                        onClick={() => setFoodChoice('dollar_2')}>
+                        onClick={() => setMyState('dollar_2')}>
                         <i className="icon-dollar_2"></i>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="35 and up dollars">
                     <IconButton aria-label=""
                         color={myStates['dollar_3'] ? "secondary" : "primary"}
-                        onClick={() => setFoodChoice('dollar_3')}>
+                        onClick={() => setMyState('dollar_3')}>
                         <i className="icon-dollar_3"></i>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Restaurants">
                     <IconButton aria-label=""
                         color={myStates['restaurant'] ? "secondary" : "primary"}
-                        onClick={() => setFoodChoice('restaurant')}>
+                        onClick={() => setMyState('restaurant')}>
                         <i className="icon-resturant"></i>
                     </IconButton>
                 </Tooltip>

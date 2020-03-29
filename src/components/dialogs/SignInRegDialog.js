@@ -129,7 +129,7 @@ const SignUp = () => {
                 if (!associate) {
                     let myNewAssociate = await createNewAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'], session.idToken.payload['email'])
                     if (myNewAssociate) {
-                        const associatesRestaurants = await getAssociateRestaurants(myNewAssociate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                        const associatesRestaurants = await getAssociateRestaurants(myNewAssociate)
                         //console.log(associatesRestaurants);
                         setAssociatesRestaurants(associatesRestaurants);
                         setAssociate(myNewAssociate);
@@ -140,7 +140,7 @@ const SignUp = () => {
                 } else {
                     //console.log(associate);
                     setAssociate(associate);
-                    const associatesRestaurants = await getAssociateRestaurants(associate, session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                    const associatesRestaurants = await getAssociateRestaurants(associate)
                     //console.log(associatesRestaurants);
                     setAssociatesRestaurants(associatesRestaurants);
                     setLogInType('signedIn')
