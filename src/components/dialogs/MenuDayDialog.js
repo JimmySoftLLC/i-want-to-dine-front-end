@@ -126,12 +126,27 @@ const MenuDayDialog = () => {
         setMenuDayDialogDataItem('title', e.target.value)
     };
 
-    const changeDateFrom = (date) => {
-        setMenuDayDialogDataItem('dateFrom', date)
+    const changeDateFrom = (myDate) => {
+        const myDateTo = new Date(dateTo)
+        let myMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
+        if (myDate.getTime() > myDateTo.getTime()) {
+            myMenuDayDialogData['dateFrom'] = myDate;
+            myMenuDayDialogData['dateTo'] = myDate;
+        } else {
+            myMenuDayDialogData['dateFrom'] = myDate;
+        }
+        setMenuDayDialogData(myMenuDayDialogData);
     };
 
-    const changeDateTo = (date) => {
-        setMenuDayDialogDataItem('dateTo', date)
+    const changeDateTo = (myDate) => {
+        const myDateFrom = new Date(dateFrom)
+        let myMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
+        if (myDate.getTime() < myDateFrom.getTime()) {
+            myMenuDayDialogData['dateTo'] = myDateFrom;
+        } else {
+            myMenuDayDialogData['dateTo'] = myDate;
+        }
+        setMenuDayDialogData(myMenuDayDialogData);
     };
 
     const changeDescription = (e) => {
