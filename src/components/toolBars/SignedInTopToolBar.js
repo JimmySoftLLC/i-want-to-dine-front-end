@@ -12,16 +12,17 @@ import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/delete
 import getAssociateRestaurants from '../../model/getAssociateRestaurants';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
+import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
 // import updateAssociateRestaurants from '../../model/updateAssociateRestaurants';
 import putAssociate from '../../model/putAssociate';
 import deleteRestaurant from '../../model/deleteRestaurant';
 import sortMenuItems from '../../model/sortMenuItems';
+import sortMenuDays from '../../model/sortMenuDays';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
 
 const SignedInTopToolBar = () => {
-
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const { associatesRestaurants,
         setRestaurantDialogData,
@@ -39,6 +40,7 @@ const SignedInTopToolBar = () => {
         myStates,
         setMenuDayDialogData,
         setMenuDayDialogOpen,
+        setRestaurantMenuDays,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -52,13 +54,11 @@ const SignedInTopToolBar = () => {
         }
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, event.target.value);
         let myMenuItems = await getRestaurantMenuItems(myRestaurant);
-        if (myStates['sortPrice']) {
-            myMenuItems = await sortMenuItems(myMenuItems, 'price');
-        }
-        if (myStates['sortTitle']) {
-            myMenuItems = await sortMenuItems(myMenuItems, 'title');
-        }
+        myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems);
+        let myMenuDays = await getRestaurantMenuDays(myRestaurant);
+        myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
+        setRestaurantMenuDays(myMenuDays);
     };
 
     const handleEditRestaurant = () => {
@@ -76,6 +76,7 @@ const SignedInTopToolBar = () => {
             urlLink: myRestaurant.urlLink,
             menuItemIdsJSON: myRestaurant.menuItemIdsJSON,
             associateIdsJSON: myRestaurant.associateIdsJSON,
+            menuDayIdsJSON: myRestaurant.menuDayIdsJSON,
             approved: myRestaurant.approved,
             myAssociate: associate,
             dialogType: "Edit",
@@ -102,6 +103,7 @@ const SignedInTopToolBar = () => {
             urlLink: '',
             menuItemIdsJSON: [],
             associateIdsJSON: myAssociateIdsJSON,
+            menuDayIdsJSON: [],
             approved: false,
             myAssociate: myNewAssociate,
             dialogType: "New",
@@ -130,10 +132,10 @@ const SignedInTopToolBar = () => {
         let myNewId = uuidv4()
         let myEditItem = {
             id: myNewId,
-            title: 'Dude person',
-            dateFrom: new Date('2014-08-18T21:11:54'),
-            dateTo: new Date('2014-08-18T21:11:54'),
-            description: 'descriptions stuff',
+            title: '',
+            dateFrom: new Date(),
+            dateTo: new Date(),
+            description: '',
             menuIdsJSON: [],
             dialogType: "Add",
         }

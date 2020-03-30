@@ -67,6 +67,7 @@ const DataAndMethodsState = props => {
             menuDaySettngs: false,
             sortTitle: true,
             sortPrice: false,
+            sortDate: false,
         },
         signInRegDialogType: 'false',
         menuItems: [],
@@ -120,6 +121,7 @@ const DataAndMethodsState = props => {
         menuDayDialogOpen: false,
         menuDayDialogData: {
             id: '',
+            title: '',
             dateFrom: '',
             dateTo: '',
             description: '',
@@ -183,7 +185,7 @@ const DataAndMethodsState = props => {
     const setRestaurantDialogData = async (restaurantDialogData) => { dispatch({ type: SET_EDIT_RESTAURANTS, payload: restaurantDialogData }) }
     const setRestaurantDialogOpen = async (restaurantDialogOpen) => { dispatch({ type: SET_EDIT_RESTAURANTS_OPEN, payload: restaurantDialogOpen }) }
     const setRestaurantMenuItems = async (restaurantMenuItems) => { dispatch({ type: SET_RESTAURANT_MENU_ITEMS, payload: restaurantMenuItems }) }
-    const setrestaurantMenuDays = async (restaurantMenuDays) => { dispatch({ type: SET_RESTAURANT_MENU_DAY_ITEMS, payload: restaurantMenuDays }) }
+    const setRestaurantMenuDays = async (restaurantMenuDays) => { dispatch({ type: SET_RESTAURANT_MENU_DAY_ITEMS, payload: restaurantMenuDays }) }
     const setRestaurantId = async (restaurantId) => { dispatch({ type: SET_RESTAURANT_ID, payload: restaurantId }) }
 
     const setSignInRegDialogType = async (signInRegDialogType) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: signInRegDialogType }) }
@@ -252,7 +254,7 @@ const DataAndMethodsState = props => {
                 setMenuItemDialogData,
                 setRestaurantMenuItems,
                 setRestaurantId,
-                setrestaurantMenuDays,
+                setRestaurantMenuDays,
                 setMenuDayDialogData,
                 setMenuDayDialogOpen,
                 setMenuDayDialogDataItem,

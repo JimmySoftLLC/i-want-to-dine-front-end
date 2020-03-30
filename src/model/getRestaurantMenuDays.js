@@ -2,23 +2,27 @@ import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
 
 import {
     menuDaysTableName,
-    projectionExpressionMenuItem,
+    projectionExpressionMenuDay,
 } from '../api/apiConstants';
 
 const getBatch = async (myIds) => {
     let myRestaurantMenuDays = []
-    const data = await batchGetItemDynamoDB(menuDaysTableName, myIds, projectionExpressionMenuItem)
+    const data = await batchGetItemDynamoDB(menuDaysTableName, myIds, projectionExpressionMenuDay)
     if (data.err) {
         return [];
     }
+
     myRestaurantMenuDays = data.payload.Responses.menuDays;
     for (let i = 0; i < myRestaurantMenuDays.length; i++) {
-        myRestaurantMenuDays[i].categoryJSON = JSON.parse(myRestaurantMenuDays[i].categoryJSON)
+        myRestaurantMenuDays[i].menuIdsJSON = JSON.parse(myRestaurantMenuDays[i].menuIdsJSON)
+        myRestaurantMenuDays[i].dateFrom = new Date(myRestaurantMenuDays[i].dateFrom)
+        myRestaurantMenuDays[i].dateTo = new Date(myRestaurantMenuDays[i].dateTo)
     }
     return myRestaurantMenuDays;
 }
 
 const getRestaurantMenuDays = async (restaurant) => {
+    // console.log(restaurant);
     // create an array of all ids
     let allIds = restaurant.menuDayIdsJSON;
     let myRestaurantMenuDays = [];

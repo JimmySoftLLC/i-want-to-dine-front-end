@@ -21,6 +21,13 @@ const getAssociateRestaurants = async (associate) => {
     for (let i = 0; i < myAssociateRestaurants.length; i++) {
         myAssociateRestaurants[i].associateIdsJSON = JSON.parse(myAssociateRestaurants[i].associateIdsJSON)
     }
+    for (let i = 0; i < myAssociateRestaurants.length; i++) {
+        if (myAssociateRestaurants[i].menuDayIdsJSON) {
+            myAssociateRestaurants[i].menuDayIdsJSON = JSON.parse(myAssociateRestaurants[i].menuDayIdsJSON)
+        } else {
+            myAssociateRestaurants[i].menuDayIdsJSON = [];
+        }
+    }
     return myAssociateRestaurants;
 }
 

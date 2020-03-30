@@ -96,12 +96,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
         myRestaurant.menuItemIdsJSON.splice(myIndex, 1)
         await putRestaurant(myRestaurant, idToken, customId)
         let myMenuItems = await getRestaurantMenuItems(myRestaurant)
-        if (myStates['sortPrice']) {
-            myMenuItems = await sortMenuItems(myMenuItems, 'price');
-        }
-        if (myStates['sortTitle']) {
-            myMenuItems = await sortMenuItems(myMenuItems, 'title');
-        }
+        myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems)
     }
 

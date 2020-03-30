@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const MenuDayCard = ({ menuItem }) => {
+const MenuDayCard = ({ menuDay }) => {
     const classes = useStyles();
 
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -32,15 +32,14 @@ const MenuDayCard = ({ menuItem }) => {
         setRestaurantMenuDays,
         associatesRestaurants,
         restaurantId,
-        myStates,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
     const { setDeleteConfirmDialog } = deleteConfirmDialogContext;
 
-    const handleClickMenuDayEdit = (menuId) => {
+    const handleClickMenuDayEdit = (menuDayId) => {
         for (let i = 0; i < restaurantMenuDays.length; i++) {
-            if (menuId === restaurantMenuDays[i].id) {
+            if (menuDayId === restaurantMenuDays[i].id) {
                 let myEditItem = {
                     id: restaurantMenuDays[i].id,
                     title: restaurantMenuDays[i].title,
@@ -57,9 +56,9 @@ const MenuDayCard = ({ menuItem }) => {
         }
     };
 
-    const handleClickMenuDayCopy = (menuId) => {
+    const handleClickMenuDayCopy = (menuDayId) => {
         for (let i = 0; i < restaurantMenuDays.length; i++) {
-            if (menuId === restaurantMenuDays[i].id) {
+            if (menuDayId === restaurantMenuDays[i].id) {
                 let myEditItem = {
                     id: uuidv4(),
                     title: restaurantMenuDays[i].title,
@@ -76,47 +75,52 @@ const MenuDayCard = ({ menuItem }) => {
         }
     };
 
-    const loadDeleteMenuDayDialog = (menuId) => {
+    const loadDeleteMenuDayDialog = (menuDayId) => {
         for (let i = 0; i < restaurantMenuDays.length; i++) {
-            if (menuId === restaurantMenuDays[i].id) {
+            if (menuDayId === restaurantMenuDays[i].id) {
                 setDeleteConfirmDialog(true,
                     restaurantMenuDays[i].title,
                     'deleteMenuDay',
-                    menuId,
+                    menuDayId,
                     deleteMenuDayNow);
                 break;
             }
         }
     };
 
-    const deleteMenuDayNow = async (menuId) => {
-        await deleteMenuDay(menuId, idToken, customId)
+    const deleteMenuDayNow = async (menuDayId) => {
+        await deleteMenuDay(menuDayId, idToken, customId)
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
-        let myIndex = myRestaurant.menuItemIdsJSON.indexOf(menuId, 0)
-        myRestaurant.menuItemIdsJSON.splice(myIndex, 1)
+        let myIndex = myRestaurant.menuDayIdsJSON.indexOf(menuDayId, 0)
+        myRestaurant.menuDayIdsJSON.splice(myIndex, 1)
         await putRestaurant(myRestaurant, idToken, customId)
         let myMenuDays = await getRestaurantMenuDays(myRestaurant)
-        if (myStates['sortPrice']) {
-            myMenuDays = await sortMenuDays(myMenuDays, 'price');
-        }
-        if (myStates['sortTitle']) {
-            myMenuDays = await sortMenuDays(myMenuDays, 'title');
-        }
+        myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
+    }
+
+    const myDateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
+    const myDateFrom = myDateTimeFormat.formatToParts(menuDay.dateFrom)
+    const myDateTo = myDateTimeFormat.formatToParts(menuDay.dateTo)
+    let myDate = '';
+    if (myDateFrom[0].value === myDateTo[0].value && myDateFrom[2].value === myDateTo[2].value && myDateFrom[4].value === myDateTo[4].value) {
+        myDate = myDateFrom[0].value + ' ' + myDateFrom[2].value + ' ' + myDateFrom[4].value;
+    } else {
+        myDate = myDateFrom[0].value + ' ' + myDateFrom[2].value + ' ' + myDateFrom[4].value + ' to ' + myDateTo[0].value + ' ' + myDateTo[2].value + ' ' + myDateTo[4].value;
     }
 
     return (
         <div className='card'>
-            <h4><i className="fas fa-list"></i>{' - '}{menuItem.title}{' - '}{menuItem.price}
+            <h4><i className="fas fa-calendar-day"></i>{' - '}{menuDay.title}{' - '}{myDate}
             </h4>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayEdit(menuItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayEdit(menuDay.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayCopy(menuItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayCopy(menuDay.id)}>
                     <i className="fas fa-copy"></i>
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => loadDeleteMenuDayDialog(menuItem.id)}>
+                <Button variant="outlined" color="primary" onClick={() => loadDeleteMenuDayDialog(menuDay.id)}>
                     <i className="fas fa-trash"></i>
                 </Button>
             </div>

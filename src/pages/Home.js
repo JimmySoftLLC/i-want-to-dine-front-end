@@ -28,7 +28,7 @@ const Home = () => {
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
             let myMenuItems = await getRestaurantsMenuItems(myRestaurants.payload);
-            myMenuItems = await sortMenuItems(myMenuItems, 'price')
+            myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice')
             setMenuItems(myMenuItems);
         }
         fetchData();

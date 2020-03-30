@@ -35,7 +35,8 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
                 urlLink: myItem.urlLink,
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
                 associateIdsJSON: JSON.stringify(myItem.associateIdsJSON),
-                approved: true,
+                menuDayIdsJSON: JSON.stringify(myItem.menuDayIdsJSON),
+                approved: myItem.approved,
             }
             break;
         case associatesTableName:
@@ -54,6 +55,7 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
         case menuDaysTableName:
             myNewItem = {
                 id: myItem.id,
+                title: myItem.title,
                 dateFrom: myItem.dateFrom,
                 dateTo: myItem.dateTo,
                 description: myItem.description,

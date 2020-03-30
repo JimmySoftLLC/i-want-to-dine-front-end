@@ -45,6 +45,11 @@ const DeleteConfirmDialog = () => {
             setDeleteName('')
             setConfirmMessage('')
         }
+        if (deleteConfirmDialog.dialogType === "deleteMenuDay") {
+            deleteFunction(deleteConfirmDialog.index)
+            setDeleteName('')
+            setConfirmMessage('')
+        }
     }
 
     const chooseClose = () => {
@@ -77,6 +82,11 @@ const DeleteConfirmDialog = () => {
                             {`.  This process is irreversable are you sure?  To confirm delete type the name below.`}
                         </DialogContentText>}
                         {deleteConfirmDialog.dialogType === "deleteMenuItem" && <DialogContentText id='alert-dialog-description'>
+                            {`You about to delete `}
+                            <strong>{deleteConfirmDialog.name}</strong>
+                            {`.  This process is irreversable are you sure?`}
+                        </DialogContentText>}
+                        {deleteConfirmDialog.dialogType === "deleteMenuDay" && <DialogContentText id='alert-dialog-description'>
                             {`You about to delete `}
                             <strong>{deleteConfirmDialog.name}</strong>
                             {`.  This process is irreversable are you sure?`}

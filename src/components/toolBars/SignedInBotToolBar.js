@@ -51,12 +51,7 @@ const SignedInBotToolBar = () => {
 
     const sortBy = async (sortType) => {
         let myRestaurantMenuItems = JSON.parse(JSON.stringify(restaurantMenuItems))
-        if (sortType === 'sortPrice') {
-            myRestaurantMenuItems = await sortMenuItems(myRestaurantMenuItems, 'price');
-        }
-        if (sortType === 'sortTitle') {
-            myRestaurantMenuItems = await sortMenuItems(myRestaurantMenuItems, 'title');
-        }
+        myRestaurantMenuItems = await sortMenuItems(myRestaurantMenuItems, sortType);
         setMyState(sortType)
         setRestaurantMenuItems(myRestaurantMenuItems);
     }

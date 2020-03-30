@@ -51,6 +51,7 @@ const RestaurantDialog = () => {
         myRestaurant.urlLink = restaurantDialogData.urlLink !== '' ? restaurantDialogData.urlLink : String.fromCharCode(30);
         myRestaurant.menuItemIdsJSON = restaurantDialogData.menuItemIdsJSON
         myRestaurant.associateIdsJSON = restaurantDialogData.associateIdsJSON
+        myRestaurant.menuDayIdsJSON = restaurantDialogData.menuDayIdsJSON
         myRestaurant.approved = restaurantDialogData.approved
         const successRestaurantPut = await putRestaurant(myRestaurant, idToken, customId)
         if (successRestaurantPut) {

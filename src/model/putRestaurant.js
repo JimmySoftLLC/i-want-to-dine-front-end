@@ -4,7 +4,7 @@ import {
 } from '../api/apiConstants';
 
 const putRestaurant = async (myRestaurant, myToken, myCustomId) => {
-    //console.log(myAssociate,myToken, myCustomId);
+    // console.log(myRestaurant, myToken, myCustomId);
     const data = await putItemDynamoDB(restaurantsTableName, myToken, myRestaurant, myCustomId)
     if (data.err) {
         return null;

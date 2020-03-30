@@ -1,19 +1,20 @@
 import React, { useContext } from 'react';
-import MenuItemCardInventory from './MenuItemCardInventory';
+import MenuItemCardMenuDay from './menuItemCardMenuDay';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 
-const MenuItemsInventory = () => {
+const MenuItemsMenuDay = (menuDayId) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
         restaurantMenuItems,
         myStates,
-        restaurants,
     } = dataAndMethodsContext;
 
-    return restaurantMenuItems.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
+    return restaurantMenuItems.map(menuItem => <MenuItemCardMenuDay menuItem={menuItem}
         myStates={myStates}
-        restaurants={restaurants}
+        isInList={true}
+        menuDayId={menuDayId}
+        menuItemId={menuItem.id}
         key={menuItem.id} />);
 };
 
-export default MenuItemsInventory;
+export default MenuItemsMenuDay;

@@ -7,17 +7,17 @@ const MenuDaysInventory = () => {
     const {
         restaurantMenuDays,
         myStates,
-        handleClickMenuItemEdit,
-        handleClickMenuItemCopy,
-        handleClickMenuItemDelete,
+        handleClickMenuDayEdit,
+        handleClickMenuDayCopy,
+        handleClickMenuDayDelete,
     } = dataAndMethodsContext;
 
-    return restaurantMenuDays.map(menuItem => <MenuDayCard menuItem={menuItem}
+    return restaurantMenuDays.map(menuDay => <MenuDayCard menuDay={menuDay}
         myStates={myStates}
-        handleClickMenuItemEdit={handleClickMenuItemEdit}
-        handleClickMenuItemCopy={handleClickMenuItemCopy}
-        handleClickMenuItemDelete={handleClickMenuItemDelete}
-        key={menuItem.id} />);
+        handleClickMenuDayEdit={handleClickMenuDayEdit}
+        handleClickMenuDayCopy={handleClickMenuDayCopy}
+        handleClickMenuDayDelete={handleClickMenuDayDelete}
+        key={menuDay.id} />);
 };
 
 export default MenuDaysInventory;

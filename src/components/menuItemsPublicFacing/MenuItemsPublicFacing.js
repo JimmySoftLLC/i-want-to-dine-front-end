@@ -8,17 +8,11 @@ const MenuItemsPublicFacing = () => {
         menuItems,
         myStates,
         restaurants,
-        handleClickMenuItemEdit,
-        handleClickMenuItemCopy,
-        handleClickMenuItemDelete,
     } = dataAndMethodsContext;
 
     return menuItems.map(menuItem => <MenuItemCardPublicFacing menuItem={menuItem}
         myStates={myStates}
         restaurants={restaurants}
-        handleClickMenuItemEdit={handleClickMenuItemEdit}
-        handleClickMenuItemCopy={handleClickMenuItemCopy}
-        handleClickMenuItemDelete={handleClickMenuItemDelete}
         key={menuItem.id} />);
 };
 

@@ -44,6 +44,13 @@ let scanDynamoDB = async myTableName => {
                 for (let i = 0; i < myResData.Items.length; i++) {
                     myResData.Items[i].associateIdsJSON = JSON.parse(myResData.Items[i].associateIdsJSON)
                 }
+                for (let i = 0; i < myResData.Items.length; i++) {
+                    if (myResData.Items[i].menuDayIdsJSON) {
+                        myResData.Items[i].menuDayIdsJSON = JSON.parse(myResData.Items[i].menuDayIdsJSON)
+                    } else {
+                        myResData.Items[i].menuDayIdsJSON = [];
+                    }
+                }
                 function compare(a, b) {
                     const keyA = a.restaurantName.toUpperCase();
                     const keyB = b.restaurantName.toUpperCase();

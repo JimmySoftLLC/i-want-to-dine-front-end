@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,7 +13,9 @@ import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
 import putRestaurant from '../../model/putRestaurant';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
+import sortMenuDays from '../../model/sortMenuDays';
 import 'date-fns';
+import MenuItemsMenuDay from '../../components/menuItemMenuDay/menuItemsMenuDay';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
@@ -41,15 +43,18 @@ const MenuDayDialog = () => {
         dialogType,
     } = dataAndMethodsContext.menuDayDialogData;
 
+    const { menuDayDialogData } = dataAndMethodsContext;
+
     const {
         menuDayDialogOpen,
         setMenuDayDialogOpen,
         setMenuDayDialogDataItem,
         idToken,
         customId,
-        setResturantMenuDays,
+        setRestaurantMenuDays,
         associatesRestaurants,
         restaurantId,
+        setMenuDayDialogData,
     } = dataAndMethodsContext;
 
     const handleClose = () => {
@@ -73,33 +78,49 @@ const MenuDayDialog = () => {
         let myNewMenuDay = {}
         myNewMenuDay.id = id;
         myNewMenuDay.title = title;
-        myNewMenuDay.dateFrom = dateFrom;
-        myNewMenuDay.dateTo = dateTo;
+        myNewMenuDay.dateFrom = dateFrom.toString();
+        myNewMenuDay.dateTo = dateTo.toString();
         myNewMenuDay.description = description;
         myNewMenuDay.menuIdsJSON = menuIdsJSON;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
-        const myMenuDays = await getRestaurantMenuDays(myRestaurant, idToken, customId)
-        setResturantMenuDays(myMenuDays)
+        let myMenuDays = await getRestaurantMenuDays(myRestaurant, idToken, customId)
+        myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
+        setRestaurantMenuDays(myMenuDays)
     };
 
     const saveMenuDayAdd = async () => {
         let myNewMenuDay = {}
         myNewMenuDay.id = id;
         myNewMenuDay.title = title;
-        myNewMenuDay.dateFrom = dateFrom;
-        myNewMenuDay.dateTo = dateTo;
+        myNewMenuDay.dateFrom = dateFrom.toString();
+        myNewMenuDay.dateTo = dateTo.toString();
         myNewMenuDay.description = description;
         myNewMenuDay.menuIdsJSON = menuIdsJSON;
-        //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
+        // console.log(myNewMenuDay, idToken, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
-        myRestaurant.MenuDayIdsJSON.push(myNewMenuDay.id)
+        // console.log(myRestaurant)
+        myRestaurant.menuDayIdsJSON.push(myNewMenuDay.id)
         await putRestaurant(myRestaurant, idToken, customId)
-        const myMenuDays = await getRestaurantMenuDays(myRestaurant, idToken, customId)
-        setResturantMenuDays(myMenuDays)
+        let myMenuDays = await getRestaurantMenuDays(myRestaurant, idToken, customId)
+        myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
+        setRestaurantMenuDays(myMenuDays)
     };
+
+    const selectAll = () => {
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
+        myNewMenuDayDialogData.menuIdsJSON = JSON.parse(JSON.stringify(myRestaurant.menuItemIdsJSON))
+        setMenuDayDialogData(myNewMenuDayDialogData)
+    }
+
+    const unSelectAll = () => {
+        let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
+        myNewMenuDayDialogData.menuIdsJSON = []
+        setMenuDayDialogData(myNewMenuDayDialogData)
+    }
 
     const changeTitle = (e) => {
         setMenuDayDialogDataItem('title', e.target.value)
@@ -142,6 +163,7 @@ const MenuDayDialog = () => {
                                 label="From"
                                 format="MM/dd/yyyy"
                                 value={dateFrom}
+                                variant="filled"
                                 onChange={changeDateFrom}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
@@ -153,6 +175,7 @@ const MenuDayDialog = () => {
                                 label="To"
                                 format="MM/dd/yyyy"
                                 value={dateTo}
+                                variant="filled"
                                 onChange={changeDateTo}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
@@ -168,14 +191,13 @@ const MenuDayDialog = () => {
                                 value={description}
                                 onChange={changeDescription}
                             />
+                            <MenuItemsMenuDay />
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose} color="default">
-                                Cancel
-                    </Button>
-                            <Button onClick={() => handleSave()} color="primary">
-                                Save
-                    </Button>
+                            <Button onClick={() => selectAll()} color="default">Select All</Button>
+                            <Button onClick={() => unSelectAll()} color="default">Unselect All</Button>
+                            <Button onClick={handleClose} color="default">Cancel</Button>
+                            <Button onClick={() => handleSave()} color="primary">Save</Button>
                         </DialogActions>
                     </Dialog>
                 </Grid>
