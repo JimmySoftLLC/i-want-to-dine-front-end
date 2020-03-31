@@ -68,6 +68,7 @@ const DataAndMethodsState = props => {
             sortTitle: true,
             sortPrice: false,
             sortDate: false,
+            associateSettngs: false,
         },
         signInRegDialogType: 'false',
         menuItems: [],

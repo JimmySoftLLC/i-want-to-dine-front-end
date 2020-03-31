@@ -41,6 +41,8 @@ const SignedInTopToolBar = () => {
         setMenuDayDialogData,
         setMenuDayDialogOpen,
         setRestaurantMenuDays,
+        setAssociateDialogData,
+        setAssociateDialogOpen,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -141,6 +143,24 @@ const SignedInTopToolBar = () => {
         }
         setMenuDayDialogData(myEditItem);
         setMenuDayDialogOpen(true);
+    };
+
+    const handleNewAssociate = () => {
+        let myNewId = uuidv4()
+        let myAssociateData = {
+            id: myNewId,
+            canWrite: false,
+            canAdmin: false,
+            firstName: '',
+            lastName: '',
+            jobTitle: '',
+            bio: '',
+            email: '',
+            restaurantIdsJSON: [],
+            dialogType: "Add",
+        };
+        setAssociateDialogData(myAssociateData);
+        setAssociateDialogOpen(true);
     };
 
     const loadDeleteRestaurantWarningDialog = () => {
@@ -244,6 +264,13 @@ const SignedInTopToolBar = () => {
                             <i className="icon-calendar-cog"></i>
                         </IconButton>
                     </Tooltip>}
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Calendar settings">
+                        <IconButton aria-label=""
+                            color={myStates['associateSettngs'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setMyState('associateSettngs')}>
+                            <i className="fas fa-user-cog"></i>
+                        </IconButton>
+                    </Tooltip>}
                     {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Edit restaurant">
                         <IconButton aria-label=""
                             color="inherit"
@@ -284,6 +311,13 @@ const SignedInTopToolBar = () => {
                             color="inherit"
                             onClick={() => handleNewMenuDay()}>
                             <i className="icon-calendar-solid-plus"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {(restaurantId !== noSelectedRestaurant && myStates['associateSettngs']) && <Tooltip title="Add menu item">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => handleNewAssociate()}>
+                            <i className="fas fa-user-plus"></i>
                         </IconButton>
                     </Tooltip>}
                     {/* <IconButton aria-label=""

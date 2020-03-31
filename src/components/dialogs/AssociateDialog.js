@@ -8,6 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import putAssociate from '../../model/putAssociate';
+import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -23,7 +24,8 @@ const AssociateDialog = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
     const {
-        associateDialogData,
+        associatesRestaurants,
+        restaurantId,
         idToken,
         customId,
         setAssociate,
@@ -32,26 +34,73 @@ const AssociateDialog = () => {
         associateDialogOpen,
     } = dataAndMethodsContext;
 
+    const {
+        id,
+        canWrite,
+        canAdmin,
+        firstName,
+        lastName,
+        jobTitle,
+        bio,
+        email,
+        restaurantIdsJSON,
+        dialogType,
+    } = dataAndMethodsContext.associateDialogData;
+
     const handleClose = () => {
+        setAssociateDialogOpen(false);
+    };
+
+    const handleSave = () => {
+        switch (dialogType) {
+            case "Edit":
+                saveAssociate()
+                break;
+            case "Add":
+                saveAssociateAdd()
+                break;
+            default:
+        }
         setAssociateDialogOpen(false);
     };
 
     const saveAssociate = async () => {
         let myAssociate = {};
-        myAssociate.id = associateDialogData.id;
-        myAssociate.canWrite = associateDialogData.canWrite;
-        myAssociate.canAdmin = associateDialogData.canAdmin;
-        myAssociate.firstName = associateDialogData.firstName !== '' ? associateDialogData.firstName : String.fromCharCode(30);
-        myAssociate.lastName = associateDialogData.lastName !== '' ? associateDialogData.lastName : String.fromCharCode(30);
-        myAssociate.jobTitle = associateDialogData.jobTitle !== '' ? associateDialogData.jobTitle : String.fromCharCode(30);
-        myAssociate.bio = associateDialogData.bio !== '' ? associateDialogData.bio : String.fromCharCode(30);
-        myAssociate.email = associateDialogData.email;
-        myAssociate.restaurantIdsJSON = associateDialogData.restaurantIdsJSON;
-        myAssociate.id = associateDialogData.id
-        myAssociate.dialogType = associateDialogData.dialogType;
+        myAssociate.id = id;
+        myAssociate.canWrite = canWrite;
+        myAssociate.canAdmin = canAdmin;
+        myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
+        myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
+        myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
+        myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
+        myAssociate.email = email;
+        myAssociate.restaurantIdsJSON = restaurantIdsJSON;
+        myAssociate.dialogType = dialogType;
         await putAssociate(myAssociate, idToken, customId)
         setAssociate(myAssociate)
-        setAssociateDialogOpen(false);
+    };
+
+    const saveAssociateAdd = async () => {
+        let myAssociate = {};
+        myAssociate.id = id;
+        myAssociate.canWrite = canWrite;
+        myAssociate.canAdmin = canAdmin;
+        myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
+        myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
+        myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
+        myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
+        myAssociate.email = email;
+        myAssociate.restaurantIdsJSON = restaurantIdsJSON;
+        myAssociate.dialogType = dialogType;
+        await putAssociate(myAssociate, idToken, customId)
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        // console.log(myRestaurant)
+        // myRestaurant.menuDayIdsJSON.push(myNewMenuDay.id)
+        // await putRestaurant(myRestaurant, idToken, customId)
+        // let myMenuDays = await getRestaurantAssociates(myRestaurant, idToken, customId)
+        // myAssociates = await sortAssociates(myMenuDays, 'sortDate');
+        // setRestaurantAssociates(myMenuDays)
+        // setAssociateDialogOpen(false);
     };
 
     const changeFirstName = (e) => {
@@ -74,7 +123,7 @@ const AssociateDialog = () => {
         <div>
             <Dialog className={classes.root} open={associateDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {"Edit associate details"}</DialogTitle>
+                    {dialogType + ' associate details'}</DialogTitle>
                 <DialogContent>
                     <TextField
                         id="firstName"
@@ -83,7 +132,7 @@ const AssociateDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={associateDialogData.firstName}
+                        value={firstName}
                         onChange={changeFirstName}
                     />
                     <TextField
@@ -92,7 +141,7 @@ const AssociateDialog = () => {
                         type="text"
                         fullWidth
                         variant="filled"
-                        value={associateDialogData.lastName}
+                        value={lastName}
                         onChange={changeLastName}
                     />
                     <TextField
@@ -101,7 +150,7 @@ const AssociateDialog = () => {
                         type="text"
                         fullWidth
                         variant="filled"
-                        value={associateDialogData.jobTitle}
+                        value={jobTitle}
                         onChange={changeJobTitle}
                     />
                     <TextField
@@ -112,7 +161,7 @@ const AssociateDialog = () => {
                         variant="filled"
                         multiline={true}
                         rows="8"
-                        value={associateDialogData.bio}
+                        value={bio}
                         onChange={changeBio}
                     />
                 </DialogContent>
@@ -120,7 +169,7 @@ const AssociateDialog = () => {
                     <Button onClick={handleClose} color="default">
                         Cancel
                     </Button>
-                    <Button onClick={() => saveAssociate()} color="primary">
+                    <Button onClick={() => handleSave()} color="primary">
                         Save
                     </Button>
                 </DialogActions>
