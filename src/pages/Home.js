@@ -21,6 +21,7 @@ import sortMenuItems from '../model/sortMenuItems';
 import {
     restaurantsTableName,
 } from '../api/apiConstants';
+import Associates from '../components/associate/Associates';
 
 const Home = () => {
     useEffect(() => {
@@ -58,7 +59,8 @@ const Home = () => {
             </div>}
             {logInType === 'signedIn' && <div className='container associate-page-top-margin'>
                 {myStates['menuSettings'] && <MenuItemsInventory />}
-                {myStates['menuDaySettngs'] && <MenuDays />}
+                {myStates['menuDaySettings'] && <MenuDays />}
+                {myStates['associateSettings'] && <Associates />}
                 <MenuItemDialog />
                 <RestaurantDialog />
                 <AssociateDialog />

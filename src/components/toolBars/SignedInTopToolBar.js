@@ -13,11 +13,13 @@ import getAssociateRestaurants from '../../model/getAssociateRestaurants';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
+import getRestaurantAssociates from '../../model/getRestaurantAssociates';
 // import updateAssociateRestaurants from '../../model/updateAssociateRestaurants';
 import putAssociate from '../../model/putAssociate';
 import deleteRestaurant from '../../model/deleteRestaurant';
 import sortMenuItems from '../../model/sortMenuItems';
 import sortMenuDays from '../../model/sortMenuDays';
+import sortAssociates from '../../model/sortAssociates';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
@@ -43,6 +45,7 @@ const SignedInTopToolBar = () => {
         setRestaurantMenuDays,
         setAssociateDialogData,
         setAssociateDialogOpen,
+        setRestaurantAssociates,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -61,6 +64,9 @@ const SignedInTopToolBar = () => {
         let myMenuDays = await getRestaurantMenuDays(myRestaurant);
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays);
+        let myRestaurantAssociates = await getRestaurantAssociates(myRestaurant);
+        myRestaurantAssociates = await sortAssociates(myRestaurantAssociates, 'sortNames');
+        setRestaurantAssociates(myRestaurantAssociates);
     };
 
     const handleEditRestaurant = () => {
@@ -257,15 +263,15 @@ const SignedInTopToolBar = () => {
                     </Tooltip>}
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Calendar settings">
                         <IconButton aria-label=""
-                            color={myStates['menuDaySettngs'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('menuDaySettngs')}>
+                            color={myStates['menuDaySettings'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setMyState('menuDaySettings')}>
                             <i className="icon-calendar-cog"></i>
                         </IconButton>
                     </Tooltip>}
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Calendar settings">
                         <IconButton aria-label=""
-                            color={myStates['associateSettngs'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('associateSettngs')}>
+                            color={myStates['associateSettings'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setMyState('associateSettings')}>
                             <i className="fas fa-user-cog"></i>
                         </IconButton>
                     </Tooltip>}
@@ -304,14 +310,14 @@ const SignedInTopToolBar = () => {
                             <i className="icon-list-solid-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['menuDaySettngs']) && <Tooltip title="Add menu day">
+                    {(restaurantId !== noSelectedRestaurant && myStates['menuDaySettings']) && <Tooltip title="Add menu day">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewMenuDay()}>
                             <i className="icon-calendar-solid-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['associateSettngs']) && <Tooltip title="Add menu item">
+                    {(restaurantId !== noSelectedRestaurant && myStates['associateSettings']) && <Tooltip title="Add menu item">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewAssociate()}>

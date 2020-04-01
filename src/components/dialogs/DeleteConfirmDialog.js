@@ -50,6 +50,11 @@ const DeleteConfirmDialog = () => {
             setDeleteName('')
             setConfirmMessage('')
         }
+        if (deleteConfirmDialog.dialogType === "deleteAssociate") {
+            deleteFunction(deleteConfirmDialog.index)
+            setDeleteName('')
+            setConfirmMessage('')
+        }
     }
 
     const chooseClose = () => {
@@ -75,6 +80,14 @@ const DeleteConfirmDialog = () => {
                         <i className='fas fa-exclamation-triangle'></i>
                         {'  Delete menu item warning'}
                     </DialogTitle>}
+                    {deleteConfirmDialog.dialogType === "deleteMenuDay" && <DialogTitle id='alert-dialog-title'>
+                        <i className='fas fa-exclamation-triangle'></i>
+                        {'  Delete menu day warning'}
+                    </DialogTitle>}
+                    {deleteConfirmDialog.dialogType === "deleteAssociate" && <DialogTitle id='alert-dialog-title'>
+                        <i className='fas fa-exclamation-triangle'></i>
+                        {'  Delete associate warning'}
+                    </DialogTitle>}
                     <DialogContent>
                         {deleteConfirmDialog.dialogType === "deleteRestaurant" && <DialogContentText id='alert-dialog-description'>
                             {`You about to delete `}
@@ -87,6 +100,11 @@ const DeleteConfirmDialog = () => {
                             {`.  This process is irreversable are you sure?`}
                         </DialogContentText>}
                         {deleteConfirmDialog.dialogType === "deleteMenuDay" && <DialogContentText id='alert-dialog-description'>
+                            {`You about to delete `}
+                            <strong>{deleteConfirmDialog.name}</strong>
+                            {`.  This process is irreversable are you sure?`}
+                        </DialogContentText>}
+                        {deleteConfirmDialog.dialogType === "deleteAssociate" && <DialogContentText id='alert-dialog-description'>
                             {`You about to delete `}
                             <strong>{deleteConfirmDialog.name}</strong>
                             {`.  This process is irreversable are you sure?`}

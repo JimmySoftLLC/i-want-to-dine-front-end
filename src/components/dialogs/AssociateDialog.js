@@ -31,7 +31,6 @@ const AssociateDialog = () => {
         restaurantId,
         idToken,
         customId,
-        setAssociate,
         setAssociateDialogOpen,
         setAssociateDialogDataItem,
         associateDialogOpen,
@@ -76,26 +75,30 @@ const AssociateDialog = () => {
         myAssociate.email = email;
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         await putAssociate(myAssociate, idToken, customId)
-        setAssociate(myAssociate)
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        await putRestaurant(myRestaurant, idToken, customId)
+        let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
+        myAssociates = await sortAssociates(myAssociates, 'sortName');
+        setRestaurantAssociates(myAssociates)
     };
 
     const saveAssociateAdd = async () => {
         let myAssociate = {};
+        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         myAssociate.id = id;
         myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
         myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
         myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
         myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
-        myAssociate.email = email;
-        myAssociate.restaurantIdsJSON = restaurantIdsJSON;
+        myAssociate.email = '' ? email : String.fromCharCode(30);
+        myAssociate.restaurantIdsJSON = [];
+        myAssociate.restaurantIdsJSON.push(myRestaurant.id);
         await putAssociate(myAssociate, idToken, customId)
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
-        console.log(myRestaurant)
         myRestaurant.associatesJSON.push(myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
-        // let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
-        // myAssociates = await sortAssociates(myAssociates, 'sortName');
-        // setRestaurantAssociates(myAssociates)
+        let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
+        myAssociates = await sortAssociates(myAssociates, 'sortName');
+        setRestaurantAssociates(myAssociates)
     };
 
     const changeFirstName = (e) => {

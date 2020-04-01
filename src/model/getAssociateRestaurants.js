@@ -9,7 +9,6 @@ const getAssociateRestaurants = async (associate) => {
     let myAssociateRestaurants = []
     let myIds = associate.restaurantIdsJSON
     const data = await batchGetItemDynamoDB(restaurantsTableName, myIds, projectionExpressionRestaurant)
-    console.log(data);
     if (data.err) {
         return [];
     }

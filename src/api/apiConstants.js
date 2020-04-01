@@ -9,4 +9,7 @@ export const apiPath = '/';
 export const projectionExpressionRestaurant = 'id,restaurantName,approved,city,street,zipCode,menuItemIdsJSON,associatesJSON,menuDayIdsJSON,stateUS,urlLink,description,phoneNumber';
 export const projectionExpressionMenuItem = 'title,description,categoryJSON,price,id,restaurant';
 export const projectionExpressionMenuDay = 'id,title,dateFrom,dateTo,description,menuIdsJSON';
+export const projectionExpressionAssociates = 'id,firstName,lastName,bio,jobTitle,email,restaurantIdsJSON';
 export const noSelectedRestaurant = 'Select Your Restaurant';
+
+
