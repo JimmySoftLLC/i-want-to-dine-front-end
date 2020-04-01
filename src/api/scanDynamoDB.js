@@ -42,7 +42,7 @@ let scanDynamoDB = async myTableName => {
                     myResData.Items[i].menuItemIdsJSON = JSON.parse(myResData.Items[i].menuItemIdsJSON)
                 }
                 for (let i = 0; i < myResData.Items.length; i++) {
-                    myResData.Items[i].associateIdsJSON = JSON.parse(myResData.Items[i].associateIdsJSON)
+                    myResData.Items[i].associatesJSON = JSON.parse(myResData.Items[i].associatesJSON)
                 }
                 for (let i = 0; i < myResData.Items.length; i++) {
                     if (myResData.Items[i].menuDayIdsJSON) {

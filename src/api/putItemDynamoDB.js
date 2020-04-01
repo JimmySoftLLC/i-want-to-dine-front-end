@@ -34,7 +34,7 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
                 phoneNumber: myItem.phoneNumber,
                 urlLink: myItem.urlLink,
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
-                associateIdsJSON: JSON.stringify(myItem.associateIdsJSON),
+                associatesJSON: JSON.stringify(myItem.associatesJSON),
                 menuDayIdsJSON: JSON.stringify(myItem.menuDayIdsJSON),
                 approved: myItem.approved,
             }
@@ -42,8 +42,6 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
         case associatesTableName:
             myNewItem = {
                 id: myItem.id,
-                canWrite: myItem.canWrite,
-                canAdmin: myItem.canAdmin,
                 firstName: myItem.firstName,
                 lastName: myItem.lastName,
                 email: myItem.email,

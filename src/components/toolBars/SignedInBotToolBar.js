@@ -35,8 +35,6 @@ const SignedInBotToolBar = () => {
     const handleEditAssociate = () => {
         let myAssociateData = {
             id: associate.id,
-            canWrite: associate.canWrite,
-            canAdmin: associate.canAdmin,
             firstName: associate.firstName,
             lastName: associate.lastName,
             jobTitle: associate.jobTitle,

@@ -29,6 +29,7 @@ import {
     SET_RESTAURANT_MENU_DAY_ITEMS,
     SET_MENU_DAY_DIALOG_OPEN,
     SET_MENU_DAY_DIALOG_DATA,
+    SET_RESTAURANT_ASSOCIATES,
 } from '../types';
 import {
     // menuItemsTableName,
@@ -69,6 +70,7 @@ const DataAndMethodsState = props => {
             sortPrice: false,
             sortDate: false,
             associateSettngs: false,
+            sortName: false,
         },
         signInRegDialogType: 'false',
         menuItems: [],
@@ -79,6 +81,7 @@ const DataAndMethodsState = props => {
         associate: {},
         menuItemDialogOpen: false,
         restaurantId: noSelectedRestaurant,
+        restaurantAssociates: [],
         menuItemDialogData: {
             title: '',
             description: '',
@@ -100,7 +103,7 @@ const DataAndMethodsState = props => {
             urlLink: '',
             id: '',
             menuItemIdsJSON: [],
-            associateIdsJSON: [],
+            associatesJSON: [],
             menuDayIdsJSON: [],
             approved: false,
             myAssociate: {},
@@ -109,8 +112,6 @@ const DataAndMethodsState = props => {
         associateDialogOpen: false,
         associateDialogData: {
             id: '',
-            canWrite: false,
-            canAdmin: false,
             firstName: '',
             lastName: '',
             bio: '',
@@ -188,6 +189,7 @@ const DataAndMethodsState = props => {
     const setRestaurantMenuItems = async (restaurantMenuItems) => { dispatch({ type: SET_RESTAURANT_MENU_ITEMS, payload: restaurantMenuItems }) }
     const setRestaurantMenuDays = async (restaurantMenuDays) => { dispatch({ type: SET_RESTAURANT_MENU_DAY_ITEMS, payload: restaurantMenuDays }) }
     const setRestaurantId = async (restaurantId) => { dispatch({ type: SET_RESTAURANT_ID, payload: restaurantId }) }
+    const setRestaurantAssociates = async (restaurantAssociates) => { dispatch({ type: SET_RESTAURANT_ASSOCIATES, payload: restaurantAssociates }) }
 
     const setSignInRegDialogType = async (signInRegDialogType) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: signInRegDialogType }) }
     const setSignInRegDialogTitle = async (signInRegDialogTitle) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: signInRegDialogTitle }) }
@@ -231,6 +233,7 @@ const DataAndMethodsState = props => {
                 restaurantMenuDays: state.restaurantMenuDays,
                 menuDayDialogData: state.menuDayDialogData,
                 menuDayDialogOpen: state.menuDayDialogOpen,
+                restaurantAssociates: state.restaurantAssociates,
                 setMyState,
                 setMyStates,
                 setRestaurants,
@@ -259,6 +262,7 @@ const DataAndMethodsState = props => {
                 setMenuDayDialogData,
                 setMenuDayDialogOpen,
                 setMenuDayDialogDataItem,
+                setRestaurantAssociates,
             }}
         >
             {props.children}

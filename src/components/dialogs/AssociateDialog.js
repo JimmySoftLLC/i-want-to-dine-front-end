@@ -8,6 +8,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import putAssociate from '../../model/putAssociate';
+import putRestaurant from '../../model/putRestaurant';
+import getRestaurantAssociates from '../../model/getRestaurantAssociates';
+import sortAssociates from '../../model/sortAssociates';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
 
 const useStyles = makeStyles(theme => ({
@@ -32,12 +35,11 @@ const AssociateDialog = () => {
         setAssociateDialogOpen,
         setAssociateDialogDataItem,
         associateDialogOpen,
+        setRestaurantAssociates,
     } = dataAndMethodsContext;
 
     const {
         id,
-        canWrite,
-        canAdmin,
         firstName,
         lastName,
         jobTitle,
@@ -67,15 +69,12 @@ const AssociateDialog = () => {
     const saveAssociate = async () => {
         let myAssociate = {};
         myAssociate.id = id;
-        myAssociate.canWrite = canWrite;
-        myAssociate.canAdmin = canAdmin;
         myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
         myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
         myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
         myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
         myAssociate.email = email;
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
-        myAssociate.dialogType = dialogType;
         await putAssociate(myAssociate, idToken, customId)
         setAssociate(myAssociate)
     };
@@ -83,24 +82,20 @@ const AssociateDialog = () => {
     const saveAssociateAdd = async () => {
         let myAssociate = {};
         myAssociate.id = id;
-        myAssociate.canWrite = canWrite;
-        myAssociate.canAdmin = canAdmin;
         myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
         myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
         myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
         myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
         myAssociate.email = email;
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
-        myAssociate.dialogType = dialogType;
         await putAssociate(myAssociate, idToken, customId)
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
-        // console.log(myRestaurant)
-        // myRestaurant.menuDayIdsJSON.push(myNewMenuDay.id)
-        // await putRestaurant(myRestaurant, idToken, customId)
-        // let myMenuDays = await getRestaurantAssociates(myRestaurant, idToken, customId)
-        // myAssociates = await sortAssociates(myMenuDays, 'sortDate');
-        // setRestaurantAssociates(myMenuDays)
-        // setAssociateDialogOpen(false);
+        console.log(myRestaurant)
+        myRestaurant.associatesJSON.push(myAssociate)
+        await putRestaurant(myRestaurant, idToken, customId)
+        // let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
+        // myAssociates = await sortAssociates(myAssociates, 'sortName');
+        // setRestaurantAssociates(myAssociates)
     };
 
     const changeFirstName = (e) => {

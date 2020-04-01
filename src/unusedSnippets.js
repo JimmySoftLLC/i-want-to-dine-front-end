@@ -11,7 +11,7 @@ const updateMenuIdsForRestaurant = async (restaurantItem, menuItems) => {
 
 const updateAssociateIdsForRestaurant = async (restaurantItem) => {
     let myAssociateIdsJSON = ['3fb19b1a-e35a-4b72-aa81-03594ab73a69'];
-    restaurantItem.associateIdsJSON = myAssociateIdsJSON;
+    restaurantItem.associatesJSON = myAssociateIdsJSON;
     putItemDynamoDB(restaurantsTableName, restaurantItem)
 }
 
@@ -397,14 +397,12 @@ const DataAndMethodsState = props => {
             urlLink: "",
             id: "",
             menuItemIdsJSON: [],
-            associateIdsJSON: [],
+            associatesJSON: [],
             dialogType: "Edit",
             approved: false,
         },
         associateDialogData: {
             id: "",
-            canWrite: false,
-            canAdmin: false,
             firstName: "",
             lastName: "",
             email: "",
@@ -552,7 +550,7 @@ const DataAndMethodsState = props => {
                     urlLink: state.restaurants[i].urlLink,
                     id: state.restaurants[i].id,
                     menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
-                    associateIdsJSON: state.restaurants[i].associateIdsJSON,
+                    associatesJSON: state.restaurants[i].associatesJSON,
                     dialogType: "Edit",
                 }
                 setRestaurantDialogData(myEditItem);
@@ -576,7 +574,7 @@ const DataAndMethodsState = props => {
                     urlLink: state.restaurants[i].urlLink,
                     id: state.restaurants[i].id,
                     menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
-                    associateIdsJSON: state.restaurants[i].associateIdsJSON,
+                    associatesJSON: state.restaurants[i].associatesJSON,
                     dialogType: "Add",
                 }
                 setRestaurantDialogData(myEditItem);
@@ -609,7 +607,7 @@ const DataAndMethodsState = props => {
                 myNewRestaurants[i].phoneNumber = state.restaurantDialogData.phoneNumber;
                 myNewRestaurants[i].urlLink = state.restaurantDialogData.urlLink;
                 myNewRestaurants[i].menuItemIdsJSON = state.restaurantDialogData.menuItemIdsJSON
-                myNewRestaurants[i].associateIdsJSON = state.restaurantDialogData.associateIdsJSON
+                myNewRestaurants[i].associatesJSON = state.restaurantDialogData.associatesJSON
                 myNewRestaurants[i].approved = state.restaurantDialogData.approved
                 //putItemDynamoDB(state.restaurantsTableName, myNewRestaurants[i]);
                 //getAssociatesResturants(myNewRestaurants, state.customId)
@@ -633,7 +631,7 @@ const DataAndMethodsState = props => {
                 myNewRestaurant.phoneNumber = state.restaurantDialogData.phoneNumber;
                 myNewRestaurant.urlLink = state.restaurantDialogData.urlLink;
                 myNewRestaurant.menuItemIdsJSON = state.restaurantDialogData.menuItemIdsJSON
-                myNewRestaurant.associateIdsJSON = state.restaurantDialogData.associateIdsJSON
+                myNewRestaurant.associatesJSON = state.restaurantDialogData.associatesJSON
                 myNewRestaurant.approved = state.restaurantDialogData.approved
                 myNewRestaurants.push(myNewRestaurant);
                 //putItemDynamoDB(state.restaurantsTableName, myNewRestaurant);

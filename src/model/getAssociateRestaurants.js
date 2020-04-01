@@ -9,7 +9,7 @@ const getAssociateRestaurants = async (associate) => {
     let myAssociateRestaurants = []
     let myIds = associate.restaurantIdsJSON
     const data = await batchGetItemDynamoDB(restaurantsTableName, myIds, projectionExpressionRestaurant)
-    // console.log(data);
+    console.log(data);
     if (data.err) {
         return [];
     }
@@ -19,7 +19,7 @@ const getAssociateRestaurants = async (associate) => {
         myAssociateRestaurants[i].menuItemIdsJSON = JSON.parse(myAssociateRestaurants[i].menuItemIdsJSON)
     }
     for (let i = 0; i < myAssociateRestaurants.length; i++) {
-        myAssociateRestaurants[i].associateIdsJSON = JSON.parse(myAssociateRestaurants[i].associateIdsJSON)
+        myAssociateRestaurants[i].associatesJSON = JSON.parse(myAssociateRestaurants[i].associatesJSON)
     }
     for (let i = 0; i < myAssociateRestaurants.length; i++) {
         if (myAssociateRestaurants[i].menuDayIdsJSON) {

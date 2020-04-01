@@ -77,7 +77,7 @@ const SignedInTopToolBar = () => {
             phoneNumber: myRestaurant.phoneNumber,
             urlLink: myRestaurant.urlLink,
             menuItemIdsJSON: myRestaurant.menuItemIdsJSON,
-            associateIdsJSON: myRestaurant.associateIdsJSON,
+            associatesJSON: myRestaurant.associatesJSON,
             menuDayIdsJSON: myRestaurant.menuDayIdsJSON,
             approved: myRestaurant.approved,
             myAssociate: associate,
@@ -104,7 +104,7 @@ const SignedInTopToolBar = () => {
             phoneNumber: '',
             urlLink: '',
             menuItemIdsJSON: [],
-            associateIdsJSON: myAssociateIdsJSON,
+            associatesJSON: myAssociateIdsJSON,
             menuDayIdsJSON: [],
             approved: false,
             myAssociate: myNewAssociate,
@@ -149,8 +149,6 @@ const SignedInTopToolBar = () => {
         let myNewId = uuidv4()
         let myAssociateData = {
             id: myNewId,
-            canWrite: false,
-            canAdmin: false,
             firstName: '',
             lastName: '',
             jobTitle: '',
