@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import getAssociate from '../../model/getAssociate';
 import getAssociateRestaurants from '../../model/getAssociateRestaurants';
 import createNewAssociate from '../../model/createNewAssociate';
+import validEmail from '../../model/validEmail';
 import {
     // menuItemsTableName,
     // restaurantsTableName,
@@ -62,13 +63,6 @@ const SignUp = () => {
         setPassword('');
         setPassword2('');
         setMessage('');
-    }
-
-    const ValidateEmail = (email) => {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-            return (true)
-        }
-        return (false)
     }
 
     const registerUser = async () => {
@@ -164,7 +158,7 @@ const SignUp = () => {
     }
 
     const sendResetCode = async () => {
-        if (ValidateEmail(email)) {
+        if (validEmail(email)) {
             try {
                 const data = await Auth.forgotPassword(email)
                 console.log(data);
@@ -182,7 +176,7 @@ const SignUp = () => {
 
     const resetPassword = async (e) => {
         if (checkPasswordsMatch()) {
-            if (ValidateEmail(email)) {
+            if (validEmail(email)) {
                 try {
                     const data = await Auth.forgotPasswordSubmit(email, verificationCode, password)
                     console.log(data);

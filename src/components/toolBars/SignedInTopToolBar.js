@@ -161,6 +161,7 @@ const SignedInTopToolBar = () => {
             bio: '',
             email: '',
             restaurantIdsJSON: [],
+            accessLevel: 'none',
             dialogType: "Add",
         };
         setAssociateDialogData(myAssociateData);

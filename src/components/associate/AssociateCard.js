@@ -48,8 +48,7 @@ const AssociateCard = ({ Associate }) => {
                     jobTitle: restaurantAssociates[i].jobTitle,
                     email: restaurantAssociates[i].email,
                     restaurantIdsJSON: restaurantAssociates[i].restaurantIdsJSON,
-                    canAdmin: restaurantAssociates[i].canAdmin,
-                    canEdit: restaurantAssociates[i].canEdit,
+                    accessLevel: restaurantAssociates[i].accessLevel,
                     dialogType: 'Edit',
                 }
                 setAssociateDialogData(myEditItem);
@@ -70,8 +69,7 @@ const AssociateCard = ({ Associate }) => {
                     jobTitle: restaurantAssociates[i].jobTitle,
                     email: restaurantAssociates[i].email,
                     restaurantIdsJSON: restaurantAssociates[i].restaurantIdsJSON,
-                    canAdmin: restaurantAssociates[i].canAdmin,
-                    canEdit: restaurantAssociates[i].canEdit,
+                    accessLevel: restaurantAssociates[i].accessLevel,
                     dialogType: "Add",
                 }
                 setAssociateDialogData(myEditItem);

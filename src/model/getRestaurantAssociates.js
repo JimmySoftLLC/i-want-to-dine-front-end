@@ -1,4 +1,6 @@
 import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
+import validEmail from './validEmail';
+import getAssociateFromRestaurant from './getAssociateFromRestaurant';
 
 import {
     associatesTableName,
@@ -19,17 +21,30 @@ const getBatch = async (myIds) => {
 }
 
 const getRestaurantAssociates = async (restaurant) => {
-    // console.log(restaurant);
-    // create an array of all ids
-    let allRestaurantAssociates = restaurant.associatesJSON;
-    let myRestaurantAssociates = [];
+    //console.log(restaurant);
 
-    // get records in batches of 100
+    let restaurantAssociates = restaurant.associatesJSON;
+    let associateIds = [];
+    let myRestaurantAssociates = [];
+    let myRestaurantAssociatesNoEmail = [];
+
+    // create an array of associateIds for records that have email, these will be on server or should be
+    // those that don't have email are local to the restaurant just use that record instead
+    for (let i = 0; i < restaurantAssociates.length; i++) {
+        if (validEmail(restaurantAssociates[i].email)) {
+            associateIds.push(restaurantAssociates[i].id);
+        } else {
+            myRestaurantAssociatesNoEmail.push(restaurantAssociates[i]);
+        }
+    }
+
+    // get records in batches of 100 using the array of associateIds
     let myIds = [];
     let currentCount = 0;
     let lastValidNextIndex = 0;
-    for (let i = 0; i < allRestaurantAssociates.length; i++) {
-        myIds.push(allRestaurantAssociates[i].id);
+    for (let i = 0; i < associateIds.length; i++) {
+        // console.log(associateIds[i]);
+        myIds.push(associateIds[i]);
         currentCount++;
         if (currentCount > 99) {
             const myBatch = await getBatch(myIds);
@@ -42,13 +57,21 @@ const getRestaurantAssociates = async (restaurant) => {
 
     // get any leftover records
     myIds = [];
-    for (let i = lastValidNextIndex; i < allRestaurantAssociates.length; i++) {
-        myIds.push(allRestaurantAssociates[i].id);
+    for (let i = lastValidNextIndex; i < associateIds.length; i++) {
+        myIds.push(associateIds[i]);
     }
     const myBatch = await getBatch(myIds);
     myRestaurantAssociates = myRestaurantAssociates.concat(myBatch)
 
-    //console.log(myRestaurantAssociates);
+    // now add access to records from the database, restaurant access exists in restaurant only
+    for (let i = 0; i < myRestaurantAssociates.length; i++) {
+        myRestaurantAssociates[i].accessLevel = getAssociateFromRestaurant(restaurant, myRestaurantAssociates[i].id).accessLevel
+    }
+
+    // console.log(myRestaurantAssociates, myRestaurantAssociatesNoEmail);
+    // now add local records
+    myRestaurantAssociates = myRestaurantAssociates.concat(myRestaurantAssociatesNoEmail)
+
     return myRestaurantAssociates;
 }
 

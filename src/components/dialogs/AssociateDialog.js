@@ -12,6 +12,10 @@ import putRestaurant from '../../model/putRestaurant';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
 import sortAssociates from '../../model/sortAssociates';
 import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,6 +39,7 @@ const AssociateDialog = () => {
         setAssociateDialogDataItem,
         associateDialogOpen,
         setRestaurantAssociates,
+        setAssociate,
     } = dataAndMethodsContext;
 
     const {
@@ -45,6 +50,7 @@ const AssociateDialog = () => {
         bio,
         email,
         restaurantIdsJSON,
+        accessLevel,
         dialogType,
     } = dataAndMethodsContext.associateDialogData;
 
@@ -54,8 +60,11 @@ const AssociateDialog = () => {
 
     const handleSave = () => {
         switch (dialogType) {
+            case "EditMe":
+                saveAssociateEditMe()
+                break;
             case "Edit":
-                saveAssociate()
+                saveAssociateEdit()
                 break;
             case "Add":
                 saveAssociateAdd()
@@ -65,15 +74,39 @@ const AssociateDialog = () => {
         setAssociateDialogOpen(false);
     };
 
-    const saveAssociate = async () => {
+    const saveAssociateEditMe = async () => {
         let myAssociate = {};
         myAssociate.id = id;
         myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
         myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
         myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
         myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
-        myAssociate.email = email;
+        myAssociate.email = email !== '' ? email : String.fromCharCode(30);
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
+        myAssociate.accessLevel = accessLevel;
+        await putAssociate(myAssociate, idToken, customId)
+        try {
+            let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+            await putRestaurant(myRestaurant, idToken, customId)
+            let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
+            myAssociates = await sortAssociates(myAssociates, 'sortName');
+            setRestaurantAssociates(myAssociates)
+        } catch (error) {
+
+        }
+        setAssociate(myAssociate);
+    };
+
+    const saveAssociateEdit = async () => {
+        let myAssociate = {};
+        myAssociate.id = id;
+        myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
+        myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
+        myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
+        myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
+        myAssociate.email = email !== '' ? email : String.fromCharCode(30);
+        myAssociate.restaurantIdsJSON = restaurantIdsJSON;
+        myAssociate.accessLevel = accessLevel;
         await putAssociate(myAssociate, idToken, customId)
         let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
         await putRestaurant(myRestaurant, idToken, customId)
@@ -90,9 +123,10 @@ const AssociateDialog = () => {
         myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
         myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
         myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
-        myAssociate.email = '' ? email : String.fromCharCode(30);
+        myAssociate.email = email !== '' ? email : String.fromCharCode(30);
         myAssociate.restaurantIdsJSON = [];
         myAssociate.restaurantIdsJSON.push(myRestaurant.id);
+        myAssociate.accessLevel = accessLevel;
         await putAssociate(myAssociate, idToken, customId)
         myRestaurant.associatesJSON.push(myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
@@ -117,13 +151,27 @@ const AssociateDialog = () => {
         setAssociateDialogDataItem('bio', e.target.value)
     };
 
+    const changeEmail = (e) => {
+        setAssociateDialogDataItem('email', e.target.value)
+    };
+
+    const handleAccessLevelChange = (e) => {
+        setAssociateDialogDataItem('accessLevel', e.target.value)
+    };
+
+    let dialogTitle = ''
+
+    if (dialogType === "EditMe") { dialogTitle = 'Edit my details' }
+    if (dialogType === "Edit") { dialogTitle = 'Edit associate details' }
+    if (dialogType === "Add") { dialogTitle = 'Add associate details' }
+
     return (
         <div>
             <Dialog className={classes.root} open={associateDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {dialogType + ' associate details'}</DialogTitle>
+                    {dialogTitle}</DialogTitle>
                 <DialogContent>
-                    <TextField
+                    {(accessLevel === "none" || dialogType === "EditMe") && <TextField
                         id="firstName"
                         label="First name"
                         type="text"
@@ -132,8 +180,8 @@ const AssociateDialog = () => {
                         size="small"
                         value={firstName}
                         onChange={changeFirstName}
-                    />
-                    <TextField
+                    />}
+                    {(accessLevel === "none" || dialogType === "EditMe") && <TextField
                         id="lastName"
                         label="Last name"
                         type="text"
@@ -141,8 +189,8 @@ const AssociateDialog = () => {
                         variant="filled"
                         value={lastName}
                         onChange={changeLastName}
-                    />
-                    <TextField
+                    />}
+                    {(accessLevel === "none" || dialogType === "EditMe") && <TextField
                         id="jobTitle"
                         label="Job title"
                         type="text"
@@ -150,8 +198,8 @@ const AssociateDialog = () => {
                         variant="filled"
                         value={jobTitle}
                         onChange={changeJobTitle}
-                    />
-                    <TextField
+                    />}
+                    {(accessLevel === "none" || dialogType === "EditMe") && <TextField
                         id="bio"
                         label="Bio"
                         type="text"
@@ -161,7 +209,23 @@ const AssociateDialog = () => {
                         rows="8"
                         value={bio}
                         onChange={changeBio}
-                    />
+                    />}
+                    {dialogType !== "EditMe" && <FormLabel component="legend">Access level</FormLabel>}
+                    {dialogType !== "EditMe" && <RadioGroup aria-label="gender" name="gender1" value={accessLevel} onChange={handleAccessLevelChange}>
+                        <FormControlLabel value="none" control={<Radio color="primary" />} label="No Access" />
+                        <FormControlLabel value="view" control={<Radio color="primary" />} label="View" />
+                        <FormControlLabel value="edit" control={<Radio color="primary" />} label="Edit" />
+                        <FormControlLabel value="admin" control={<Radio color="primary" />} label="Admin" />
+                    </RadioGroup>}
+                    {((accessLevel === "view" || accessLevel === "edit" || accessLevel === "admin") && (dialogType !== "EditMe")) && <TextField
+                        id="email"
+                        label="Email"
+                        type="email"
+                        fullWidth
+                        variant="filled"
+                        value={email}
+                        onChange={changeEmail}
+                    />}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="default">

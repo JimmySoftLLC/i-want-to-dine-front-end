@@ -689,7 +689,6 @@ const DataAndMethodsState = props => {
                 idToken: state.idToken,
                 apiPath: state.apiPath,
                 apiName: state.apiName,
-                canEdit: state.canEdit,
                 logInType: state.logInType,
                 customId: state.customId,
                 associatesRestaurants: state.associatesRestaurants,
