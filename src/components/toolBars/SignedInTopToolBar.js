@@ -10,7 +10,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
 import getAssociateRestaurants from '../../model/getAssociateRestaurants';
-import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
@@ -20,6 +20,7 @@ import deleteRestaurant from '../../model/deleteRestaurant';
 import sortMenuItems from '../../model/sortMenuItems';
 import sortMenuDays from '../../model/sortMenuDays';
 import sortAssociates from '../../model/sortAssociates';
+import associateAccessLevel from '../../model/associateAccessLevel';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
@@ -57,7 +58,7 @@ const SignedInTopToolBar = () => {
             setRestaurantMenuItems([]);
             return;
         }
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, event.target.value);
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, event.target.value);
         let myMenuItems = await getRestaurantMenuItems(myRestaurant);
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems);
@@ -70,7 +71,7 @@ const SignedInTopToolBar = () => {
     };
 
     const handleEditRestaurant = () => {
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         //console.log(myRestaurant)
         let myRestaurantData = {
             id: myRestaurant.id,
@@ -122,7 +123,7 @@ const SignedInTopToolBar = () => {
 
     const handleNewMenuItem = () => {
         let myNewId = uuidv4()
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myEditItem = {
             id: myNewId,
             title: '',
@@ -169,7 +170,7 @@ const SignedInTopToolBar = () => {
     };
 
     const loadDeleteRestaurantWarningDialog = () => {
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         setDeleteConfirmDialog(true,
             myRestaurant.restaurantName,
             'deleteRestaurant',
@@ -233,6 +234,10 @@ const SignedInTopToolBar = () => {
         key={restaurant.id}>
         {restaurant.restaurantName}
     </MenuItem>);
+
+    // only associates who can admin to edit associate accounts
+    let canAdmin = false;
+    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
 
     return (
         <Fragment>
@@ -318,7 +323,7 @@ const SignedInTopToolBar = () => {
                             <i className="icon-calendar-solid-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['associateSettings']) && <Tooltip title="Add menu item">
+                    {(restaurantId !== noSelectedRestaurant && myStates['associateSettings'] && canAdmin) && <Tooltip title="Add menu item">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewAssociate()}>

@@ -7,7 +7,7 @@ import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/delete
 import deleteMenuDay from '../../model/deleteMenuDay';
 import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
 import putRestaurant from '../../model/putRestaurant';
-import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import sortMenuDays from '../../model/sortMenuDays';
 
 const useStyles = makeStyles(theme => ({
@@ -90,7 +90,7 @@ const MenuDayCard = ({ menuDay }) => {
 
     const deleteMenuDayNow = async (menuDayId) => {
         await deleteMenuDay(menuDayId, idToken, customId)
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myIndex = myRestaurant.menuDayIdsJSON.indexOf(menuDayId, 0)
         myRestaurant.menuDayIdsJSON.splice(myIndex, 1)
         await putRestaurant(myRestaurant, idToken, customId)

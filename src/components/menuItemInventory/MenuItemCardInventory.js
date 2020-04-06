@@ -7,7 +7,7 @@ import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/delete
 import deleteMenuItem from '../../model/deleteMenuItem';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import putRestaurant from '../../model/putRestaurant';
-import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import sortMenuItems from '../../model/sortMenuItems';
 
 const useStyles = makeStyles(theme => ({
@@ -91,7 +91,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
 
     const deleteMenuItemNow = async (menuId) => {
         await deleteMenuItem(menuId, idToken, customId)
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myIndex = myRestaurant.menuItemIdsJSON.indexOf(menuId, 0)
         myRestaurant.menuItemIdsJSON.splice(myIndex, 1)
         await putRestaurant(myRestaurant, idToken, customId)

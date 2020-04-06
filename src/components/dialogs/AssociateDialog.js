@@ -9,9 +9,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import putAssociate from '../../model/putAssociate';
 import putRestaurant from '../../model/putRestaurant';
+import putAssociateInRestaurant from '../../model/putAssociateInRestaurant';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
 import sortAssociates from '../../model/sortAssociates';
-import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -40,6 +41,7 @@ const AssociateDialog = () => {
         associateDialogOpen,
         setRestaurantAssociates,
         setAssociate,
+        associate,
     } = dataAndMethodsContext;
 
     const {
@@ -74,6 +76,7 @@ const AssociateDialog = () => {
         setAssociateDialogOpen(false);
     };
 
+    // edit logged in associate then update restaurant associate table
     const saveAssociateEditMe = async () => {
         let myAssociate = {};
         myAssociate.id = id;
@@ -86,7 +89,7 @@ const AssociateDialog = () => {
         myAssociate.accessLevel = accessLevel;
         await putAssociate(myAssociate, idToken, customId)
         try {
-            let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+            let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
             await putRestaurant(myRestaurant, idToken, customId)
             let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
             myAssociates = await sortAssociates(myAssociates, 'sortName');
@@ -97,6 +100,7 @@ const AssociateDialog = () => {
         setAssociate(myAssociate);
     };
 
+    // edit associate, if associate has email save associate if not save only to restaurant table
     const saveAssociateEdit = async () => {
         let myAssociate = {};
         myAssociate.id = id;
@@ -108,16 +112,18 @@ const AssociateDialog = () => {
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
         await putAssociate(myAssociate, idToken, customId)
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
         let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
         myAssociates = await sortAssociates(myAssociates, 'sortName');
         setRestaurantAssociates(myAssociates)
     };
 
+    // save new associate, if associate has email save associate if not save only to restaurant table
     const saveAssociateAdd = async () => {
         let myAssociate = {};
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         myAssociate.id = id;
         myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
         myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
@@ -171,7 +177,7 @@ const AssociateDialog = () => {
                 <DialogTitle id="form-dialog-title">
                     {dialogTitle}</DialogTitle>
                 <DialogContent>
-                    {(accessLevel === "none" || dialogType === "EditMe") && <TextField
+                    {((accessLevel === "none" || dialogType === "EditMe") && associate.id !== id) && <TextField
                         id="firstName"
                         label="First name"
                         type="text"
@@ -181,7 +187,7 @@ const AssociateDialog = () => {
                         value={firstName}
                         onChange={changeFirstName}
                     />}
-                    {(accessLevel === "none" || dialogType === "EditMe") && <TextField
+                    {((accessLevel === "none" || dialogType === "EditMe") && associate.id !== id) && <TextField
                         id="lastName"
                         label="Last name"
                         type="text"
@@ -190,7 +196,7 @@ const AssociateDialog = () => {
                         value={lastName}
                         onChange={changeLastName}
                     />}
-                    {(accessLevel === "none" || dialogType === "EditMe") && <TextField
+                    {((accessLevel === "none" || dialogType === "EditMe") && associate.id !== id) && <TextField
                         id="jobTitle"
                         label="Job title"
                         type="text"
@@ -199,7 +205,7 @@ const AssociateDialog = () => {
                         value={jobTitle}
                         onChange={changeJobTitle}
                     />}
-                    {(accessLevel === "none" || dialogType === "EditMe") && <TextField
+                    {((accessLevel === "none" || dialogType === "EditMe") && associate.id !== id) && <TextField
                         id="bio"
                         label="Bio"
                         type="text"

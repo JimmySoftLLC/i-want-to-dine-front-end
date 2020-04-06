@@ -20,16 +20,17 @@ const getBatch = async (myIds) => {
     return myRestaurantAssociates;
 }
 
+// get associates from the database if they have emails, otherwise get them from restaurant associateJSON
+// do this by creating an array of associateIds for records that have email, these will be on server
+// those that don't have email are local to the restaurant just use that record instead
 const getRestaurantAssociates = async (restaurant) => {
-    //console.log(restaurant);
+    console.log(restaurant);
 
     let restaurantAssociates = restaurant.associatesJSON;
     let associateIds = [];
     let myRestaurantAssociates = [];
     let myRestaurantAssociatesNoEmail = [];
 
-    // create an array of associateIds for records that have email, these will be on server or should be
-    // those that don't have email are local to the restaurant just use that record instead
     for (let i = 0; i < restaurantAssociates.length; i++) {
         if (validEmail(restaurantAssociates[i].email)) {
             associateIds.push(restaurantAssociates[i].id);

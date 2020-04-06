@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import putMenuDay from '../../model/putMenuDay';
-import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
 import putRestaurant from '../../model/putRestaurant';
 import Grid from '@material-ui/core/Grid';
@@ -84,7 +84,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.menuIdsJSON = menuIdsJSON;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myMenuDays = await getRestaurantMenuDays(myRestaurant, idToken, customId)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
@@ -100,7 +100,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.menuIdsJSON = menuIdsJSON;
         // console.log(myNewMenuDay, idToken, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         // console.log(myRestaurant)
         myRestaurant.menuDayIdsJSON.push(myNewMenuDay.id)
         await putRestaurant(myRestaurant, idToken, customId)
@@ -110,7 +110,7 @@ const MenuDayDialog = () => {
     };
 
     const selectAll = () => {
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         myNewMenuDayDialogData.menuIdsJSON = JSON.parse(JSON.stringify(myRestaurant.menuItemIdsJSON))
         setMenuDayDialogData(myNewMenuDayDialogData)

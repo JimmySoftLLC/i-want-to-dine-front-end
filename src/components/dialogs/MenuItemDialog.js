@@ -11,7 +11,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import Toolbar from '@material-ui/core/Toolbar';
 import { Tooltip } from '@material-ui/core';
 import putMenuItem from '../../model/putMenuItem';
-import getRestaurantFromAssociateRestaurants from '../../model/getRestaurantFromAssociateRestaurants';
+import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import putRestaurant from '../../model/putRestaurant';
 import sortMenuItems from '../../model/sortMenuItems';
@@ -79,7 +79,7 @@ const MenuItemDialog = () => {
         myNewMenuItem.price = price;
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myMenuItems = await getRestaurantMenuItems(myRestaurant)
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems)
@@ -95,7 +95,7 @@ const MenuItemDialog = () => {
         myNewMenuItem.price = price;
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
-        let myRestaurant = getRestaurantFromAssociateRestaurants(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         myRestaurant.menuItemIdsJSON.push(myNewMenuItem.id)
         await putRestaurant(myRestaurant, idToken, customId)
         let myMenuItems = await getRestaurantMenuItems(myRestaurant)

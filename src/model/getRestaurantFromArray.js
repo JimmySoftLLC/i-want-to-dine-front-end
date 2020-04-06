@@ -1,4 +1,4 @@
-const getRestaurantFromAssociateRestaurants = (restaurants, restaurantId) => {
+const getRestaurantFromArray = (restaurants, restaurantId) => {
     for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].id === restaurantId) {
             return restaurants[i];
@@ -7,4 +7,4 @@ const getRestaurantFromAssociateRestaurants = (restaurants, restaurantId) => {
     return null;
 }
 
-export default getRestaurantFromAssociateRestaurants
+export default getRestaurantFromArray
