@@ -3,9 +3,9 @@ import {
     associatesTableName,
 } from '../api/apiConstants';
 
-const getAssociate = async (myToken, myCustomId) => {
+const getAssociate = async (myToken, myCustomId, myEmail) => {
     //console.log(myToken, myCustomId);
-    const data = await getItemDynamoDB(associatesTableName, myToken, myCustomId)
+    const data = await getItemDynamoDB(associatesTableName, myToken, myCustomId, myEmail)
     if (data.err) {
         return null;
     }

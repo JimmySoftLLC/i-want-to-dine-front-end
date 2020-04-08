@@ -87,15 +87,33 @@ const AssociateCard = ({ Associate }) => {
 
     // only associates who can admin to edit associate accounts
     let canAdmin = false;
-    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
+    let myAccessLevel = associateAccessLevel(associatesRestaurants, restaurantId, associate.id);
+    myAccessLevel === "admin" ? canAdmin = true : canAdmin = false
+
+    let thisAssociateAccessLevel = '';
+    switch (associateAccessLevel(associatesRestaurants, restaurantId, Associate.id)) {
+        case 'none':
+            thisAssociateAccessLevel = 'fas fa-user';
+            break;
+        case 'view':
+            thisAssociateAccessLevel = 'icon-user-read';
+            break;
+        case 'edit':
+            thisAssociateAccessLevel = 'fas fa-user-edit';
+            break;
+        case 'admin':
+            thisAssociateAccessLevel = 'fas fa-user-cog';
+            break;
+        default:
+    }
 
     return (
         <div className='card'>
-            <h4><i className="fas fa-user"></i>{' - '}{Associate.firstName}{' '}{Associate.lastName}
+            <h4><i className={thisAssociateAccessLevel}></i>{' - '}{Associate.firstName}{' '}{Associate.lastName}
             </h4>
             <div className={classes.root} >
                 {canAdmin && <Button variant="outlined" color="primary" onClick={() => handleClickAssociateEdit(Associate.id)}>
-                    <i className="fas fa-edit"></i>
+                    <i className={"fas fa-edit"}></i>
                 </Button>}
                 {canAdmin && <Button variant="outlined" color="primary" onClick={() => loadDeleteAssociateDialog(Associate.id)}>
                     <i className="fas fa-trash"></i>

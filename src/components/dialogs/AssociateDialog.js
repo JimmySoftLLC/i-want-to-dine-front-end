@@ -8,10 +8,12 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import putAssociate from '../../model/putAssociate';
+import getAssociate from '../../model/getAssociate';
 import putRestaurant from '../../model/putRestaurant';
 import putAssociateInRestaurant from '../../model/putAssociateInRestaurant';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
 import sortAssociates from '../../model/sortAssociates';
+import getAssociateFromRestaurant from '../../model/getAssociateFromRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -54,13 +56,14 @@ const AssociateDialog = () => {
         restaurantIdsJSON,
         accessLevel,
         dialogType,
+        message,
     } = dataAndMethodsContext.associateDialogData;
 
     const handleClose = () => {
         setAssociateDialogOpen(false);
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         switch (dialogType) {
             case "EditMe":
                 saveAssociateEditMe()
@@ -69,7 +72,8 @@ const AssociateDialog = () => {
                 saveAssociateEdit()
                 break;
             case "Add":
-                saveAssociateAdd()
+                const success = await saveAssociateAdd()
+                if (!success) { return null; }
                 break;
             default:
         }
@@ -100,7 +104,11 @@ const AssociateDialog = () => {
         setAssociate(myAssociate);
     };
 
-    // edit associate, if associate has email save associate if not save only to restaurant table
+    // create myAssociate and poplulate it with the dialog's entries.
+    // If associate access is not "none" check if already exists in database using email as an id
+    // if found load associate from database if not found add associate to database.  
+    // Then using the updated associate put it to the resturant, save restaurant to 
+    // database.  Then read back all restaurant associates from database.
     const saveAssociateEdit = async () => {
         let myAssociate = {};
         myAssociate.id = id;
@@ -111,7 +119,15 @@ const AssociateDialog = () => {
         myAssociate.email = email !== '' ? email : String.fromCharCode(30);
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
-        await putAssociate(myAssociate, idToken, customId)
+        if (myAssociate.accessLevel !== 'none') {
+            myAssociate.id = email;
+            const associate = await getAssociate(idToken, customId, myAssociate.id)
+            if (!associate) {
+                await putAssociate(myAssociate, idToken, customId)
+            } else {
+                myAssociate = associate;
+            }
+        }
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
@@ -120,7 +136,12 @@ const AssociateDialog = () => {
         setRestaurantAssociates(myAssociates)
     };
 
-    // save new associate, if associate has email save associate if not save only to restaurant table
+    // create myAssociate and poplulate it with the dialog's entries.
+    // check if myAssociate is already in the restaurant if so do not proceed and message user.
+    // Then if associate access is not "none" check if already exists in database using email as an id
+    // if found load associate from database if not found add associate to database.  
+    // Then using the updated associate put it to the resturant, save restaurant to 
+    // database.  Then read back all restaurant associates from database.
     const saveAssociateAdd = async () => {
         let myAssociate = {};
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
@@ -133,8 +154,27 @@ const AssociateDialog = () => {
         myAssociate.restaurantIdsJSON = [];
         myAssociate.restaurantIdsJSON.push(myRestaurant.id);
         myAssociate.accessLevel = accessLevel;
-        await putAssociate(myAssociate, idToken, customId)
-        myRestaurant.associatesJSON.push(myAssociate)
+        if (myAssociate.accessLevel !== 'none') {
+            myAssociate.id = email;
+            const associateExists = getAssociateFromRestaurant(myRestaurant, myAssociate.id)
+            if (associateExists) {
+                setMessage('That associate already exists in restaurant.');
+                return null;
+            }
+            const associate = await getAssociate(idToken, customId, myAssociate.id)
+            if (!associate) {
+                await putAssociate(myAssociate, idToken, customId)
+            } else {
+                myAssociate = associate;
+            }
+        } else {
+            const associateExists = getAssociateFromRestaurant(myRestaurant, myAssociate.id)
+            if (associateExists) {
+                setMessage('That associate already exists in restaurant.')
+                return null;
+            }
+        }
+        myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
         let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
         myAssociates = await sortAssociates(myAssociates, 'sortName');
@@ -163,6 +203,10 @@ const AssociateDialog = () => {
 
     const handleAccessLevelChange = (e) => {
         setAssociateDialogDataItem('accessLevel', e.target.value)
+    };
+
+    const setMessage = (myMessage) => {
+        setAssociateDialogDataItem('message', myMessage)
     };
 
     let dialogTitle = ''
@@ -232,6 +276,7 @@ const AssociateDialog = () => {
                         value={email}
                         onChange={changeEmail}
                     />}
+                    <p>{message}</p>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="default">

@@ -1,8 +1,15 @@
-const validateEmail = (email) => {
+import stringToHex from './stringToHex';
+import hexToString from './hexToString';
+
+const validEmail = (email) => {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
-        return (true)
+        let myHexKey = stringToHex(email)
+        let myHexKeyDecoded = hexToString(myHexKey)
+        if (myHexKeyDecoded === email) {
+            return (true)
+        }
     }
     return (false)
 }
 
-export default validateEmail;
+export default validEmail;

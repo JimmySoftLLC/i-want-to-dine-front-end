@@ -6,7 +6,7 @@ import {
 
 const createNewAssociate = async (myToken, myCustomId, myEmail) => {
     let myAssociate = {
-        id: myCustomId,
+        id: myEmail,
         firstName: ' ',
         lastName: ' ',
         bio: ' ',

@@ -89,7 +89,7 @@ const DataAndMethodsState = props => {
             price: 0,
             id: '',
             restaurant: '',
-            dialogType: "Add",
+            dialogType: 'Add',
         },
         restaurantDialogOpen: false,
         restaurantDialogData: {
@@ -107,7 +107,7 @@ const DataAndMethodsState = props => {
             menuDayIdsJSON: [],
             approved: false,
             myAssociate: {},
-            dialogType: "Edit",
+            dialogType: 'Edit',
         },
         associateDialogOpen: false,
         associateDialogData: {
@@ -119,7 +119,8 @@ const DataAndMethodsState = props => {
             email: '',
             restaurantIdsJSON: [],
             accessLevel: 'none',
-            dialogType: "Edit",
+            dialogType: 'Edit',
+            message: ''
         },
         menuDayDialogOpen: false,
         menuDayDialogData: {

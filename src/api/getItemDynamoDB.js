@@ -4,7 +4,7 @@ import {
     apiPath,
 } from './apiConstants';
 
-const getItemDynamoDB = async (myTableName, myIdToken, myId) => {
+const getItemDynamoDB = async (myTableName, myIdToken, myId, myItemId) => {
     let myReturnObject = { err: false, payload: null };
     try {
         const apiRequest = {
@@ -13,7 +13,7 @@ const getItemDynamoDB = async (myTableName, myIdToken, myId) => {
                 myBody: {
                     TableName: myTableName,
                     Key: {
-                        id: myId,
+                        id: myItemId,
                     },
                 },
                 myId: myId,

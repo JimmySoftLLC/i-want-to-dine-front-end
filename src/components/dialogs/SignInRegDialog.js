@@ -13,6 +13,7 @@ import getAssociate from '../../model/getAssociate';
 import getAssociateRestaurants from '../../model/getAssociateRestaurants';
 import createNewAssociate from '../../model/createNewAssociate';
 import validEmail from '../../model/validEmail';
+
 import {
     // menuItemsTableName,
     // restaurantsTableName,
@@ -119,7 +120,7 @@ const SignUp = () => {
                 setCustomId(session.idToken.payload['custom:id']);
                 setAuthToken(session.accessToken.jwtToken);
                 setIdToken(session.idToken.jwtToken);
-                const associate = await getAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                const associate = await getAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'], session.idToken.payload['email'])
                 if (!associate) {
                     let myNewAssociate = await createNewAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'], session.idToken.payload['email'])
                     if (myNewAssociate) {
