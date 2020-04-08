@@ -89,7 +89,6 @@ const AssociateCard = ({ Associate }) => {
     let canAdmin = false;
     associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
 
-
     return (
         <div className='card'>
             <h4><i className="fas fa-user"></i>{' - '}{Associate.firstName}{' '}{Associate.lastName}

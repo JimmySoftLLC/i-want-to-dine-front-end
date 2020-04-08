@@ -177,7 +177,7 @@ const AssociateDialog = () => {
                 <DialogTitle id="form-dialog-title">
                     {dialogTitle}</DialogTitle>
                 <DialogContent>
-                    {((accessLevel === "none" || dialogType === "EditMe") && associate.id !== id) && <TextField
+                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
                         id="firstName"
                         label="First name"
                         type="text"
@@ -187,7 +187,7 @@ const AssociateDialog = () => {
                         value={firstName}
                         onChange={changeFirstName}
                     />}
-                    {((accessLevel === "none" || dialogType === "EditMe") && associate.id !== id) && <TextField
+                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
                         id="lastName"
                         label="Last name"
                         type="text"
@@ -196,7 +196,7 @@ const AssociateDialog = () => {
                         value={lastName}
                         onChange={changeLastName}
                     />}
-                    {((accessLevel === "none" || dialogType === "EditMe") && associate.id !== id) && <TextField
+                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
                         id="jobTitle"
                         label="Job title"
                         type="text"
@@ -205,7 +205,7 @@ const AssociateDialog = () => {
                         value={jobTitle}
                         onChange={changeJobTitle}
                     />}
-                    {((accessLevel === "none" || dialogType === "EditMe") && associate.id !== id) && <TextField
+                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
                         id="bio"
                         label="Bio"
                         type="text"
@@ -223,7 +223,7 @@ const AssociateDialog = () => {
                         <FormControlLabel value="edit" control={<Radio color="primary" />} label="Edit" />
                         <FormControlLabel value="admin" control={<Radio color="primary" />} label="Admin" />
                     </RadioGroup>}
-                    {((accessLevel === "view" || accessLevel === "edit" || accessLevel === "admin") && (dialogType !== "EditMe")) && <TextField
+                    {((accessLevel === "view" || accessLevel === "edit" || accessLevel === "admin") && dialogType !== "EditMe") && <TextField
                         id="email"
                         label="Email"
                         type="email"

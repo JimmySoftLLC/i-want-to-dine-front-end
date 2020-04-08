@@ -96,7 +96,8 @@ const SignedInTopToolBar = () => {
 
     const handleNewRestaurant = () => {
         let myAssociateIdsJSON = []
-        myAssociateIdsJSON.push(associate.id)
+        associate.accessLevel = 'admin'
+        myAssociateIdsJSON.push(associate)
         let myNewId = uuidv4()
         let myNewAssociate = JSON.parse(JSON.stringify(associate))
         myNewAssociate.restaurantIdsJSON.push(myNewId)
