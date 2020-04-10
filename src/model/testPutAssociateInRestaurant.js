@@ -1,5 +1,7 @@
-// search associatesJSON for matching id overwrite or insert if does not exist
-const putAssociateInRestaurant = (myRestaurant, myAssociate) => {
+import checkIfOneAdminInRestaurant from './checkIfOneAdminInRestaurant';
+
+const testPutAssociateInRestaurant = (restaurant, myAssociate) => {
+    let myRestaurant = JSON.parse(JSON.stringify(restaurant))
     let foundAssociate = false
     for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
         if (myRestaurant.associatesJSON[i].id === myAssociate.id) {
@@ -11,7 +13,8 @@ const putAssociateInRestaurant = (myRestaurant, myAssociate) => {
     if (!foundAssociate) {
         myRestaurant.associatesJSON.push(JSON.parse(JSON.stringify(myAssociate)))
     }
-    return myRestaurant;
+
+    return checkIfOneAdminInRestaurant(myRestaurant);
 }
 
-export default putAssociateInRestaurant
+export default testPutAssociateInRestaurant

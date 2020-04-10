@@ -38,6 +38,8 @@ const RestaurantDialog = () => {
         setRestaurantDialogOpen(false);
     };
 
+    // save restaurant with data shown to database
+    // if it is a new restaurant save data to the logged in associate also
     const saveRestaurant = async () => {
         let myRestaurant = {};
         myRestaurant.id = restaurantDialogData.id;
@@ -53,16 +55,13 @@ const RestaurantDialog = () => {
         myRestaurant.associatesJSON = restaurantDialogData.associatesJSON
         myRestaurant.menuDayIdsJSON = restaurantDialogData.menuDayIdsJSON
         myRestaurant.approved = restaurantDialogData.approved
-        const successRestaurantPut = await putRestaurant(myRestaurant, idToken, customId)
-        if (successRestaurantPut) {
-            let myAssociate = JSON.parse(JSON.stringify(restaurantDialogData.myAssociate))
-            const associatesRestaurants = await getAssociateRestaurants(myAssociate)
-            setAssociatesRestaurants(associatesRestaurants);
-            if (restaurantDialogData.dialogType === 'New') {
-                await putAssociate(myAssociate, idToken, customId)
-                setAssociate(myAssociate)
-            }
+        await putRestaurant(myRestaurant, idToken, customId)
+        if (restaurantDialogData.dialogType === 'New') {
+            await putAssociate(restaurantDialogData.myAssociate, idToken, customId)
+            setAssociate(restaurantDialogData.myAssociate)
         }
+        const associatesRestaurants = await getAssociateRestaurants(restaurantDialogData.myAssociate)
+        setAssociatesRestaurants(associatesRestaurants);
         setRestaurantDialogOpen(false);
     };
 

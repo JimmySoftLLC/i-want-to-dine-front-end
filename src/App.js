@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import DataAndMethodsState from './context/dataAndMethods/dataAndMethodsState';
-import AlertDialogState from './context/alertDialog/AlertDialogState';
+import AlertDialogState from './context/alertDialog/alertDialogState';
 import DeleteConfirmDialogState from './context/deleteConfirmDialog/deleteConfirmDialogState';
 import Home from './pages/Home';
 

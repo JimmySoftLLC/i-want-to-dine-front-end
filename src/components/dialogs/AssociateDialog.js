@@ -10,6 +10,8 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import putAssociate from '../../model/putAssociate';
 import getAssociate from '../../model/getAssociate';
 import putRestaurant from '../../model/putRestaurant';
+import validEmail from '../../model/validEmail';
+import testPutAssociateInRestaurant from '../../model/testPutAssociateInRestaurant';
 import putAssociateInRestaurant from '../../model/putAssociateInRestaurant';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
 import sortAssociates from '../../model/sortAssociates';
@@ -44,6 +46,7 @@ const AssociateDialog = () => {
         setRestaurantAssociates,
         setAssociate,
         associate,
+        setRestaurant,
     } = dataAndMethodsContext;
 
     const {
@@ -69,18 +72,22 @@ const AssociateDialog = () => {
                 saveAssociateEditMe()
                 break;
             case "Edit":
-                saveAssociateEdit()
+                const success = await saveAssociateEdit()
+                if (!success) { return null; }
                 break;
             case "Add":
-                const success = await saveAssociateAdd()
-                if (!success) { return null; }
+                const successAdd = await saveAssociateAdd()
+                if (!successAdd) { return null; }
                 break;
             default:
         }
         setAssociateDialogOpen(false);
     };
 
-    // edit logged in associate then update restaurant associate table
+    // edit logged in associate save to database
+    // get associates for restaurant from database
+    // update restaurant with these new associates and save to database
+    // update state for associate, restaurantAssociates
     const saveAssociateEditMe = async () => {
         let myAssociate = {};
         myAssociate.id = id;
@@ -92,23 +99,21 @@ const AssociateDialog = () => {
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
         await putAssociate(myAssociate, idToken, customId)
-        try {
-            let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-            await putRestaurant(myRestaurant, idToken, customId)
-            let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
-            myAssociates = await sortAssociates(myAssociates, 'sortName');
-            setRestaurantAssociates(myAssociates)
-        } catch (error) {
-
-        }
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
+        myRestaurant.associatesJSON = myAssociates;
+        await putRestaurant(myRestaurant, idToken, customId)
+        myAssociates = await sortAssociates(myAssociates, 'sortName');
+        setRestaurantAssociates(myAssociates)
         setAssociate(myAssociate);
     };
 
     // create myAssociate and poplulate it with the dialog's entries.
-    // If associate access is not "none" check if already exists in database using email as an id
-    // if found load associate from database if not found add associate to database.  
-    // Then using the updated associate put it to the resturant, save restaurant to 
-    // database.  Then read back all restaurant associates from database.
+    // if access level not set to none, get associate from database if not found create one using 
+    // the email provided, if the email does not exist message the user with an error.
+    // then put the update associate in the restaurant associates array
+    // save the restaurant to the database
+    // get all the restaurant associates from the database
     const saveAssociateEdit = async () => {
         let myAssociate = {};
         myAssociate.id = id;
@@ -119,21 +124,30 @@ const AssociateDialog = () => {
         myAssociate.email = email !== '' ? email : String.fromCharCode(30);
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        if (!testPutAssociateInRestaurant(myRestaurant, myAssociate)) {
+            setMessage('There needs to be at least one associate with admin rights per restaurant.')
+            return null;
+        }
         if (myAssociate.accessLevel !== 'none') {
             myAssociate.id = email;
-            const associate = await getAssociate(idToken, customId, myAssociate.id)
-            if (!associate) {
-                await putAssociate(myAssociate, idToken, customId)
-            } else {
-                myAssociate = associate;
+            if (!validEmail(myAssociate.id)) {
+                setMessage('A valid email is required.')
+                return null;
             }
+            const associateFromDatabase = await getAssociate(idToken, customId, myAssociate.id)
+            if (!associateFromDatabase) {
+                await putAssociate(myAssociate, idToken, customId)
+            }
+        } else {
+            await putAssociate(myAssociate, idToken, customId)
         }
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
         let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
         myAssociates = await sortAssociates(myAssociates, 'sortName');
         setRestaurantAssociates(myAssociates)
+        return true;
     };
 
     // create myAssociate and poplulate it with the dialog's entries.
@@ -156,6 +170,10 @@ const AssociateDialog = () => {
         myAssociate.accessLevel = accessLevel;
         if (myAssociate.accessLevel !== 'none') {
             myAssociate.id = email;
+            if (!validEmail(myAssociate.id)) {
+                setMessage('A valid email is required.')
+                return null;
+            }
             const associateExists = getAssociateFromRestaurant(myRestaurant, myAssociate.id)
             if (associateExists) {
                 setMessage('That associate already exists in restaurant.');
@@ -166,6 +184,8 @@ const AssociateDialog = () => {
                 await putAssociate(myAssociate, idToken, customId)
             } else {
                 myAssociate = associate;
+                myAssociate.restaurantIdsJSON.push(myRestaurant.id);
+                await putAssociate(myAssociate, idToken, customId)
             }
         } else {
             const associateExists = getAssociateFromRestaurant(myRestaurant, myAssociate.id)
@@ -174,11 +194,13 @@ const AssociateDialog = () => {
                 return null;
             }
         }
+        myAssociate.accessLevel = accessLevel
         myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
         let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
         myAssociates = await sortAssociates(myAssociates, 'sortName');
         setRestaurantAssociates(myAssociates)
+        return true;
     };
 
     const changeFirstName = (e) => {

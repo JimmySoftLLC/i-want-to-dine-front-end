@@ -52,10 +52,14 @@ const SignedInTopToolBar = () => {
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
     const { setDeleteConfirmDialog } = deleteConfirmDialogContext
 
-    const handleChange = async (event) => {
+    // change restaurant if none selected clear menu items, menudays, associates
+    // other wise get menu items, menudays, associates from database and sort
+    const changeRestaurantSelection = async (event) => {
         setRestaurantId(event.target.value);
         if (event.target.value === noSelectedRestaurant) {
             setRestaurantMenuItems([]);
+            setRestaurantMenuDays([]);
+            setRestaurantAssociates([]);
             return;
         }
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, event.target.value);
@@ -70,8 +74,12 @@ const SignedInTopToolBar = () => {
         setRestaurantAssociates(myRestaurantAssociates);
     };
 
+
+    // set data for restaurant dialog this will be use if the restaurant is saved tossed if canceled
+    // deep copy the associate pass everything else
     const handleEditRestaurant = () => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myAssociate = JSON.parse(JSON.stringify(associate));
         //console.log(myRestaurant)
         let myRestaurantData = {
             id: myRestaurant.id,
@@ -87,22 +95,33 @@ const SignedInTopToolBar = () => {
             associatesJSON: myRestaurant.associatesJSON,
             menuDayIdsJSON: myRestaurant.menuDayIdsJSON,
             approved: myRestaurant.approved,
-            myAssociate: associate,
+            myAssociate: myAssociate,
             dialogType: "Edit",
         }
         setRestaurantDialogData(myRestaurantData);
         setRestaurantDialogOpen(true);
     };
 
+    // set data for restaurant dialog this will be use if the restaurant is saved tossed if canceled
+    // - get new id for restaurant
+    // - create an array to add associate
+    // - deep copy associate
+    // - add access level to admin in new associate since they are creating the restaurant
+    // - push the restaurant id onto new assoicates restaurantIdsJSON
+    // - create new restaurant dialog data object set most entries to blank
+    //   -- set myAssoicateJSON
+    //   -- set approved to false (need to approve ownership before becomming live)
+    //   -- set myAssociate, this will be used later to update the associate with the new restaurant
+    //   -- set dialogType to new
     const handleNewRestaurant = () => {
-        let myAssociateIdsJSON = []
-        associate.accessLevel = 'admin'
-        myAssociateIdsJSON.push(associate)
-        let myNewId = uuidv4()
-        let myNewAssociate = JSON.parse(JSON.stringify(associate))
-        myNewAssociate.restaurantIdsJSON.push(myNewId)
+        let myId = uuidv4();
+        let myRestaurantsAssociatesJSON = [];
+        let myAssociate = JSON.parse(JSON.stringify(associate));
+        myAssociate.accessLevel = 'admin';
+        myAssociate.restaurantIdsJSON.push(myId);
+        myRestaurantsAssociatesJSON.push(myAssociate);
         let myRestaurantData = {
-            id: myNewId,
+            id: myId,
             restaurantName: '',
             description: '',
             street: '',
@@ -112,10 +131,10 @@ const SignedInTopToolBar = () => {
             phoneNumber: '',
             urlLink: '',
             menuItemIdsJSON: [],
-            associatesJSON: myAssociateIdsJSON,
+            associatesJSON: myRestaurantsAssociatesJSON,
             menuDayIdsJSON: [],
             approved: false,
-            myAssociate: myNewAssociate,
+            myAssociate: myAssociate,
             dialogType: "New",
         }
         setRestaurantDialogData(myRestaurantData);
@@ -248,7 +267,7 @@ const SignedInTopToolBar = () => {
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
                         value={restaurantId}
-                        onChange={handleChange}
+                        onChange={changeRestaurantSelection}
                         input={<BootstrapInput />}
                     >
                         <MenuItem value={noSelectedRestaurant}>{noSelectedRestaurant}</MenuItem>
