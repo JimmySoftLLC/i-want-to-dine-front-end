@@ -21,6 +21,7 @@ import {
     // apiName,
     // apiPath,
     // projectionExpressionRestaurant,
+    noSelectedRestaurant,
 } from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({
@@ -52,6 +53,8 @@ const SignUp = () => {
         setLogInType,
         setAssociate,
         setAssociatesRestaurants,
+        setRestaurantId,
+        setMyState,
     } = dataAndMethodsContext;
 
     const closeDialog = () => {
@@ -131,6 +134,8 @@ const SignUp = () => {
                         setLogInType('signedIn')
                         setSignInRegDialogType('false');
                         setDialogBackToDefaults();
+                        setRestaurantId(noSelectedRestaurant);
+                        setMyState('restaurantSettings');
                     }
                 } else {
                     //console.log(associate);
@@ -141,6 +146,8 @@ const SignUp = () => {
                     setLogInType('signedIn')
                     setSignInRegDialogType('false');
                     setDialogBackToDefaults();
+                    setRestaurantId(noSelectedRestaurant);
+                    setMyState('restaurantSettings');
                 }
             }
         } catch (err) {

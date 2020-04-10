@@ -15,11 +15,17 @@ import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
 import sortMenuDays from '../../model/sortMenuDays';
 import 'date-fns';
-import MenuItemsMenuDay from '../../components/menuItemMenuDay/menuItemsMenuDay';
+import MenuItemsMenuDay from '../menuItemMenuDay/MenuItemsMenuDay';
+import AssociatesMenuDay from '../associateMenuDay/AssociatesMenuDay';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker,
 } from '@material-ui/pickers';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,6 +46,7 @@ const MenuDayDialog = () => {
         dateTo,
         description,
         menuIdsJSON,
+        associatesJSON,
         dialogType,
     } = dataAndMethodsContext.menuDayDialogData;
 
@@ -82,6 +89,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.dateTo = dateTo.toString();
         myNewMenuDay.description = description;
         myNewMenuDay.menuIdsJSON = menuIdsJSON;
+        myNewMenuDay.associatesJSON = associatesJSON;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
@@ -98,6 +106,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.dateTo = dateTo.toString();
         myNewMenuDay.description = description;
         myNewMenuDay.menuIdsJSON = menuIdsJSON;
+        myNewMenuDay.associatesJSON = associatesJSON;
         // console.log(myNewMenuDay, idToken, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
@@ -113,12 +122,18 @@ const MenuDayDialog = () => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         myNewMenuDayDialogData.menuIdsJSON = JSON.parse(JSON.stringify(myRestaurant.menuItemIdsJSON))
+        let myNewAssociateJSON = [];
+        for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
+            myNewAssociateJSON.push(myRestaurant.associatesJSON[i].id)
+        }
+        myNewMenuDayDialogData.associatesJSON = JSON.parse(JSON.stringify(myNewAssociateJSON))
         setMenuDayDialogData(myNewMenuDayDialogData)
     }
 
     const unSelectAll = () => {
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         myNewMenuDayDialogData.menuIdsJSON = []
+        myNewMenuDayDialogData.associatesJSON = []
         setMenuDayDialogData(myNewMenuDayDialogData)
     }
 
@@ -153,11 +168,14 @@ const MenuDayDialog = () => {
         setMenuDayDialogDataItem('description', e.target.value)
     };
 
+    var myStyle = {
+        width: "100%"
+    };
+
     return (
         <div>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
-
                     <Dialog className={classes.root} open={menuDayDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">
                             {dialogType + " menu day"}</DialogTitle>
@@ -206,7 +224,34 @@ const MenuDayDialog = () => {
                                 value={description}
                                 onChange={changeDescription}
                             />
-                            <MenuItemsMenuDay />
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography>Menu Items</Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <Grid item xs={12}>
+                                        <MenuItemsMenuDay />
+                                    </Grid>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header2"
+                                >
+                                    <Typography>Associates</Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <Grid item xs={12}>
+                                        <AssociatesMenuDay />
+                                    </Grid>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={() => selectAll()} color="default">Select All</Button>

@@ -132,9 +132,15 @@ const AssociateCard = ({ Associate }) => {
         default:
     }
 
+    let associateName = Associate.firstName + ' ' + Associate.lastName
+
+    if (Associate.firstName.length < 2 && Associate.lastName.length < 2) {
+        associateName = Associate.email;
+    }
+
     return (
         <div className='card'>
-            <h4><i className={thisAssociateAccessLevel}></i>{' - '}{Associate.firstName}{' '}{Associate.lastName}
+            <h4><i className={thisAssociateAccessLevel}></i>{' - '}{associateName}
             </h4>
             <div className={classes.root} >
                 {canAdmin && <Button variant="outlined" color="primary" onClick={() => handleClickAssociateEdit(Associate.id)}>

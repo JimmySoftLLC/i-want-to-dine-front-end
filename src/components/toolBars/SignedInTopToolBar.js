@@ -166,6 +166,7 @@ const SignedInTopToolBar = () => {
             dateTo: new Date(),
             description: '',
             menuIdsJSON: [],
+            associatesJSON: [],
             dialogType: "Add",
         }
         setMenuDayDialogData(myEditItem);
@@ -275,8 +276,8 @@ const SignedInTopToolBar = () => {
                     </Select>
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Restaurant settings">
                         <IconButton aria-label=""
-                            color={myStates['restaurantSettngs'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('restaurantSettngs')}>
+                            color={myStates['restaurantSettings'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setMyState('restaurantSettings')}>
                             <i className="icon-restaurant-cog"></i>
                         </IconButton>
                     </Tooltip>}
@@ -301,7 +302,7 @@ const SignedInTopToolBar = () => {
                             <i className="fas fa-user-cog"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Edit restaurant">
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings']) && <Tooltip title="Edit restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleEditRestaurant()}>
@@ -315,14 +316,14 @@ const SignedInTopToolBar = () => {
                             <i className="icon-restaurant-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Add restaurant">
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings']) && <Tooltip title="Add restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewRestaurant()}>
                             <i className="icon-restaurant-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettngs']) && <Tooltip title="Delete restaurant">
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings']) && <Tooltip title="Delete restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => loadDeleteRestaurantWarningDialog()}>

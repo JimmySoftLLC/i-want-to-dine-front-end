@@ -58,6 +58,7 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
                 dateTo: myItem.dateTo,
                 description: myItem.description,
                 menuIdsJSON: JSON.stringify(myItem.menuIdsJSON),
+                associatesJSON: JSON.stringify(myItem.associatesJSON),
             }
             break;
         default:

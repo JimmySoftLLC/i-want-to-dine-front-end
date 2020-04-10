@@ -23,6 +23,8 @@ const SignedInBotToolBar = () => {
         setMyState,
         restaurantMenuItems,
         setRestaurantMenuItems,
+        setRestaurantMenuDays,
+        setRestaurantAssociates,
     } = dataAndMethodsContext;
 
     const logOut = () => {
@@ -30,6 +32,9 @@ const SignedInBotToolBar = () => {
         setIdToken('');
         setCustomId('');
         setLogInType('default');
+        setRestaurantMenuItems([]);
+        setRestaurantMenuDays([]);
+        setRestaurantAssociates([]);
     }
 
     const handleEditAssociate = () => {
@@ -57,14 +62,14 @@ const SignedInBotToolBar = () => {
     return (
         <Fragment>
             <Toolbar showLabel="false" color="primary">
-                {(restaurantId !== noSelectedRestaurant && myStates['menuSettings']) && <Tooltip title="Edit associate details">
+                {(restaurantId !== noSelectedRestaurant && myStates['menuSettings']) && <Tooltip title="Sort alphabetically">
                     <IconButton aria-label=""
                         color={myStates['sortTitle'] ? "secondary" : "primary"}
                         onClick={() => sortBy('sortTitle')}>
                         <i className="fas fa-sort-alpha-down"></i>
                     </IconButton>
                 </Tooltip>}
-                {(restaurantId !== noSelectedRestaurant && myStates['menuSettings']) && <Tooltip title="Edit associate details">
+                {(restaurantId !== noSelectedRestaurant && myStates['menuSettings']) && <Tooltip title="Sort by price">
                     <IconButton aria-label=""
                         color={myStates['sortPrice'] ? "secondary" : "primary"}
                         onClick={() => sortBy('sortPrice')}>

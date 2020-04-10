@@ -100,12 +100,14 @@ const AssociateDialog = () => {
         myAssociate.accessLevel = accessLevel;
         await putAssociate(myAssociate, idToken, customId)
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
-        myRestaurant.associatesJSON = myAssociates;
-        await putRestaurant(myRestaurant, idToken, customId)
-        myAssociates = await sortAssociates(myAssociates, 'sortName');
-        setRestaurantAssociates(myAssociates)
-        setAssociate(myAssociate);
+        if (myRestaurant) {
+            let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
+            myRestaurant.associatesJSON = myAssociates;
+            await putRestaurant(myRestaurant, idToken, customId)
+            myAssociates = await sortAssociates(myAssociates, 'sortName');
+            setRestaurantAssociates(myAssociates)
+            setAssociate(myAssociate);
+        }
     };
 
     // create myAssociate and poplulate it with the dialog's entries.
@@ -137,7 +139,8 @@ const AssociateDialog = () => {
             }
             const associateFromDatabase = await getAssociate(idToken, customId, myAssociate.id)
             if (!associateFromDatabase) {
-                await putAssociate(myAssociate, idToken, customId)
+                setMessage('No assoicate account with that email address exists.')
+                return null;
             }
         } else {
             await putAssociate(myAssociate, idToken, customId)
@@ -181,7 +184,8 @@ const AssociateDialog = () => {
             }
             const associate = await getAssociate(idToken, customId, myAssociate.id)
             if (!associate) {
-                await putAssociate(myAssociate, idToken, customId)
+                setMessage('No assoicate account with that email address exists.')
+                return null;
             } else {
                 myAssociate = associate;
                 myAssociate.restaurantIdsJSON.push(myRestaurant.id);

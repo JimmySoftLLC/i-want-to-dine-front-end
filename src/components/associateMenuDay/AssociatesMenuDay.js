@@ -1,20 +1,20 @@
 import React, { useContext } from 'react';
-import MenuItemCardMenuDay from './MenuItemCardMenuDay';
+import AssociateCardMenuDay from './AssociateCardMenuDay';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 
-const MenuItemsMenuDay = (menuDayId) => {
+const AssociatesMenuDay = (menuDayId) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
-        restaurantMenuItems,
+        restaurantAssociates,
         myStates,
     } = dataAndMethodsContext;
 
-    return restaurantMenuItems.map(menuItem => <MenuItemCardMenuDay menuItem={menuItem}
+    return restaurantAssociates.map(associate => <AssociateCardMenuDay associate={associate}
         myStates={myStates}
         isInList={true}
         menuDayId={menuDayId}
-        menuItemId={menuItem.id}
-        key={menuItem.id} />);
+        associateId={associate.id}
+        key={associate.id} />);
 };
 
-export default MenuItemsMenuDay;
+export default AssociatesMenuDay;

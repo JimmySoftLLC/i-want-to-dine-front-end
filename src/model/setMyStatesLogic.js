@@ -9,8 +9,8 @@ const turnOffAllMyStates = (myStates, key) => {
 
 const setMyStatesLogic = (myStates, key) => {
     // if myKey = any of the loggin items, set login items to false and set key
-    if (key === 'restaurantSettngs' || key === 'menuSettings' || key === 'menuDaySettings' || key === 'associateSettings') {
-        myStates['restaurantSettngs'] = false;
+    if (key === 'restaurantSettings' || key === 'menuSettings' || key === 'menuDaySettings' || key === 'associateSettings') {
+        myStates['restaurantSettings'] = false;
         myStates['menuSettings'] = false;
         myStates['menuDaySettings'] = false;
         myStates['associateSettings'] = false;

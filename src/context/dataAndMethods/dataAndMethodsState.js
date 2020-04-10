@@ -63,7 +63,7 @@ const DataAndMethodsState = props => {
             dollar_2: true,
             dollar_3: false,
             restaurant: false,
-            restaurantSettngs: false,
+            restaurantSettings: false,
             menuSettings: false,
             menuDaySettings: false,
             sortTitle: true,
@@ -130,6 +130,7 @@ const DataAndMethodsState = props => {
             dateTo: '',
             description: '',
             menuIdsJSON: [],
+            associatesJSON: [],
             dialogType: "Edit",
         }
     };
@@ -140,6 +141,12 @@ const DataAndMethodsState = props => {
     const setAssociateDialogDataItem = async (key, value) => {
         let associateDialogData = JSON.parse(JSON.stringify(state.associateDialogData))
         associateDialogData[key] = value;
+        if (key === 'firstName') { associateDialogData['message'] = '' }
+        if (key === 'lastName') { associateDialogData['message'] = '' }
+        if (key === 'jobTitle') { associateDialogData['message'] = '' }
+        if (key === 'bio') { associateDialogData['message'] = '' }
+        if (key === 'email') { associateDialogData['message'] = '' }
+        if (key === 'accessLevel') { associateDialogData['message'] = '' }
         setAssociateDialogData(associateDialogData);
     }
     const setAssociate = async (associate) => { dispatch({ type: SET_ASSOCIATE, payload: associate }) }

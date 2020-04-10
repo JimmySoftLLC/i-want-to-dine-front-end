@@ -15,6 +15,7 @@ const getBatch = async (myIds) => {
     myRestaurantMenuDays = data.payload.Responses.menuDays;
     for (let i = 0; i < myRestaurantMenuDays.length; i++) {
         myRestaurantMenuDays[i].menuIdsJSON = JSON.parse(myRestaurantMenuDays[i].menuIdsJSON)
+        myRestaurantMenuDays[i].associatesJSON = JSON.parse(myRestaurantMenuDays[i].associatesJSON)
         myRestaurantMenuDays[i].dateFrom = new Date(myRestaurantMenuDays[i].dateFrom)
         myRestaurantMenuDays[i].dateTo = new Date(myRestaurantMenuDays[i].dateTo)
     }
