@@ -25,7 +25,6 @@ const RestaurantDialog = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
 
     const { setRestaurantDialogOpen,
-        restaurantDialogData,
         setRestaurantDialogDataItem,
         idToken,
         customId,
@@ -33,6 +32,23 @@ const RestaurantDialog = () => {
         setAssociatesRestaurants,
         restaurantDialogOpen,
     } = dataAndMethodsContext;
+
+    const { id,
+        restaurantName,
+        description,
+        street,
+        city,
+        stateUS,
+        zipCode,
+        phoneNumber,
+        urlLink,
+        menuItemIdsJSON,
+        associatesJSON,
+        menuDayIdsJSON,
+        approved,
+        dialogType,
+        myAssociate,
+    } = dataAndMethodsContext.restaurantDialogData;
 
     const handleClose = () => {
         setRestaurantDialogOpen(false);
@@ -42,25 +58,25 @@ const RestaurantDialog = () => {
     // if it is a new restaurant save data to the logged in associate also
     const saveRestaurant = async () => {
         let myRestaurant = {};
-        myRestaurant.id = restaurantDialogData.id;
-        myRestaurant.restaurantName = restaurantDialogData.restaurantName !== '' ? restaurantDialogData.restaurantName : String.fromCharCode(30);
-        myRestaurant.description = restaurantDialogData.description !== '' ? restaurantDialogData.description : String.fromCharCode(30);
-        myRestaurant.street = restaurantDialogData.street !== '' ? restaurantDialogData.street : String.fromCharCode(30);
-        myRestaurant.city = restaurantDialogData.city !== '' ? restaurantDialogData.city : String.fromCharCode(30);
-        myRestaurant.stateUS = restaurantDialogData.stateUS !== '' ? restaurantDialogData.stateUS : String.fromCharCode(30);
-        myRestaurant.zipCode = restaurantDialogData.zipCode !== '' ? restaurantDialogData.zipCode : String.fromCharCode(30);
-        myRestaurant.phoneNumber = restaurantDialogData.phoneNumber !== '' ? restaurantDialogData.phoneNumber : String.fromCharCode(30);
-        myRestaurant.urlLink = restaurantDialogData.urlLink !== '' ? restaurantDialogData.urlLink : String.fromCharCode(30);
-        myRestaurant.menuItemIdsJSON = restaurantDialogData.menuItemIdsJSON
-        myRestaurant.associatesJSON = restaurantDialogData.associatesJSON
-        myRestaurant.menuDayIdsJSON = restaurantDialogData.menuDayIdsJSON
-        myRestaurant.approved = restaurantDialogData.approved
+        myRestaurant.id = id;
+        myRestaurant.restaurantName = restaurantName;
+        myRestaurant.description = description;
+        myRestaurant.street = street;
+        myRestaurant.city = city;
+        myRestaurant.stateUS = stateUS;
+        myRestaurant.zipCode = zipCode;
+        myRestaurant.phoneNumber = phoneNumber;
+        myRestaurant.urlLink = urlLink;
+        myRestaurant.menuItemIdsJSON = menuItemIdsJSON
+        myRestaurant.associatesJSON = associatesJSON
+        myRestaurant.menuDayIdsJSON = menuDayIdsJSON
+        myRestaurant.approved = approved
         await putRestaurant(myRestaurant, idToken, customId)
-        if (restaurantDialogData.dialogType === 'New') {
-            await putAssociate(restaurantDialogData.myAssociate, idToken, customId)
-            setAssociate(restaurantDialogData.myAssociate)
+        if (dialogType === 'New') {
+            await putAssociate(myAssociate, idToken, customId)
+            setAssociate(myAssociate)
         }
-        const associatesRestaurants = await getAssociateRestaurants(restaurantDialogData.myAssociate)
+        const associatesRestaurants = await getAssociateRestaurants(myAssociate)
         setAssociatesRestaurants(associatesRestaurants);
         setRestaurantDialogOpen(false);
     };
@@ -101,7 +117,7 @@ const RestaurantDialog = () => {
         <div>
             <Dialog className={classes.root} open={restaurantDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {restaurantDialogData.dialogType + " restaurant details"}</DialogTitle>
+                    {dialogType + " restaurant details"}</DialogTitle>
                 <DialogContent>
                     <TextField
                         id="restaurantName"
@@ -110,7 +126,7 @@ const RestaurantDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={restaurantDialogData.restaurantName}
+                        value={restaurantName}
                         onChange={changeName}
                     />
                     <TextField
@@ -121,7 +137,7 @@ const RestaurantDialog = () => {
                         variant="filled"
                         multiline={true}
                         rows="8"
-                        value={restaurantDialogData.description}
+                        value={description}
                         onChange={changeDescription}
                     />
                     <TextField
@@ -131,7 +147,7 @@ const RestaurantDialog = () => {
                         fullWidth
                         variant="filled"
                         size="small"
-                        value={restaurantDialogData.street}
+                        value={street}
                         onChange={changeStreet}
                     />
                     <TextField
@@ -140,7 +156,7 @@ const RestaurantDialog = () => {
                         type="text"
                         variant="filled"
                         size="small"
-                        value={restaurantDialogData.city}
+                        value={city}
                         onChange={changeCity}
                     />
                     <TextField
@@ -149,7 +165,7 @@ const RestaurantDialog = () => {
                         type="text"
                         variant="filled"
                         size="small"
-                        value={restaurantDialogData.stateUS}
+                        value={stateUS}
                         onChange={changeState}
                     />
                     <TextField
@@ -158,7 +174,7 @@ const RestaurantDialog = () => {
                         type="text"
                         variant="filled"
                         size="small"
-                        value={restaurantDialogData.zipCode}
+                        value={zipCode}
                         onChange={changeZipCode}
                     />
                     <TextField
@@ -167,7 +183,7 @@ const RestaurantDialog = () => {
                         type="text"
                         fullWidth
                         variant="filled"
-                        value={restaurantDialogData.phoneNumber}
+                        value={phoneNumber}
                         onChange={changePhoneNumber}
                     />
                     <TextField
@@ -176,7 +192,7 @@ const RestaurantDialog = () => {
                         type="text"
                         fullWidth
                         variant="filled"
-                        value={restaurantDialogData.urlLink}
+                        value={urlLink}
                         onChange={changeUrlLink}
                     />
                 </DialogContent>

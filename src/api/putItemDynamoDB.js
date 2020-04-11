@@ -6,6 +6,7 @@ import {
     menuDaysTableName,
     apiName,
     apiPath,
+    blankPlaceHolder,
 } from './apiConstants';
 
 const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
@@ -15,24 +16,24 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
         case menuItemsTableName:
             myNewItem = {
                 id: myItem.id,
-                title: myItem.title,
-                description: myItem.description,
+                title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
+                description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
                 categoryJSON: JSON.stringify(myItem.categoryJSON),
-                restaurant: myItem.restaurant,
+                restaurant: myItem.restaurant = myItem.restaurant !== '' ? myItem.restaurant : blankPlaceHolder,
                 price: myItem.price,
             }
             break;
         case restaurantsTableName:
             myNewItem = {
                 id: myItem.id,
-                restaurantName: myItem.restaurantName,
-                description: myItem.description,
-                street: myItem.street,
-                city: myItem.city,
-                stateUS: myItem.stateUS,
-                zipCode: myItem.zipCode,
-                phoneNumber: myItem.phoneNumber,
-                urlLink: myItem.urlLink,
+                restaurantName: myItem.restaurantName = myItem.restaurantName !== '' ? myItem.restaurantName : blankPlaceHolder,
+                description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
+                street: myItem.street = myItem.street !== '' ? myItem.street : blankPlaceHolder,
+                city: myItem.city = myItem.city !== '' ? myItem.city : blankPlaceHolder,
+                stateUS: myItem.stateUS = myItem.stateUS !== '' ? myItem.stateUS : blankPlaceHolder,
+                zipCode: myItem.zipCode = myItem.zipCode !== '' ? myItem.zipCode : blankPlaceHolder,
+                phoneNumber: myItem.phoneNumber = myItem.phoneNumber !== '' ? myItem.phoneNumber : blankPlaceHolder,
+                urlLink: myItem.urlLink = myItem.urlLink !== '' ? myItem.urlLink : blankPlaceHolder,
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),
                 menuDayIdsJSON: JSON.stringify(myItem.menuDayIdsJSON),
@@ -42,21 +43,21 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
         case associatesTableName:
             myNewItem = {
                 id: myItem.id,
-                firstName: myItem.firstName,
-                lastName: myItem.lastName,
-                email: myItem.email,
-                bio: myItem.bio,
-                jobTitle: myItem.jobTitle,
+                firstName: myItem.firstName = myItem.firstName !== '' ? myItem.firstName : blankPlaceHolder,
+                lastName: myItem.lastName = myItem.lastName !== '' ? myItem.lastName : blankPlaceHolder,
+                email: myItem.email = myItem.email !== '' ? myItem.email : blankPlaceHolder,
+                bio: myItem.bio = myItem.bio !== '' ? myItem.bio : blankPlaceHolder,
+                jobTitle: myItem.jobTitle = myItem.jobTitle !== '' ? myItem.jobTitle : blankPlaceHolder,
                 restaurantIdsJSON: JSON.stringify(myItem.restaurantIdsJSON),
             }
             break;
         case menuDaysTableName:
             myNewItem = {
                 id: myItem.id,
-                title: myItem.title,
+                title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
                 dateFrom: myItem.dateFrom,
                 dateTo: myItem.dateTo,
-                description: myItem.description,
+                description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
                 menuIdsJSON: JSON.stringify(myItem.menuIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),
             }

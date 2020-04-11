@@ -7,6 +7,7 @@ import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/delete
 import deleteMenuDay from '../../model/deleteMenuDay';
 import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
 import putRestaurant from '../../model/putRestaurant';
+import removeMenuDayFromRestaurant from '../../model/removeMenuDayFromRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import sortMenuDays from '../../model/sortMenuDays';
 
@@ -84,17 +85,16 @@ const MenuDayCard = ({ menuDay }) => {
                     restaurantMenuDays[i].title,
                     'deleteMenuDay',
                     menuDayId,
-                    deleteMenuDayNow);
+                    deleteMenuDayById);
                 break;
             }
         }
     };
 
-    const deleteMenuDayNow = async (menuDayId) => {
+    const deleteMenuDayById = async (menuDayId) => {
         await deleteMenuDay(menuDayId, idToken, customId)
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        let myIndex = myRestaurant.menuDayIdsJSON.indexOf(menuDayId, 0)
-        myRestaurant.menuDayIdsJSON.splice(myIndex, 1)
+        myRestaurant = await removeMenuDayFromRestaurant(myRestaurant, menuDayId)
         await putRestaurant(myRestaurant, idToken, customId)
         let myMenuDays = await getRestaurantMenuDays(myRestaurant)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');

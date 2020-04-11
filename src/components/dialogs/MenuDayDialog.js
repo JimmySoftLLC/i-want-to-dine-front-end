@@ -84,11 +84,11 @@ const MenuDayDialog = () => {
     const saveMenuDay = async () => {
         let myNewMenuDay = {}
         myNewMenuDay.id = id;
-        myNewMenuDay.title = title;
+        myNewMenuDay.title = title
         myNewMenuDay.dateFrom = dateFrom.toString();
         myNewMenuDay.dateTo = dateTo.toString();
-        myNewMenuDay.description = description;
-        myNewMenuDay.menuIdsJSON = menuIdsJSON;
+        myNewMenuDay.description = description
+        myNewMenuDay.menuIdsJSON = menuIdsJSON
         myNewMenuDay.associatesJSON = associatesJSON;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
@@ -101,10 +101,10 @@ const MenuDayDialog = () => {
     const saveMenuDayAdd = async () => {
         let myNewMenuDay = {}
         myNewMenuDay.id = id;
-        myNewMenuDay.title = title;
+        myNewMenuDay.title = title
         myNewMenuDay.dateFrom = dateFrom.toString();
         myNewMenuDay.dateTo = dateTo.toString();
-        myNewMenuDay.description = description;
+        myNewMenuDay.description = description
         myNewMenuDay.menuIdsJSON = menuIdsJSON;
         myNewMenuDay.associatesJSON = associatesJSON;
         // console.log(myNewMenuDay, idToken, customId);
@@ -166,10 +166,6 @@ const MenuDayDialog = () => {
 
     const changeDescription = (e) => {
         setMenuDayDialogDataItem('description', e.target.value)
-    };
-
-    var myStyle = {
-        width: "100%"
     };
 
     return (

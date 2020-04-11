@@ -79,8 +79,8 @@ const MenuItemDialog = () => {
         myNewMenuItem.price = price;
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        let myMenuItems = await getRestaurantMenuItems(myRestaurant)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+        let myMenuItems = await getRestaurantMenuItems(myRestaurant);
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems)
     };
@@ -95,10 +95,10 @@ const MenuItemDialog = () => {
         myNewMenuItem.price = price;
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        myRestaurant.menuItemIdsJSON.push(myNewMenuItem.id)
-        await putRestaurant(myRestaurant, idToken, customId)
-        let myMenuItems = await getRestaurantMenuItems(myRestaurant)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+        myRestaurant.menuItemIdsJSON.push(myNewMenuItem.id);
+        await putRestaurant(myRestaurant, idToken, customId);
+        let myMenuItems = await getRestaurantMenuItems(myRestaurant);
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems)
     };
@@ -177,13 +177,6 @@ const MenuItemDialog = () => {
                                     onClick={() => setMenuItemDialogDataCategory('pork')}
                                 >
                                     <i className='icon-ham'></i>
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Lamb">
-                                <IconButton aria-label="" color={checkIfPresent("lamb") ? "inherit" : "default"}
-                                    onClick={() => setMenuItemDialogDataCategory('lamb')}
-                                >
-                                    <i className='icon-lamb'></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Poultry">

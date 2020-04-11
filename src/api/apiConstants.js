@@ -11,5 +11,7 @@ export const projectionExpressionMenuItem = 'title,description,categoryJSON,pric
 export const projectionExpressionMenuDay = 'id,title,dateFrom,dateTo,description,menuIdsJSON,associatesJSON';
 export const projectionExpressionAssociates = 'id,firstName,lastName,bio,jobTitle,email,restaurantIdsJSON';
 export const noSelectedRestaurant = 'Select Your Restaurant';
+export const blankPlaceHolder = String.fromCharCode(30);
+
 
 

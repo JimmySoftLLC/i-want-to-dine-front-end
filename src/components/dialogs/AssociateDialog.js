@@ -46,7 +46,6 @@ const AssociateDialog = () => {
         setRestaurantAssociates,
         setAssociate,
         associate,
-        setRestaurant,
     } = dataAndMethodsContext;
 
     const {
@@ -91,11 +90,11 @@ const AssociateDialog = () => {
     const saveAssociateEditMe = async () => {
         let myAssociate = {};
         myAssociate.id = id;
-        myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
-        myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
-        myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
-        myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
-        myAssociate.email = email !== '' ? email : String.fromCharCode(30);
+        myAssociate.firstName = firstName
+        myAssociate.lastName = lastName
+        myAssociate.jobTitle = jobTitle
+        myAssociate.bio = bio
+        myAssociate.email = email
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
         await putAssociate(myAssociate, idToken, customId)
@@ -119,11 +118,11 @@ const AssociateDialog = () => {
     const saveAssociateEdit = async () => {
         let myAssociate = {};
         myAssociate.id = id;
-        myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
-        myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
-        myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
-        myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
-        myAssociate.email = email !== '' ? email : String.fromCharCode(30);
+        myAssociate.firstName = firstName
+        myAssociate.lastName = lastName
+        myAssociate.jobTitle = jobTitle
+        myAssociate.bio = bio
+        myAssociate.email = email
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
@@ -137,13 +136,18 @@ const AssociateDialog = () => {
                 setMessage('A valid email is required.')
                 return null;
             }
+            const associateExists = getAssociateFromRestaurant(myRestaurant, myAssociate.id)
+            if (associateExists) {
+                setMessage('That associate already exists in restaurant.');
+                return null;
+            }
             const associateFromDatabase = await getAssociate(idToken, customId, myAssociate.id)
             if (!associateFromDatabase) {
-                setMessage('No assoicate account with that email address exists.')
+                setMessage('No associate account with that email address exists.')
                 return null;
             }
         } else {
-            await putAssociate(myAssociate, idToken, customId)
+            myAssociate.email = '';
         }
         myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
@@ -163,11 +167,11 @@ const AssociateDialog = () => {
         let myAssociate = {};
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         myAssociate.id = id;
-        myAssociate.firstName = firstName !== '' ? firstName : String.fromCharCode(30);
-        myAssociate.lastName = lastName !== '' ? lastName : String.fromCharCode(30);
-        myAssociate.jobTitle = jobTitle !== '' ? jobTitle : String.fromCharCode(30);
-        myAssociate.bio = bio !== '' ? bio : String.fromCharCode(30);
-        myAssociate.email = email !== '' ? email : String.fromCharCode(30);
+        myAssociate.firstName = firstName
+        myAssociate.lastName = lastName
+        myAssociate.jobTitle = jobTitle
+        myAssociate.bio = bio
+        myAssociate.email = email
         myAssociate.restaurantIdsJSON = [];
         myAssociate.restaurantIdsJSON.push(myRestaurant.id);
         myAssociate.accessLevel = accessLevel;
@@ -184,7 +188,7 @@ const AssociateDialog = () => {
             }
             const associate = await getAssociate(idToken, customId, myAssociate.id)
             if (!associate) {
-                setMessage('No assoicate account with that email address exists.')
+                setMessage('No associate account with that email address exists.')
                 return null;
             } else {
                 myAssociate = associate;

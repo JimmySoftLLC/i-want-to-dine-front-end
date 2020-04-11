@@ -9,6 +9,7 @@ import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import putRestaurant from '../../model/putRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import sortMenuItems from '../../model/sortMenuItems';
+import removeMenuItemFromRestaurant from '../../model/removeMenuItemFromRestaurant';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -83,17 +84,16 @@ const MenuItemCardInventory = ({ menuItem }) => {
                     restaurantMenuItems[i].title,
                     'deleteMenuItem',
                     menuId,
-                    deleteMenuItemNow);
+                    deleteMenuItemById);
                 break;
             }
         }
     };
 
-    const deleteMenuItemNow = async (menuId) => {
+    const deleteMenuItemById = async (menuId) => {
         await deleteMenuItem(menuId, idToken, customId)
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        let myIndex = myRestaurant.menuItemIdsJSON.indexOf(menuId, 0)
-        myRestaurant.menuItemIdsJSON.splice(myIndex, 1)
+        myRestaurant = await removeMenuItemFromRestaurant(myRestaurant, menuId)
         await putRestaurant(myRestaurant, idToken, customId)
         let myMenuItems = await getRestaurantMenuItems(myRestaurant)
         myMenuItems = await sortMenuItems(myMenuItems, myStates);

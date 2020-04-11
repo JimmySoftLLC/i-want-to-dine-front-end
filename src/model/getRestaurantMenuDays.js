@@ -3,6 +3,7 @@ import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
 import {
     menuDaysTableName,
     projectionExpressionMenuDay,
+    blankPlaceHolder,
 } from '../api/apiConstants';
 
 const getBatch = async (myIds) => {
@@ -14,6 +15,8 @@ const getBatch = async (myIds) => {
 
     myRestaurantMenuDays = data.payload.Responses.menuDays;
     for (let i = 0; i < myRestaurantMenuDays.length; i++) {
+        myRestaurantMenuDays[i].title = myRestaurantMenuDays[i].title === blankPlaceHolder ? '' : myRestaurantMenuDays[i].title
+        myRestaurantMenuDays[i].description = myRestaurantMenuDays[i].description === blankPlaceHolder ? '' : myRestaurantMenuDays[i].description
         myRestaurantMenuDays[i].menuIdsJSON = JSON.parse(myRestaurantMenuDays[i].menuIdsJSON)
         myRestaurantMenuDays[i].associatesJSON = JSON.parse(myRestaurantMenuDays[i].associatesJSON)
         myRestaurantMenuDays[i].dateFrom = new Date(myRestaurantMenuDays[i].dateFrom)

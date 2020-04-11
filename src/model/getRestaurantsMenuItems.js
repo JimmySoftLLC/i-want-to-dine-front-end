@@ -3,6 +3,7 @@ import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
 import {
     menuItemsTableName,
     projectionExpressionMenuItem,
+    blankPlaceHolder,
 } from '../api/apiConstants';
 
 const getBatch = async (myIds) => {
@@ -13,6 +14,9 @@ const getBatch = async (myIds) => {
     }
     myRestaurantsMenuItems = data.payload.Responses.menuItems;
     for (let i = 0; i < myRestaurantsMenuItems.length; i++) {
+        myRestaurantsMenuItems[i].title = myRestaurantsMenuItems[i].title === blankPlaceHolder ? '' : myRestaurantsMenuItems[i].title
+        myRestaurantsMenuItems[i].description = myRestaurantsMenuItems[i].description === blankPlaceHolder ? '' : myRestaurantsMenuItems[i].description
+        myRestaurantsMenuItems[i].restaurant = myRestaurantsMenuItems[i].restaurant === blankPlaceHolder ? '' : myRestaurantsMenuItems[i].restaurant
         myRestaurantsMenuItems[i].categoryJSON = JSON.parse(myRestaurantsMenuItems[i].categoryJSON)
     }
     return myRestaurantsMenuItems;

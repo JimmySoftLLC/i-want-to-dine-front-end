@@ -48,7 +48,6 @@ const DataAndMethodsState = props => {
         myStates: {
             meat: true,
             ham: false,
-            lamb: false,
             poultry: false,
             fish: false,
             shellfish: false,

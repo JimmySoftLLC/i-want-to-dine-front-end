@@ -5,6 +5,7 @@ import getAssociateFromRestaurant from './getAssociateFromRestaurant';
 import {
     associatesTableName,
     projectionExpressionAssociates,
+    blankPlaceHolder,
 } from '../api/apiConstants';
 
 const getBatch = async (myIds) => {
@@ -15,6 +16,11 @@ const getBatch = async (myIds) => {
     }
     myRestaurantAssociates = data.payload.Responses.associates;
     for (let i = 0; i < myRestaurantAssociates.length; i++) {
+        myRestaurantAssociates[i].firstName = myRestaurantAssociates[i].firstName === blankPlaceHolder ? '' : myRestaurantAssociates[i].firstName
+        myRestaurantAssociates[i].lastName = myRestaurantAssociates[i].lastName === blankPlaceHolder ? '' : myRestaurantAssociates[i].lastName
+        myRestaurantAssociates[i].email = myRestaurantAssociates[i].email === blankPlaceHolder ? '' : myRestaurantAssociates[i].email
+        myRestaurantAssociates[i].bio = myRestaurantAssociates[i].bio === blankPlaceHolder ? '' : myRestaurantAssociates[i].bio
+        myRestaurantAssociates[i].jobTitle = myRestaurantAssociates[i].jobTitle === blankPlaceHolder ? '' : myRestaurantAssociates[i].jobTitle
         myRestaurantAssociates[i].restaurantIdsJSON = JSON.parse(myRestaurantAssociates[i].restaurantIdsJSON)
     }
     return myRestaurantAssociates;

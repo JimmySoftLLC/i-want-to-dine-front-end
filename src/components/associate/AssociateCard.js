@@ -8,6 +8,8 @@ import putAssociate from '../../model/putAssociate';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
 import putRestaurant from '../../model/putRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
+import removeRestaurantFromAssociate from '../../model/removeRestaurantFromAssociate';
+import removeAssociateFromRestaurant from '../../model/removeAssociateFromRestaurant';
 import getAssociateFromRestaurant from '../../model/getAssociateFromRestaurant';
 import sortAssociates from '../../model/sortAssociates';
 import associateAccessLevel from '../../model/associateAccessLevel';
@@ -72,7 +74,7 @@ const AssociateCard = ({ Associate }) => {
                     restaurantAssociates[i].firstName,
                     'deleteAssociate',
                     associateId,
-                    deleteAssociateFromRestaurantNow);
+                    deleteAssociateFromRestaurantById);
                 break;
             }
         }
@@ -83,7 +85,7 @@ const AssociateCard = ({ Associate }) => {
     // remove restaurant from associates restaurant array and save assocaite to database
     // remove associate from restaurant associate array and save restaurant to database
     // update states as needed
-    const deleteAssociateFromRestaurantNow = async (associateId) => {
+    const deleteAssociateFromRestaurantById = async (associateId) => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myAssociate = getAssociateFromRestaurant(myRestaurant, associateId)
         let myIndex = findIndexOfAssociateInRestaurant(myRestaurant, associateId)
@@ -91,16 +93,16 @@ const AssociateCard = ({ Associate }) => {
         if (myRestaurant.associatesJSON[myIndex].accessLevel === 'none') {
             saveAssociateToDatabase = false;
         }
+        // check if can remove associate
         let tempRestaurant = JSON.parse(JSON.stringify(myRestaurant))
         tempRestaurant.associatesJSON.splice(myIndex, 1)
         if (!checkIfOneAdminInRestaurant(tempRestaurant)) {
             alertDialogContext.setDialog(true, 'Must have at least one admin for restaurant cannot remove associate.', 'Error');
             return null;
         }
-        myRestaurant.associatesJSON.splice(myIndex, 1)
+        myRestaurant = await removeAssociateFromRestaurant(myRestaurant, associateId)
         if (saveAssociateToDatabase) {
-            myIndex = myAssociate.restaurantIdsJSON.indexOf(myRestaurant.id)
-            myAssociate.restaurantIdsJSON.splice(myIndex, 1)
+            myAssociate = await removeRestaurantFromAssociate(myAssociate, myRestaurant.id)
             await putAssociate(myAssociate, idToken, customId)
         }
         // console.log(myRestaurant, myAssociate)

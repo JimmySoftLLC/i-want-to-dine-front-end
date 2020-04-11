@@ -32,13 +32,6 @@ const DefaultTopToolBar = () => {
                             <i className='icon-ham'></i>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Lamb">
-                        <IconButton aria-label="" color={myStates['lamb'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('lamb')}
-                        >
-                            <i className='icon-lamb'></i>
-                        </IconButton>
-                    </Tooltip>
                     <Tooltip title="Poultry">
                         <IconButton aria-label="" color={myStates['poultry'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setMyState('poultry')}

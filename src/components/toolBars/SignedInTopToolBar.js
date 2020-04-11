@@ -23,6 +23,7 @@ import sortAssociates from '../../model/sortAssociates';
 import associateAccessLevel from '../../model/associateAccessLevel';
 import {
     noSelectedRestaurant,
+    blankPlaceHolder,
 } from '../../api/apiConstants';
 
 const SignedInTopToolBar = () => {
