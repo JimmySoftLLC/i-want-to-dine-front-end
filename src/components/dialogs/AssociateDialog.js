@@ -13,7 +13,9 @@ import putRestaurant from '../../model/putRestaurant';
 import validEmail from '../../model/validEmail';
 import testPutAssociateInRestaurant from '../../model/testPutAssociateInRestaurant';
 import putAssociateInRestaurant from '../../model/putAssociateInRestaurant';
+import putRestaurantInAssociate from '../../model/putRestaurantInAssociate';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
+import removeAssociateFromRestaurant from '../../model/removeAssociateFromRestaurant';
 import sortAssociates from '../../model/sortAssociates';
 import getAssociateFromRestaurant from '../../model/getAssociateFromRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
@@ -75,7 +77,7 @@ const AssociateDialog = () => {
                 if (!success) { return null; }
                 break;
             case "Add":
-                const successAdd = await saveAssociateAdd()
+                const successAdd = await saveAssociateEdit()
                 if (!successAdd) { return null; }
                 break;
             default:
@@ -110,140 +112,96 @@ const AssociateDialog = () => {
     };
 
     // create myAssociate and poplulate it with the dialog's entries.
-    // if access level not set to none, get associate from database if not found create one using 
-    // the email provided, if the email does not exist message the user with an error.
-    // then put the update associate in the restaurant associates array
+    // check if this change still leaves admins for restaurant if not message user
+    // if access level not set to none get associate from database 
+    // with a valid email, if the record does not exist message the user with an error.
+    // if got the associate from the database update with restaurant id remove the old associate from the restaurant
+    // then put the updated associate in the restaurant associates array
     // save the restaurant to the database
     // get all the restaurant associates from the database
+    // sort associates and update state
     const saveAssociateEdit = async () => {
         let myAssociate = {};
         myAssociate.id = id;
-        myAssociate.firstName = firstName
-        myAssociate.lastName = lastName
-        myAssociate.jobTitle = jobTitle
-        myAssociate.bio = bio
-        myAssociate.email = email
+        myAssociate.firstName = firstName;
+        myAssociate.lastName = lastName;
+        myAssociate.jobTitle = jobTitle;
+        myAssociate.bio = bio;
+        myAssociate.email = email;
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
         if (!testPutAssociateInRestaurant(myRestaurant, myAssociate)) {
-            setMessage('There needs to be at least one associate with admin rights per restaurant.')
+            setMessage('There needs to be at least one associate with admin rights per restaurant.');
             return null;
         }
         if (myAssociate.accessLevel !== 'none') {
-            myAssociate.id = email;
-            if (!validEmail(myAssociate.id)) {
-                setMessage('A valid email is required.')
+            if (!validEmail(email)) {
+                setMessage('A valid email is required.');
                 return null;
             }
-            const associateExists = getAssociateFromRestaurant(myRestaurant, myAssociate.id)
+            if (dialogType === "Edit") {
+                myRestaurant = await removeAssociateFromRestaurant(myRestaurant, id);
+            }
+            const associateExists = getAssociateFromRestaurant(myRestaurant, email)
             if (associateExists) {
                 setMessage('That associate already exists in restaurant.');
                 return null;
             }
-            const associateFromDatabase = await getAssociate(idToken, customId, myAssociate.id)
-            if (!associateFromDatabase) {
-                setMessage('No associate account with that email address exists.')
+            myAssociate = await getAssociate(idToken, customId, email)
+            if (!myAssociate) {
+                setMessage('No associate account with that email address exists.');
                 return null;
+            } else {
+                myAssociate.accessLevel = accessLevel;
+                myAssociate = await putRestaurantInAssociate(myAssociate, restaurantId);
+                await putAssociate(myAssociate, idToken, customId);
             }
         } else {
             myAssociate.email = '';
         }
-        myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate)
-        await putRestaurant(myRestaurant, idToken, customId)
-        let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
+        myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate);
+        // console.log(myRestaurant, myAssociate);
+        await putRestaurant(myRestaurant, idToken, customId);
+        let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId);
         myAssociates = await sortAssociates(myAssociates, 'sortName');
-        setRestaurantAssociates(myAssociates)
-        return true;
-    };
-
-    // create myAssociate and poplulate it with the dialog's entries.
-    // check if myAssociate is already in the restaurant if so do not proceed and message user.
-    // Then if associate access is not "none" check if already exists in database using email as an id
-    // if found load associate from database if not found add associate to database.  
-    // Then using the updated associate put it to the resturant, save restaurant to 
-    // database.  Then read back all restaurant associates from database.
-    const saveAssociateAdd = async () => {
-        let myAssociate = {};
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        myAssociate.id = id;
-        myAssociate.firstName = firstName
-        myAssociate.lastName = lastName
-        myAssociate.jobTitle = jobTitle
-        myAssociate.bio = bio
-        myAssociate.email = email
-        myAssociate.restaurantIdsJSON = [];
-        myAssociate.restaurantIdsJSON.push(myRestaurant.id);
-        myAssociate.accessLevel = accessLevel;
-        if (myAssociate.accessLevel !== 'none') {
-            myAssociate.id = email;
-            if (!validEmail(myAssociate.id)) {
-                setMessage('A valid email is required.')
-                return null;
-            }
-            const associateExists = getAssociateFromRestaurant(myRestaurant, myAssociate.id)
-            if (associateExists) {
-                setMessage('That associate already exists in restaurant.');
-                return null;
-            }
-            const associate = await getAssociate(idToken, customId, myAssociate.id)
-            if (!associate) {
-                setMessage('No associate account with that email address exists.')
-                return null;
-            } else {
-                myAssociate = associate;
-                myAssociate.restaurantIdsJSON.push(myRestaurant.id);
-                await putAssociate(myAssociate, idToken, customId)
-            }
-        } else {
-            const associateExists = getAssociateFromRestaurant(myRestaurant, myAssociate.id)
-            if (associateExists) {
-                setMessage('That associate already exists in restaurant.')
-                return null;
-            }
-        }
-        myAssociate.accessLevel = accessLevel
-        myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate)
-        await putRestaurant(myRestaurant, idToken, customId)
-        let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
-        myAssociates = await sortAssociates(myAssociates, 'sortName');
-        setRestaurantAssociates(myAssociates)
+        setRestaurantAssociates(myAssociates);
         return true;
     };
 
     const changeFirstName = (e) => {
-        setAssociateDialogDataItem('firstName', e.target.value)
+        setAssociateDialogDataItem('firstName', e.target.value);
     };
 
     const changeLastName = (e) => {
-        setAssociateDialogDataItem('lastName', e.target.value)
+        setAssociateDialogDataItem('lastName', e.target.value);
     };
 
     const changeJobTitle = (e) => {
-        setAssociateDialogDataItem('jobTitle', e.target.value)
+        setAssociateDialogDataItem('jobTitle', e.target.value);
     };
 
     const changeBio = (e) => {
-        setAssociateDialogDataItem('bio', e.target.value)
+        setAssociateDialogDataItem('bio', e.target.value);
     };
 
     const changeEmail = (e) => {
-        setAssociateDialogDataItem('email', e.target.value)
+        setAssociateDialogDataItem('email', e.target.value);
     };
 
     const handleAccessLevelChange = (e) => {
-        setAssociateDialogDataItem('accessLevel', e.target.value)
+        setAssociateDialogDataItem('accessLevel', e.target.value);
     };
 
     const setMessage = (myMessage) => {
-        setAssociateDialogDataItem('message', myMessage)
+        setAssociateDialogDataItem('message', myMessage);
     };
 
-    let dialogTitle = ''
+    let dialogTitle = '';
 
-    if (dialogType === "EditMe") { dialogTitle = 'Edit my details' }
-    if (dialogType === "Edit") { dialogTitle = 'Edit associate details' }
-    if (dialogType === "Add") { dialogTitle = 'Add associate details' }
+    if (dialogType === "EditMe") { dialogTitle = 'Edit my details' };
+    if (dialogType === "Edit") { dialogTitle = 'Edit associate details' };
+    if (dialogType === "Add") { dialogTitle = 'Add associate details' };
 
     return (
         <div>
@@ -286,7 +244,7 @@ const AssociateDialog = () => {
                         fullWidth
                         variant="filled"
                         multiline={true}
-                        rows="8"
+                        rows="4"
                         value={bio}
                         onChange={changeBio}
                     />}
