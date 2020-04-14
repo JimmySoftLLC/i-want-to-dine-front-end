@@ -4,13 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
-import deleteMenuItem from '../../model/deleteMenuItem';
-import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
-import putRestaurant from '../../model/putRestaurant';
-import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import associateAccessLevel from '../../model/associateAccessLevel';
 import sortMenuItems from '../../model/sortMenuItems';
-import removeMenuItemFromRestaurant from '../../model/removeMenuItemFromRestaurant';
+import deleteMenuItemById from '../../model/deleteMenuItemById';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -86,20 +82,16 @@ const MenuItemCardInventory = ({ menuItem }) => {
                     restaurantMenuItems[i].title,
                     'deleteMenuItem',
                     menuId,
-                    deleteMenuItemById);
+                    deleteMenuItem);
                 break;
             }
         }
     };
 
-    const deleteMenuItemById = async (menuId) => {
-        await deleteMenuItem(menuId, idToken, customId)
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        myRestaurant = await removeMenuItemFromRestaurant(myRestaurant, menuId)
-        await putRestaurant(myRestaurant, idToken, customId)
-        let myMenuItems = await getRestaurantMenuItems(myRestaurant)
-        myMenuItems = await sortMenuItems(myMenuItems, myStates);
-        setRestaurantMenuItems(myMenuItems)
+    const deleteMenuItem = async (menuId) => {
+        let myNewMenuItems = await deleteMenuItemById(menuId, restaurantId, associatesRestaurants, idToken, customId)
+        myNewMenuItems = await sortMenuItems(myNewMenuItems, myStates);
+        setRestaurantMenuItems(myNewMenuItems)
     }
 
     const items = []

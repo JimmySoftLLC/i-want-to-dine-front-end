@@ -4,13 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
-import deleteMenuDay from '../../model/deleteMenuDay';
-import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
-import putRestaurant from '../../model/putRestaurant';
-import removeMenuDayFromRestaurant from '../../model/removeMenuDayFromRestaurant';
-import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import sortMenuDays from '../../model/sortMenuDays';
 import associateAccessLevel from '../../model/associateAccessLevel';
+import deleteMenuDayById from '../../model/deleteMenuDayById';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -87,18 +83,14 @@ const MenuDayCard = ({ menuDay }) => {
                     restaurantMenuDays[i].title,
                     'deleteMenuDay',
                     menuDayId,
-                    deleteMenuDayById);
+                    deleteMenuDay);
                 break;
             }
         }
     };
 
-    const deleteMenuDayById = async (menuDayId) => {
-        await deleteMenuDay(menuDayId, idToken, customId)
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        myRestaurant = await removeMenuDayFromRestaurant(myRestaurant, menuDayId)
-        await putRestaurant(myRestaurant, idToken, customId)
-        let myMenuDays = await getRestaurantMenuDays(myRestaurant)
+    const deleteMenuDay = async (menuDayId) => {
+        let myMenuDays = await deleteMenuDayById(menuDayId, restaurantId, associatesRestaurants, idToken, customId)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
     }

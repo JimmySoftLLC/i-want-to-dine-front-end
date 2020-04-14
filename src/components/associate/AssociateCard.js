@@ -3,19 +3,13 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
-import findIndexOfAssociateInRestaurant from '../../model/findIndexOfAssociateInRestaurant';
-import putAssociate from '../../model/putAssociate';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
 import putRestaurant from '../../model/putRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
-import removeRestaurantFromAssociate from '../../model/removeRestaurantFromAssociate';
-import removeAssociateFromRestaurant from '../../model/removeAssociateFromRestaurant';
-import getAssociateFromRestaurant from '../../model/getAssociateFromRestaurant';
 import sortAssociates from '../../model/sortAssociates';
-import getAssociate from '../../model/getAssociate';
 import associateAccessLevel from '../../model/associateAccessLevel';
-import checkIfOneAdminInRestaurant from '../../model/checkIfOneAdminInRestaurant';
 import AlertDialogContext from '../../context/alertDialog/alertDialogContext';
+import deleteAssociateFromRestaurantById from '../../model/deleteAssociateFromRestaurantById';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -80,7 +74,7 @@ const AssociateCard = ({ Associate }) => {
                     restaurantAssociates[i].firstName,
                     'deleteAssociate',
                     associateId,
-                    deleteAssociateFromRestaurantById);
+                    deleteAssociateFromRestaurant);
                 break;
             }
         }
@@ -91,25 +85,13 @@ const AssociateCard = ({ Associate }) => {
     // remove restaurant from associates restaurant array and save assocaite to database
     // remove associate from restaurant associate array and save restaurant to database
     // update states as needed
-    const deleteAssociateFromRestaurantById = async (associateId) => {
+    const deleteAssociateFromRestaurant = async (associateId) => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        let myAssociate = getAssociateFromRestaurant(myRestaurant, associateId)
-        let myIndex = findIndexOfAssociateInRestaurant(myRestaurant, associateId)
-        // check if can remove this assoiciate
-        let tempRestaurant = JSON.parse(JSON.stringify(myRestaurant))
-        tempRestaurant.associatesJSON.splice(myIndex, 1)
-        if (!checkIfOneAdminInRestaurant(tempRestaurant)) {
+        myRestaurant = await deleteAssociateFromRestaurantById(restaurantId, associateId, myRestaurant, true, idToken, customId)
+        if (!myRestaurant) {
             alertDialogContext.setDialog(true, 'Must have at least one admin for restaurant cannot remove associate.', 'Error');
             return null;
         }
-        myRestaurant = await removeAssociateFromRestaurant(myRestaurant, associateId)
-        myAssociate = await removeRestaurantFromAssociate(myAssociate, restaurantId)
-        // if associate in database save update to database
-        const tempAssociate = await getAssociate(myAssociate.id, idToken, customId)
-        if (tempAssociate) {
-            await putAssociate(myAssociate, idToken, customId)
-        }
-        // console.log(myRestaurant, myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
         let myAssociates = await getRestaurantAssociates(myRestaurant)
         myAssociates = await sortAssociates(myAssociates, associate);

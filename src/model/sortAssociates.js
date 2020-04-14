@@ -1,4 +1,5 @@
-const sortAssociates = async (myAssociates, associate) => {
+const sortAssociates = async (associates, associate) => {
+    let myAssociates = JSON.parse(JSON.stringify(associates))
     myAssociates.sort(function (a, b) {
         var textA = a.firstName.toUpperCase(); // ignore upper and lowercase
         var textB = b.firstName.toUpperCase(); // ignore upper and lowercase
