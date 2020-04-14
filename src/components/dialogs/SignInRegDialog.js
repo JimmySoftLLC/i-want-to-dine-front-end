@@ -123,9 +123,9 @@ const SignUp = () => {
                 setCustomId(session.idToken.payload['custom:id']);
                 setAuthToken(session.accessToken.jwtToken);
                 setIdToken(session.idToken.jwtToken);
-                const associate = await getAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'], session.idToken.payload['email'])
+                const associate = await getAssociate(session.idToken.payload['email'], session.idToken.jwtToken, session.idToken.payload['custom:id'])
                 if (!associate) {
-                    let myNewAssociate = await createNewAssociate(session.idToken.jwtToken, session.idToken.payload['custom:id'], session.idToken.payload['email'])
+                    let myNewAssociate = await createNewAssociate(session.idToken.payload['email'], session.idToken.jwtToken, session.idToken.payload['custom:id'])
                     if (myNewAssociate) {
                         const associatesRestaurants = await getAssociateRestaurants(myNewAssociate)
                         //console.log(associatesRestaurants);

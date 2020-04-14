@@ -4,7 +4,7 @@ import {
     blankPlaceHolder,
 } from '../api/apiConstants';
 
-const getAssociate = async (myToken, myCustomId, myEmail) => {
+const getAssociate = async (myEmail, myToken, myCustomId) => {
     //console.log(myToken, myCustomId);
     const data = await getItemDynamoDB(associatesTableName, myToken, myCustomId, myEmail)
     if (data.err) {

@@ -23,7 +23,6 @@ import sortAssociates from '../../model/sortAssociates';
 import associateAccessLevel from '../../model/associateAccessLevel';
 import {
     noSelectedRestaurant,
-    blankPlaceHolder,
 } from '../../api/apiConstants';
 
 const SignedInTopToolBar = () => {
@@ -71,7 +70,7 @@ const SignedInTopToolBar = () => {
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays);
         let myRestaurantAssociates = await getRestaurantAssociates(myRestaurant);
-        myRestaurantAssociates = await sortAssociates(myRestaurantAssociates, 'sortNames');
+        myRestaurantAssociates = await sortAssociates(myRestaurantAssociates, associate);
         setRestaurantAssociates(myRestaurantAssociates);
     };
 
@@ -118,6 +117,7 @@ const SignedInTopToolBar = () => {
         let myId = uuidv4();
         let myRestaurantsAssociatesJSON = [];
         let myAssociate = JSON.parse(JSON.stringify(associate));
+        myAssociate.email = myAssociate.id;
         myAssociate.accessLevel = 'admin';
         myAssociate.restaurantIdsJSON.push(myId);
         myRestaurantsAssociatesJSON.push(myAssociate);
@@ -213,7 +213,7 @@ const SignedInTopToolBar = () => {
     }
 
     // const updateAssociatesRestaurantsNow = async () => {
-    //     const mytest = await updateAssociateRestaurants(idToken, customId, associate, restaurants)
+    //     const mytest = await updateAssociateRestaurants( associate, restaurants,idToken, customId,)
     // }
 
     const BootstrapInput = withStyles(theme => ({
@@ -257,7 +257,10 @@ const SignedInTopToolBar = () => {
         {restaurant.restaurantName}
     </MenuItem>);
 
-    // only associates who can admin to edit associate accounts
+    let canRead = false;
+    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false
+    let canEdit = false;
+    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
     let canAdmin = false;
     associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
 
@@ -303,7 +306,7 @@ const SignedInTopToolBar = () => {
                             <i className="fas fa-user-cog"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings']) && <Tooltip title="Edit restaurant">
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings'] && canAdmin) && <Tooltip title="Edit restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleEditRestaurant()}>
@@ -317,28 +320,28 @@ const SignedInTopToolBar = () => {
                             <i className="icon-restaurant-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings']) && <Tooltip title="Add restaurant">
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings'] && (canRead || canEdit || canAdmin)) && <Tooltip title="Add restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewRestaurant()}>
                             <i className="icon-restaurant-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings']) && <Tooltip title="Delete restaurant">
+                    {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings'] && canAdmin) && <Tooltip title="Delete restaurant">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => loadDeleteRestaurantWarningDialog()}>
                             <i className="icon-restaurant-minus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['menuSettings']) && <Tooltip title="Add menu item">
+                    {(restaurantId !== noSelectedRestaurant && myStates['menuSettings'] && canAdmin) && <Tooltip title="Add menu item">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewMenuItem()}>
                             <i className="icon-list-solid-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['menuDaySettings']) && <Tooltip title="Add menu day">
+                    {(restaurantId !== noSelectedRestaurant && myStates['menuDaySettings'] && canAdmin) && <Tooltip title="Add menu day">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => handleNewMenuDay()}>

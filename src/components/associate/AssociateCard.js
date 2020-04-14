@@ -12,6 +12,7 @@ import removeRestaurantFromAssociate from '../../model/removeRestaurantFromAssoc
 import removeAssociateFromRestaurant from '../../model/removeAssociateFromRestaurant';
 import getAssociateFromRestaurant from '../../model/getAssociateFromRestaurant';
 import sortAssociates from '../../model/sortAssociates';
+import getAssociate from '../../model/getAssociate';
 import associateAccessLevel from '../../model/associateAccessLevel';
 import checkIfOneAdminInRestaurant from '../../model/checkIfOneAdminInRestaurant';
 import AlertDialogContext from '../../context/alertDialog/alertDialogContext';
@@ -46,9 +47,9 @@ const AssociateCard = ({ Associate }) => {
 
     const alertDialogContext = useContext(AlertDialogContext);
 
-    const handleClickAssociateEdit = (AssociateId) => {
+    const handleClickAssociateEdit = (associateId) => {
         for (let i = 0; i < restaurantAssociates.length; i++) {
-            if (AssociateId === restaurantAssociates[i].id) {
+            if (associateId === restaurantAssociates[i].id) {
                 let myEditItem = {
                     id: restaurantAssociates[i].id,
                     firstName: restaurantAssociates[i].firstName,
@@ -89,11 +90,7 @@ const AssociateCard = ({ Associate }) => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myAssociate = getAssociateFromRestaurant(myRestaurant, associateId)
         let myIndex = findIndexOfAssociateInRestaurant(myRestaurant, associateId)
-        let saveAssociateToDatabase = true;
-        if (myRestaurant.associatesJSON[myIndex].accessLevel === 'none') {
-            saveAssociateToDatabase = false;
-        }
-        // check if can remove associate
+        // check if can remove this assoiciate
         let tempRestaurant = JSON.parse(JSON.stringify(myRestaurant))
         tempRestaurant.associatesJSON.splice(myIndex, 1)
         if (!checkIfOneAdminInRestaurant(tempRestaurant)) {
@@ -101,28 +98,30 @@ const AssociateCard = ({ Associate }) => {
             return null;
         }
         myRestaurant = await removeAssociateFromRestaurant(myRestaurant, associateId)
-        if (saveAssociateToDatabase) {
-            myAssociate = await removeRestaurantFromAssociate(myAssociate, myRestaurant.id)
+        myAssociate = await removeRestaurantFromAssociate(myAssociate, restaurantId)
+        // if associate in database save update to database
+        const tempAssociate = await getAssociate(myAssociate.id, idToken, customId)
+        if (tempAssociate) {
             await putAssociate(myAssociate, idToken, customId)
         }
         // console.log(myRestaurant, myAssociate)
         await putRestaurant(myRestaurant, idToken, customId)
         let myAssociates = await getRestaurantAssociates(myRestaurant)
-        myAssociates = await sortAssociates(myAssociates, 'sortName');
+        myAssociates = await sortAssociates(myAssociates, associate);
         setRestaurantAssociates(myAssociates)
     }
 
     // only associates who can admin to edit associate accounts
     let canAdmin = false;
-    let myAccessLevel = associateAccessLevel(associatesRestaurants, restaurantId, associate.id);
-    myAccessLevel === "admin" ? canAdmin = true : canAdmin = false
+    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
+
 
     let thisAssociateAccessLevel = '';
     switch (associateAccessLevel(associatesRestaurants, restaurantId, Associate.id)) {
         case 'none':
             thisAssociateAccessLevel = 'fas fa-user';
             break;
-        case 'view':
+        case 'read':
             thisAssociateAccessLevel = 'icon-user-read';
             break;
         case 'edit':
@@ -135,9 +134,13 @@ const AssociateCard = ({ Associate }) => {
     }
 
     let associateName = Associate.firstName + ' ' + Associate.lastName
-
-    if (Associate.firstName.length < 2 && Associate.lastName.length < 2) {
+    if (Associate.firstName.length === 0 && Associate.lastName.length === 0) {
         associateName = Associate.email;
+    }
+
+    let message
+    if (associate.id === Associate.id) {
+        message = "Logged in user"
     }
 
     return (
@@ -145,6 +148,7 @@ const AssociateCard = ({ Associate }) => {
             <h4><i className={thisAssociateAccessLevel}></i>{' - '}{associateName}
             </h4>
             <div className={classes.root} >
+                <p>{message}</p>
                 {canAdmin && <Button variant="outlined" color="primary" onClick={() => handleClickAssociateEdit(Associate.id)}>
                     <i className={"fas fa-edit"}></i>
                 </Button>}

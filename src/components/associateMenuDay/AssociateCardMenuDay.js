@@ -35,7 +35,7 @@ const AssociateCardMenuDay = ({ associate }) => {
         case 'none':
             thisAssociateAccessLevel = 'fas fa-user';
             break;
-        case 'view':
+        case 'read':
             thisAssociateAccessLevel = 'icon-user-read';
             break;
         case 'edit':

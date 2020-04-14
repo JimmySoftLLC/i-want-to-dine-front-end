@@ -10,6 +10,7 @@ import putRestaurant from '../../model/putRestaurant';
 import removeMenuDayFromRestaurant from '../../model/removeMenuDayFromRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import sortMenuDays from '../../model/sortMenuDays';
+import associateAccessLevel from '../../model/associateAccessLevel';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,6 +34,7 @@ const MenuDayCard = ({ menuDay }) => {
         setRestaurantMenuDays,
         associatesRestaurants,
         restaurantId,
+        associate,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -111,20 +113,27 @@ const MenuDayCard = ({ menuDay }) => {
         myDate = myDateFrom[0].value + ' ' + myDateFrom[2].value + ' ' + myDateFrom[4].value + ' to ' + myDateTo[0].value + ' ' + myDateTo[2].value + ' ' + myDateTo[4].value;
     }
 
+    // let canRead = false;
+    // associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false
+    let canEdit = false;
+    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
+    let canAdmin = false;
+    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
+
     return (
         <div className='card'>
             <h4><i className="fas fa-calendar-day"></i>{' - '}{menuDay.title}{' - '}{myDate}
             </h4>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayEdit(menuDay.id)}>
+                {(canAdmin || canEdit) && <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayEdit(menuDay.id)}>
                     <i className="fas fa-edit"></i>
-                </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayCopy(menuDay.id)}>
+                </Button>}
+                {canAdmin && <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayCopy(menuDay.id)}>
                     <i className="fas fa-copy"></i>
-                </Button>
-                <Button variant="outlined" color="primary" onClick={() => loadDeleteMenuDayDialog(menuDay.id)}>
+                </Button>}
+                {canAdmin && <Button variant="outlined" color="primary" onClick={() => loadDeleteMenuDayDialog(menuDay.id)}>
                     <i className="fas fa-trash"></i>
-                </Button>
+                </Button>}
             </div>
         </div>
     );

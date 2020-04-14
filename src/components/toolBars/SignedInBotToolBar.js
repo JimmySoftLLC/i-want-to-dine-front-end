@@ -6,7 +6,6 @@ import { Tooltip } from '@material-ui/core';
 import sortMenuItems from '../../model/sortMenuItems';
 import {
     noSelectedRestaurant,
-    blankPlaceHolder,
 } from '../../api/apiConstants';
 
 const SignedInBotToolBar = () => {

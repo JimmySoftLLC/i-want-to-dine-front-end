@@ -15,14 +15,19 @@ import testPutAssociateInRestaurant from '../../model/testPutAssociateInRestaura
 import putAssociateInRestaurant from '../../model/putAssociateInRestaurant';
 import putRestaurantInAssociate from '../../model/putRestaurantInAssociate';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
+import removeRestaurantFromAssociate from '../../model/removeRestaurantFromAssociate';
 import removeAssociateFromRestaurant from '../../model/removeAssociateFromRestaurant';
 import sortAssociates from '../../model/sortAssociates';
 import getAssociateFromRestaurant from '../../model/getAssociateFromRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
+import getAssociateRestaurants from '../../model/getAssociateRestaurants';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import {
+    noSelectedRestaurant,
+} from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -48,6 +53,10 @@ const AssociateDialog = () => {
         setRestaurantAssociates,
         setAssociate,
         associate,
+        setAssociatesRestaurants,
+        setRestaurantId,
+        setRestaurantMenuItems,
+        setRestaurantMenuDays,
     } = dataAndMethodsContext;
 
     const {
@@ -105,10 +114,10 @@ const AssociateDialog = () => {
             let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
             myRestaurant.associatesJSON = myAssociates;
             await putRestaurant(myRestaurant, idToken, customId)
-            myAssociates = await sortAssociates(myAssociates, 'sortName');
+            myAssociates = await sortAssociates(myAssociates, associate);
             setRestaurantAssociates(myAssociates)
-            setAssociate(myAssociate);
         }
+        setAssociate(myAssociate);
     };
 
     // create myAssociate and poplulate it with the dialog's entries.
@@ -135,7 +144,15 @@ const AssociateDialog = () => {
             setMessage('There needs to be at least one associate with admin rights per restaurant.');
             return null;
         }
-        if (myAssociate.accessLevel !== 'none') {
+        if (myAssociate.accessLevel === 'none') {
+            let myTempID = myAssociate.id
+            myAssociate = await removeRestaurantFromAssociate(myAssociate, restaurantId)
+            // if associate in database save update to database
+            const tempAssociate = await getAssociate(myTempID, idToken, customId)
+            if (tempAssociate) {
+                await putAssociate(myAssociate, idToken, customId)
+            }
+        } else {
             if (!validEmail(email)) {
                 setMessage('A valid email is required.');
                 return null;
@@ -148,24 +165,36 @@ const AssociateDialog = () => {
                 setMessage('That associate already exists in restaurant.');
                 return null;
             }
-            myAssociate = await getAssociate(idToken, customId, email)
+            myAssociate = await getAssociate(email, idToken, customId)
             if (!myAssociate) {
                 setMessage('No associate account with that email address exists.');
                 return null;
             } else {
                 myAssociate.accessLevel = accessLevel;
+                myAssociate.email = email;
                 myAssociate = await putRestaurantInAssociate(myAssociate, restaurantId);
                 await putAssociate(myAssociate, idToken, customId);
             }
-        } else {
-            myAssociate.email = '';
         }
         myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate);
         // console.log(myRestaurant, myAssociate);
         await putRestaurant(myRestaurant, idToken, customId);
         let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId);
-        myAssociates = await sortAssociates(myAssociates, 'sortName');
+        myAssociates = await sortAssociates(myAssociates, associate);
         setRestaurantAssociates(myAssociates);
+        for (let i = 0; i < myAssociates.length; i++) {
+            if (myAssociates[i].id === associate.id) {
+                if (myAssociates[i].accessLevel === 'none') {
+                    setRestaurantMenuItems([]);
+                    setRestaurantMenuDays([]);
+                    setRestaurantAssociates([]);
+                    setRestaurantId(noSelectedRestaurant)
+                    const myAssociatesRestaurants = await getAssociateRestaurants(myAssociate);
+                    setAssociatesRestaurants(myAssociatesRestaurants);
+                    return true;
+                }
+            }
+        }
         return true;
     };
 
@@ -203,12 +232,20 @@ const AssociateDialog = () => {
     if (dialogType === "Edit") { dialogTitle = 'Edit associate details' };
     if (dialogType === "Add") { dialogTitle = 'Add associate details' };
 
+    let loggedInUser = false;
+    let loggedInUserMessage = '';
+    if (associate.id === id) {
+        loggedInUser = true;
+        loggedInUserMessage = 'Logged in user'
+    }
+
     return (
         <div>
             <Dialog className={classes.root} open={associateDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
                     {dialogTitle}</DialogTitle>
                 <DialogContent>
+                    <p>{loggedInUserMessage}</p>
                     {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
                         id="firstName"
                         label="First name"
@@ -251,11 +288,11 @@ const AssociateDialog = () => {
                     {dialogType !== "EditMe" && <FormLabel component="legend">Access level</FormLabel>}
                     {dialogType !== "EditMe" && <RadioGroup aria-label="gender" name="gender1" value={accessLevel} onChange={handleAccessLevelChange}>
                         <FormControlLabel value="none" control={<Radio color="primary" />} label="No Access" />
-                        <FormControlLabel value="view" control={<Radio color="primary" />} label="View" />
+                        <FormControlLabel value="read" control={<Radio color="primary" />} label="Read" />
                         <FormControlLabel value="edit" control={<Radio color="primary" />} label="Edit" />
                         <FormControlLabel value="admin" control={<Radio color="primary" />} label="Admin" />
                     </RadioGroup>}
-                    {((accessLevel === "view" || accessLevel === "edit" || accessLevel === "admin") && dialogType !== "EditMe") && <TextField
+                    {((accessLevel === "read" || accessLevel === "edit" || accessLevel === "admin") && dialogType !== "EditMe" && !loggedInUser) && <TextField
                         id="email"
                         label="Email"
                         type="email"

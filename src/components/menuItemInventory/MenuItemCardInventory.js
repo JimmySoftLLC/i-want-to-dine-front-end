@@ -8,6 +8,7 @@ import deleteMenuItem from '../../model/deleteMenuItem';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import putRestaurant from '../../model/putRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
+import associateAccessLevel from '../../model/associateAccessLevel';
 import sortMenuItems from '../../model/sortMenuItems';
 import removeMenuItemFromRestaurant from '../../model/removeMenuItemFromRestaurant';
 
@@ -34,6 +35,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
         associatesRestaurants,
         restaurantId,
         myStates,
+        associate,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -143,20 +145,27 @@ const MenuItemCardInventory = ({ menuItem }) => {
         }
     }
 
+    // let canRead = false;
+    // associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false
+    let canEdit = false;
+    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
+    let canAdmin = false;
+    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
+
     return (
         <div className='card'>
             <h4><i className="fas fa-list"></i>{' - '}{items}{menuItem.title}{' - '}{menuItem.price}
             </h4>
             <div className={classes.root} >
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
+                {(canEdit || canAdmin) && <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
                     <i className="fas fa-edit"></i>
-                </Button>
-                <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemCopy(menuItem.id)}>
+                </Button>}
+                {canAdmin && <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemCopy(menuItem.id)}>
                     <i className="fas fa-copy"></i>
-                </Button>
-                <Button variant="outlined" color="primary" onClick={() => loadDeleteMenuItemDialog(menuItem.id)}>
+                </Button>}
+                {canAdmin && <Button variant="outlined" color="primary" onClick={() => loadDeleteMenuItemDialog(menuItem.id)}>
                     <i className="fas fa-trash"></i>
-                </Button>
+                </Button>}
             </div>
         </div>
     );
