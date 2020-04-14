@@ -10,17 +10,17 @@ const getAssociate = async (myEmail, myToken, myCustomId) => {
     if (data.err) {
         return null;
     }
-    let associate = data.payload.Item
-    if (associate === undefined) {
+    let myAssociate = data.payload.Item
+    if (myAssociate === undefined) {
         return null;
     }
-    associate.firstName = associate.firstName === blankPlaceHolder ? '' : associate.firstName
-    associate.lastName = associate.lastName === blankPlaceHolder ? '' : associate.lastName
-    associate.email = associate.email === blankPlaceHolder ? '' : associate.email
-    associate.bio = associate.bio === blankPlaceHolder ? '' : associate.bio
-    associate.jobTitle = associate.jobTitle === blankPlaceHolder ? '' : associate.jobTitle
-    associate.restaurantIdsJSON = JSON.parse(associate.restaurantIdsJSON)
-    return associate;
+    myAssociate.firstName = myAssociate.firstName === blankPlaceHolder ? '' : myAssociate.firstName
+    myAssociate.lastName = myAssociate.lastName === blankPlaceHolder ? '' : myAssociate.lastName
+    myAssociate.email = myAssociate.email === blankPlaceHolder ? '' : myAssociate.email
+    myAssociate.bio = myAssociate.bio === blankPlaceHolder ? '' : myAssociate.bio
+    myAssociate.jobTitle = myAssociate.jobTitle === blankPlaceHolder ? '' : myAssociate.jobTitle
+    myAssociate.restaurantIdsJSON = JSON.parse(myAssociate.restaurantIdsJSON)
+    return myAssociate;
 }
 
 export default getAssociate

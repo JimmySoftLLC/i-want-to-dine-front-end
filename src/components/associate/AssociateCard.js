@@ -50,6 +50,10 @@ const AssociateCard = ({ Associate }) => {
     const handleClickAssociateEdit = (associateId) => {
         for (let i = 0; i < restaurantAssociates.length; i++) {
             if (associateId === restaurantAssociates[i].id) {
+                let showEmail = false;
+                if (restaurantAssociates[i].email === '') {
+                    showEmail = true;
+                }
                 let myEditItem = {
                     id: restaurantAssociates[i].id,
                     firstName: restaurantAssociates[i].firstName,
@@ -60,6 +64,7 @@ const AssociateCard = ({ Associate }) => {
                     restaurantIdsJSON: restaurantAssociates[i].restaurantIdsJSON,
                     accessLevel: restaurantAssociates[i].accessLevel,
                     dialogType: 'Edit',
+                    showEmail: showEmail,
                 }
                 setAssociateDialogData(myEditItem);
                 setAssociateDialogOpen(true);

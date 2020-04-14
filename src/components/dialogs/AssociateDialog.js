@@ -70,6 +70,7 @@ const AssociateDialog = () => {
         accessLevel,
         dialogType,
         message,
+        showEmail,
     } = dataAndMethodsContext.associateDialogData;
 
     const handleClose = () => {
@@ -145,13 +146,13 @@ const AssociateDialog = () => {
             return null;
         }
         if (myAssociate.accessLevel === 'none') {
-            let myTempID = myAssociate.id
-            myAssociate = await removeRestaurantFromAssociate(myAssociate, restaurantId)
-            // if associate in database save update to database
-            const tempAssociate = await getAssociate(myTempID, idToken, customId)
+            const tempAssociate = await getAssociate(myAssociate.id, idToken, customId)
             if (tempAssociate) {
+                myAssociate = await removeRestaurantFromAssociate(tempAssociate, restaurantId)
                 await putAssociate(myAssociate, idToken, customId)
             }
+            myAssociate.accessLevel = accessLevel;
+            myAssociate.email = '';
         } else {
             if (!validEmail(email)) {
                 setMessage('A valid email is required.');
@@ -292,7 +293,7 @@ const AssociateDialog = () => {
                         <FormControlLabel value="edit" control={<Radio color="primary" />} label="Edit" />
                         <FormControlLabel value="admin" control={<Radio color="primary" />} label="Admin" />
                     </RadioGroup>}
-                    {((accessLevel === "read" || accessLevel === "edit" || accessLevel === "admin") && dialogType !== "EditMe" && !loggedInUser) && <TextField
+                    {((accessLevel === "read" || accessLevel === "edit" || accessLevel === "admin") && dialogType !== "EditMe" && !loggedInUser && showEmail) && <TextField
                         id="email"
                         label="Email"
                         type="email"
