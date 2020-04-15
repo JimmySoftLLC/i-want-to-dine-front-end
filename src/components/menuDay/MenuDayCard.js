@@ -90,7 +90,7 @@ const MenuDayCard = ({ menuDay }) => {
     };
 
     const deleteMenuDay = async (menuDayId) => {
-        let myMenuDays = await deleteMenuDayById(menuDayId, restaurantId, associatesRestaurants, idToken, customId)
+        let myMenuDays = await deleteMenuDayById(menuDayId, restaurantId, associatesRestaurants, true, idToken, customId)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
     }

@@ -1,7 +1,8 @@
 const getAssociateFromRestaurant = (restaurant, associateId) => {
-    for (let i = 0; i < restaurant.associatesJSON.length; i++) {
-        if (restaurant.associatesJSON[i].id === associateId) {
-            return restaurant.associatesJSON[i];
+    let myRestaurant = JSON.parse(JSON.stringify(restaurant));
+    for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
+        if (myRestaurant.associatesJSON[i].id === associateId) {
+            return myRestaurant.associatesJSON[i];
         }
     }
     return null;

@@ -14,9 +14,12 @@ import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
-// import updateAssociateRestaurants from '../../model/updateAssociateRestaurants';
-import putAssociate from '../../model/putAssociate';
+import deleteAssociateFromRestaurantById from '../../model/deleteAssociateFromRestaurantById';
 import deleteRestaurant from '../../model/deleteRestaurant';
+import getAssociate from '../../model/getAssociate';
+import deleteMenuItemById from '../../model/deleteMenuItemById';
+import deleteMenuDayById from '../../model/deleteMenuDayById';
+// import updateAssociateRestaurants from '../../model/updateAssociateRestaurants';
 import sortMenuItems from '../../model/sortMenuItems';
 import sortMenuDays from '../../model/sortMenuDays';
 import sortAssociates from '../../model/sortAssociates';
@@ -77,7 +80,7 @@ const SignedInTopToolBar = () => {
 
     // set data for restaurant dialog this will be use if the restaurant is saved tossed if canceled
     // deep copy the associate pass everything else
-    const handleEditRestaurant = () => {
+    const editRestaurantClick = () => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myAssociate = JSON.parse(JSON.stringify(associate));
         //console.log(myRestaurant)
@@ -113,7 +116,7 @@ const SignedInTopToolBar = () => {
     //   -- set approved to false (need to approve ownership before becomming live)
     //   -- set myAssociate, this will be used later to update the associate with the new restaurant
     //   -- set dialogType to new
-    const handleNewRestaurant = () => {
+    const newRestaurantClick = () => {
         let myId = uuidv4();
         let myRestaurantsAssociatesJSON = [];
         let myAssociate = JSON.parse(JSON.stringify(associate));
@@ -142,7 +145,7 @@ const SignedInTopToolBar = () => {
         setRestaurantDialogOpen(true);
     };
 
-    const handleNewMenuItem = () => {
+    const newMenuItemClick = () => {
         let myNewId = uuidv4()
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myEditItem = {
@@ -158,7 +161,7 @@ const SignedInTopToolBar = () => {
         setMenuItemDialogOpen(true);
     };
 
-    const handleNewMenuDay = () => {
+    const newMenuDayClick = () => {
         let myNewId = uuidv4()
         let myEditItem = {
             id: myNewId,
@@ -174,7 +177,7 @@ const SignedInTopToolBar = () => {
         setMenuDayDialogOpen(true);
     };
 
-    const handleNewAssociate = () => {
+    const newAssociateClick = () => {
         let myNewId = uuidv4()
         let myAssociateData = {
             id: myNewId,
@@ -192,7 +195,7 @@ const SignedInTopToolBar = () => {
         setAssociateDialogOpen(true);
     };
 
-    const loadDeleteRestaurantWarningDialog = () => {
+    const deleteRestaurantClick = () => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         setDeleteConfirmDialog(true,
             myRestaurant.restaurantName,
@@ -202,15 +205,22 @@ const SignedInTopToolBar = () => {
     };
 
     const deleteRestaurantNow = async () => {
-        let myAssociate = JSON.parse(JSON.stringify(associate));
-        let indexOfRestaurantId = myAssociate.restaurantIdsJSON.indexOf(restaurantId);
-        myAssociate.restaurantIdsJSON.splice(indexOfRestaurantId, 1);
-        setAssociate(myAssociate)
-        await putAssociate(myAssociate, idToken, customId)
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+        for (let i = 0; i < myRestaurant.menuItemIdsJSON.length; i++) {
+            await deleteMenuItemById(myRestaurant.menuItemIdsJSON[i], restaurantId, associatesRestaurants, false, idToken, customId)
+        }
+        for (let i = 0; i < myRestaurant.menuDayIdsJSON.length; i++) {
+            await deleteMenuDayById(myRestaurant.menuDayIdsJSON[i], restaurantId, associatesRestaurants, false, idToken, customId)
+        }
+        for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
+            await deleteAssociateFromRestaurantById(restaurantId, myRestaurant.associatesJSON[i].id, myRestaurant, false, idToken, customId)
+        }
         await deleteRestaurant(restaurantId, idToken, customId)
-        const associatesRestaurants = await getAssociateRestaurants(myAssociate)
-        setAssociatesRestaurants(associatesRestaurants);
+        const newAssociate = await getAssociate(associate.id, idToken, customId)
+        const newAssociatesRestaurants = await getAssociateRestaurants(newAssociate)
         setRestaurantId(noSelectedRestaurant);
+        setAssociate(newAssociate)
+        setAssociatesRestaurants(newAssociatesRestaurants);
     }
 
     // const updateAssociatesRestaurantsNow = async () => {
@@ -310,49 +320,49 @@ const SignedInTopToolBar = () => {
                     {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings'] && canAdmin) && <Tooltip title="Edit restaurant">
                         <IconButton aria-label=""
                             color="inherit"
-                            onClick={() => handleEditRestaurant()}>
+                            onClick={() => editRestaurantClick()}>
                             <i className="icon-restaurant-edit"></i>
                         </IconButton>
                     </Tooltip>}
                     {restaurantId === noSelectedRestaurant && <Tooltip title="Add restaurant">
                         <IconButton aria-label=""
                             color="inherit"
-                            onClick={() => handleNewRestaurant()}>
+                            onClick={() => newRestaurantClick()}>
                             <i className="icon-restaurant-plus"></i>
                         </IconButton>
                     </Tooltip>}
                     {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings'] && (canRead || canEdit || canAdmin)) && <Tooltip title="Add restaurant">
                         <IconButton aria-label=""
                             color="inherit"
-                            onClick={() => handleNewRestaurant()}>
+                            onClick={() => newRestaurantClick()}>
                             <i className="icon-restaurant-plus"></i>
                         </IconButton>
                     </Tooltip>}
                     {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings'] && canAdmin) && <Tooltip title="Delete restaurant">
                         <IconButton aria-label=""
                             color="inherit"
-                            onClick={() => loadDeleteRestaurantWarningDialog()}>
+                            onClick={() => deleteRestaurantClick()}>
                             <i className="icon-restaurant-minus"></i>
                         </IconButton>
                     </Tooltip>}
                     {(restaurantId !== noSelectedRestaurant && myStates['menuSettings'] && canAdmin) && <Tooltip title="Add menu item">
                         <IconButton aria-label=""
                             color="inherit"
-                            onClick={() => handleNewMenuItem()}>
+                            onClick={() => newMenuItemClick()}>
                             <i className="icon-list-solid-plus"></i>
                         </IconButton>
                     </Tooltip>}
                     {(restaurantId !== noSelectedRestaurant && myStates['menuDaySettings'] && canAdmin) && <Tooltip title="Add menu day">
                         <IconButton aria-label=""
                             color="inherit"
-                            onClick={() => handleNewMenuDay()}>
+                            onClick={() => newMenuDayClick()}>
                             <i className="icon-calendar-solid-plus"></i>
                         </IconButton>
                     </Tooltip>}
                     {(restaurantId !== noSelectedRestaurant && myStates['associateSettings'] && canAdmin) && <Tooltip title="Add menu item">
                         <IconButton aria-label=""
                             color="inherit"
-                            onClick={() => handleNewAssociate()}>
+                            onClick={() => newAssociateClick()}>
                             <i className="fas fa-user-plus"></i>
                         </IconButton>
                     </Tooltip>}

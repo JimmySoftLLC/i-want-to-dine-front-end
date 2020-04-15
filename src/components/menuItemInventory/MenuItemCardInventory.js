@@ -89,7 +89,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
     };
 
     const deleteMenuItem = async (menuId) => {
-        let myNewMenuItems = await deleteMenuItemById(menuId, restaurantId, associatesRestaurants, idToken, customId)
+        let myNewMenuItems = await deleteMenuItemById(menuId, restaurantId, associatesRestaurants, true, idToken, customId)
         myNewMenuItems = await sortMenuItems(myNewMenuItems, myStates);
         setRestaurantMenuItems(myNewMenuItems)
     }

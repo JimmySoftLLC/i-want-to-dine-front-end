@@ -1,6 +1,7 @@
 import findIndexOfAssociateInRestaurant from './findIndexOfAssociateInRestaurant';
 
-const removeAssociateFromRestaurant = async (myRestaurant, associateId) => {
+const removeAssociateFromRestaurant = async (restaurant, associateId) => {
+    let myRestaurant = JSON.parse(JSON.stringify(restaurant))
     let myIndex = findIndexOfAssociateInRestaurant(myRestaurant, associateId)
     while (myIndex !== -1) {
         myRestaurant.associatesJSON.splice(myIndex, 1)
