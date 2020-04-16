@@ -10,6 +10,11 @@ import sortAssociates from '../../model/sortAssociates';
 import associateAccessLevel from '../../model/associateAccessLevel';
 import AlertDialogContext from '../../context/alertDialog/alertDialogContext';
 import deleteAssociateFromRestaurantById from '../../model/deleteAssociateFromRestaurantById';
+import getAssociate from '../../model/getAssociate';
+import getAssociateRestaurants from '../../model/getAssociateRestaurants';
+import {
+    noSelectedRestaurant,
+} from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,7 +27,6 @@ const useStyles = makeStyles(theme => ({
 
 const AssociateCard = ({ Associate }) => {
     const classes = useStyles();
-
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
         restaurantAssociates,
@@ -34,6 +38,11 @@ const AssociateCard = ({ Associate }) => {
         associatesRestaurants,
         restaurantId,
         associate,
+        setAssociatesRestaurants,
+        setAssociate,
+        setRestaurantId,
+        setRestaurantMenuItems,
+        setRestaurantMenuDays,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -93,15 +102,27 @@ const AssociateCard = ({ Associate }) => {
             return null;
         }
         await putRestaurant(myRestaurant, idToken, customId)
+        // now get logged in associate and update associates restaurants
+        const newAssociate = await getAssociate(associate.id, idToken, customId)
+        const newAssociatesRestaurants = await getAssociateRestaurants(newAssociate)
+        setAssociate(newAssociate)
+        setAssociatesRestaurants(newAssociatesRestaurants)
+        // now update associates for current restaurant
         let myAssociates = await getRestaurantAssociates(myRestaurant)
-        myAssociates = await sortAssociates(myAssociates, associate);
+        myAssociates = await sortAssociates(myAssociates, newAssociate);
         setRestaurantAssociates(myAssociates)
+        if (associateId === associate.id) {
+            setRestaurantMenuItems([]);
+            setRestaurantMenuDays([]);
+            setRestaurantAssociates([]);
+            setRestaurantId(noSelectedRestaurant);
+        }
     }
+
 
     // only associates who can admin to edit associate accounts
     let canAdmin = false;
     associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
-
 
     let thisAssociateAccessLevel = '';
     switch (associateAccessLevel(associatesRestaurants, restaurantId, Associate.id)) {

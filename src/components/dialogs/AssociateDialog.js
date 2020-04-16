@@ -178,10 +178,14 @@ const AssociateDialog = () => {
             }
         }
         myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate);
-        // console.log(myRestaurant, myAssociate);
         await putRestaurant(myRestaurant, idToken, customId);
+        // now get logged in associate and update associates restaurants
+        const newAssociate = await getAssociate(associate.id, idToken, customId)
+        const newAssociatesRestaurants = await getAssociateRestaurants(newAssociate)
+        setAssociate(newAssociate)
+        setAssociatesRestaurants(newAssociatesRestaurants)
         let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId);
-        myAssociates = await sortAssociates(myAssociates, associate);
+        myAssociates = await sortAssociates(myAssociates, newAssociate);
         setRestaurantAssociates(myAssociates);
         for (let i = 0; i < myAssociates.length; i++) {
             if (myAssociates[i].id === associate.id) {

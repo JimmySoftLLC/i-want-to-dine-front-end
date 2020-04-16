@@ -181,7 +181,7 @@ const SignedInTopToolBar = () => {
         let myNewId = uuidv4()
         let myAssociateData = {
             id: myNewId,
-            firstName: '',
+            firstName: myNewId,
             lastName: '',
             jobTitle: '',
             bio: '',
@@ -218,9 +218,9 @@ const SignedInTopToolBar = () => {
         await deleteRestaurant(restaurantId, idToken, customId)
         const newAssociate = await getAssociate(associate.id, idToken, customId)
         const newAssociatesRestaurants = await getAssociateRestaurants(newAssociate)
-        setRestaurantId(noSelectedRestaurant);
         setAssociate(newAssociate)
         setAssociatesRestaurants(newAssociatesRestaurants);
+        setRestaurantId(noSelectedRestaurant);
     }
 
     // const updateAssociatesRestaurantsNow = async () => {
