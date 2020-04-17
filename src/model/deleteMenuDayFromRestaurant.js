@@ -5,7 +5,7 @@ import putRestaurant from './putRestaurant';
 import removeMenuDayFromRestaurant from './removeMenuDayFromRestaurant';
 import getRestaurantFromArray from './getRestaurantFromArray';
 
-const deleteMenuDayById = async (menuDayId, restaurantId, associatesRestaurants, writeRestaurant, idToken, customId) => {
+const deleteMenuDayFromRestaurant = async (menuDayId, restaurantId, associatesRestaurants, writeRestaurant, idToken, customId) => {
     await deleteMenuDay(menuDayId, idToken, customId)
     if (writeRestaurant) {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
@@ -17,4 +17,4 @@ const deleteMenuDayById = async (menuDayId, restaurantId, associatesRestaurants,
     return null;
 }
 
-export default deleteMenuDayById
+export default deleteMenuDayFromRestaurant

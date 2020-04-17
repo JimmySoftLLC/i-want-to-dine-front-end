@@ -9,10 +9,11 @@ import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import sortAssociates from '../../model/sortAssociates';
 import associateAccessLevel from '../../model/associateAccessLevel';
 import AlertDialogContext from '../../context/alertDialog/alertDialogContext';
-import deleteAssociateFromRestaurantById from '../../model/deleteAssociateFromRestaurantById';
+import deleteAssociateFromRestaurant from '../../model/deleteAssociateFromRestaurant';
 import getAssociate from '../../model/getAssociate';
 import getAssociateRestaurants from '../../model/getAssociateRestaurants';
 import updateMenuDaysWithAssociateChanges from '../../model/updateMenuDaysWithAssociateChanges';
+
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
@@ -52,7 +53,7 @@ const AssociateCard = ({ Associate }) => {
 
     const alertDialogContext = useContext(AlertDialogContext);
 
-    const handleClickAssociateEdit = (associateId) => {
+    const associateEditClick = (associateId) => {
         for (let i = 0; i < restaurantAssociates.length; i++) {
             if (associateId === restaurantAssociates[i].id) {
                 let showEmail = false;
@@ -78,43 +79,41 @@ const AssociateCard = ({ Associate }) => {
         }
     };
 
-    const loadDeleteAssociateFromRestaurantDialog = (associateId) => {
+    const deleteAssociateClick = (associateId) => {
         for (let i = 0; i < restaurantAssociates.length; i++) {
             if (associateId === restaurantAssociates[i].id) {
                 setDeleteConfirmDialog(true,
                     restaurantAssociates[i].firstName,
                     'deleteAssociate',
                     associateId,
-                    deleteAssociateFromRestaurant);
+                    deleteAssociateFromRestaurantById);
                 break;
             }
         }
     };
 
-    // find index where assoicate is in restaurant associates array
-    // figure out if associate can be removed, restaurant always must have at least one admin
-    // remove restaurant from associates restaurant array and save assocaite to database
-    // remove associate from restaurant associate array and save restaurant to database
-    // update states as needed
-    const deleteAssociateFromRestaurant = async (associateId) => {
+    const deleteAssociateFromRestaurantById = async (associateId) => {
+        // delete associate from restaurant and save restaurant to database
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        myRestaurant = await deleteAssociateFromRestaurantById(restaurantId, associateId, myRestaurant, true, idToken, customId)
+        myRestaurant = await deleteAssociateFromRestaurant(restaurantId, associateId, myRestaurant, true, idToken, customId)
         if (!myRestaurant) {
             alertDialogContext.setDialog(true, 'Must have at least one admin for restaurant cannot remove associate.', 'Error');
             return null;
         }
         await putRestaurant(myRestaurant, idToken, customId)
-        // now get logged in associate and update associates restaurants
+        // get logged in associate and update associates restaurants
         const newAssociate = await getAssociate(associate.id, idToken, customId)
         const newAssociatesRestaurants = await getAssociateRestaurants(newAssociate)
         setAssociate(newAssociate)
         setAssociatesRestaurants(newAssociatesRestaurants)
-        // now update associates for current restaurant
+        // update associates for current restaurant
         let myAssociates = await getRestaurantAssociates(myRestaurant)
         myAssociates = await sortAssociates(myAssociates, newAssociate);
         setRestaurantAssociates(myAssociates)
+        // update menu days with changes
         let myNewMenuDays = await updateMenuDaysWithAssociateChanges(restaurantMenuDays, myAssociates, idToken, customId)
         setRestaurantMenuDays(myNewMenuDays)
+        // reset everything if logged in associate is the one deleted
         if (associateId === associate.id) {
             setRestaurantMenuItems([]);
             setRestaurantMenuDays([]);
@@ -127,6 +126,7 @@ const AssociateCard = ({ Associate }) => {
     let canAdmin = false;
     associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
 
+    // set icons for associate
     let thisAssociateAccessLevel = '';
     switch (associateAccessLevel(associatesRestaurants, restaurantId, Associate.id)) {
         case 'none':
@@ -144,11 +144,13 @@ const AssociateCard = ({ Associate }) => {
         default:
     }
 
+    // set name of associate
     let associateName = Associate.firstName + ' ' + Associate.lastName
     if (Associate.firstName.length === 0 && Associate.lastName.length === 0) {
         associateName = Associate.email;
     }
 
+    // add logged in user message if this associate is the logged in user
     let message
     if (associate.id === Associate.id) {
         message = "Logged in user"
@@ -160,10 +162,10 @@ const AssociateCard = ({ Associate }) => {
             </h4>
             <div className={classes.root} >
                 <p>{message}</p>
-                {canAdmin && <Button variant="outlined" color="primary" onClick={() => handleClickAssociateEdit(Associate.id)}>
+                {canAdmin && <Button variant="outlined" color="primary" onClick={() => associateEditClick(Associate.id)}>
                     <i className={"fas fa-edit"}></i>
                 </Button>}
-                {canAdmin && <Button variant="outlined" color="primary" onClick={() => loadDeleteAssociateFromRestaurantDialog(Associate.id)}>
+                {canAdmin && <Button variant="outlined" color="primary" onClick={() => deleteAssociateClick(Associate.id)}>
                     <i className="fas fa-trash"></i>
                 </Button>}
             </div>

@@ -85,8 +85,8 @@ const MenuDayDialog = () => {
         let myNewMenuDay = {}
         myNewMenuDay.id = id;
         myNewMenuDay.title = title
-        myNewMenuDay.dateFrom = dateFrom.toString();
-        myNewMenuDay.dateTo = dateTo.toString();
+        myNewMenuDay.dateFrom = dateFrom;
+        myNewMenuDay.dateTo = dateTo;
         myNewMenuDay.description = description
         myNewMenuDay.menuIdsJSON = menuIdsJSON
         myNewMenuDay.associatesJSON = associatesJSON;
@@ -102,8 +102,8 @@ const MenuDayDialog = () => {
         let myNewMenuDay = {}
         myNewMenuDay.id = id;
         myNewMenuDay.title = title
-        myNewMenuDay.dateFrom = dateFrom.toString();
-        myNewMenuDay.dateTo = dateTo.toString();
+        myNewMenuDay.dateFrom = dateFrom;
+        myNewMenuDay.dateTo = dateTo;
         myNewMenuDay.description = description
         myNewMenuDay.menuIdsJSON = menuIdsJSON;
         myNewMenuDay.associatesJSON = associatesJSON;

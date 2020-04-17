@@ -6,7 +6,7 @@ import {
 const deleteAssociate = async (myAssociateId, myToken, myCustomId) => {
     // console.log(myAssociateId, myToken, myCustomId);
     // return null;
-    const data = await deleteItemDynamoDB(associatesTableName, myToken, myAssociateId, myCustomId)
+    const data = await deleteItemDynamoDB(associatesTableName, myAssociateId, myToken, myCustomId)
     if (data.err) {
         return null;
     }

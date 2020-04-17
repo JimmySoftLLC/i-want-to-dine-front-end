@@ -4,7 +4,7 @@ import {
     apiPath,
 } from './apiConstants';
 
-const deleteItemDynamoDB = async (myTableName, myIdToken, myId, myCustomId) => {
+const deleteItemDynamoDB = async (myTableName, myId, myIdToken, myCustomId) => {
     let myReturnObject = { err: false, payload: null };
     try {
         const apiRequest = {

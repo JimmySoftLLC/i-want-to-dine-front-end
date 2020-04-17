@@ -5,7 +5,7 @@ import {
 
 const putMenuItem = async (myMenuItem, myToken, myCustomId) => {
     //console.log(myMenuItem, myToken, myCustomId);
-    const data = await putItemDynamoDB(menuItemsTableName, myToken, myMenuItem, myCustomId)
+    const data = await putItemDynamoDB(menuItemsTableName, myMenuItem, myToken, myCustomId)
     if (data.err) {
         return null;
     }

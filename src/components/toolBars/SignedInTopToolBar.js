@@ -14,11 +14,11 @@ import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
 import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
-import deleteAssociateFromRestaurantById from '../../model/deleteAssociateFromRestaurantById';
+import deleteAssociateFromRestaurant from '../../model/deleteAssociateFromRestaurant';
 import deleteRestaurant from '../../model/deleteRestaurant';
 import getAssociate from '../../model/getAssociate';
-import deleteMenuItemById from '../../model/deleteMenuItemById';
-import deleteMenuDayById from '../../model/deleteMenuDayById';
+import deleteMenuItemFromRestaurant from '../../model/deleteMenuItemFromRestaurant';
+import deleteMenuDayFromRestaurant from '../../model/deleteMenuDayFromRestaurant';
 // import updateAssociateRestaurants from '../../model/updateAssociateRestaurants';
 import sortMenuItems from '../../model/sortMenuItems';
 import sortMenuDays from '../../model/sortMenuDays';
@@ -207,13 +207,13 @@ const SignedInTopToolBar = () => {
     const deleteRestaurantNow = async () => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
         for (let i = 0; i < myRestaurant.menuItemIdsJSON.length; i++) {
-            await deleteMenuItemById(myRestaurant.menuItemIdsJSON[i], restaurantId, associatesRestaurants, false, idToken, customId)
+            await deleteMenuItemFromRestaurant(myRestaurant.menuItemIdsJSON[i], restaurantId, associatesRestaurants, false, idToken, customId)
         }
         for (let i = 0; i < myRestaurant.menuDayIdsJSON.length; i++) {
-            await deleteMenuDayById(myRestaurant.menuDayIdsJSON[i], restaurantId, associatesRestaurants, false, idToken, customId)
+            await deleteMenuDayFromRestaurant(myRestaurant.menuDayIdsJSON[i], restaurantId, associatesRestaurants, false, idToken, customId)
         }
         for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
-            await deleteAssociateFromRestaurantById(restaurantId, myRestaurant.associatesJSON[i].id, myRestaurant, false, idToken, customId)
+            await deleteAssociateFromRestaurant(restaurantId, myRestaurant.associatesJSON[i].id, myRestaurant, false, idToken, customId)
         }
         await deleteRestaurant(restaurantId, idToken, customId)
         const newAssociate = await getAssociate(associate.id, idToken, customId)

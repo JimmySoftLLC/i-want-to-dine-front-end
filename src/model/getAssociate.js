@@ -6,7 +6,7 @@ import {
 
 const getAssociate = async (myEmail, myToken, myCustomId) => {
     //console.log(myToken, myCustomId);
-    const data = await getItemDynamoDB(associatesTableName, myToken, myCustomId, myEmail)
+    const data = await getItemDynamoDB(associatesTableName, myEmail, myToken, myCustomId)
     if (data.err) {
         return null;
     }

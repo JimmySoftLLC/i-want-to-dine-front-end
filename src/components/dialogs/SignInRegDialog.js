@@ -11,7 +11,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import { v4 as uuidv4 } from 'uuid';
 import getAssociate from '../../model/getAssociate';
 import getAssociateRestaurants from '../../model/getAssociateRestaurants';
-import createNewAssociate from '../../model/createNewAssociate';
+import createAssociate from '../../model/createAssociate';
 import validEmail from '../../model/validEmail';
 
 import {
@@ -125,7 +125,7 @@ const SignUp = () => {
                 setIdToken(session.idToken.jwtToken);
                 const associate = await getAssociate(session.idToken.payload['email'], session.idToken.jwtToken, session.idToken.payload['custom:id'])
                 if (!associate) {
-                    let myNewAssociate = await createNewAssociate(session.idToken.payload['email'], session.idToken.jwtToken, session.idToken.payload['custom:id'])
+                    let myNewAssociate = await createAssociate(session.idToken.payload['email'], session.idToken.jwtToken, session.idToken.payload['custom:id'])
                     if (myNewAssociate) {
                         const associatesRestaurants = await getAssociateRestaurants(myNewAssociate)
                         //console.log(associatesRestaurants);

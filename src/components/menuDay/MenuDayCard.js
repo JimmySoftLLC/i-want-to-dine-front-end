@@ -6,7 +6,8 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
 import sortMenuDays from '../../model/sortMenuDays';
 import associateAccessLevel from '../../model/associateAccessLevel';
-import deleteMenuDayById from '../../model/deleteMenuDayById';
+import deleteMenuDayFromRestaurant from '../../model/deleteMenuDayFromRestaurant';
+import dateString from '../../model/dateString';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,7 +37,7 @@ const MenuDayCard = ({ menuDay }) => {
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
     const { setDeleteConfirmDialog } = deleteConfirmDialogContext;
 
-    const handleClickMenuDayEdit = (menuDayId) => {
+    const menuDayEditClick = (menuDayId) => {
         for (let i = 0; i < restaurantMenuDays.length; i++) {
             if (menuDayId === restaurantMenuDays[i].id) {
                 let myEditItem = {
@@ -56,7 +57,7 @@ const MenuDayCard = ({ menuDay }) => {
         }
     };
 
-    const handleClickMenuDayCopy = (menuDayId) => {
+    const menuDayCopyClick = (menuDayId) => {
         for (let i = 0; i < restaurantMenuDays.length; i++) {
             if (menuDayId === restaurantMenuDays[i].id) {
                 let myEditItem = {
@@ -76,37 +77,29 @@ const MenuDayCard = ({ menuDay }) => {
         }
     };
 
-    const loadDeleteMenuDayDialog = (menuDayId) => {
+    const deleteMenuClick = (menuDayId) => {
         for (let i = 0; i < restaurantMenuDays.length; i++) {
             if (menuDayId === restaurantMenuDays[i].id) {
                 setDeleteConfirmDialog(true,
                     restaurantMenuDays[i].title,
                     'deleteMenuDay',
                     menuDayId,
-                    deleteMenuDay);
+                    deleteMenuDayById);
                 break;
             }
         }
     };
 
-    const deleteMenuDay = async (menuDayId) => {
-        let myMenuDays = await deleteMenuDayById(menuDayId, restaurantId, associatesRestaurants, true, idToken, customId)
+    const deleteMenuDayById = async (menuDayId) => {
+        let myMenuDays = await deleteMenuDayFromRestaurant(menuDayId, restaurantId, associatesRestaurants, true, idToken, customId)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
     }
 
-    const myDateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })
-    const myDateFrom = myDateTimeFormat.formatToParts(menuDay.dateFrom)
-    const myDateTo = myDateTimeFormat.formatToParts(menuDay.dateTo)
-    let myDate = '';
-    if (myDateFrom[0].value === myDateTo[0].value && myDateFrom[2].value === myDateTo[2].value && myDateFrom[4].value === myDateTo[4].value) {
-        myDate = myDateFrom[0].value + ' ' + myDateFrom[2].value + ' ' + myDateFrom[4].value;
-    } else {
-        myDate = myDateFrom[0].value + ' ' + myDateFrom[2].value + ' ' + myDateFrom[4].value + ' to ' + myDateTo[0].value + ' ' + myDateTo[2].value + ' ' + myDateTo[4].value;
-    }
+    // format dates for display
+    let myDate = dateString(menuDay.dateFrom, menuDay.dateTo, 'menuCard')
 
-    // let canRead = false;
-    // associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false
+    // set permissions for component display
     let canEdit = false;
     associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
     let canAdmin = false;
@@ -117,13 +110,13 @@ const MenuDayCard = ({ menuDay }) => {
             <h4><i className="fas fa-calendar-day"></i>{' - '}{menuDay.title}{' - '}{myDate}
             </h4>
             <div className={classes.root} >
-                {(canAdmin || canEdit) && <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayEdit(menuDay.id)}>
+                {(canAdmin || canEdit) && <Button variant="outlined" color="primary" onClick={() => menuDayEditClick(menuDay.id)}>
                     <i className="fas fa-edit"></i>
                 </Button>}
-                {canAdmin && <Button variant="outlined" color="primary" onClick={() => handleClickMenuDayCopy(menuDay.id)}>
+                {canAdmin && <Button variant="outlined" color="primary" onClick={() => menuDayCopyClick(menuDay.id)}>
                     <i className="fas fa-copy"></i>
                 </Button>}
-                {canAdmin && <Button variant="outlined" color="primary" onClick={() => loadDeleteMenuDayDialog(menuDay.id)}>
+                {canAdmin && <Button variant="outlined" color="primary" onClick={() => deleteMenuClick(menuDay.id)}>
                     <i className="fas fa-trash"></i>
                 </Button>}
             </div>

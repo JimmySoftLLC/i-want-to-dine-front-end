@@ -51,6 +51,12 @@ exports.handler = (event, context, callback) => {
                 case 'get':
                     dynamo.get(myEventBody.myBody, done);
                     break;
+                case 'batchGet':
+                    dynamo.batchGet(myEventBody.myBody, done);
+                    break;
+                case 'batchWrite':
+                    dynamo.batchWrite(myEventBody.myBody, done);
+                    break;
                 case 'scan':
                     dynamo.scan(myEventBody.myBody, done);
                     break;

@@ -17,7 +17,7 @@ const updateAssociateRestaurants = async (myAssociate, myRestaurants, myToken, m
     }
     myNewAssociate.restaurantIdsJSON = myNewRestaurantIdsJSON
     console.log(myNewAssociate)
-    const data = await putItemDynamoDB(associatesTableName, myToken, myNewAssociate, myCustomId)
+    const data = await putItemDynamoDB(associatesTableName, myNewAssociate, myToken, myCustomId)
     if (data.err) {
         return null;
     }

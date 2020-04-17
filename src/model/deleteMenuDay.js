@@ -6,7 +6,7 @@ import {
 const deleteMenuDay = async (myMenuDayId, myToken, myCustomId) => {
     // console.log(myMenuDayId, myToken, myCustomId);
     // return null;
-    const data = await deleteItemDynamoDB(menuDaysTableName, myToken, myMenuDayId, myCustomId)
+    const data = await deleteItemDynamoDB(menuDaysTableName, myMenuDayId, myToken, myCustomId)
     if (data.err) {
         return null;
     }

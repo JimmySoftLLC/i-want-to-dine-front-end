@@ -4,7 +4,7 @@ import {
     associatesTableName,
 } from '../api/apiConstants';
 
-const createNewAssociate = async (myEmail, myToken, myCustomId) => {
+const createAssociate = async (myEmail, myToken, myCustomId) => {
     let myAssociate = {
         id: myEmail,
         firstName: '',
@@ -15,12 +15,12 @@ const createNewAssociate = async (myEmail, myToken, myCustomId) => {
         restaurantIdsJSON: [],
     }
     //console.log(myAssociate)
-    const data = await putItemDynamoDB(associatesTableName, myToken, myAssociate, myCustomId)
+    const data = await putItemDynamoDB(associatesTableName, myAssociate, myToken, myCustomId)
     if (data.err) {
         return null;
     }
     return myAssociate;
 }
 
-export default createNewAssociate;
+export default createAssociate;
 

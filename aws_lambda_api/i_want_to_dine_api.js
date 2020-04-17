@@ -33,6 +33,9 @@ exports.handler = (event, context, callback) => {
         case 'POST':
             var myEventBody = JSON.parse(event.body);
             switch (myEventBody.myMethod) {
+                case 'batchGet':
+                    dynamo.batchGet(myEventBody.myBody, done);
+                    break;
                 case 'get':
                     dynamo.get(myEventBody.myBody, done);
                     break;

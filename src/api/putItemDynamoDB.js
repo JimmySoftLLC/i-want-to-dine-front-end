@@ -8,8 +8,9 @@ import {
     apiPath,
     blankPlaceHolder,
 } from './apiConstants';
+import dateString from '../model/dateString';
 
-const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
+const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
     //console.log(myTableName, myIdToken, myItem, myCustomId);
     let myNewItem = {}
     switch (myTableName) {
@@ -55,8 +56,8 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
             myNewItem = {
                 id: myItem.id,
                 title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
-                dateFrom: myItem.dateFrom,
-                dateTo: myItem.dateTo,
+                dateFrom: dateString(myItem.dateFrom, null, 'saveToDatabase'),
+                dateTo: dateString(myItem.dateTo, null, 'saveToDatabase'),
                 description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
                 menuIdsJSON: JSON.stringify(myItem.menuIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),
@@ -68,12 +69,13 @@ const putItemDynamoDB = async (myTableName, myIdToken, myItem, myCustomId) => {
     try {
         const apiRequest = {
             body: {
+                myMethod: 'put',
                 myBody: {
                     TableName: myTableName,
                     Item: myNewItem,
                     ReturnConsumedCapacity: 'TOTAL',
                 },
-                myMethod: 'put',
+
                 myId: myCustomId,
             },
             headers: {

@@ -1,4 +1,4 @@
-import checkIfOneAdminInRestaurant from './checkIfOneAdminInRestaurant';
+import isAdminInRestaurant from './isAdminInRestaurant';
 
 const testPutAssociateInRestaurant = (restaurant, myAssociate) => {
     let myRestaurant = JSON.parse(JSON.stringify(restaurant))
@@ -14,7 +14,7 @@ const testPutAssociateInRestaurant = (restaurant, myAssociate) => {
         myRestaurant.associatesJSON.push(JSON.parse(JSON.stringify(myAssociate)))
     }
 
-    return checkIfOneAdminInRestaurant(myRestaurant);
+    return isAdminInRestaurant(myRestaurant);
 }
 
 export default testPutAssociateInRestaurant

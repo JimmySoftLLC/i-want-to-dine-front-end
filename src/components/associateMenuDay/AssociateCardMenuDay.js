@@ -19,7 +19,7 @@ const AssociateCardMenuDay = ({ associate }) => {
         }
     }
 
-    const changeAssociateSelected = () => {
+    const changeAssociateClick = () => {
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         let myIndex = myNewMenuDayDialogData.associatesJSON.indexOf(associate.id, 0)
         if (myIndex !== -1) {
@@ -58,7 +58,7 @@ const AssociateCardMenuDay = ({ associate }) => {
             <h4>
                 <Checkbox
                     checked={associateSelected}
-                    onChange={changeAssociateSelected}
+                    onChange={changeAssociateClick}
                     name="checked"
                     color="primary"
                 />

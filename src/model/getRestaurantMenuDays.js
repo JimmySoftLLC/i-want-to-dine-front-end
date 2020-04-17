@@ -22,6 +22,7 @@ const getBatch = async (myIds) => {
         myRestaurantMenuDays[i].dateFrom = new Date(myRestaurantMenuDays[i].dateFrom)
         myRestaurantMenuDays[i].dateTo = new Date(myRestaurantMenuDays[i].dateTo)
     }
+
     return myRestaurantMenuDays;
 }
 

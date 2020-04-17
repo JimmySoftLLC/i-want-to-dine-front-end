@@ -12,10 +12,10 @@ let scanDynamoDB = async myTableName => {
         const res = await axios.post(
             lambdaFunctionURL,
             {
+                myMethod: 'scan',
                 myBody: {
                     TableName: myTableName,
                 },
-                myMethod: 'scan',
             },
             {
                 headers: {

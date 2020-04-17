@@ -5,7 +5,7 @@ import {
 
 const deleteRestaurant = async (myRestaurantId, myToken, myCustomId) => {
     //console.log(myRestaurantId, myToken, myCustomId);
-    const data = await deleteItemDynamoDB(restaurantsTableName, myToken, myRestaurantId, myCustomId)
+    const data = await deleteItemDynamoDB(restaurantsTableName, myRestaurantId, myToken, myCustomId)
     if (data.err) {
         return null;
     }

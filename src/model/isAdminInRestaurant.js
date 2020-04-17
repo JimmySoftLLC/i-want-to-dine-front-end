@@ -1,4 +1,4 @@
-const checkIfOneAdminInRestaurant = (myRestaurant) => {
+const isAdminInRestaurant = (myRestaurant) => {
     for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
         if (myRestaurant.associatesJSON[i].accessLevel === 'admin') {
             return true;
@@ -7,4 +7,4 @@ const checkIfOneAdminInRestaurant = (myRestaurant) => {
     return false;
 }
 
-export default checkIfOneAdminInRestaurant
+export default isAdminInRestaurant

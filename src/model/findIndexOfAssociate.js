@@ -1,6 +1,6 @@
-const findIndexOfAssociate = (MyAssociates, myId) => {
-    for (let i = 0; i < MyAssociates.length; i++) {
-        if (MyAssociates[i].id === myId) {
+const findIndexOfAssociate = (myAssociates, myId) => {
+    for (let i = 0; i < myAssociates.length; i++) {
+        if (myAssociates[i].id === myId) {
             return i;
         }
     }
