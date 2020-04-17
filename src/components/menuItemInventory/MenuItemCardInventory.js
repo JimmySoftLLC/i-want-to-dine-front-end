@@ -7,6 +7,7 @@ import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/delete
 import associateAccessLevel from '../../model/associateAccessLevel';
 import sortMenuItems from '../../model/sortMenuItems';
 import deleteMenuItemById from '../../model/deleteMenuItemById';
+import updateMenuDaysWithMenuItemChanges from '../../model/updateMenuDaysWithMenuItemChanges';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,6 +33,8 @@ const MenuItemCardInventory = ({ menuItem }) => {
         restaurantId,
         myStates,
         associate,
+        setRestaurantMenuDays,
+        restaurantMenuDays,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -91,7 +94,9 @@ const MenuItemCardInventory = ({ menuItem }) => {
     const deleteMenuItem = async (menuId) => {
         let myNewMenuItems = await deleteMenuItemById(menuId, restaurantId, associatesRestaurants, true, idToken, customId)
         myNewMenuItems = await sortMenuItems(myNewMenuItems, myStates);
+        let myNewMenuDays = await updateMenuDaysWithMenuItemChanges(restaurantMenuDays, myNewMenuItems, idToken, customId)
         setRestaurantMenuItems(myNewMenuItems)
+        setRestaurantMenuDays(myNewMenuDays)
     }
 
     const items = []

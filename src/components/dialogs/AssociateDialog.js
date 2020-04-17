@@ -21,6 +21,7 @@ import sortAssociates from '../../model/sortAssociates';
 import getAssociateFromRestaurant from '../../model/getAssociateFromRestaurant';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import getAssociateRestaurants from '../../model/getAssociateRestaurants';
+import updateMenuDaysWithAssociateChanges from '../../model/updateMenuDaysWithAssociateChanges';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -57,6 +58,7 @@ const AssociateDialog = () => {
         setRestaurantId,
         setRestaurantMenuItems,
         setRestaurantMenuDays,
+        restaurantMenuDays,
     } = dataAndMethodsContext;
 
     const {
@@ -187,6 +189,8 @@ const AssociateDialog = () => {
         let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId);
         myAssociates = await sortAssociates(myAssociates, newAssociate);
         setRestaurantAssociates(myAssociates);
+        let myNewMenuDays = await updateMenuDaysWithAssociateChanges(restaurantMenuDays, myAssociates, idToken, customId)
+        setRestaurantMenuDays(myNewMenuDays)
         for (let i = 0; i < myAssociates.length; i++) {
             if (myAssociates[i].id === associate.id) {
                 if (myAssociates[i].accessLevel === 'none') {

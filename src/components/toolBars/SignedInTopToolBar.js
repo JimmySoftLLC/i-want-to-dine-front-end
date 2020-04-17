@@ -181,7 +181,7 @@ const SignedInTopToolBar = () => {
         let myNewId = uuidv4()
         let myAssociateData = {
             id: myNewId,
-            firstName: myNewId,
+            firstName: '',
             lastName: '',
             jobTitle: '',
             bio: '',

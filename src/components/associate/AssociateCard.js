@@ -12,6 +12,7 @@ import AlertDialogContext from '../../context/alertDialog/alertDialogContext';
 import deleteAssociateFromRestaurantById from '../../model/deleteAssociateFromRestaurantById';
 import getAssociate from '../../model/getAssociate';
 import getAssociateRestaurants from '../../model/getAssociateRestaurants';
+import updateMenuDaysWithAssociateChanges from '../../model/updateMenuDaysWithAssociateChanges';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
@@ -43,6 +44,7 @@ const AssociateCard = ({ Associate }) => {
         setRestaurantId,
         setRestaurantMenuItems,
         setRestaurantMenuDays,
+        restaurantMenuDays,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -111,6 +113,8 @@ const AssociateCard = ({ Associate }) => {
         let myAssociates = await getRestaurantAssociates(myRestaurant)
         myAssociates = await sortAssociates(myAssociates, newAssociate);
         setRestaurantAssociates(myAssociates)
+        let myNewMenuDays = await updateMenuDaysWithAssociateChanges(restaurantMenuDays, myAssociates, idToken, customId)
+        setRestaurantMenuDays(myNewMenuDays)
         if (associateId === associate.id) {
             setRestaurantMenuItems([]);
             setRestaurantMenuDays([]);
@@ -118,7 +122,6 @@ const AssociateCard = ({ Associate }) => {
             setRestaurantId(noSelectedRestaurant);
         }
     }
-
 
     // only associates who can admin to edit associate accounts
     let canAdmin = false;
