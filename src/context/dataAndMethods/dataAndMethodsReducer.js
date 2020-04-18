@@ -22,6 +22,7 @@ import {
     SET_MENU_DAY_DIALOG_OPEN,
     SET_MENU_DAY_DIALOG_DATA,
     SET_RESTAURANT_ASSOCIATES,
+    SET_LOADING,
 } from '../types';
 
 export default (state, action) => {
@@ -140,6 +141,11 @@ export default (state, action) => {
             return {
                 ...state,
                 restaurantAssociates: action.payload,
+            };
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: action.payload,
             };
         default:
             return state;

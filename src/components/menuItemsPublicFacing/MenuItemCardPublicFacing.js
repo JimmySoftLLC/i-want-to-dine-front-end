@@ -41,6 +41,9 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants, handleClick
             case 'specials':
                 items.push(<i className='fas fa-tag' key={menuItem.id + "_specials"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
+            case 'carryout':
+                items.push(<i className='fas fa-shopping-bag' key={menuItem.id + "_carryout"} style={{ paddingRight: '.25rem' }}></i>)
+                break;
             default:
         }
     }

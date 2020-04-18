@@ -95,6 +95,13 @@ const DefaultTopToolBar = () => {
                             <i className="fas fa-tag"></i>
                         </IconButton>
                     </Tooltip>
+                    <Tooltip title="Carryout">
+                        <IconButton aria-label="" color={myStates['carryout'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setMyState('carryout')}
+                        >
+                            <i className="fas fa-shopping-bag"></i>
+                        </IconButton>
+                    </Tooltip>
                     <Tooltip title="Information">
                         <IconButton aria-label="" color={myStates['info'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setMyState('info')}

@@ -242,6 +242,13 @@ const MenuItemDialog = () => {
                                     <i className="fas fa-tag"></i>
                                 </IconButton>
                             </Tooltip>
+                            <Tooltip title="Carryout">
+                                <IconButton aria-label="" color={checkIfPresent("carryout") ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('carryout')}
+                                >
+                                    <i className="fas fa-shopping-bag"></i>
+                                </IconButton>
+                            </Tooltip>
                         </div>
                     </Toolbar>
                     <TextField

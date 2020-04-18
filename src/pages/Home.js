@@ -26,10 +26,12 @@ import Associates from '../components/associate/Associates';
 const Home = () => {
     useEffect(() => {
         async function fetchData() {
+            setLoading(true);
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
             let myMenuItems = await getRestaurantsMenuItems(myRestaurants.payload);
             myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice')
+            setLoading(false);
             setMenuItems(myMenuItems);
         }
         fetchData();
@@ -39,7 +41,7 @@ const Home = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const alertDialogContext = useContext(AlertDialogContext);
 
-    const { myStates, logInType, setMenuItems, setRestaurants } = dataAndMethodsContext
+    const { myStates, logInType, setMenuItems, setRestaurants, setLoading } = dataAndMethodsContext
     const { setDialog } = alertDialogContext
 
     let showRestaurants = false;

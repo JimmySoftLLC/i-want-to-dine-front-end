@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import MenuItemCardInventory from './MenuItemCardInventory';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
+import CircularIndeterminate from '../circularIndeterminate/CircularIndeterminate';
 
 const MenuItemsInventory = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -8,12 +9,17 @@ const MenuItemsInventory = () => {
         restaurantMenuItems,
         myStates,
         restaurants,
+        loading,
     } = dataAndMethodsContext;
 
-    return restaurantMenuItems.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
-        myStates={myStates}
-        restaurants={restaurants}
-        key={menuItem.id} />);
+    if (loading) {
+        return <CircularIndeterminate />;
+    } else {
+        return restaurantMenuItems.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
+            myStates={myStates}
+            restaurants={restaurants}
+            key={menuItem.id} />);
+    }
 };
 
 export default MenuItemsInventory;

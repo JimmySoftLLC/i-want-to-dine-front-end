@@ -50,6 +50,7 @@ const SignedInTopToolBar = () => {
         setAssociateDialogData,
         setAssociateDialogOpen,
         setRestaurantAssociates,
+        setLoading,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -58,11 +59,13 @@ const SignedInTopToolBar = () => {
     // change restaurant if none selected clear menu items, menudays, associates
     // other wise get menu items, menudays, associates from database and sort
     const changeRestaurantSelection = async (event) => {
+        setLoading(true);
         setRestaurantId(event.target.value);
         if (event.target.value === noSelectedRestaurant) {
             setRestaurantMenuItems([]);
             setRestaurantMenuDays([]);
             setRestaurantAssociates([]);
+            setLoading(false);
             return;
         }
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, event.target.value);
@@ -75,6 +78,7 @@ const SignedInTopToolBar = () => {
         let myRestaurantAssociates = await getRestaurantAssociates(myRestaurant);
         myRestaurantAssociates = await sortAssociates(myRestaurantAssociates, associate);
         setRestaurantAssociates(myRestaurantAssociates);
+        setLoading(false);
     };
 
 
@@ -303,14 +307,14 @@ const SignedInTopToolBar = () => {
                             <i className="icon-list-solid-cog"></i>
                         </IconButton>
                     </Tooltip>}
-                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Calendar settings">
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Menu day settings">
                         <IconButton aria-label=""
                             color={myStates['menuDaySettings'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setMyState('menuDaySettings')}>
                             <i className="icon-calendar-cog"></i>
                         </IconButton>
                     </Tooltip>}
-                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Calendar settings">
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Associate settings">
                         <IconButton aria-label=""
                             color={myStates['associateSettings'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setMyState('associateSettings')}>
@@ -359,7 +363,7 @@ const SignedInTopToolBar = () => {
                             <i className="icon-calendar-solid-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {(restaurantId !== noSelectedRestaurant && myStates['associateSettings'] && canAdmin) && <Tooltip title="Add menu item">
+                    {(restaurantId !== noSelectedRestaurant && myStates['associateSettings'] && canAdmin) && <Tooltip title="Add associate">
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => newAssociateClick()}>
