@@ -4,7 +4,12 @@ import IconButton from '@material-ui/core/IconButton';
 const About = () => {
     return (
         <Fragment>
+            <p className='p'>
+                <strong>Note: Due to COVID-19 the restaurants that remain open only offer take out and/or curb side service.  Please partonize
+                these establishments during this difficult time.</strong>
+            </p>
             <h2 >About iWantToDine</h2>
+
             <p className='p'>
                 When you are on vacation you want to get something to eat, but don't know what. So you walk around and look
                 at menus that are posted outside Restaurants. You go online and look but all you find is a mishmash of bias reviews.
@@ -62,7 +67,7 @@ const About = () => {
                     <i className="fas fa-birthday-cake"></i> Dessert
                 </li>
                 <li>
-                    <i className="fas fa-tag"></i> Specials
+                    <i className="fas fa-tag"></i> Takeout or curbside delivery
                     </li>
             </ul>
             <p className='p'>

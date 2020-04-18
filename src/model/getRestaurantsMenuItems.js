@@ -1,4 +1,6 @@
 import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
+import getRestaurantMenuDays from './getRestaurantMenuDays';
+import validDate from './validDate';
 
 import {
     menuItemsTableName,
@@ -24,23 +26,31 @@ const getBatch = async (myIds) => {
 
 const getRestaurantsMenuItems = async (restaurants) => {
     // create an array of all ids
-    let allIds = [];
+    let menuItemIds = [];
     let myRestaurantsMenuItems = [];
+    let myMenuDays = {};
+    let myDateNow = new Date();
     for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].approved) {
-            for (let j = 0; j < restaurants[i].menuItemIdsJSON.length; j++) {
-                allIds.push(restaurants[i].menuItemIdsJSON[j])
+            myMenuDays = await getRestaurantMenuDays(restaurants[i])
+            for (let j = 0; j < myMenuDays.length; j++) {
+                if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, myDateNow)) {
+                    for (let k = 0; k < myMenuDays[j].menuIdsJSON.length; k++) {
+                        menuItemIds.push(myMenuDays[j].menuIdsJSON[k])
+                    }
+                }
             }
         }
     }
+
     // console.log(allIds);
 
     // get records in batches of 100
     let myIds = [];
     let currentCount = 0;
     let lastValidNextIndex = 0;
-    for (let i = 0; i < allIds.length; i++) {
-        myIds.push(allIds[i]);
+    for (let i = 0; i < menuItemIds.length; i++) {
+        myIds.push(menuItemIds[i]);
         currentCount++;
         if (currentCount > 99) {
             const myBatch = await getBatch(myIds);
@@ -53,8 +63,8 @@ const getRestaurantsMenuItems = async (restaurants) => {
 
     // get any leftover records
     myIds = [];
-    for (let i = lastValidNextIndex; i < allIds.length; i++) {
-        myIds.push(allIds[i]);
+    for (let i = lastValidNextIndex; i < menuItemIds.length; i++) {
+        myIds.push(menuItemIds[i]);
     }
     const myBatch = await getBatch(myIds);
     myRestaurantsMenuItems = myRestaurantsMenuItems.concat(myBatch)

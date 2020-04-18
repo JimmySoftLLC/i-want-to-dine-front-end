@@ -6,10 +6,10 @@ const validEmail = (email) => {
         let myHexKey = stringToHex(email)
         let myHexKeyDecoded = hexToString(myHexKey)
         if (myHexKeyDecoded === email) {
-            return (true)
+            return true;
         }
     }
-    return (false)
+    return false;
 }
 
 export default validEmail;
