@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import putMenuDay from '../../model/putMenuDay';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
-import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
+import getRestaurantMenuDaysByIds from '../../model/getRestaurantMenuDaysByIds';
 import putRestaurant from '../../model/putRestaurant';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
@@ -93,7 +93,7 @@ const MenuDayDialog = () => {
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        let myMenuDays = await getRestaurantMenuDays(myRestaurant, idToken, customId)
+        let myMenuDays = await getRestaurantMenuDaysByIds(myRestaurant.menuDayIdsJSON)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
     };
@@ -113,7 +113,7 @@ const MenuDayDialog = () => {
         // console.log(myRestaurant)
         myRestaurant.menuDayIdsJSON.push(myNewMenuDay.id)
         await putRestaurant(myRestaurant, idToken, customId)
-        let myMenuDays = await getRestaurantMenuDays(myRestaurant, idToken, customId)
+        let myMenuDays = await getRestaurantMenuDaysByIds(myRestaurant.menuDayIdsJSON)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
     };

@@ -1,5 +1,5 @@
 import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
-import getRestaurantMenuDays from './getRestaurantMenuDays';
+import getRestaurantMenuDaysByIds from './getRestaurantMenuDaysByIds';
 import validDate from './validDate';
 
 import {
@@ -27,23 +27,25 @@ const getBatch = async (myIds) => {
 const getRestaurantsMenuItems = async (restaurants) => {
     // create an array of all ids
     let menuItemIds = [];
+    let menuDayIds = [];
     let myRestaurantsMenuItems = [];
     let myMenuDays = {};
     let myDateNow = new Date();
     for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].approved) {
-            myMenuDays = await getRestaurantMenuDays(restaurants[i])
-            for (let j = 0; j < myMenuDays.length; j++) {
-                if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, myDateNow)) {
-                    for (let k = 0; k < myMenuDays[j].menuIdsJSON.length; k++) {
-                        menuItemIds.push(myMenuDays[j].menuIdsJSON[k])
-                    }
-                }
-            }
+            menuDayIds = menuDayIds.concat(restaurants[i].menuDayIdsJSON)
         }
     }
 
-    // console.log(allIds);
+    myMenuDays = await getRestaurantMenuDaysByIds(menuDayIds)
+
+    for (let j = 0; j < myMenuDays.length; j++) {
+        if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, myDateNow)) {
+            for (let k = 0; k < myMenuDays[j].menuIdsJSON.length; k++) {
+                menuItemIds.push(myMenuDays[j].menuIdsJSON[k])
+            }
+        }
+    }
 
     // get records in batches of 100
     let myIds = [];

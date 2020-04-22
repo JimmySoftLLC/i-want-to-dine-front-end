@@ -26,18 +26,16 @@ const getBatch = async (myIds) => {
     return myRestaurantMenuDays;
 }
 
-const getRestaurantMenuDays = async (restaurant) => {
+const getRestaurantMenuDaysById = async (menuDaysIds) => {
     // console.log(restaurant);
-    // create an array of all ids
-    let allIds = restaurant.menuDayIdsJSON;
     let myRestaurantMenuDays = [];
 
     // get records in batches of 100
     let myIds = [];
     let currentCount = 0;
     let lastValidNextIndex = 0;
-    for (let i = 0; i < allIds.length; i++) {
-        myIds.push(allIds[i]);
+    for (let i = 0; i < menuDaysIds.length; i++) {
+        myIds.push(menuDaysIds[i]);
         currentCount++;
         if (currentCount > 99) {
             const myBatch = await getBatch(myIds);
@@ -50,8 +48,8 @@ const getRestaurantMenuDays = async (restaurant) => {
 
     // get any leftover records
     myIds = [];
-    for (let i = lastValidNextIndex; i < allIds.length; i++) {
-        myIds.push(allIds[i]);
+    for (let i = lastValidNextIndex; i < menuDaysIds.length; i++) {
+        myIds.push(menuDaysIds[i]);
     }
     const myBatch = await getBatch(myIds);
     myRestaurantMenuDays = myRestaurantMenuDays.concat(myBatch)
@@ -60,4 +58,4 @@ const getRestaurantMenuDays = async (restaurant) => {
     return myRestaurantMenuDays;
 }
 
-export default getRestaurantMenuDays
+export default getRestaurantMenuDaysById

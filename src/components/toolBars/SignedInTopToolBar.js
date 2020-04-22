@@ -12,7 +12,7 @@ import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/delete
 import getAssociateRestaurants from '../../model/getAssociateRestaurants';
 import getRestaurantFromArray from '../../model/getRestaurantFromArray';
 import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
-import getRestaurantMenuDays from '../../model/getRestaurantMenuDays';
+import getRestaurantMenuDaysByIds from '../../model/getRestaurantMenuDaysByIds';
 import getRestaurantAssociates from '../../model/getRestaurantAssociates';
 import deleteAssociateFromRestaurant from '../../model/deleteAssociateFromRestaurant';
 import deleteRestaurant from '../../model/deleteRestaurant';
@@ -72,7 +72,7 @@ const SignedInTopToolBar = () => {
         let myMenuItems = await getRestaurantMenuItems(myRestaurant);
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems);
-        let myMenuDays = await getRestaurantMenuDays(myRestaurant);
+        let myMenuDays = await getRestaurantMenuDaysByIds(myRestaurant.menuDayIdsJSON);
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays);
         let myRestaurantAssociates = await getRestaurantAssociates(myRestaurant);

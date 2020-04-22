@@ -153,7 +153,7 @@ const MenuItemDialog = () => {
                         value={description}
                         onChange={changeDescription}
                     />
-                    <TextField
+                    {/* <TextField
                         id="restaurant"
                         label="Restaurant"
                         type="text"
@@ -162,7 +162,7 @@ const MenuItemDialog = () => {
                         size="small"
                         value={restaurant}
                         onChange={changeRestaurant}
-                    />
+                    /> */}
                     <Toolbar>
                         <div >
                             <Tooltip title="Beef and other">
