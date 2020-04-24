@@ -1,17 +1,6 @@
-import React, { useContext } from 'react';
-import IconButton from '@material-ui/core/IconButton';
-import Link from '@material-ui/core/Link';
-import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import getRestaurantByName from '../../model/getRestaurantByName';
-import getMenuItemsForRestaurant from '../../model/getMenuItemsForRestaurant';
+import React from 'react';
 
-const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
-    const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const {
-        setRestaurantDetail,
-        setMyState,
-        menuItems,
-    } = dataAndMethodsContext;
+const MenuItemRestaurantDetailCard = ({ menuItem }) => {
     const items = []
     for (let i = 0; i < menuItem.categoryJSON.length; i++) {
         switch (menuItem.categoryJSON[i]) {
@@ -58,53 +47,17 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
         }
     }
 
-    let showIt = false;
-    let inPriceRange = false;
     let price = '';
 
-    if (myStates.dollar_1 && menuItem.price > 0 && menuItem.price <= 20) { inPriceRange = true }
-    if (myStates.dollar_2 && menuItem.price > 20 && menuItem.price <= 35) { inPriceRange = true }
-    if (myStates.dollar_3 && menuItem.price > 35) { inPriceRange = true }
-
-    if (inPriceRange) {
-        for (let i = 0; i < menuItem.categoryJSON.length; i++) {
-            if (myStates[menuItem.categoryJSON[i]]) {
-                showIt = true;
-                break
-            }
-        }
-        price = menuItem.price >= 1000 ? 'MP' : menuItem.price;
-    }
-
-    let myRestaurant = getRestaurantByName(restaurants, menuItem.restaurant)
-    if (!myRestaurant.approved) { showIt = false };
-    let myPhoneLink = "tel:" + myRestaurant.phoneNumber
-    let myPhoneNumber = myRestaurant.phoneNumber
-
-    var myStyle = {
-        marginLeft: '1rem',
-    };
-
-    const restaurantClick = () => {
-        myRestaurant.menuItems = getMenuItemsForRestaurant(myRestaurant, menuItems)
-        setRestaurantDetail(myRestaurant);
-        setMyState('restaurantDetail')
-    }
+    price = menuItem.price >= 1000 ? 'MP' : menuItem.price;
 
     return (
-        showIt && <div className='card'>
+        <div className='card'>
             <h3>{items}{menuItem.title}{' - '}{price}
             </h3>
-            <Link onClick={() => restaurantClick()}>{menuItem.restaurant}</Link>
-            <span style={myStyle}>{myPhoneNumber}
-                <IconButton aria-label=""
-                    href={myPhoneLink}
-                    color={"primary"}>
-                    <i className="fas fa-phone"></i>
-                </IconButton></span>
             <p>{menuItem.description}</p>
         </div>
     );
 };
 
-export default MenuItemCardPublicFacing;
+export default MenuItemRestaurantDetailCard;

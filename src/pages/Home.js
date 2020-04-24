@@ -15,6 +15,7 @@ import MenuDayDialog from '../components/dialogs/MenuDayDialog';
 import AlertDialog from '../components/dialogs/AlertDialog';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
+import RestaurantCard from '../components/restaurant/RestaurantCard';
 import scanDynamoDB from '../api/scanDynamoDB';
 import getRestaurantsMenuItems from '../model/getRestaurantsMenuItems';
 import sortMenuItems from '../model/sortMenuItems';
@@ -45,7 +46,10 @@ const Home = () => {
     const { setDialog } = alertDialogContext
 
     let showRestaurants = false;
-    myStates['restaurant'] && logInType === 'default' ? showRestaurants = true : showRestaurants = false
+    myStates['restaurant'] && !myStates['restaurantDetail'] && logInType === 'default' ? showRestaurants = true : showRestaurants = false
+
+    let showRestaurantDetail = false;
+    myStates['restaurant'] && myStates['restaurantDetail'] && logInType === 'default' ? showRestaurantDetail = true : showRestaurantDetail = false
 
     return (
         <Fragment>
@@ -56,6 +60,7 @@ const Home = () => {
             {logInType === 'default' && <div className='container home-page-top-margin'>
                 {myStates.info && <About />}
                 {showRestaurants && <RestaurantItems />}
+                {showRestaurantDetail && <RestaurantCard />}
                 <MenuItemsPublicFacing />
                 <p className='p home-page-bottom-margin'></p>
             </div>}

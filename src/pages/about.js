@@ -40,9 +40,6 @@ const About = () => {
                     <i className='icon-ham'></i> Pork
                     </li>
                 <li>
-                    <i className='icon-lamb'></i> Lamb
-                    </li>
-                <li>
                     <i className="fas fa-feather"></i> Poultry
                     </li>
                 <li>
@@ -84,6 +81,15 @@ const About = () => {
                     </li>
                 <li>
                     <i className='icon-dollar_3'></i> 35 and up dollars
+                    </li>
+            </ul>
+            <p className='p'>
+                Press the show restaurants button to see all the restaurants.  Return to the menu items by selecting a food type or press the
+                restaurant button again.
+                </p>
+            <ul style={{ paddingLeft: '1.5rem' }}>
+                <li>
+                    <i className="icon-resturant"></i> show restaurants
                     </li>
             </ul>
             <h2 >JimmySoft LLC <IconButton aria-label=""

@@ -44,16 +44,27 @@ const setMyStatesLogic = (myStates, key) => {
         myStates['restaurant'] = true;
         return myStates;
     }
+
+    // if myKey = restaurantDetail and restaurantDetail off, turn all food myStates off, turn restaurantDetail restaurant on
+    if (key === 'restaurantDetail' && !myStates['restaurantDetail']) {
+        myStates = turnOffAllMyStates(myStates);
+        myStates['restaurantDetail'] = true;
+        myStates['restaurant'] = true;
+        return myStates;
+    }
+
     // if myKey = restaurant and restaurant on, turn off all, turn meat on, turn dollar_2 on
     if (key === 'restaurant' && myStates['restaurant']) {
         myStates = turnOffAllMyStates(myStates);
         myStates['meat'] = true;
         return myStates;
     }
-    // flip food key, turn info off, turn restaurant off
+
+    // flip food key, turn info off, turn restaurant off, turn restaurantDetail off
     myStates[key] ? myStates[key] = false : myStates[key] = true;
     myStates['info'] = false;
     myStates['restaurant'] = false;
+    myStates['restaurantDetail'] = false;
     return myStates;
 }
 

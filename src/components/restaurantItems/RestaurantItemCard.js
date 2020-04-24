@@ -1,30 +1,43 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
+import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
+import getMenuItemsForRestaurant from '../../model/getMenuItemsForRestaurant';
 
-const RestaurantItemCard = ({ restaurantItem, handleClickRestaurantEdit, handleClickRestaurantCopy, handleClickRestaurantDelete }) => {
+const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
+    const dataAndMethodsContext = useContext(DataAndMethodsContext);
+    const {
+        setRestaurantDetail,
+        setMyState,
+        menuItems,
+    } = dataAndMethodsContext;
+
     let showIt = true;
-    let myPhoneLink = "tel:" + restaurantItem.phoneNumber
+    let myPhoneLink = "tel:" + myRestaurant.phoneNumber
 
-    if (!restaurantItem.approved) { showIt = false };
+    if (!myRestaurant.approved) { showIt = false };
+
+    const restaurantClick = () => {
+        myRestaurant.menuItems = getMenuItemsForRestaurant(myRestaurant, menuItems)
+        setRestaurantDetail(myRestaurant);
+        setMyState('restaurantDetail')
+    }
 
     return (
         showIt && <div className='card'>
-            <h3>{restaurantItem.restaurantName}
-                <IconButton aria-label=""
-                    href={restaurantItem.urlLink}
-                    rel="noopener noreferrer" target="_blank"
-                    color={"primary"}>
-                    <i className="fas fa-external-link-alt"></i>
+            <h3>
+                <IconButton style={{ marginLeft: -10, fontSize: '1.2rem' }} aria-label=""
+                    color={"primary"} onClick={() => restaurantClick()}>
+                    {myRestaurant.restaurantName}
                 </IconButton>
             </h3>
-            <h4>{restaurantItem.street}{' - '}{restaurantItem.city}</h4>
-            <h4 href={myPhoneLink}>{restaurantItem.phoneNumber}
+            <h4>{myRestaurant.street}{' - '}{myRestaurant.city}</h4>
+            <h4 href={myPhoneLink}>{myRestaurant.phoneNumber}
                 <IconButton aria-label=""
                     href={myPhoneLink}
                     color={"primary"}>
                     <i className="fas fa-phone"></i>
                 </IconButton></h4>
-            <p>{restaurantItem.description}</p>
+            <p>{myRestaurant.description}</p>
         </div>
     );
 };

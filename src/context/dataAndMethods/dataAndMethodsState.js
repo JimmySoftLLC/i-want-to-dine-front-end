@@ -31,6 +31,7 @@ import {
     SET_MENU_DAY_DIALOG_DATA,
     SET_RESTAURANT_ASSOCIATES,
     SET_LOADING,
+    SET_RESTAURANT,
 } from '../types';
 import {
     // menuItemsTableName,
@@ -73,6 +74,7 @@ const DataAndMethodsState = props => {
             sortDate: false,
             associateSettings: false,
             sortName: false,
+            restaurantDetail: false,
         },
         signInRegDialogType: 'false',
         menuItems: [],
@@ -84,6 +86,7 @@ const DataAndMethodsState = props => {
         menuItemDialogOpen: false,
         restaurantId: noSelectedRestaurant,
         restaurantAssociates: [],
+        restaurantDetail: {},
         menuItemDialogData: {
             title: '',
             description: '',
@@ -196,6 +199,7 @@ const DataAndMethodsState = props => {
         restaurantDialogData[key] = value;
         setRestaurantDialogData(restaurantDialogData);
     }
+    const setRestaurantDetail = async (restaurantDetail) => { dispatch({ type: SET_RESTAURANT, payload: restaurantDetail }) }
     const setRestaurants = async (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
     const setRestaurantDialogData = async (restaurantDialogData) => { dispatch({ type: SET_EDIT_RESTAURANTS, payload: restaurantDialogData }) }
     const setRestaurantDialogOpen = async (restaurantDialogOpen) => { dispatch({ type: SET_EDIT_RESTAURANTS_OPEN, payload: restaurantDialogOpen }) }
@@ -247,6 +251,7 @@ const DataAndMethodsState = props => {
                 menuDayDialogOpen: state.menuDayDialogOpen,
                 restaurantAssociates: state.restaurantAssociates,
                 loading: state.loading,
+                restaurantDetail: state.restaurantDetail,
                 setMyState,
                 setMyStates,
                 setRestaurants,
@@ -277,6 +282,7 @@ const DataAndMethodsState = props => {
                 setMenuDayDialogDataItem,
                 setRestaurantAssociates,
                 setLoading,
+                setRestaurantDetail,
             }}
         >
             {props.children}
