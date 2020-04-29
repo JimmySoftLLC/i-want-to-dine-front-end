@@ -7,13 +7,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import putMenuDay from '../../model/putMenuDay';
-import getRestaurantFromArray from '../../model/getRestaurantFromArray';
-import getRestaurantMenuDaysByIds from '../../model/getRestaurantMenuDaysByIds';
-import putRestaurant from '../../model/putRestaurant';
+import putMenuDay from '../../model/menuDay/putMenuDay';
+import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import getMenuDays from '../../model/menuDay/getMenuDays';
+import putRestaurant from '../../model/restaurant/putRestaurant';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';
-import sortMenuDays from '../../model/sortMenuDays';
+import sortMenuDays from '../../model/menuDay/sortMenuDays';
 import 'date-fns';
 import MenuItemsMenuDay from '../menuItemMenuDay/MenuItemsMenuDay';
 import AssociatesMenuDay from '../associateMenuDay/AssociatesMenuDay';
@@ -93,7 +93,7 @@ const MenuDayDialog = () => {
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
-        let myMenuDays = await getRestaurantMenuDaysByIds(myRestaurant.menuDayIdsJSON)
+        let myMenuDays = await getMenuDays(myRestaurant.menuDayIdsJSON)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
     };
@@ -113,7 +113,7 @@ const MenuDayDialog = () => {
         // console.log(myRestaurant)
         myRestaurant.menuDayIdsJSON.push(myNewMenuDay.id)
         await putRestaurant(myRestaurant, idToken, customId)
-        let myMenuDays = await getRestaurantMenuDaysByIds(myRestaurant.menuDayIdsJSON)
+        let myMenuDays = await getMenuDays(myRestaurant.menuDayIdsJSON)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
     };

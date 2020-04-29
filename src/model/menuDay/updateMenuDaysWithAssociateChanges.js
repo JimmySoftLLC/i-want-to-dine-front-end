@@ -1,5 +1,5 @@
 import putMenuDay from './putMenuDay';
-import findIndexOfAssociate from './findIndexOfAssociate';
+import findIndexOfAssociate from '../associate/findIndexOfAssociate';
 
 const updateMenuDaysWithAssociateChanges = async (myMenuDays, myAssociates, myToken, myCustomId) => {
     for (let i = 0; i < myMenuDays.length; i++) {

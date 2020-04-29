@@ -1,12 +1,12 @@
-import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
+import batchGetItemDynamoDB from '../../api/batchGetItemDynamoDB';
 
 import {
     restaurantsTableName,
     projectionExpressionRestaurant,
     blankPlaceHolder,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
-const getAssociateRestaurants = async (associate) => {
+const getAssociatesRestaurants = async (associate) => {
     let myAssociateRestaurants = []
     let myIds = associate.restaurantIdsJSON
     const data = await batchGetItemDynamoDB(restaurantsTableName, myIds, projectionExpressionRestaurant)
@@ -35,4 +35,4 @@ const getAssociateRestaurants = async (associate) => {
     return myAssociateRestaurants;
 }
 
-export default getAssociateRestaurants;
+export default getAssociatesRestaurants;

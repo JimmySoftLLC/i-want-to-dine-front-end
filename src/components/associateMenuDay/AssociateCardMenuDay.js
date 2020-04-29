@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import associateAccessLevel from '../../model/associateAccessLevel';
+import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
 
 const AssociateCardMenuDay = ({ associate }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -31,7 +31,7 @@ const AssociateCardMenuDay = ({ associate }) => {
     }
 
     let thisAssociateAccessLevel = '';
-    switch (associateAccessLevel(associatesRestaurants, restaurantId, associate.id)) {
+    switch (associatesAccessLevel(associatesRestaurants, restaurantId, associate.id)) {
         case 'none':
             thisAssociateAccessLevel = 'fas fa-user';
             break;

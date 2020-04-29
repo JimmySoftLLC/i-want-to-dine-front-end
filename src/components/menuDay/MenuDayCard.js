@@ -4,9 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
-import sortMenuDays from '../../model/sortMenuDays';
-import associateAccessLevel from '../../model/associateAccessLevel';
-import deleteMenuDayFromRestaurant from '../../model/deleteMenuDayFromRestaurant';
+import sortMenuDays from '../../model/menuDay/sortMenuDays';
+import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
+import deleteMenuDayFromRestaurant from '../../model/menuDay/deleteMenuDayFromRestaurant';
 import dateString from '../../model/dateString';
 
 const useStyles = makeStyles(theme => ({
@@ -101,9 +101,9 @@ const MenuDayCard = ({ menuDay }) => {
 
     // set permissions for component display
     let canEdit = false;
-    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
+    associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
     let canAdmin = false;
-    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
+    associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
 
     return (
         <div className='card'>

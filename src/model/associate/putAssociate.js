@@ -1,7 +1,7 @@
-import putItemDynamoDB from '../api/putItemDynamoDB';
+import putItemDynamoDB from '../../api/putItemDynamoDB';
 import {
     associatesTableName,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
 const putAssociate = async (myAssociate, myToken, myCustomId) => {
     //console.log(myAssociate,myToken, myCustomId);

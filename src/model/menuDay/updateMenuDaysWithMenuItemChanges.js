@@ -1,11 +1,11 @@
 import putMenuDay from './putMenuDay';
-import findIndexOfMenuItemInRestaurant from './findIndexOfMenuItemInRestaurant';
+import indexOfMenuItemInRestaurant from '../menuItem/indexOfMenuItemInRestaurant';
 
 const updateMenuDaysWithMenuItemChanges = async (myMenuDays, myMenuItems, myToken, myCustomId) => {
     for (let i = 0; i < myMenuDays.length; i++) {
         let myNewMenuIdsJSON = [];
         for (let j = 0; j < myMenuDays[i].menuIdsJSON.length; j++) {
-            let myIndex = findIndexOfMenuItemInRestaurant(myMenuItems, myMenuDays[i].menuIdsJSON[j]);
+            let myIndex = indexOfMenuItemInRestaurant(myMenuItems, myMenuDays[i].menuIdsJSON[j]);
             if (myIndex !== -1) {
                 myNewMenuIdsJSON.push(myMenuDays[i].menuIdsJSON[j])
             }

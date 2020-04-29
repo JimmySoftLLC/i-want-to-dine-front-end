@@ -1,9 +1,9 @@
 
-import findIndexOfAssociateInRestaurant from './findIndexOfAssociateInRestaurant';
-import putAssociate from './putAssociate';
-import removeRestaurantFromAssociate from './removeRestaurantFromAssociate';
+import findIndexOfAssociateInRestaurant from '../associate/findIndexOfAssociateInRestaurant';
+import putAssociate from '../associate/putAssociate';
+import removeRestaurantFromIds from '../associate/removeRestaurantFromIds';
 import removeAssociateFromRestaurant from './removeAssociateFromRestaurant';
-import getAssociate from './getAssociate';
+import getAssociate from '../associate/getAssociate';
 import isAdminInRestaurant from './isAdminInRestaurant';
 
 // find index where assoicate is in restaurant associates array
@@ -22,7 +22,7 @@ const deleteAssociateFromRestaurant = async (restaurantId, associateId, restaura
     // if associate in database save an update to database
     let databaseAssociate = await getAssociate(associateId, idToken, customId)
     if (databaseAssociate) {
-        databaseAssociate = await removeRestaurantFromAssociate(databaseAssociate, restaurantId)
+        databaseAssociate = await removeRestaurantFromIds(databaseAssociate, restaurantId)
         await putAssociate(databaseAssociate, idToken, customId)
     }
     return myRestaurant;

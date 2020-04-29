@@ -7,9 +7,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import getAssociateRestaurants from '../../model/getAssociateRestaurants';
-import putRestaurant from '../../model/putRestaurant';
-import putAssociate from '../../model/putAssociate';
+import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
+import putRestaurant from '../../model/restaurant/putRestaurant';
+import putAssociate from '../../model/associate/putAssociate';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -76,7 +76,7 @@ const RestaurantDialog = () => {
             await putAssociate(myAssociate, idToken, customId)
             setAssociate(myAssociate)
         }
-        const associatesRestaurants = await getAssociateRestaurants(myAssociate)
+        const associatesRestaurants = await getAssociatesRestaurants(myAssociate)
         setAssociatesRestaurants(associatesRestaurants);
         setRestaurantDialogOpen(false);
     };

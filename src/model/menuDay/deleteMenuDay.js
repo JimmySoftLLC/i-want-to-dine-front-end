@@ -1,7 +1,7 @@
-import deleteItemDynamoDB from '../api/deleteItemDynamoDB';
+import deleteItemDynamoDB from '../../api/deleteItemDynamoDB';
 import {
     menuDaysTableName,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
 const deleteMenuDay = async (myMenuDayId, myToken, myCustomId) => {
     // console.log(myMenuDayId, myToken, myCustomId);

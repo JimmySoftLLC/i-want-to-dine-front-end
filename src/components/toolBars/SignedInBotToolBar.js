@@ -3,7 +3,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import { Tooltip } from '@material-ui/core';
-import sortMenuItems from '../../model/sortMenuItems';
+import sortMenuItems from '../../model/menuItem/sortMenuItems';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';

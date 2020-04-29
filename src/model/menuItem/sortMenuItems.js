@@ -1,7 +1,7 @@
-const sortMenuItems = async (myRestaurantsMenuItems, myStates) => {
+const sortMenuItems = async (myMenuItems, myStates) => {
     if (myStates['sortTitle'] || myStates === 'sortTitle') {
         // sort by title
-        myRestaurantsMenuItems.sort(function (a, b) {
+        myMenuItems.sort(function (a, b) {
             var textA = a.title.toUpperCase(); // ignore upper and lowercase
             var textB = b.title.toUpperCase(); // ignore upper and lowercase
             if (textA < textB) {
@@ -16,12 +16,12 @@ const sortMenuItems = async (myRestaurantsMenuItems, myStates) => {
     }
     if (myStates['sortPrice'] || myStates === 'sortPrice') {
         // sort by price
-        myRestaurantsMenuItems.sort(function (a, b) {
+        myMenuItems.sort(function (a, b) {
             return a.price - b.price;
         });
     }
     // console.log(myRestaurantsMenuItems);
-    return myRestaurantsMenuItems;
+    return myMenuItems;
 }
 
 export default sortMenuItems

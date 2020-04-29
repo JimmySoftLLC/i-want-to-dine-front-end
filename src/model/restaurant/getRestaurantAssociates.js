@@ -1,12 +1,12 @@
-import batchGetItemDynamoDB from '../api/batchGetItemDynamoDB';
-import validEmail from './validEmail';
-import getAssociateFromRestaurant from './getAssociateFromRestaurant';
+import batchGetItemDynamoDB from '../../api/batchGetItemDynamoDB';
+import validEmail from '../validEmail';
+import getAssociateFromRestaurant from '../associate/getAssociateFromRestaurant';
 
 import {
     associatesTableName,
     projectionExpressionAssociates,
     blankPlaceHolder,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
 const getBatch = async (myIds) => {
     let myRestaurantAssociates = []

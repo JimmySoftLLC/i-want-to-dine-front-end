@@ -4,10 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { v4 as uuidv4 } from 'uuid';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
-import associateAccessLevel from '../../model/associateAccessLevel';
-import sortMenuItems from '../../model/sortMenuItems';
-import deleteMenuItemFromRestaurant from '../../model/deleteMenuItemFromRestaurant';
-import updateMenuDaysWithMenuItemChanges from '../../model/updateMenuDaysWithMenuItemChanges';
+import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
+import sortMenuItems from '../../model/menuItem/sortMenuItems';
+import deleteMenuItemFromRestaurant from '../../model/menuItem/deleteMenuItemFromRestaurant';
+import updateMenuDaysWithMenuItemChanges from '../../model/menuDay/updateMenuDaysWithMenuItemChanges';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -146,11 +146,11 @@ const MenuItemCardInventory = ({ menuItem }) => {
     }
 
     // let canRead = false;
-    // associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false
+    // associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false
     let canEdit = false;
-    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
+    associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
     let canAdmin = false;
-    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
+    associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
 
     return (
         <div className='card'>

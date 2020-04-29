@@ -10,11 +10,11 @@ import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import Toolbar from '@material-ui/core/Toolbar';
 import { Tooltip } from '@material-ui/core';
-import putMenuItem from '../../model/putMenuItem';
-import getRestaurantFromArray from '../../model/getRestaurantFromArray';
-import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
-import putRestaurant from '../../model/putRestaurant';
-import sortMenuItems from '../../model/sortMenuItems';
+import putMenuItem from '../../model/menuItem/putMenuItem';
+import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import putRestaurant from '../../model/restaurant/putRestaurant';
+import sortMenuItems from '../../model/menuItem/sortMenuItems';
+import getMenuItems from '../../model/menuItem/getMenuItems';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -80,7 +80,7 @@ const MenuItemDialog = () => {
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
-        let myMenuItems = await getRestaurantMenuItems(myRestaurant);
+        let myMenuItems = await getMenuItems(myRestaurant.menuItemIdsJSON);
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems)
     };
@@ -98,7 +98,7 @@ const MenuItemDialog = () => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
         myRestaurant.menuItemIdsJSON.push(myNewMenuItem.id);
         await putRestaurant(myRestaurant, idToken, customId);
-        let myMenuItems = await getRestaurantMenuItems(myRestaurant);
+        let myMenuItems = await getMenuItems(myRestaurant.menuItemIdsJSON);
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems)
     };

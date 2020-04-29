@@ -1,7 +1,7 @@
-import putItemDynamoDB from '../api/putItemDynamoDB';
+import putItemDynamoDB from '../../api/putItemDynamoDB';
 import {
     restaurantsTableName,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
 const putRestaurant = async (myRestaurant, myToken, myCustomId) => {
     // console.log(myRestaurant, myToken, myCustomId);

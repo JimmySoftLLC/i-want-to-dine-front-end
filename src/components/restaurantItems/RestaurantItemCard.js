@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import getMenuItemsForRestaurant from '../../model/getMenuItemsForRestaurant';
+import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
 
 const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);

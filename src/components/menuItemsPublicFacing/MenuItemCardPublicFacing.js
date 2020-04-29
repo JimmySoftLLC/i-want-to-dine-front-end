@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import getRestaurantByName from '../../model/getRestaurantByName';
-import getMenuItemsForRestaurant from '../../model/getMenuItemsForRestaurant';
+import getRestaurantByName from '../../model/restaurant/getRestaurantByName';
+import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
 
 const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);

@@ -9,9 +9,9 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import { v4 as uuidv4 } from 'uuid';
-import getAssociate from '../../model/getAssociate';
-import getAssociateRestaurants from '../../model/getAssociateRestaurants';
-import createAssociate from '../../model/createAssociate';
+import getAssociate from '../../model/associate/getAssociate';
+import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
+import createAssociate from '../../model/associate/createAssociate';
 import validEmail from '../../model/validEmail';
 
 import {
@@ -127,7 +127,7 @@ const SignUp = () => {
                 if (!associate) {
                     let myNewAssociate = await createAssociate(session.idToken.payload['email'], session.idToken.jwtToken, session.idToken.payload['custom:id'])
                     if (myNewAssociate) {
-                        const associatesRestaurants = await getAssociateRestaurants(myNewAssociate)
+                        const associatesRestaurants = await getAssociatesRestaurants(myNewAssociate)
                         //console.log(associatesRestaurants);
                         setAssociatesRestaurants(associatesRestaurants);
                         setAssociate(myNewAssociate);
@@ -140,7 +140,7 @@ const SignUp = () => {
                 } else {
                     //console.log(associate);
                     setAssociate(associate);
-                    const associatesRestaurants = await getAssociateRestaurants(associate)
+                    const associatesRestaurants = await getAssociatesRestaurants(associate)
                     //console.log(associatesRestaurants);
                     setAssociatesRestaurants(associatesRestaurants);
                     setLogInType('signedIn')

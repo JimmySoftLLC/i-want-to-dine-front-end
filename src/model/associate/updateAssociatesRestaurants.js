@@ -1,10 +1,10 @@
 
-import putItemDynamoDB from '../api/putItemDynamoDB';
+import putItemDynamoDB from '../../api/putItemDynamoDB';
 import {
     associatesTableName,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
-const updateAssociateRestaurants = async (myAssociate, myRestaurants, myToken, myCustomId) => {
+const updateAssociatesRestaurants = async (myAssociate, myRestaurants, myToken, myCustomId) => {
     let myNewAssociate = JSON.parse(JSON.stringify(myAssociate))
     let myNewRestaurantIdsJSON = [];
     for (let i = 0; i < myRestaurants.length; i++) {
@@ -24,4 +24,4 @@ const updateAssociateRestaurants = async (myAssociate, myRestaurants, myToken, m
     return myNewAssociate;
 }
 
-export default updateAssociateRestaurants;
+export default updateAssociatesRestaurants;

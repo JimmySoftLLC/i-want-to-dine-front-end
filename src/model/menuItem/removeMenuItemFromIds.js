@@ -1,4 +1,4 @@
-const removeMenuItemFromRestaurant = async (restaurant, menuId) => {
+const removeMenuItemFromIds = async (restaurant, menuId) => {
     let myRestaurant = JSON.parse(JSON.stringify(restaurant))
     let myIndex = myRestaurant.menuItemIdsJSON.indexOf(menuId, 0)
     while (myIndex !== -1) {
@@ -8,4 +8,4 @@ const removeMenuItemFromRestaurant = async (restaurant, menuId) => {
     return myRestaurant;
 }
 
-export default removeMenuItemFromRestaurant;
+export default removeMenuItemFromIds;

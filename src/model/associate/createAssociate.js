@@ -1,17 +1,17 @@
 
-import putItemDynamoDB from '../api/putItemDynamoDB';
+import putItemDynamoDB from '../../api/putItemDynamoDB';
 import {
     associatesTableName,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
-const createAssociate = async (myEmail, myToken, myCustomId) => {
+const createAssociate = async (myEmailId, myToken, myCustomId) => {
     let myAssociate = {
-        id: myEmail,
+        id: myEmailId,
         firstName: '',
         lastName: '',
         bio: '',
         jobTitle: '',
-        email: myEmail,
+        email: myEmailId,
         restaurantIdsJSON: [],
     }
     //console.log(myAssociate)

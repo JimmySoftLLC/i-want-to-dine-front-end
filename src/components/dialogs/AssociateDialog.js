@@ -7,21 +7,21 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import putAssociate from '../../model/putAssociate';
-import getAssociate from '../../model/getAssociate';
-import putRestaurant from '../../model/putRestaurant';
+import putAssociate from '../../model/associate/putAssociate';
+import getAssociate from '../../model/associate/getAssociate';
+import putRestaurant from '../../model/restaurant/putRestaurant';
 import validEmail from '../../model/validEmail';
-import testPutAssociateInRestaurant from '../../model/testPutAssociateInRestaurant';
-import putAssociateInRestaurant from '../../model/putAssociateInRestaurant';
-import putRestaurantInAssociate from '../../model/putRestaurantInAssociate';
-import getRestaurantAssociates from '../../model/getRestaurantAssociates';
-import removeRestaurantFromAssociate from '../../model/removeRestaurantFromAssociate';
-import removeAssociateFromRestaurant from '../../model/removeAssociateFromRestaurant';
-import sortAssociates from '../../model/sortAssociates';
-import getAssociateFromRestaurant from '../../model/getAssociateFromRestaurant';
-import getRestaurantFromArray from '../../model/getRestaurantFromArray';
-import getAssociateRestaurants from '../../model/getAssociateRestaurants';
-import updateMenuDaysWithAssociateChanges from '../../model/updateMenuDaysWithAssociateChanges';
+import testPutAssociateInRestaurant from '../../model/restaurant/testPutAssociateInRestaurant';
+import putAssociateInRestaurant from '../../model/restaurant/putAssociateInRestaurant';
+import putRestaurantInAssociate from '../../model/associate/putRestaurantInAssociate';
+import getRestaurantAssociates from '../../model/restaurant/getRestaurantAssociates';
+import removeRestaurantFromIds from '../../model/associate/removeRestaurantFromIds';
+import removeAssociateFromRestaurant from '../../model/restaurant/removeAssociateFromRestaurant';
+import sortAssociates from '../../model/associate/sortAssociates';
+import getAssociateFromRestaurant from '../../model/associate/getAssociateFromRestaurant';
+import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
+import updateMenuDaysWithAssociateChanges from '../../model/menuDay/updateMenuDaysWithAssociateChanges';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -150,7 +150,7 @@ const AssociateDialog = () => {
         if (myAssociate.accessLevel === 'none') {
             const tempAssociate = await getAssociate(myAssociate.id, idToken, customId)
             if (tempAssociate) {
-                myAssociate = await removeRestaurantFromAssociate(tempAssociate, restaurantId)
+                myAssociate = await removeRestaurantFromIds(tempAssociate, restaurantId)
                 await putAssociate(myAssociate, idToken, customId)
             }
             myAssociate.accessLevel = accessLevel;
@@ -183,7 +183,7 @@ const AssociateDialog = () => {
         await putRestaurant(myRestaurant, idToken, customId);
         // now get logged in associate and update associates restaurants
         const newAssociate = await getAssociate(associate.id, idToken, customId)
-        const newAssociatesRestaurants = await getAssociateRestaurants(newAssociate)
+        const newAssociatesRestaurants = await getAssociatesRestaurants(newAssociate)
         setAssociate(newAssociate)
         setAssociatesRestaurants(newAssociatesRestaurants)
         let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId);
@@ -198,7 +198,7 @@ const AssociateDialog = () => {
                     setRestaurantMenuDays([]);
                     setRestaurantAssociates([]);
                     setRestaurantId(noSelectedRestaurant)
-                    const myAssociatesRestaurants = await getAssociateRestaurants(myAssociate);
+                    const myAssociatesRestaurants = await getAssociatesRestaurants(myAssociate);
                     setAssociatesRestaurants(myAssociatesRestaurants);
                     return true;
                 }

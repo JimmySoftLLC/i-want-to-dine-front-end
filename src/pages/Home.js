@@ -17,8 +17,8 @@ import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import RestaurantCard from '../components/restaurant/RestaurantCard';
 import scanDynamoDB from '../api/scanDynamoDB';
-import getRestaurantsMenuItems from '../model/getRestaurantsMenuItems';
-import sortMenuItems from '../model/sortMenuItems';
+import getRestaurantsMenuItems from '../model/restaurant/getRestaurantsMenuItems';
+import sortMenuItems from '../model/menuItem/sortMenuItems';
 import {
     restaurantsTableName,
 } from '../api/apiConstants';

@@ -1,7 +1,7 @@
-import putItemDynamoDB from '../api/putItemDynamoDB';
+import putItemDynamoDB from '../../api/putItemDynamoDB';
 import {
     menuItemsTableName,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
 const putMenuItem = async (myMenuItem, myToken, myCustomId) => {
     //console.log(myMenuItem, myToken, myCustomId);

@@ -3,16 +3,16 @@ import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
-import getRestaurantAssociates from '../../model/getRestaurantAssociates';
-import putRestaurant from '../../model/putRestaurant';
-import getRestaurantFromArray from '../../model/getRestaurantFromArray';
-import sortAssociates from '../../model/sortAssociates';
-import associateAccessLevel from '../../model/associateAccessLevel';
+import getRestaurantAssociates from '../../model/restaurant/getRestaurantAssociates';
+import putRestaurant from '../../model/restaurant/putRestaurant';
+import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import sortAssociates from '../../model/associate/sortAssociates';
+import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
 import AlertDialogContext from '../../context/alertDialog/alertDialogContext';
-import deleteAssociateFromRestaurant from '../../model/deleteAssociateFromRestaurant';
-import getAssociate from '../../model/getAssociate';
-import getAssociateRestaurants from '../../model/getAssociateRestaurants';
-import updateMenuDaysWithAssociateChanges from '../../model/updateMenuDaysWithAssociateChanges';
+import deleteAssociateFromRestaurant from '../../model/restaurant/deleteAssociateFromRestaurant';
+import getAssociate from '../../model/associate/getAssociate';
+import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
+import updateMenuDaysWithAssociateChanges from '../../model/menuDay/updateMenuDaysWithAssociateChanges';
 
 import {
     noSelectedRestaurant,
@@ -103,7 +103,7 @@ const AssociateCard = ({ Associate }) => {
         await putRestaurant(myRestaurant, idToken, customId)
         // get logged in associate and update associates restaurants
         const newAssociate = await getAssociate(associate.id, idToken, customId)
-        const newAssociatesRestaurants = await getAssociateRestaurants(newAssociate)
+        const newAssociatesRestaurants = await getAssociatesRestaurants(newAssociate)
         setAssociate(newAssociate)
         setAssociatesRestaurants(newAssociatesRestaurants)
         // update associates for current restaurant
@@ -124,11 +124,11 @@ const AssociateCard = ({ Associate }) => {
 
     // only associates who can admin to edit associate accounts
     let canAdmin = false;
-    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
+    associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
 
     // set icons for associate
     let thisAssociateAccessLevel = '';
-    switch (associateAccessLevel(associatesRestaurants, restaurantId, Associate.id)) {
+    switch (associatesAccessLevel(associatesRestaurants, restaurantId, Associate.id)) {
         case 'none':
             thisAssociateAccessLevel = 'fas fa-user';
             break;

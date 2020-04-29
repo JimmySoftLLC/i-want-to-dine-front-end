@@ -1,4 +1,4 @@
-import findIndexOfAssociateInRestaurant from './findIndexOfAssociateInRestaurant';
+import findIndexOfAssociateInRestaurant from '../associate/findIndexOfAssociateInRestaurant';
 
 const removeAssociateFromRestaurant = async (restaurant, associateId) => {
     let myRestaurant = JSON.parse(JSON.stringify(restaurant))

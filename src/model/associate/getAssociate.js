@@ -1,12 +1,12 @@
-import getItemDynamoDB from '../api/getItemDynamoDB';
+import getItemDynamoDB from '../../api/getItemDynamoDB';
 import {
     associatesTableName,
     blankPlaceHolder,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
-const getAssociate = async (myEmail, myToken, myCustomId) => {
-    //console.log(myToken, myCustomId);
-    const data = await getItemDynamoDB(associatesTableName, myEmail, myToken, myCustomId)
+const getAssociate = async (myEmailId, myToken, myCustomId) => {
+    //console.log(myEmailId, myToken, myCustomId);
+    const data = await getItemDynamoDB(associatesTableName, myEmailId, myToken, myCustomId)
     if (data.err) {
         return null;
     }

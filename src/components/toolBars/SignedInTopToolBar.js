@@ -9,21 +9,21 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
-import getAssociateRestaurants from '../../model/getAssociateRestaurants';
-import getRestaurantFromArray from '../../model/getRestaurantFromArray';
-import getRestaurantMenuItems from '../../model/getRestaurantMenuItems';
-import getRestaurantMenuDaysByIds from '../../model/getRestaurantMenuDaysByIds';
-import getRestaurantAssociates from '../../model/getRestaurantAssociates';
-import deleteAssociateFromRestaurant from '../../model/deleteAssociateFromRestaurant';
-import deleteRestaurant from '../../model/deleteRestaurant';
-import getAssociate from '../../model/getAssociate';
-import deleteMenuItemFromRestaurant from '../../model/deleteMenuItemFromRestaurant';
-import deleteMenuDayFromRestaurant from '../../model/deleteMenuDayFromRestaurant';
-// import updateAssociateRestaurants from '../../model/updateAssociateRestaurants';
-import sortMenuItems from '../../model/sortMenuItems';
-import sortMenuDays from '../../model/sortMenuDays';
-import sortAssociates from '../../model/sortAssociates';
-import associateAccessLevel from '../../model/associateAccessLevel';
+import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
+import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import getMenuDays from '../../model/menuDay/getMenuDays';
+import getRestaurantAssociates from '../../model/restaurant/getRestaurantAssociates';
+import deleteAssociateFromRestaurant from '../../model/restaurant/deleteAssociateFromRestaurant';
+import deleteRestaurant from '../../model/restaurant/deleteRestaurant';
+import getAssociate from '../../model/associate/getAssociate';
+import deleteMenuItemFromRestaurant from '../../model/menuItem/deleteMenuItemFromRestaurant';
+import deleteMenuDayFromRestaurant from '../../model/menuDay/deleteMenuDayFromRestaurant';
+// import updateAssociatesRestaurants from '../../model/updateAssociatesRestaurants';
+import sortMenuItems from '../../model/menuItem/sortMenuItems';
+import sortMenuDays from '../../model/menuDay/sortMenuDays';
+import sortAssociates from '../../model/associate/sortAssociates';
+import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
+import getMenuItems from '../../model/menuItem/getMenuItems';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
@@ -69,10 +69,10 @@ const SignedInTopToolBar = () => {
             return;
         }
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, event.target.value);
-        let myMenuItems = await getRestaurantMenuItems(myRestaurant);
+        let myMenuItems = await getMenuItems(myRestaurant.menuItemIdsJSON);
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems);
-        let myMenuDays = await getRestaurantMenuDaysByIds(myRestaurant.menuDayIdsJSON);
+        let myMenuDays = await getMenuDays(myRestaurant.menuDayIdsJSON);
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays);
         let myRestaurantAssociates = await getRestaurantAssociates(myRestaurant);
@@ -221,14 +221,14 @@ const SignedInTopToolBar = () => {
         }
         await deleteRestaurant(restaurantId, idToken, customId)
         const newAssociate = await getAssociate(associate.id, idToken, customId)
-        const newAssociatesRestaurants = await getAssociateRestaurants(newAssociate)
+        const newAssociatesRestaurants = await getAssociatesRestaurants(newAssociate)
         setAssociate(newAssociate)
         setAssociatesRestaurants(newAssociatesRestaurants);
         setRestaurantId(noSelectedRestaurant);
     }
 
     // const updateAssociatesRestaurantsNow = async () => {
-    //     const mytest = await updateAssociateRestaurants( associate, restaurants,idToken, customId,)
+    //     const mytest = await updateAssociatesRestaurants( associate, restaurants,idToken, customId,)
     // }
 
     const BootstrapInput = withStyles(theme => ({
@@ -273,11 +273,11 @@ const SignedInTopToolBar = () => {
     </MenuItem>);
 
     let canRead = false;
-    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false
+    associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false
     let canEdit = false;
-    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
+    associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "edit" ? canEdit = true : canEdit = false
     let canAdmin = false;
-    associateAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
+    associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "admin" ? canAdmin = true : canAdmin = false
 
     return (
         <Fragment>

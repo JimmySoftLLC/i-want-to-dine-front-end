@@ -1,7 +1,7 @@
-import deleteItemDynamoDB from '../api/deleteItemDynamoDB';
+import deleteItemDynamoDB from '../../api/deleteItemDynamoDB';
 import {
     associatesTableName,
-} from '../api/apiConstants';
+} from '../../api/apiConstants';
 
 const deleteAssociate = async (myAssociateId, myToken, myCustomId) => {
     // console.log(myAssociateId, myToken, myCustomId);
