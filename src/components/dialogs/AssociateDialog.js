@@ -26,6 +26,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
@@ -152,9 +153,14 @@ const AssociateDialog = () => {
             if (tempAssociate) {
                 myAssociate = await removeRestaurantFromIds(tempAssociate, restaurantId)
                 await putAssociate(myAssociate, idToken, customId)
+                myAssociate.firstName = firstName;
+                myAssociate.lastName = lastName;
+                myAssociate.jobTitle = jobTitle;
+                myAssociate.bio = bio;
+                myAssociate.email = '';
+                myAssociate.restaurantIdsJSON = restaurantIdsJSON;
+                myAssociate.accessLevel = accessLevel;
             }
-            myAssociate.accessLevel = accessLevel;
-            myAssociate.email = '';
         } else {
             if (!validEmail(email)) {
                 setMessage('A valid email is required.');

@@ -4,7 +4,7 @@ import {
 } from './apiConstants';
 
 const batchGetItemDynamoDB = async (myTableName, myIds, projectionExpression) => {
-    //console.log(myTableName, myIds);
+    // console.log(myTableName, myIds);
     let myKeys = []
     for (let i = 0; i < myIds.length; i++) {
         myKeys.push({ 'id': myIds[i] })
@@ -32,7 +32,7 @@ const batchGetItemDynamoDB = async (myTableName, myIds, projectionExpression) =>
             }
         );
         myReturnObject.payload = res.data;
-        //console.log(myReturnObject);
+        // console.log(myReturnObject);
         return myReturnObject;
     } catch (err) {
         myReturnObject.err = true;

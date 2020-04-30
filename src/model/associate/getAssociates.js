@@ -13,43 +13,49 @@ const getBatch = async (myIds) => {
         return [];
     }
     myAssociates = data.payload.Responses.associates;
-    myAssociates[i].firstName = myAssociates[i].firstName === blankPlaceHolder ? '' : myAssociates[i].firstName
-    myAssociates[i].lastName = myAssociates[i].lastName === blankPlaceHolder ? '' : myAssociates[i].lastName
-    myAssociates[i].email = myAssociates[i].email === blankPlaceHolder ? '' : myAssociates[i].email
-    myAssociates[i].bio = myAssociates[i].bio === myAssociates[i] ? '' : myAssociates[i].bio
-    myAssociates[i].jobTitle = myAssociates[i].jobTitle === blankPlaceHolder ? '' : myAssociates[i].jobTitle
-    myAssociates[i].restaurantIdsJSON = JSON.parse(myAssociates[i].restaurantIdsJSON)
+    for (let i = 0; i < myAssociates.length; i++) {
+        myAssociates[i].firstName = myAssociates[i].firstName === blankPlaceHolder ? '' : myAssociates[i].firstName
+        myAssociates[i].lastName = myAssociates[i].lastName === blankPlaceHolder ? '' : myAssociates[i].lastName
+        myAssociates[i].email = myAssociates[i].email === blankPlaceHolder ? '' : myAssociates[i].email
+        myAssociates[i].bio = myAssociates[i].bio === blankPlaceHolder ? '' : myAssociates[i].bio
+        myAssociates[i].jobTitle = myAssociates[i].jobTitle === blankPlaceHolder ? '' : myAssociates[i].jobTitle
+        myAssociates[i].restaurantIdsJSON = JSON.parse(myAssociates[i].restaurantIdsJSON)
+    }
     return myAssociates;
 }
 
-const getassociates = async (associatesIds) => {
-    // get records in batches of 100
+// get associates from the database if they have emails, otherwise get them from restaurant associateJSON
+// do this by creating an array of associateIds for records that have email, these will be on server
+// those that don't have email are local to the restaurant just use that record instead
+const getAssociates = async (associateIds) => {
+    let myAssociates = [];
+
+    // get records in batches of 100 using the array of associateIds
     let myIds = [];
-    let currentIndex = 0;
-    let nextIndex = 0;
-    let myAssociates = []
-    for (let i = 0; i < associatesIds.length; i++) {
-        myIds.push(associatesIds[i]);
-        currentIndex++;
-        if (currentIndex > 99) {
+    let currentCount = 0;
+    let lastValidNextIndex = 0;
+    for (let i = 0; i < associateIds.length; i++) {
+        // console.log(associateIds[i]);
+        myIds.push(associateIds[i]);
+        currentCount++;
+        if (currentCount > 99) {
             const myBatch = await getBatch(myIds);
             myIds = [];
-            currentIndex = 0
+            currentCount = 0
             myAssociates = myAssociates.concat(myBatch)
-            nextIndex = i + 1;
+            lastValidNextIndex = i + 1;
         }
     }
 
     // get any leftover records
     myIds = [];
-    for (let i = nextIndex; i < associatesIds.length; i++) {
-        myIds.push(associatesIds[i]);
+    for (let i = lastValidNextIndex; i < associateIds.length; i++) {
+        myIds.push(associateIds[i]);
     }
     const myBatch = await getBatch(myIds);
     myAssociates = myAssociates.concat(myBatch)
 
-    // console.log(myAssociates);
     return myAssociates;
 }
 
-export default getassociates
+export default getAssociates

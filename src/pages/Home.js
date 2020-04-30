@@ -19,6 +19,9 @@ import RestaurantCard from '../components/restaurant/RestaurantCard';
 import scanDynamoDB from '../api/scanDynamoDB';
 import getRestaurantsMenuItems from '../model/restaurant/getRestaurantsMenuItems';
 import sortMenuItems from '../model/menuItem/sortMenuItems';
+import getRestaurantsAssociates from '../model/restaurant/getRestaurantsAssociates';
+import sortAssociates from '../model/associate/sortAssociates';
+
 import {
     restaurantsTableName,
 } from '../api/apiConstants';
@@ -31,7 +34,10 @@ const Home = () => {
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
             let myMenuItems = await getRestaurantsMenuItems(myRestaurants.payload);
-            myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice')
+            myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice');
+            let myAssociates = await getRestaurantsAssociates(myRestaurants.payload);
+            myAssociates = await sortAssociates(myAssociates, null);
+            console.log(myAssociates);
             setLoading(false);
             setMenuItems(myMenuItems);
         }

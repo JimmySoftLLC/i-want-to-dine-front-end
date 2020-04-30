@@ -12,10 +12,14 @@ const sortAssociates = async (associates, associate) => {
         // names must be equal
         return 0;
     });
+
     // put logged in associate at the begining of the array
-    let myIndex = myAssociates.findIndex(item => item.id === associate.id);
-    let mySlicedAssociate = myAssociates.splice(myIndex, 1)
-    myAssociates.unshift(mySlicedAssociate[0])
+    if (associate) {
+        let myIndex = myAssociates.findIndex(item => item.id === associate.id);
+        let mySlicedAssociate = myAssociates.splice(myIndex, 1)
+        myAssociates.unshift(mySlicedAssociate[0])
+    }
+
     // console.log(myAssociates);
     return myAssociates;
 }
