@@ -5,11 +5,12 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
+import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 
 const MenuItemRestaurantDetailCard = ({ associate }) => {
     return (
         <div className='card'>
-            <h4>{associate.firstName}{' '}{associate.lastName}{' - '}{associate.jobTitle}
+            <h4><i className="fas fa-user"></i>{' '}{associate.firstName}{' '}{associate.lastName}{' - '}{associate.jobTitle}
             </h4>
             <ExpansionPanel>
                 <ExpansionPanelSummary
@@ -21,7 +22,7 @@ const MenuItemRestaurantDetailCard = ({ associate }) => {
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <Grid item xs={12}>
-                        <p>{associate.bio}</p>
+                        <MultipleParagraphs myText={associate.bio} />
                     </Grid>
                 </ExpansionPanelDetails>
             </ExpansionPanel>

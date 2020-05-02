@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import MenuItemsRestaurantDetail from '../menuItemsRestaurantDetail/MenuItemsRestaurantDetail';
 import AssociatesRestaurantDetail from '../associatesRestaurantDetail/AssociatesRestaurantDetail';
+import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 
 const RestaurantCard = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -32,10 +33,10 @@ const RestaurantCard = () => {
                     color={"primary"}>
                     <i className="fas fa-phone"></i>
                 </IconButton></h4>
-            <p>{restaurantDetail.description}</p>
+            <MultipleParagraphs myText={restaurantDetail.description} />
             <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Menu</h3>
             <MenuItemsRestaurantDetail />
-            {AssociatesRestaurantDetail !== null && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Meet the team</h3>}
+            <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Meet the Staff</h3>
             <AssociatesRestaurantDetail />
         </div>
     );

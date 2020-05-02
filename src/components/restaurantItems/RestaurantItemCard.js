@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
+import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 
 const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -42,7 +43,7 @@ const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
                     color={"primary"}>
                     <i className="fas fa-phone"></i>
                 </IconButton></h4>
-            <p>{myRestaurant.description}</p>
+            <MultipleParagraphs myText={myRestaurant.description} />
         </div>
     );
 };

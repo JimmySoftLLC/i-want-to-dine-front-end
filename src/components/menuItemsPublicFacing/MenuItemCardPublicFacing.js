@@ -5,6 +5,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import getRestaurantByName from '../../model/restaurant/getRestaurantByName';
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
+import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 
 const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -107,7 +108,7 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
                     color={"primary"}>
                     <i className="fas fa-phone"></i>
                 </IconButton></span>
-            <p>{menuItem.description}</p>
+            <MultipleParagraphs myText={menuItem.description} />
         </div>
     );
 };
