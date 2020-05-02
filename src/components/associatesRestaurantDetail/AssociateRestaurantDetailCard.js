@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 
-const MenuItemRestaurantDetailCard = ({ associate }) => {
+const AssociateRestaurantDetailCard = ({ associate }) => {
     return (
         <div className='card'>
             <h4><i className="fas fa-user"></i>{' '}{associate.firstName}{' '}{associate.lastName}{' - '}{associate.jobTitle}
@@ -30,4 +30,4 @@ const MenuItemRestaurantDetailCard = ({ associate }) => {
     );
 };
 
-export default MenuItemRestaurantDetailCard;
+export default AssociateRestaurantDetailCard;
