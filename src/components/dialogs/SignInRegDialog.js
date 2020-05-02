@@ -168,8 +168,7 @@ const SignUp = () => {
     const sendResetCode = async () => {
         if (validEmail(email)) {
             try {
-                const data = await Auth.forgotPassword(email)
-                console.log(data);
+                await Auth.forgotPassword(email)
                 setSignInRegDialogType('codeSent')
                 setSignInRegDialogTitle('Code sent');
                 setMessage('A verification code was sent to ' + email + ". Enter the code above with your new password.")
@@ -186,8 +185,7 @@ const SignUp = () => {
         if (checkPasswordsMatch()) {
             if (validEmail(email)) {
                 try {
-                    const data = await Auth.forgotPasswordSubmit(email, verificationCode, password)
-                    console.log(data);
+                    await Auth.forgotPasswordSubmit(email, verificationCode, password)
                     dataAndMethodsContext.setSignInRegDialogType('false');
                     setDialogBackToDefaults();
                 } catch (err) {

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
+import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
 
 const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -9,6 +10,8 @@ const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
         setRestaurantDetail,
         setMyState,
         menuItems,
+        associates,
+        menuDays,
     } = dataAndMethodsContext;
 
     let showIt = true;
@@ -18,8 +21,10 @@ const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
 
     const restaurantClick = () => {
         myRestaurant.menuItems = getMenuItemsForRestaurant(myRestaurant, menuItems)
+        myRestaurant.associates = getAssociatesForRestaurant(myRestaurant, associates)
+        myRestaurant.menuDays = menuDays;
         setRestaurantDetail(myRestaurant);
-        setMyState('restaurantDetail')
+        setMyState('restaurantDetail');
     }
 
     return (

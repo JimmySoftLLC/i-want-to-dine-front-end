@@ -1,22 +1,11 @@
-import getMenuDays from '../menuDay/getMenuDays';
-import getMenuItems from '../menuItem/getMenuItems';
+import getMenuItems from './getMenuItems';
 import validDate from '../validDate';
 
-const getRestaurantsMenuItems = async (restaurants) => {
+const getTodaysMenuItems = async (myMenuDays) => {
     // create an array of all ids
-    let menuDayIds = [];
-    let myMenuDays = [];
     let menuItemIds = [];
     let myMenuItems = [];
     let myDateNow = new Date();
-
-    for (let i = 0; i < restaurants.length; i++) {
-        if (restaurants[i].approved) {
-            menuDayIds = menuDayIds.concat(restaurants[i].menuDayIdsJSON)
-        }
-    }
-
-    myMenuDays = await getMenuDays(menuDayIds)
 
     for (let j = 0; j < myMenuDays.length; j++) {
         if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, myDateNow)) {
@@ -25,10 +14,9 @@ const getRestaurantsMenuItems = async (restaurants) => {
             }
         }
     }
-
     myMenuItems = await getMenuItems(menuItemIds)
 
     return myMenuItems;
 }
 
-export default getRestaurantsMenuItems;
+export default getTodaysMenuItems;

@@ -32,6 +32,8 @@ import {
     SET_RESTAURANT_ASSOCIATES,
     SET_LOADING,
     SET_RESTAURANT,
+    SET_ASSOCIATES,
+    SET_MENU_DAYS,
 } from '../types';
 import {
     // menuItemsTableName,
@@ -78,6 +80,8 @@ const DataAndMethodsState = props => {
         },
         signInRegDialogType: 'false',
         menuItems: [],
+        associates: [],
+        menuDays: [],
         restaurantMenuItems: [],
         restaurantMenuDays: [],
         restaurants: [],
@@ -157,6 +161,7 @@ const DataAndMethodsState = props => {
         setAssociateDialogData(associateDialogData);
     }
     const setAssociate = async (associate) => { dispatch({ type: SET_ASSOCIATE, payload: associate }) }
+    const setAssociates = async (associates) => { dispatch({ type: SET_ASSOCIATES, payload: associates }) }
     const setAssociateDialogData = async (associateDialogData) => { dispatch({ type: SET_ASSOCIATE_DIALOG_DATA, payload: associateDialogData }) }
     const setAssociateDialogOpen = async (associateDialogOpen) => { dispatch({ type: SET_ASSOCIATE_DIALOG_OPEN, payload: associateDialogOpen }) }
     const setAssociatesRestaurants = async (associatesRestaurants) => { dispatch({ type: SET_ASSOCIATE_RESTAURANTS, payload: associatesRestaurants }) }
@@ -211,6 +216,7 @@ const DataAndMethodsState = props => {
     const setSignInRegDialogType = async (signInRegDialogType) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: signInRegDialogType }) }
     const setSignInRegDialogTitle = async (signInRegDialogTitle) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: signInRegDialogTitle }) }
 
+    const setMenuDays = async (menuDays) => { dispatch({ type: SET_MENU_DAYS, payload: menuDays }) }
     const setMenuDayDialogDataItem = async (key, value) => {
         let menuDayDialogData = JSON.parse(JSON.stringify(state.menuDayDialogData))
         menuDayDialogData[key] = value;
@@ -252,6 +258,8 @@ const DataAndMethodsState = props => {
                 restaurantAssociates: state.restaurantAssociates,
                 loading: state.loading,
                 restaurantDetail: state.restaurantDetail,
+                associates: state.associates,
+                menuDays: state.menuDays,
                 setMyState,
                 setMyStates,
                 setRestaurants,
@@ -283,6 +291,8 @@ const DataAndMethodsState = props => {
                 setRestaurantAssociates,
                 setLoading,
                 setRestaurantDetail,
+                setAssociates,
+                setMenuDays,
             }}
         >
             {props.children}

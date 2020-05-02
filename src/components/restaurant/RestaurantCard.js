@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import MenuItemsRestaurantDetail from '../menuItemsRestaurantDetail/MenuItemsRestaurantDetail';
+import AssociatesRestaurantDetail from '../associatesRestaurantDetail/AssociatesRestaurantDetail';
 
 const RestaurantCard = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -13,8 +14,6 @@ const RestaurantCard = () => {
     let myPhoneLink = "tel:" + restaurantDetail.phoneNumber
 
     if (!restaurantDetail.approved) { showIt = false };
-
-    console.log(restaurantDetail);
 
     return (
         showIt && <div className='card'>
@@ -36,7 +35,8 @@ const RestaurantCard = () => {
             <p>{restaurantDetail.description}</p>
             <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Menu</h3>
             <MenuItemsRestaurantDetail />
-            {/* <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Meet the Team</h3> */}
+            {AssociatesRestaurantDetail !== null && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Meet the team</h3>}
+            <AssociatesRestaurantDetail />
         </div>
     );
 };

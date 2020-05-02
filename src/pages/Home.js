@@ -17,9 +17,10 @@ import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import RestaurantCard from '../components/restaurant/RestaurantCard';
 import scanDynamoDB from '../api/scanDynamoDB';
-import getRestaurantsMenuItems from '../model/restaurant/getRestaurantsMenuItems';
+import getTodaysMenuItems from '../model/menuItem/getTodaysMenuItems';
 import sortMenuItems from '../model/menuItem/sortMenuItems';
-import getRestaurantsAssociates from '../model/restaurant/getRestaurantsAssociates';
+import getTodaysAssociates from '../model/associate/getTodaysAssociates';
+import getTodaysMenuDays from '../model/menuDay/getTodaysMenuDays';
 import sortAssociates from '../model/associate/sortAssociates';
 
 import {
@@ -33,13 +34,15 @@ const Home = () => {
             setLoading(true);
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
-            let myMenuItems = await getRestaurantsMenuItems(myRestaurants.payload);
+            let myMenuDays = await getTodaysMenuDays(myRestaurants.payload)
+            let myMenuItems = await getTodaysMenuItems(myMenuDays);
             myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice');
-            let myAssociates = await getRestaurantsAssociates(myRestaurants.payload);
+            let myAssociates = await getTodaysAssociates(myRestaurants.payload, myMenuDays);
             myAssociates = await sortAssociates(myAssociates, null);
-            console.log(myAssociates);
             setLoading(false);
+            setMenuDays(myMenuDays);
             setMenuItems(myMenuItems);
+            setAssociates(myAssociates);
         }
         fetchData();
         // eslint-disable-next-line
@@ -48,7 +51,7 @@ const Home = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const alertDialogContext = useContext(AlertDialogContext);
 
-    const { myStates, logInType, setMenuItems, setRestaurants, setLoading } = dataAndMethodsContext
+    const { myStates, logInType, setMenuItems, setRestaurants, setLoading, setAssociates, setMenuDays } = dataAndMethodsContext
     const { setDialog } = alertDialogContext
 
     let showRestaurants = false;
