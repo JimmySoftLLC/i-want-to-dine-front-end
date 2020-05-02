@@ -1,0 +1,24 @@
+
+> core-js@2.6.11 postinstall /Users/jimbailey/Desktop/i-want-to-dine-front-end/node_modules/fbjs-scripts/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+[96mThank you for using core-js ([94m https://github.com/zloirock/core-js [96m) for polyfilling JavaScript standard library![0m
+
+[96mThe project needs your help! Please consider supporting of core-js on Open Collective or Patreon: [0m
+[96m>[94m https://opencollective.com/core-js [0m
+[96m>[94m https://www.patreon.com/zloirock [0m
+
+[96mAlso, the author of core-js ([94m https://github.com/zloirock [96m) is looking for a good job -)[0m
+
+
+> core-js@2.6.11 postinstall /Users/jimbailey/Desktop/i-want-to-dine-front-end/node_modules/fbjs/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+
+> core-js@2.6.11 postinstall /Users/jimbailey/Desktop/i-want-to-dine-front-end/node_modules/metro-babel-register/node_modules/core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
++ react-native@0.62.2
+added 231 packages from 258 contributors, removed 6 packages and audited 985817 packages in 30.452s
+found 350 low severity vulnerabilities
+  run `npm audit fix` to fix them, or `npm audit` for details

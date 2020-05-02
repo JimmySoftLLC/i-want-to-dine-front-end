@@ -27,6 +27,7 @@ const getBatch = async (myIds) => {
 }
 
 const getMenuDays = async (menuDaysIds) => {
+    if (menuDaysIds.length === 0) { return [] }
     // console.log(restaurant);
     let myMenuDays = [];
 

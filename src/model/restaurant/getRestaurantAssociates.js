@@ -1,4 +1,4 @@
-import validEmail from '../validEmail';
+import isEmail from 'validator/lib/isEmail';
 import getAssociateFromRestaurant from '../associate/getAssociateFromRestaurant';
 import getAssociates from '../associate/getAssociates';
 
@@ -12,7 +12,7 @@ const getRestaurantAssociates = async (restaurant) => {
     let myRestaurantAssociatesNoEmail = [];
 
     for (let i = 0; i < restaurantAssociates.length; i++) {
-        if (validEmail(restaurantAssociates[i].email)) {
+        if (isEmail(restaurantAssociates[i].email)) {
             associateIds.push(restaurantAssociates[i].id);
         } else {
             myRestaurantAssociatesNoEmail.push(restaurantAssociates[i]);

@@ -28,8 +28,8 @@ const getBatch = async (myIds) => {
 // do this by creating an array of associateIds for records that have email, these will be on server
 // those that don't have email are local to the restaurant just use that record instead
 const getAssociates = async (associateIds) => {
+    if (associateIds.length === 0) { return [] }
     let myAssociates = [];
-
     // get records in batches of 100 using the array of associateIds
     let myIds = [];
     let currentCount = 0;

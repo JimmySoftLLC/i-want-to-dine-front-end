@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from 'uuid';
 import getAssociate from '../../model/associate/getAssociate';
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import createAssociate from '../../model/associate/createAssociate';
-import validEmail from '../../model/validEmail';
+import isEmail from 'validator/lib/isEmail';
 
 import {
     // menuItemsTableName,
@@ -166,7 +166,7 @@ const SignUp = () => {
     }
 
     const sendResetCode = async () => {
-        if (validEmail(email)) {
+        if (isEmail(email)) {
             try {
                 await Auth.forgotPassword(email)
                 setSignInRegDialogType('codeSent')
@@ -183,7 +183,7 @@ const SignUp = () => {
 
     const resetPassword = async (e) => {
         if (checkPasswordsMatch()) {
-            if (validEmail(email)) {
+            if (isEmail(email)) {
                 try {
                     await Auth.forgotPasswordSubmit(email, verificationCode, password)
                     dataAndMethodsContext.setSignInRegDialogType('false');

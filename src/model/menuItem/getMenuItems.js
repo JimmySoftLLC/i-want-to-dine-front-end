@@ -23,6 +23,7 @@ const getBatch = async (myIds) => {
 }
 
 const getMenuItems = async (menuItemIds) => {
+    if (menuItemIds.length === 0) { return [] }
     // get records in batches of 100
     let myIds = [];
     let currentIndex = 0;
@@ -49,6 +50,7 @@ const getMenuItems = async (menuItemIds) => {
     myMenuItems = myMenuItems.concat(myBatch)
 
     // console.log(myMenuItems);
+
     return myMenuItems;
 }
 

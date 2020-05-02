@@ -10,7 +10,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import putAssociate from '../../model/associate/putAssociate';
 import getAssociate from '../../model/associate/getAssociate';
 import putRestaurant from '../../model/restaurant/putRestaurant';
-import validEmail from '../../model/validEmail';
+import isEmail from 'validator/lib/isEmail';
 import testPutAssociateInRestaurant from '../../model/restaurant/testPutAssociateInRestaurant';
 import putAssociateInRestaurant from '../../model/restaurant/putAssociateInRestaurant';
 import putRestaurantInAssociate from '../../model/associate/putRestaurantInAssociate';
@@ -162,7 +162,7 @@ const AssociateDialog = () => {
                 myAssociate.accessLevel = accessLevel;
             }
         } else {
-            if (!validEmail(email)) {
+            if (!isEmail(email)) {
                 setMessage('A valid email is required.');
                 return null;
             }

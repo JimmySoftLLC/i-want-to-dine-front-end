@@ -1,7 +1,7 @@
 import getAssociates from './getAssociates';
 import getAssociateFromRestaurant from './getAssociateFromRestaurant';
 import validDate from '../validDate';
-import validEmail from '../validEmail';
+import isEmail from 'validator/lib/isEmail';
 
 const getTodaysAssociates = async (restaurants, myMenuDays) => {
     // create an array of all ids
@@ -14,7 +14,7 @@ const getTodaysAssociates = async (restaurants, myMenuDays) => {
     for (let j = 0; j < myMenuDays.length; j++) {
         if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, myDateNow)) {
             for (let k = 0; k < myMenuDays[j].associatesJSON.length; k++) {
-                if (validEmail(myMenuDays[j].associatesJSON[k])) {
+                if (isEmail(myMenuDays[j].associatesJSON[k])) {
                     if (associateIds.indexOf(myMenuDays[j].associatesJSON[k]) === -1) {
                         associateIds.push(myMenuDays[j].associatesJSON[k])
                     }
