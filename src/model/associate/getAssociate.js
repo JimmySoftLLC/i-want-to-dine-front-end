@@ -20,6 +20,7 @@ const getAssociate = async (myEmailId, myToken, myCustomId) => {
     myAssociate.bio = myAssociate.bio === blankPlaceHolder ? '' : myAssociate.bio
     myAssociate.jobTitle = myAssociate.jobTitle === blankPlaceHolder ? '' : myAssociate.jobTitle
     myAssociate.restaurantIdsJSON = JSON.parse(myAssociate.restaurantIdsJSON)
+    myAssociate.imageUrl = myAssociate.imageUrl === blankPlaceHolder ? '' : myAssociate.imageUrl
     return myAssociate;
 }
 

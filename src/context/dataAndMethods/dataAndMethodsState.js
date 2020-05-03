@@ -129,6 +129,7 @@ const DataAndMethodsState = props => {
             restaurantIdsJSON: [],
             accessLevel: 'none',
             dialogType: 'Edit',
+            imageUrl: '',
             message: ''
         },
         menuDayDialogOpen: false,

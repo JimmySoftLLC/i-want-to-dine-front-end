@@ -69,6 +69,7 @@ const AssociateCard = ({ Associate }) => {
                     email: restaurantAssociates[i].email,
                     restaurantIdsJSON: restaurantAssociates[i].restaurantIdsJSON,
                     accessLevel: restaurantAssociates[i].accessLevel,
+                    imageUrl: restaurantAssociates[i].imageUrl,
                     dialogType: 'Edit',
                     showEmail: showEmail,
                 }
@@ -156,19 +157,32 @@ const AssociateCard = ({ Associate }) => {
         message = "Logged in user"
     }
 
+    console.log(Associate)
+
     return (
         <div className='card'>
-            <h4><i className={thisAssociateAccessLevel}></i>{' - '}{associateName}
-            </h4>
-            <div className={classes.root} >
-                <p>{message}</p>
-                {canAdmin && <Button variant="outlined" color="primary" onClick={() => associateEditClick(Associate.id)}>
-                    <i className={"fas fa-edit"}></i>
-                </Button>}
-                {canAdmin && <Button variant="outlined" color="primary" onClick={() => deleteAssociateClick(Associate.id)}>
-                    <i className="fas fa-trash"></i>
-                </Button>}
+            {Associate.imageUrl !== undefined && <div>
+                <img
+                    src={Associate.imageUrl}
+                    alt=''
+                    className='round-img'
+                    style={{ width: '80px', height: '80px' }}
+                />
+            </div>}
+            <div>
+                <h4><i className={thisAssociateAccessLevel}></i>{' - '}{associateName}
+                </h4>
+                <div className={classes.root} >
+                    <p>{message}</p>
+                    {canAdmin && <Button variant="outlined" color="primary" onClick={() => associateEditClick(Associate.id)}>
+                        <i className={"fas fa-edit"}></i>
+                    </Button>}
+                    {canAdmin && <Button variant="outlined" color="primary" onClick={() => deleteAssociateClick(Associate.id)}>
+                        <i className="fas fa-trash"></i>
+                    </Button>}
+                </div>
             </div>
+
         </div>
     );
 };

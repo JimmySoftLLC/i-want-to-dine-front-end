@@ -50,6 +50,7 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                 bio: myItem.bio = myItem.bio !== '' ? myItem.bio : blankPlaceHolder,
                 jobTitle: myItem.jobTitle = myItem.jobTitle !== '' ? myItem.jobTitle : blankPlaceHolder,
                 restaurantIdsJSON: JSON.stringify(myItem.restaurantIdsJSON),
+                imageUrl: myItem.imageUrl !== '' ? myItem.imageUrl : blankPlaceHolder,
             }
             break;
         case menuDaysTableName:

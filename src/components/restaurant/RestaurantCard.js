@@ -36,7 +36,7 @@ const RestaurantCard = () => {
             <MultipleParagraphs myText={restaurantDetail.description} />
             <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Menu</h3>
             <MenuItemsRestaurantDetail />
-            <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Meet the Staff</h3>
+            <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Meet the team</h3>
             <AssociatesRestaurantDetail />
         </div>
     );

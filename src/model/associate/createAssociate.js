@@ -13,6 +13,7 @@ const createAssociate = async (myEmailId, myToken, myCustomId) => {
         jobTitle: '',
         email: myEmailId,
         restaurantIdsJSON: [],
+        imageUrl: '',
     }
     //console.log(myAssociate)
     const data = await putItemDynamoDB(associatesTableName, myAssociate, myToken, myCustomId)

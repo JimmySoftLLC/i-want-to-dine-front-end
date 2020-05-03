@@ -46,6 +46,7 @@ const SignedInBotToolBar = () => {
             bio: associate.bio,
             email: associate.email,
             restaurantIdsJSON: associate.restaurantIdsJSON,
+            imageUrl: associate.imageUrl,
             dialogType: "EditMe",
         };
         setAssociateDialogData(myAssociateData);

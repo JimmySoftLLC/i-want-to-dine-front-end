@@ -74,6 +74,7 @@ const AssociateDialog = () => {
         dialogType,
         message,
         showEmail,
+        imageUrl,
     } = dataAndMethodsContext.associateDialogData;
 
     const handleClose = () => {
@@ -112,6 +113,7 @@ const AssociateDialog = () => {
         myAssociate.email = email
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
+        myAssociate.imageUrl = imageUrl;
         await putAssociate(myAssociate, idToken, customId)
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         if (myRestaurant) {
@@ -143,6 +145,7 @@ const AssociateDialog = () => {
         myAssociate.email = email;
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
+        myAssociate.imageUrl = imageUrl;
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
         if (!testPutAssociateInRestaurant(myRestaurant, myAssociate)) {
             setMessage('There needs to be at least one associate with admin rights per restaurant.');
@@ -160,6 +163,7 @@ const AssociateDialog = () => {
                 myAssociate.email = '';
                 myAssociate.restaurantIdsJSON = restaurantIdsJSON;
                 myAssociate.accessLevel = accessLevel;
+                myAssociate.imageUrl = imageUrl;
             }
         } else {
             if (!isEmail(email)) {
@@ -233,6 +237,10 @@ const AssociateDialog = () => {
         setAssociateDialogDataItem('email', e.target.value);
     };
 
+    const changeImageUrl = (e) => {
+        setAssociateDialogDataItem('imageUrl', e.target.value);
+    };
+
     const handleAccessLevelChange = (e) => {
         setAssociateDialogDataItem('accessLevel', e.target.value);
     };
@@ -288,6 +296,15 @@ const AssociateDialog = () => {
                         variant="filled"
                         value={jobTitle}
                         onChange={changeJobTitle}
+                    />}
+                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
+                        id="imageUrl"
+                        label="Image URL"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        value={imageUrl}
+                        onChange={changeImageUrl}
                     />}
                     {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
                         id="bio"

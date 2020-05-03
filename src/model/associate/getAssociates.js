@@ -20,6 +20,7 @@ const getBatch = async (myIds) => {
         myAssociates[i].bio = myAssociates[i].bio === blankPlaceHolder ? '' : myAssociates[i].bio
         myAssociates[i].jobTitle = myAssociates[i].jobTitle === blankPlaceHolder ? '' : myAssociates[i].jobTitle
         myAssociates[i].restaurantIdsJSON = JSON.parse(myAssociates[i].restaurantIdsJSON)
+        myAssociates[i].imageUrl = myAssociates[i].imageUrl === blankPlaceHolder ? '' : myAssociates[i].imageUrl
     }
     return myAssociates;
 }
