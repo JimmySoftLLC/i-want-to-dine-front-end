@@ -9,6 +9,7 @@ import MenuDays from '../components/menuDay/MenuDays';
 import BotNavBar from '../components/BotNavBar';
 import RestaurantItems from '../components/restaurantItems/RestaurantItems';
 import MenuItemDialog from '../components/dialogs/MenuItemDialog';
+import AssociatesDetail from '../components/associatesDetail/AssociatesDetail';
 import RestaurantDialog from '../components/dialogs/RestaurantDialog';
 import AssociateDialog from '../components/dialogs/AssociateDialog';
 import MenuDayDialog from '../components/dialogs/MenuDayDialog';
@@ -54,29 +55,29 @@ const Home = () => {
     const { myStates, logInType, setMenuItems, setRestaurants, setLoading, setAssociates, setMenuDays } = dataAndMethodsContext
     const { setDialog } = alertDialogContext
 
-    let showRestaurants = false;
-    myStates['restaurant'] && !myStates['restaurantDetail'] && logInType === 'default' ? showRestaurants = true : showRestaurants = false
-
-    let showRestaurantDetail = false;
-    myStates['restaurant'] && myStates['restaurantDetail'] && logInType === 'default' ? showRestaurantDetail = true : showRestaurantDetail = false
-
     return (
         <Fragment>
             <AlertDialog />
             <DeleteConfirmDialog />
             <SignInRegDialog />
             <TopNavBar />
-            {logInType === 'default' && <div className='container home-page-top-margin'>
+            {logInType === 'default' && <div className='container '>
+                {myStates.menuItems && <p className='p home-page-top-margin'></p>}
+                {myStates.restaurants && <p className='p home-page-top-margin-normal'></p>}
+                {myStates.restaurantDetail && <p className='p home-page-top-margin-normal'></p>}
+                {myStates.associates && <p className='p home-page-top-margin-normal'></p>}
+                {myStates.info && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.info && <About />}
-                {showRestaurants && <RestaurantItems />}
-                {showRestaurantDetail && <RestaurantCard />}
-                <MenuItemsPublicFacing />
+                {myStates.menuItems && <MenuItemsPublicFacing />}
+                {myStates.restaurants && <RestaurantItems />}
+                {myStates.restaurantDetail && <RestaurantCard />}
+                {myStates.associates && <AssociatesDetail />}
                 <p className='p home-page-bottom-margin'></p>
             </div>}
             {logInType === 'signedIn' && <div className='container associate-page-top-margin'>
-                {myStates['menuSettings'] && <MenuItemsInventory />}
-                {myStates['menuDaySettings'] && <MenuDays />}
-                {myStates['associateSettings'] && <Associates />}
+                {myStates.menuSettings && <MenuItemsInventory />}
+                {myStates.menuDaySettings && <MenuDays />}
+                {myStates.associateSettings && <Associates />}
                 <MenuItemDialog />
                 <RestaurantDialog />
                 <AssociateDialog />

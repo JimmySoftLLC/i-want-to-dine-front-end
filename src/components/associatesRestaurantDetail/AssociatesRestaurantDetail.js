@@ -3,7 +3,6 @@ import AssociateRestaurantDetailCard from './AssociateRestaurantDetailCard';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import CircularIndeterminate from '../circularIndeterminate/CircularIndeterminate';
 
-
 const AssociatesRestaurantDetail = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
@@ -37,6 +36,14 @@ const AssociatesRestaurantDetail = () => {
     if (loading) {
         return <CircularIndeterminate />;
     } else {
+        return (
+            <div className='grid-4 page-bottom-margin'>
+                {myTempAssociates.map(associate => <AssociateRestaurantDetailCard associate={associate}
+                    key={associate.id} />)}
+            </div>
+        );
+
+
         return (myTempAssociates.map(associate => <AssociateRestaurantDetailCard associate={associate}
             key={associate.id} />));
     }

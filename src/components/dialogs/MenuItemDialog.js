@@ -112,7 +112,7 @@ const MenuItemDialog = () => {
     };
 
     // const changeRestaurant = (e) => {
-    //     setMenuItemDialogDataItem('restaurant', e.target.value)
+    //     setMenuItemDialogDataItem('restaurants', e.target.value)
     // };
 
     const changePrice = (e) => {

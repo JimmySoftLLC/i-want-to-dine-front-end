@@ -29,7 +29,24 @@ const About = () => {
                 </p>
             <h2 >How to use</h2>
             <p className='p'>
-                Select the foods you are interested by clicking the food icons.  The selected ones will darken.
+                Select one of the following
+                </p>
+            <ul style={{ paddingLeft: '1.5rem' }}>
+                <li>
+                    <i className="fas fa-book-open"></i> show menu items
+                    </li>
+                <li>
+                    <i className="icon-resturant"></i> show restaurants
+                    </li>
+                <li>
+                    <i className="fas fa-users"></i> show restaurant associates
+                    </li>
+                <li>
+                    <i className="fas fa-info"></i> information
+                    </li>
+            </ul>
+            <p className='p'>
+                Once you have selcted menu items you can then select the foods you are interested by clicking the food icons.  The selected ones will darken.
                 Menu items with those foods will show up in the list.  The icons represent:
                 </p>
             <ul style={{ paddingLeft: '1.5rem' }}>
@@ -64,13 +81,17 @@ const About = () => {
                     <i className="fas fa-birthday-cake"></i> Dessert
                 </li>
                 <li>
-                    <i className="fas fa-tag"></i> Takeout or curbside delivery
+                    <i className="fas fa-tag"></i> Daily specials
+                    </li>
+                <li>
+                    <i className="fas fa-shopping-bag"></i> Takeout or curbside delivery
                     </li>
             </ul>
             <p className='p'>
-                Set the price by clicking on the $ buttons, when active they will be blue.
-                You can select one or many price categories.  For example if you want prices
-                from 0 to 35 press both the $ and $$.
+                Set the price by clicking on the $ button, a menu will popup.  Then click the price points you are interested in.
+                Blue indicates an active price point.
+                You can select one or many price points.  For example if you want prices
+                from 0 to 35 activate both the $ and $$.
                 </p>
             <ul style={{ paddingLeft: '1.5rem' }}>
                 <li>
@@ -81,15 +102,6 @@ const About = () => {
                     </li>
                 <li>
                     <i className='icon-dollar_3'></i> 35 and up dollars
-                    </li>
-            </ul>
-            <p className='p'>
-                Press the show restaurants button to see all the restaurants.  Return to the menu items by selecting a food type or press the
-                restaurant button again.
-                </p>
-            <ul style={{ paddingLeft: '1.5rem' }}>
-                <li>
-                    <i className="icon-resturant"></i> show restaurants
                     </li>
             </ul>
             <h2 >JimmySoft LLC <IconButton aria-label=""
@@ -103,7 +115,7 @@ const About = () => {
                 </p>
             <h2 >A message to our Restaurant clients</h2>
             <p className='p'>
-                We are obsessed about helping your buisiness succeed.  We want to give you the tools to get your message out.
+                We want to help your buisiness succeed.  We want to give you the tools to get your message out.
                 It is your responsibility to craft menus and a message that is compelling to the public.  We believe this will
                 benifit the dining going public and invigorate the dining experience in Rehoboth.
                 </p>

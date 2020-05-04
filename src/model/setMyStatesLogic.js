@@ -18,6 +18,17 @@ const setMyStatesLogic = (myStates, key) => {
         return myStates;
     }
 
+    // if myKey = any of the loggin items, set login items to false and set key
+    if (key === 'restaurants' || key === 'menuItems' || key === 'associates' || key === 'info' || key === 'restaurantDetail') {
+        myStates['restaurants'] = false;
+        myStates['menuItems'] = false;
+        myStates['associates'] = false;
+        myStates['info'] = false;
+        myStates['restaurantDetail'] = false;
+        myStates[key] = true;
+        return myStates;
+    }
+
     // if myKey = any of the sort items, set sort items to false and set key
     if (key === 'sortTitle' || key === 'sortPrice') {
         myStates['sortTitle'] = false;
@@ -26,45 +37,8 @@ const setMyStatesLogic = (myStates, key) => {
         return myStates;
     }
 
-    // if myKey = info and info off, turn all food myStates off, turn info on
-    if (key === 'info' && !myStates['info']) {
-        myStates = turnOffAllMyStates(myStates);
-        myStates['info'] = true;
-        return myStates;
-    }
-    // if myKey = info and info on, turn off all, turn meat on, turn dollar_2 on
-    if (key === 'info' && myStates['info']) {
-        myStates = turnOffAllMyStates(myStates);
-        myStates['meat'] = true;
-        return myStates;
-    }
-    // if myKey = restaurant and restaurant off, turn all food myStates off, turn restaurant on
-    if (key === 'restaurant' && !myStates['restaurant']) {
-        myStates = turnOffAllMyStates(myStates);
-        myStates['restaurant'] = true;
-        return myStates;
-    }
-
-    // if myKey = restaurantDetail and restaurantDetail off, turn all food myStates off, turn restaurantDetail restaurant on
-    if (key === 'restaurantDetail' && !myStates['restaurantDetail']) {
-        myStates = turnOffAllMyStates(myStates);
-        myStates['restaurantDetail'] = true;
-        myStates['restaurant'] = true;
-        return myStates;
-    }
-
-    // if myKey = restaurant and restaurant on, turn off all, turn meat on, turn dollar_2 on
-    if (key === 'restaurant' && myStates['restaurant']) {
-        myStates = turnOffAllMyStates(myStates);
-        myStates['meat'] = true;
-        return myStates;
-    }
-
-    // flip food key, turn info off, turn restaurant off, turn restaurantDetail off
     myStates[key] ? myStates[key] = false : myStates[key] = true;
-    myStates['info'] = false;
-    myStates['restaurant'] = false;
-    myStates['restaurantDetail'] = false;
+
     return myStates;
 }
 

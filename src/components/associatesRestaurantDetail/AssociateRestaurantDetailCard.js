@@ -28,7 +28,7 @@ const AssociateRestaurantDetailCard = ({ associate }) => {
             {associate.imageUrl !== undefined && <img
                 src={associate.imageUrl}
                 alt=''
-                className='round-img all-center'
+                className='all-center'
                 style={imageStyle}
             />}
             <ExpansionPanel style={expStyle}>

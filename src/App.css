@@ -531,7 +531,11 @@
   }
   
   .home-page-top-margin {
-    margin-top: 5rem;
+    margin-top: 4rem;
+  }
+
+  .home-page-top-margin-normal {
+    margin-top: 4rem;
   }
   
   .home-page-bottom-margin {
@@ -579,6 +583,17 @@
       grid-template-columns: repeat(3, 1fr);
     }
   }
+
+    /* Mobile Styles */
+    @media (max-width: 1100px) {
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+    }
+
   
   /* Mobile Styles */
   @media (max-width: 755px) {
@@ -626,19 +641,11 @@
       margin-bottom: -4rem;
     }
   }
-  
   /* Mobile Styles */
   @media (max-width: 700px) {
     .hide-sm {
       display: none;
     }
-  
-    .grid-2,
-    .grid-3,
-    .grid-4 {
-      grid-template-columns: repeat(1, 1fr);
-    }
-  
     /* Text Styles */
     .x-large {
       font-size: 3rem;
@@ -720,6 +727,15 @@
       margin-bottom: -5rem;
     }
   }
+
+  @media (max-width: 600px) {
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+
   /*
   
   Atom One Light by Daniel Gamage
