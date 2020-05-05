@@ -42,10 +42,6 @@ const AssociatesRestaurantDetail = () => {
                     key={associate.id} />)}
             </div>
         );
-
-
-        return (myTempAssociates.map(associate => <AssociateRestaurantDetailCard associate={associate}
-            key={associate.id} />));
     }
 };
 
