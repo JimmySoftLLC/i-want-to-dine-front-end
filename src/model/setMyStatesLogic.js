@@ -1,11 +1,11 @@
-const turnOffAllMyStates = (myStates, key) => {
-    for (key in myStates) {
-        if (key !== 'dollar_1' && key !== 'dollar_2' && key !== 'dollar_3') {
-            myStates[key] = false;
-        }
-    }
-    return myStates;
-}
+// const turnOffAllMyStates = (myStates, key) => {
+//     for (key in myStates) {
+//         if (key !== 'dollar_1' && key !== 'dollar_2' && key !== 'dollar_3') {
+//             myStates[key] = false;
+//         }
+//     }
+//     return myStates;
+// }
 
 const setMyStatesLogic = (myStates, key) => {
     // if myKey = any of the loggin items, set login items to false and set key

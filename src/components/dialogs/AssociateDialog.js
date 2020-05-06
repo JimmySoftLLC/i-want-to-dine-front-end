@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback, Fragment } from 'react';
+import React, { useContext, useState, useCallback } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import Button from '@material-ui/core/Button';
@@ -29,6 +29,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import imageCompression from 'browser-image-compression';
+import { saveAs } from 'file-saver';
+import Storage from '@aws-amplify/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 import {
     noSelectedRestaurant,
@@ -48,8 +51,9 @@ const AssociateDialog = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const [upImg, setUpImg] = useState();
     const [imgRef, setImgRef] = useState(null);
-    const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 9 / 9 });
-    const [previewUrl, setPreviewUrl] = useState();
+    const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 });
+    const [blob, setBlob] = useState();
+    const [fileValue, setFileValue] = useState('');
 
     const {
         associatesRestaurants,
@@ -85,6 +89,7 @@ const AssociateDialog = () => {
     } = dataAndMethodsContext.associateDialogData;
 
     const handleClose = () => {
+        handleReset()
         setAssociateDialogOpen(false);
     };
 
@@ -248,22 +253,24 @@ const AssociateDialog = () => {
         setAssociateDialogDataItem('imageUrl', e.target.value);
     };
 
-    // const changeImage = async (e) => {
-    //     console.log(e.target.files[0].name)
-    //     await readURL(e);
-    //     //setAssociateDialogDataItem('imageUrl', e.target.files[0].name);
-    // };
+    const getMyUrl = () => {
+        convertUrlToBlob(imageUrl)
+    }
 
-    // const readURL = async (e) => {
-    //     if (e.target.files && e.target.files[0]) {
-    //         var reader = new FileReader();
-    //         reader.onload = function (e) {
-    //             setMyUrl(e.target.result);
-    //         }
-    //         reader.readAsDataURL(e.target.files[0]);
-    //         await handleImageUpload(e);
-    //     }
-    // }
+    const convertUrlToBlob = (MY_URL) => {
+        var request = new XMLHttpRequest();
+        request.open('GET', MY_URL, true);
+        request.responseType = 'blob';
+        request.onload = function () {
+            var reader = new FileReader();
+            reader.readAsDataURL(request.response);
+            reader.onload = function (e) {
+                console.log('DataURL:', e.target.result);
+                setUpImg(e.target.result)
+            };
+        };
+        request.send();
+    }
 
     const onSelectFile = e => {
         if (e.target.files && e.target.files.length > 0) {
@@ -303,65 +310,32 @@ const AssociateDialog = () => {
             crop.height
         );
 
-        return new Promise((resolve, reject) => {
-            canvas.toBlob(blob => {
-                if (!blob) {
-                    reject(new Error('Canvas is empty'));
-                    return;
-                }
-                blob.name = fileName;
-                console.log(fileName, blob);
-                window.URL.revokeObjectURL(previewUrl);
-                setPreviewUrl(window.URL.createObjectURL(blob));
-            }, 'image/jpeg');
-        });
+        const blob = await new Promise(resolve => canvas.toBlob(resolve), 'image/jpeg');
+        blob.lastModifiedDate = new Date();
+        blob.name = fileName;
+        setBlob(blob)
     };
 
-
-    // const handleImageUpload = async (event) => {
-    //     const imageFile = event.target.files[0];
-    //     console.log('originalFile instanceof Blob', imageFile instanceof Blob); // true
-    //     console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
-
-    //     const options = {
-    //         maxSizeMB: 1,
-    //         maxWidthOrHeight: 1920,
-    //         useWebWorker: true
-    //     }
-    //     try {
-    //         const compressedFile = await imageCompression(imageFile, options);
-    //         console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
-    //         console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-
-    //         //   await uploadToServer(compressedFile); // write your own logic
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-
-    // }
-
-    function handleImageUpload(event) {
-
-        var imageFile = event.target.files[0];
-        console.log('originalFile instanceof Blob', imageFile instanceof Blob); // true
-        console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
-
-        var options = {
-            maxSizeMB: 1,
-            maxWidthOrHeight: 1920,
-            useWebWorker: true
+    const handleDownload = async () => {
+        try {
+            setUpImg(window.URL.createObjectURL(blob));
+            const compressedFile = await compressImage(blob);
+            if (compressedFile) {
+                uploadImage(blob)
+                //saveAs(compressedFile, blob.fileName)
+            }
+        } catch (error) {
+            console.log(error)
         }
-        imageCompression(imageFile, options)
-            .then(function (compressedFile) {
-                console.log('compressedFile instanceof Blob', compressedFile instanceof Blob); // true
-                console.log(`compressedFile size ${compressedFile.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+    };
 
-                //return uploadToServer(compressedFile); // write your own logic
-            })
-            .catch(function (error) {
-                console.log(error.message);
-            });
-    }
+    const handleReset = async () => {
+        setCrop({ unit: '%', width: 30, aspect: 1 })
+        setUpImg();
+        setImgRef();
+        setBlob();
+        setFileValue('');
+    };
 
     const handleAccessLevelChange = (e) => {
         setAssociateDialogDataItem('accessLevel', e.target.value);
@@ -370,6 +344,45 @@ const AssociateDialog = () => {
     const setMessage = (myMessage) => {
         setAssociateDialogDataItem('message', myMessage);
     };
+
+    const handleRemove = async () => {
+        setAssociateDialogDataItem('imageUrl', '');
+        handleReset()
+    }
+
+    const compressImage = async (imageFile) => {
+        console.log(`originalFile size ${imageFile.size / 1024} KB`);
+        const options = {
+            maxSizeMB: .25,
+            maxWidthOrHeight: 1920,
+            useWebWorker: false
+        }
+        try {
+            const compressedFile = await imageCompression(imageFile, options);
+            console.log(`compressedFile size ${compressedFile.size / 1024} KB`);
+            return compressedFile;
+            //await uploadToServer(compressedFile); // write your own logic
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    }
+
+    const uploadImage = (blob) => {
+        let myId = uuidv4() + '.jpg';
+        Storage.put(myId,
+            blob,
+            {
+                level: 'public',
+                contentType: blob.type
+            })
+            .then(result => {
+                console.log("Success uploading file!");
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 
     let dialogTitle = '';
 
@@ -435,8 +448,6 @@ const AssociateDialog = () => {
                         onChange={c => setCrop(c)}
                         onComplete={makeClientCrop}
                     />}
-                    {/* {previewUrl && <img alt="Crop preview" src={previewUrl} />} */}
-
                     <input
                         accept="image/*"
                         className={classes.input}
@@ -444,15 +455,20 @@ const AssociateDialog = () => {
                         id="raised-button-file"
                         multiple
                         type="file"
-                        // onChange={changeImage}
+                        value={fileValue}
                         onChange={onSelectFile}
                     />
                     <label htmlFor="raised-button-file">
                         <Button component="span" className={classes.button}>
-                            Upload
+                            Upload Image
                     </Button>
                     </label>
-
+                    <Button onClick={() => handleDownload()} color="default">
+                        Crop
+                    </Button>
+                    <Button onClick={() => getMyUrl()} color="default">
+                        Remove
+                    </Button>
                     {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
                         id="bio"
                         label="Bio"

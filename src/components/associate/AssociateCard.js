@@ -157,7 +157,7 @@ const AssociateCard = ({ Associate }) => {
         message = "Logged in user"
     }
 
-    console.log(Associate)
+    // console.log(Associate)
 
     return (
         <div className='card'>

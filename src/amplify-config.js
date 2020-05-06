@@ -5,10 +5,15 @@
 
 const awsConfig = {
     Auth: {
-        //identityPoolId: 'us-east-1:7d97c5b1-f024-4929-85fa-118bc9ebbfde', // example: 'us-east-2:c85f3c18-05fd-4bb5-8fd1-e77e7627a99e'
         region: 'us-east-1', // example: 'us-east-2'
         userPoolId: 'us-east-1_4ajU9e1Yn', // example: 'us-east-2_teEUQbkUh'
-        userPoolWebClientId: '2e70bconmpetsff86vakbqikn1' // example: '3k09ptd8kn8qk2hpk07qopr86'
+        userPoolWebClientId: '2e70bconmpetsff86vakbqikn1', // example: '3k09ptd8kn8qk2hpk07qopr86'
+        identityPoolId: 'us-east-1:3b9be410-6228-4d44-bf3f-203381691da6', // example: 'us-east-2:c85f3c18-05fd-4bb5-8fd1-e77e7627a99e'
+    },
+    Storage: {
+        bucket: 'iwanttodine', // example: 'my-test-bucket'
+        region: 'us-east-1', // example: 'us-east-2'
+        identityPoolId: 'us-east-1:3b9be410-6228-4d44-bf3f-203381691da6', // example: 'us-east-2:c85f3c18-05fd-4bb5-8fd1-e77e7627a99e'
     },
     API: {
         endpoints: [
