@@ -10,6 +10,9 @@ var dynamo = new AWS.DynamoDB.DocumentClient({
     apiVersion: '2012-08-10'
 });
 
+// Create S3 service object
+let s3 = new AWS.S3({ apiVersion: '2006-03-01' });
+
 exports.handler = (event, context, callback) => {
     const done = (err, res) =>
         callback(null, {
@@ -59,6 +62,9 @@ exports.handler = (event, context, callback) => {
                     break;
                 case 'scan':
                     dynamo.scan(myEventBody.myBody, done);
+                    break;
+                case 's3GetObject':
+                    s3.getObject(myEventBody.myBody, done);
                     break;
                 default:
                     done(new Error(`Unsupported method "${event.httpMethod}"`));

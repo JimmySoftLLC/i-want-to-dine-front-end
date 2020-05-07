@@ -76,7 +76,6 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                     Item: myNewItem,
                     ReturnConsumedCapacity: 'TOTAL',
                 },
-
                 myId: myCustomId,
             },
             headers: {

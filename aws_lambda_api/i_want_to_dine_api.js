@@ -1,12 +1,13 @@
 // Load the AWS SDK for Node.js
-var AWS = require('aws-sdk');
+let AWS = require('aws-sdk');
+
 // Set the region 
 AWS.config.update({
     region: 'us-east-1'
 });
 
 // Create DynamoDB document client
-var dynamo = new AWS.DynamoDB.DocumentClient({
+let dynamo = new AWS.DynamoDB.DocumentClient({
     apiVersion: '2012-08-10'
 });
 

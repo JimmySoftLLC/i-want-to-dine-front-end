@@ -24,13 +24,17 @@ import getAssociateFromRestaurant from '../../model/associate/getAssociateFromRe
 import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import updateMenuDaysWithAssociateChanges from '../../model/menuDay/updateMenuDaysWithAssociateChanges';
+import convertFileToBlob from '../../model/images/convertFileToBlob';
+import convertUrlToImageData from '../../model/images/convertUrlToImageData';
+import uploadImage from '../../model/images/uploadImage';
+import compressImage from '../../model/images/compressImage';
+import fileNameFromUrl from '../../model/files/fileNameFromUrl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-import imageCompression from 'browser-image-compression';
+
 import { saveAs } from 'file-saver';
-import Storage from '@aws-amplify/storage';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -108,6 +112,7 @@ const AssociateDialog = () => {
                 break;
             default:
         }
+        handleReset()
         setAssociateDialogOpen(false);
     };
 
@@ -253,30 +258,15 @@ const AssociateDialog = () => {
         setAssociateDialogDataItem('imageUrl', e.target.value);
     };
 
-    const getMyUrl = () => {
-        convertUrlToBlob(imageUrl)
+    const getMyUrl = async () => {
+        let myBlob = await convertUrlToImageData(imageUrl, idToken, customId);
+        setUpImg(myBlob);
     }
 
-    const convertUrlToBlob = (MY_URL) => {
-        var request = new XMLHttpRequest();
-        request.open('GET', MY_URL, true);
-        request.responseType = 'blob';
-        request.onload = function () {
-            var reader = new FileReader();
-            reader.readAsDataURL(request.response);
-            reader.onload = function (e) {
-                console.log('DataURL:', e.target.result);
-                setUpImg(e.target.result)
-            };
-        };
-        request.send();
-    }
-
-    const onSelectFile = e => {
+    const onSelectFile = async (e) => {
         if (e.target.files && e.target.files.length > 0) {
-            const reader = new FileReader();
-            reader.addEventListener('load', () => setUpImg(reader.result));
-            reader.readAsDataURL(e.target.files[0]);
+            let myBlob = await convertFileToBlob(e.target.files[0]);
+            setUpImg(myBlob)
         }
     };
 
@@ -320,8 +310,12 @@ const AssociateDialog = () => {
         try {
             setUpImg(window.URL.createObjectURL(blob));
             const compressedFile = await compressImage(blob);
+            let myFileName = fileNameFromUrl(imageUrl)
             if (compressedFile) {
-                uploadImage(blob)
+                let myDate = new Date()
+                let timeElasped = new Date()
+                await uploadImage(blob, fileNameFromUrl(myFileName))
+                timeElasped = new Date() - myDate; myDate = new Date(); console.log('upload time: ', timeElasped);
                 //saveAs(compressedFile, blob.fileName)
             }
         } catch (error) {
@@ -348,40 +342,6 @@ const AssociateDialog = () => {
     const handleRemove = async () => {
         setAssociateDialogDataItem('imageUrl', '');
         handleReset()
-    }
-
-    const compressImage = async (imageFile) => {
-        console.log(`originalFile size ${imageFile.size / 1024} KB`);
-        const options = {
-            maxSizeMB: .25,
-            maxWidthOrHeight: 1920,
-            useWebWorker: false
-        }
-        try {
-            const compressedFile = await imageCompression(imageFile, options);
-            console.log(`compressedFile size ${compressedFile.size / 1024} KB`);
-            return compressedFile;
-            //await uploadToServer(compressedFile); // write your own logic
-        } catch (error) {
-            console.log(error);
-            return null;
-        }
-    }
-
-    const uploadImage = (blob) => {
-        let myId = uuidv4() + '.jpg';
-        Storage.put(myId,
-            blob,
-            {
-                level: 'public',
-                contentType: blob.type
-            })
-            .then(result => {
-                console.log("Success uploading file!");
-            })
-            .catch(err => {
-                console.log(err);
-            })
     }
 
     let dialogTitle = '';
