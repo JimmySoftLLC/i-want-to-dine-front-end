@@ -25,14 +25,15 @@ import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArra
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import updateMenuDaysWithAssociateChanges from '../../model/menuDay/updateMenuDaysWithAssociateChanges';
 import convertFileToBlob from '../../model/images/convertFileToBlob';
-import convertUrlToImageData from '../../model/images/convertUrlToImageData';
-import uploadImage from '../../model/images/uploadImage';
+import downloadImageAPI from '../../model/images/downloadImageAPI';
+import uploadImageStorage from '../../model/images/uploadImageStorage';
 import compressImage from '../../model/images/compressImage';
 import fileNameFromUrl from '../../model/files/fileNameFromUrl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import consoleLogTimeElasped from '../../model/consoleLogTimeElasped';
 
 import { saveAs } from 'file-saver';
 import { v4 as uuidv4 } from 'uuid';
@@ -259,7 +260,7 @@ const AssociateDialog = () => {
     };
 
     const getMyUrl = async () => {
-        let myBlob = await convertUrlToImageData(imageUrl, idToken, customId);
+        let myBlob = await downloadImageAPI(imageUrl, idToken, customId);
         setUpImg(myBlob);
     }
 
@@ -312,10 +313,9 @@ const AssociateDialog = () => {
             const compressedFile = await compressImage(blob);
             let myFileName = fileNameFromUrl(imageUrl)
             if (compressedFile) {
-                let myDate = new Date()
-                let timeElasped = new Date()
-                await uploadImage(blob, fileNameFromUrl(myFileName))
-                timeElasped = new Date() - myDate; myDate = new Date(); console.log('upload time: ', timeElasped);
+                let myTimer = new consoleLogTimeElasped("Upload time")
+                await uploadImageStorage(blob, fileNameFromUrl(myFileName))
+                myTimer.timeElasped()
                 //saveAs(compressedFile, blob.fileName)
             }
         } catch (error) {
@@ -357,6 +357,8 @@ const AssociateDialog = () => {
         loggedInUserMessage = 'Logged in user'
     }
 
+    let showDetails = (accessLevel === "none" && associate.id !== id) || dialogType === "EditMe" ? true : false;
+
     return (
         <div>
             <Dialog className={classes.root} open={associateDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -364,7 +366,7 @@ const AssociateDialog = () => {
                     {dialogTitle}</DialogTitle>
                 <DialogContent>
                     <p>{loggedInUserMessage}</p>
-                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
+                    {showDetails && <TextField
                         id="firstName"
                         label="First name"
                         type="text"
@@ -374,7 +376,7 @@ const AssociateDialog = () => {
                         value={firstName}
                         onChange={changeFirstName}
                     />}
-                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
+                    {showDetails && <TextField
                         id="lastName"
                         label="Last name"
                         type="text"
@@ -383,7 +385,7 @@ const AssociateDialog = () => {
                         value={lastName}
                         onChange={changeLastName}
                     />}
-                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
+                    {showDetails && <TextField
                         id="jobTitle"
                         label="Job title"
                         type="text"
@@ -392,7 +394,7 @@ const AssociateDialog = () => {
                         value={jobTitle}
                         onChange={changeJobTitle}
                     />}
-                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
+                    {showDetails && <TextField
                         id="imageUrl"
                         label="Image URL"
                         type="text"
@@ -401,14 +403,14 @@ const AssociateDialog = () => {
                         value={imageUrl}
                         onChange={changeImageUrl}
                     />}
-                    {upImg && <ReactCrop style={{ display: 'block', marginTop: '0.5rem', marginBottom: '0.5rem' }}
+                    {(showDetails && upImg) && <ReactCrop style={{ display: 'block', marginTop: '0.5rem', marginBottom: '0.5rem' }}
                         src={upImg}
                         onImageLoaded={onLoad}
                         crop={crop}
                         onChange={c => setCrop(c)}
                         onComplete={makeClientCrop}
                     />}
-                    <input
+                    {showDetails && <input
                         accept="image/*"
                         className={classes.input}
                         hidden
@@ -417,19 +419,19 @@ const AssociateDialog = () => {
                         type="file"
                         value={fileValue}
                         onChange={onSelectFile}
-                    />
-                    <label htmlFor="raised-button-file">
+                    />}
+                    {showDetails && <label htmlFor="raised-button-file">
                         <Button component="span" className={classes.button}>
                             Upload Image
                     </Button>
-                    </label>
-                    <Button onClick={() => handleDownload()} color="default">
+                    </label>}
+                    {showDetails && <Button onClick={() => handleDownload()} color="default">
                         Crop
-                    </Button>
-                    <Button onClick={() => getMyUrl()} color="default">
+                    </Button>}
+                    {showDetails && <Button onClick={() => getMyUrl()} color="default">
                         Remove
-                    </Button>
-                    {((accessLevel === "none" && associate.id !== id) || dialogType === "EditMe") && <TextField
+                    </Button>}
+                    {showDetails && <TextField
                         id="bio"
                         label="Bio"
                         type="text"
@@ -440,7 +442,6 @@ const AssociateDialog = () => {
                         value={bio}
                         onChange={changeBio}
                     />}
-
                     {dialogType !== "EditMe" && <FormLabel component="legend">Access level</FormLabel>}
                     {dialogType !== "EditMe" && <RadioGroup aria-label="gender" name="gender1" value={accessLevel} onChange={handleAccessLevelChange}>
                         <FormControlLabel value="none" control={<Radio color="primary" />} label="No Access" />

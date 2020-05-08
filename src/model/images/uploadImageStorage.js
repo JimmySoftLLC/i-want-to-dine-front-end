@@ -1,6 +1,6 @@
 import Storage from '@aws-amplify/storage';
 
-const uploadImage = async (blob, myId) => {
+const uploadImageStorage = async (blob, myId) => {
     try {
         let myResult = await Storage.put(myId,
             blob,
@@ -15,4 +15,4 @@ const uploadImage = async (blob, myId) => {
     }
 }
 
-export default uploadImage;
+export default uploadImageStorage;

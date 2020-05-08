@@ -1,6 +1,6 @@
 import Storage from '@aws-amplify/storage';
 
-const downloadImage = async (myId) => {
+const downloadImageAPI = async (myId) => {
     try {
         let myResult = await Storage.get(myId, { level: 'public', download: true })
         return myResult
@@ -10,4 +10,4 @@ const downloadImage = async (myId) => {
     }
 }
 
-export default downloadImage;
+export default downloadImageAPI;
