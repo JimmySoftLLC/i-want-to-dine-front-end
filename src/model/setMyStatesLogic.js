@@ -19,12 +19,13 @@ const setMyStatesLogic = (myStates, key) => {
     }
 
     // if myKey = any of the loggin items, set login items to false and set key
-    if (key === 'restaurants' || key === 'menuItems' || key === 'associates' || key === 'info' || key === 'restaurantDetail') {
+    if (key === 'restaurants' || key === 'menuItems' || key === 'associates' || key === 'info' || key === 'restaurantDetail' || key === 'entertainmentSettings') {
         myStates['restaurants'] = false;
         myStates['menuItems'] = false;
         myStates['associates'] = false;
         myStates['info'] = false;
         myStates['restaurantDetail'] = false;
+        myStates['entertainmentSettings'] = false;
         myStates[key] = true;
         return myStates;
     }

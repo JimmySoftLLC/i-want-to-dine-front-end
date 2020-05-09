@@ -15,11 +15,17 @@ const MenuItemsInventory = () => {
     if (loading) {
         return <CircularIndeterminate />;
     } else {
-        return restaurantMenuItems.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
-            myStates={myStates}
-            restaurants={restaurants}
-            key={menuItem.id} />);
+        return (
+            <div className='grid-4'>
+                {(restaurantMenuItems.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
+                    myStates={myStates}
+                    restaurants={restaurants}
+                    key={menuItem.id}
+                />))}
+            </div>
+        );
     }
 };
 
 export default MenuItemsInventory;
+

@@ -35,7 +35,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
-// import consoleLogTimeElasped from '../../model/consoleLogTimeElasped';
+import CircularIndeterminate from '../circularIndeterminate/CircularIndeterminate';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -80,6 +80,8 @@ const AssociateDialog = () => {
         setRestaurantMenuDays,
         restaurantMenuDays,
         setLoading,
+        setLoadingDialog,
+        loadingDialog,
     } = dataAndMethodsContext;
 
     const {
@@ -269,10 +271,12 @@ const AssociateDialog = () => {
     };
 
     const downloadImageFromUrl = async () => {
+        setLoadingDialog(true)
         let myDataUrl = await downloadImageAPI(imageUrl, idToken, customId);
         setUpImg(myDataUrl);
         let myBlob = await convertDataUrlToBlob(myDataUrl, 'newFile.jpeg')
         setBlob(myBlob)
+        setLoadingDialog(false)
     }
 
     const getImageFromFile = async (e) => {
@@ -462,6 +466,7 @@ const AssociateDialog = () => {
                         value={jobTitle}
                         onChange={changeJobTitle}
                     />}
+                    {loadingDialog && <CircularIndeterminate />}
                     {(showDetails && pictureEditMode === 'none' && imageUrl !== undefined) && <img
                         style={{ display: 'block', marginTop: '0.5rem', marginBottom: '0.5rem' }}
                         src={imageUrl}

@@ -14,7 +14,7 @@ const AssociatesDetail = () => {
         return <CircularIndeterminate />;
     } else {
         return (
-            <div className='grid-4 page-bottom-margin'>
+            <div className='grid-4'>
                 {(associates.map(associate => <AssociatesDetailCard associate={associate}
                     key={associate.id}
                 />))}

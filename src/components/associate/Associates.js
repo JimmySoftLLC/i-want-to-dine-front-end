@@ -14,14 +14,15 @@ const Associates = () => {
     if (loading) {
         return <CircularIndeterminate />;
     } else {
-        return restaurantAssociates.map(Associate => <AssociateCard Associate={Associate}
-            myStates={myStates}
-            key={Associate.id} />);
+        return (
+            <div className='grid-4'>
+                {(restaurantAssociates.map(Associate => <AssociateCard Associate={Associate}
+                    myStates={myStates}
+                    key={Associate.id}
+                />))}
+            </div>
+        );
     }
 };
 
 export default Associates;
-
-
-
-

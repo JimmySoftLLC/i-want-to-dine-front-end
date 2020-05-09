@@ -1,16 +1,16 @@
 import Storage from '@aws-amplify/storage';
-// import consoleLogTimeElasped from '../consoleLogTimeElasped'
+import consoleLogTimeElasped from '../consoleLogTimeElasped'
 
 const uploadImageStorage = async (blob, myId) => {
     try {
-        // let myTimer = new consoleLogTimeElasped("Upload time")
+        let myTimer = new consoleLogTimeElasped("Upload time amplify")
         let myResult = await Storage.put(myId,
             blob,
             {
                 level: 'public',
                 contentType: blob.type
             })
-        // myTimer.timeElasped()
+        myTimer.timeElasped()
         return myResult
     } catch (error) {
         console.log(error)

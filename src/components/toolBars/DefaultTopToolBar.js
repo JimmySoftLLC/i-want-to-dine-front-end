@@ -3,10 +3,27 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import { Tooltip } from '@material-ui/core';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const DefaultTopToolBar = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const { myStates } = dataAndMethodsContext;
+    const { myStates, setMyState } = dataAndMethodsContext;
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const setUpRegistrationDialog = () => {
+        dataAndMethodsContext.setSignInRegDialogTitle('Restaurant Sign In');
+        dataAndMethodsContext.setSignInRegDialogType('signIn')
+    }
+
     return (
         <Fragment>
             <Toolbar>
@@ -100,6 +117,62 @@ const DefaultTopToolBar = () => {
                             onClick={() => dataAndMethodsContext.setMyState('carryout')}
                         >
                             <i className="fas fa-shopping-bag"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {myStates.menuItems && <Tooltip title="Set price points">
+                        <IconButton aria-controls="simple-menu" aria-haspopup="true"
+                            color="inherit"
+                            onClick={handleClick}>
+                            <i className="fas icon-dollar_1"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={handleClose}>
+                            <IconButton aria-label=""
+                                color={"primary"}
+                            >
+                                <i className="fas fa-times"></i>
+                            </IconButton>
+                        </MenuItem>
+                        <MenuItem>
+                            <Tooltip title="0-20 dollars">
+                                <IconButton aria-label=""
+                                    color={myStates['dollar_1'] ? "secondary" : "primary"}
+                                    onClick={() => setMyState('dollar_1')}>
+                                    <i className="icon-dollar_1"></i>
+                                </IconButton>
+                            </Tooltip>
+                        </MenuItem>
+                        <MenuItem>
+                            <Tooltip title="20-35 dollars">
+                                <IconButton aria-label=""
+                                    color={myStates['dollar_2'] ? "secondary" : "primary"}
+                                    onClick={() => setMyState('dollar_2')}>
+                                    <i className="icon-dollar_2"></i>
+                                </IconButton>
+                            </Tooltip>
+                        </MenuItem>
+                        <MenuItem>
+                            <Tooltip title="35 and up dollars">
+                                <IconButton aria-label=""
+                                    color={myStates['dollar_3'] ? "secondary" : "primary"}
+                                    onClick={() => setMyState('dollar_3')}>
+                                    <i className="icon-dollar_3"></i>
+                                </IconButton>
+                            </Tooltip>
+                        </MenuItem>
+                    </Menu>
+                    {myStates.associates && <Tooltip title="Log in">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => setUpRegistrationDialog()}>
+                            <i className="fas fa-sign-in-alt"></i>
                         </IconButton>
                     </Tooltip>}
                 </div>

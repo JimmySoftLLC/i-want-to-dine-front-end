@@ -139,6 +139,9 @@ const About = () => {
                 <li><i className="fas fa-check"></i>{'   '}
                     Event services.  You can detail in a seperate area what event services you provide and menu of options.
                     </li>
+                <li><i className="fas fa-check"></i>{'   '}
+                    Entertainment.  We will be adding an entertainment section.  You can highlight your band, karokee, show.
+                    </li>
             </ul>
         </Fragment >
     );

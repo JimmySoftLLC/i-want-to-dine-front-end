@@ -34,6 +34,7 @@ import {
     SET_RESTAURANT,
     SET_ASSOCIATES,
     SET_MENU_DAYS,
+    SET_LOADING_DIALOG
 } from '../types';
 import {
     // menuItemsTableName,
@@ -50,6 +51,7 @@ const DataAndMethodsState = props => {
         customId: '',
         logInType: 'default',
         loading: false,
+        loadingDialog: false,
         myStates: {
             meat: true,
             ham: false,
@@ -79,6 +81,7 @@ const DataAndMethodsState = props => {
             associateSettings: false,
             sortName: false,
             restaurantDetail: false,
+            entertainmentSettings: false,
         },
         signInRegDialogType: 'false',
         menuItems: [],
@@ -152,6 +155,7 @@ const DataAndMethodsState = props => {
 
     // setting states and dispatch changes to the reducer ---------------------------------------------------------------------
     const setLoading = (myBool) => dispatch({ type: SET_LOADING, payload: myBool });
+    const setLoadingDialog = (myBool) => dispatch({ type: SET_LOADING_DIALOG, payload: myBool });
 
     const setAssociateDialogDataItem = async (key, value) => {
         let associateDialogData = JSON.parse(JSON.stringify(state.associateDialogData))
@@ -262,6 +266,7 @@ const DataAndMethodsState = props => {
                 menuDayDialogOpen: state.menuDayDialogOpen,
                 restaurantAssociates: state.restaurantAssociates,
                 loading: state.loading,
+                loadingDialog: state.loadingDialog,
                 restaurantDetail: state.restaurantDetail,
                 associates: state.associates,
                 menuDays: state.menuDays,
@@ -298,6 +303,7 @@ const DataAndMethodsState = props => {
                 setRestaurantDetail,
                 setAssociates,
                 setMenuDays,
+                setLoadingDialog,
             }}
         >
             {props.children}

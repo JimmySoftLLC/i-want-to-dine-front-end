@@ -162,7 +162,7 @@ const AssociateCard = ({ Associate }) => {
     // console.log(Associate)
 
     return (
-        <div className='card'>
+        <div className='card  all-center'>
             {Associate.imageUrl !== undefined && <div>
                 <img
                     src={Associate.imageUrl}
@@ -184,7 +184,6 @@ const AssociateCard = ({ Associate }) => {
                     </Button>}
                 </div>
             </div>
-
         </div>
     );
 };
