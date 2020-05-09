@@ -66,6 +66,9 @@ exports.handler = (event, context, callback) => {
                 case 's3GetObject':
                     s3.getObject(myEventBody.myBody, done);
                     break;
+                case 's3DeleteObject':
+                    s3.deleteObject(myEventBody.myBody, done);
+                    break;
                 default:
                     done(new Error(`Unsupported method "${event.httpMethod}"`));
             }

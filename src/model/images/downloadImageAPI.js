@@ -1,6 +1,6 @@
 import fileNameFromUrl from '../files/fileNameFromUrl';
 import s3GetObject from '../../api/s3GetObject';
-import consoleLogTimeElasped from '../consoleLogTimeElasped';
+// import consoleLogTimeElasped from '../consoleLogTimeElasped';
 
 const getDataFromBlob = (myBlob) => {
     return new Promise((resolve, reject) => {
@@ -16,9 +16,9 @@ const getDataFromBlob = (myBlob) => {
 const downloadImageAPI = async (myImageUrl, myIdToken, myCustomId) => {
     try {
         let myFile = fileNameFromUrl(myImageUrl);
-        let myTimer = new consoleLogTimeElasped('Lambda func time')
+        // let myTimer = new consoleLogTimeElasped('Lambda func time')
         let myResult = await s3GetObject(myFile, myIdToken, myCustomId);
-        myTimer.timeElasped()
+        // myTimer.timeElasped()
         let myBlob = new Blob([new Uint8Array(myResult.payload.Body.data).buffer]);
         let myImageData = await getDataFromBlob(myBlob);
         return myImageData;

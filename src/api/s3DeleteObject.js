@@ -4,12 +4,12 @@ import {
     apiPath,
 } from './apiConstants';
 
-let s3GetObject = async (key, myIdToken, myCustomId) => {
+let s3DeleteObject = async (key, myIdToken, myCustomId) => {
     let myReturnObject = { err: false, payload: null };
     try {
         const apiRequest = {
             body: {
-                myMethod: 's3GetObject',
+                myMethod: 's3DeleteObject',
                 myBody: {
                     Bucket: "iwanttodine",
                     Key: "public/" + key,
@@ -33,4 +33,4 @@ let s3GetObject = async (key, myIdToken, myCustomId) => {
     }
 };
 
-export default s3GetObject
+export default s3DeleteObject

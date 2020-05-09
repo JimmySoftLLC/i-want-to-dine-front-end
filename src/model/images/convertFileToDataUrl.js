@@ -9,7 +9,7 @@ const readFileAsync = (file) => {
     })
 }
 
-const convertFileToBlob = async (file) => {
+const convertFileToDataUrl = async (file) => {
     try {
         let contentBuffer = await readFileAsync(file);
         // console.log(contentBuffer);
@@ -20,4 +20,4 @@ const convertFileToBlob = async (file) => {
     }
 }
 
-export default convertFileToBlob;
+export default convertFileToDataUrl;

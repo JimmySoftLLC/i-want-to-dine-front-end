@@ -26,6 +26,7 @@ import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
 import getMenuItems from '../../model/menuItem/getMenuItems';
 import {
     noSelectedRestaurant,
+    blankImage,
 } from '../../api/apiConstants';
 
 const SignedInTopToolBar = () => {
@@ -193,8 +194,10 @@ const SignedInTopToolBar = () => {
             restaurantIdsJSON: [],
             accessLevel: 'none',
             dialogType: "Add",
-            imageUrl: '',
+            imageUrl: blankImage,
             showEmail: true,
+            pictureEditMode: 'none',
+            deleteFileValue: '',
         };
         setAssociateDialogData(myAssociateData);
         setAssociateDialogOpen(true);

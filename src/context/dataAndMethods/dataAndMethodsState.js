@@ -132,7 +132,8 @@ const DataAndMethodsState = props => {
             accessLevel: 'none',
             dialogType: 'Edit',
             imageUrl: '',
-            message: ''
+            message: '',
+            pictureEditMode: 'none',
         },
         menuDayDialogOpen: false,
         menuDayDialogData: {
@@ -162,6 +163,7 @@ const DataAndMethodsState = props => {
         if (key === 'email') { associateDialogData['message'] = '' }
         if (key === 'accessLevel') { associateDialogData['message'] = '' }
         setAssociateDialogData(associateDialogData);
+        // console.log(key, value);
     }
     const setAssociate = async (associate) => { dispatch({ type: SET_ASSOCIATE, payload: associate }) }
     const setAssociates = async (associates) => { dispatch({ type: SET_ASSOCIATES, payload: associates }) }

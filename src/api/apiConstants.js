@@ -12,6 +12,11 @@ export const projectionExpressionMenuDay = 'id,title,dateFrom,dateTo,description
 export const projectionExpressionAssociate = 'id,firstName,lastName,bio,jobTitle,email,restaurantIdsJSON,imageUrl';
 export const noSelectedRestaurant = 'Select Your Restaurant';
 export const blankPlaceHolder = String.fromCharCode(30);
+export const imagePath = 'https://iwanttodine.s3.amazonaws.com/public/'
+export const blankImage = 'https://iwanttodine.s3.amazonaws.com/public/blank.jpg'
+
+
+
 
 
 

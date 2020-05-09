@@ -72,6 +72,8 @@ const AssociateCard = ({ Associate }) => {
                     imageUrl: restaurantAssociates[i].imageUrl,
                     dialogType: 'Edit',
                     showEmail: showEmail,
+                    pictureEditMode: 'none',
+                    deleteFileValue: '',
                 }
                 setAssociateDialogData(myEditItem);
                 setAssociateDialogOpen(true);
