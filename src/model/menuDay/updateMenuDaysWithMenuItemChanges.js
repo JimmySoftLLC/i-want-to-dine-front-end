@@ -4,14 +4,14 @@ import indexOfMenuItemInRestaurant from '../menuItem/indexOfMenuItemInRestaurant
 const updateMenuDaysWithMenuItemChanges = async (myMenuDays, myMenuItems, myToken, myCustomId) => {
     for (let i = 0; i < myMenuDays.length; i++) {
         let myNewMenuIdsJSON = [];
-        for (let j = 0; j < myMenuDays[i].menuIdsJSON.length; j++) {
-            let myIndex = indexOfMenuItemInRestaurant(myMenuItems, myMenuDays[i].menuIdsJSON[j]);
+        for (let j = 0; j < myMenuDays[i].menuItemIdsJSON.length; j++) {
+            let myIndex = indexOfMenuItemInRestaurant(myMenuItems, myMenuDays[i].menuItemIdsJSON[j]);
             if (myIndex !== -1) {
-                myNewMenuIdsJSON.push(myMenuDays[i].menuIdsJSON[j])
+                myNewMenuIdsJSON.push(myMenuDays[i].menuItemIdsJSON[j])
             }
         }
-        if (myNewMenuIdsJSON.length !== myMenuDays[i].menuIdsJSON.length) {
-            myMenuDays[i].menuIdsJSON = myNewMenuIdsJSON;
+        if (myNewMenuIdsJSON.length !== myMenuDays[i].menuItemIdsJSON.length) {
+            myMenuDays[i].menuItemIdsJSON = myNewMenuIdsJSON;
             await putMenuDay(myMenuDays[i], myToken, myCustomId);
         }
     }

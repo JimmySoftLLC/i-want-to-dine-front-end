@@ -27,6 +27,9 @@ import {
     SET_ASSOCIATES,
     SET_MENU_DAYS,
     SET_LOADING_DIALOG,
+    SET_ENTERTAINMENT_ITEMS,
+    SET_ENTERTAINMENT_ITEM_DIALOG_DATA,
+    SET_ENTERTAINMENT_ITEM_DIALOG_OPEN,
 } from '../types';
 
 export default (state, action) => {
@@ -170,6 +173,21 @@ export default (state, action) => {
             return {
                 ...state,
                 loadingDialog: action.payload,
+            };
+        case SET_ENTERTAINMENT_ITEMS:
+            return {
+                ...state,
+                entertainmentItems: action.payload,
+            };
+        case SET_ENTERTAINMENT_ITEM_DIALOG_DATA:
+            return {
+                ...state,
+                entertainmentItemDialogData: action.payload,
+            };
+        case SET_ENTERTAINMENT_ITEM_DIALOG_OPEN:
+            return {
+                ...state,
+                entertainmentItemDialogOpen: action.payload,
             };
         default:
             return state;

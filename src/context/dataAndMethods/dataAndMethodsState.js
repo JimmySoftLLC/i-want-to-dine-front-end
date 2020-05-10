@@ -34,7 +34,10 @@ import {
     SET_RESTAURANT,
     SET_ASSOCIATES,
     SET_MENU_DAYS,
-    SET_LOADING_DIALOG
+    SET_LOADING_DIALOG,
+    SET_ENTERTAINMENT_ITEMS,
+    SET_ENTERTAINMENT_ITEM_DIALOG_DATA,
+    SET_ENTERTAINMENT_ITEM_DIALOG_OPEN,
 } from '../types';
 import {
     // menuItemsTableName,
@@ -81,13 +84,16 @@ const DataAndMethodsState = props => {
             associateSettings: false,
             sortName: false,
             restaurantDetail: false,
+            entertainmentItems: false,
             entertainmentSettings: false,
         },
         signInRegDialogType: 'false',
         menuItems: [],
+        entertainmentItems: [],
         associates: [],
         menuDays: [],
         restaurantMenuItems: [],
+        restaurantEntertainmentItems: [],
         restaurantMenuDays: [],
         restaurants: [],
         associatesRestaurants: [],
@@ -119,6 +125,7 @@ const DataAndMethodsState = props => {
             menuItemIdsJSON: [],
             associatesJSON: [],
             menuDayIdsJSON: [],
+            entertainmentItemIdsJSON: [],
             approved: false,
             myAssociate: {},
             dialogType: 'Edit',
@@ -145,10 +152,21 @@ const DataAndMethodsState = props => {
             dateFrom: '',
             dateTo: '',
             description: '',
-            menuIdsJSON: [],
+            menuItemIdsJSON: [],
+            entertainmentItemIdsJSON: [],
             associatesJSON: [],
             dialogType: "Edit",
-        }
+        },
+        entertainmentItemDialogData: {
+            title: '',
+            description: '',
+            timeFrom: '',
+            timeTo: '',
+            imageUrl: '',
+            categoryJSON: [],
+            dialogType: 'Add',
+        },
+        entertainmentItemDialogOpen: false,
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
@@ -234,6 +252,25 @@ const DataAndMethodsState = props => {
     const setMenuDayDialogData = async (menuDayDialogData) => { dispatch({ type: SET_MENU_DAY_DIALOG_DATA, payload: menuDayDialogData }) }
     const setMenuDayDialogOpen = async (menuDayDialogOpen) => { dispatch({ type: SET_MENU_DAY_DIALOG_OPEN, payload: menuDayDialogOpen }) }
 
+    const setEntertainmentItems = async (entertainmentItems) => { dispatch({ type: SET_ENTERTAINMENT_ITEMS, payload: entertainmentItems }) }
+    const setEntertainmentItemDialogDataItem = async (key, value) => {
+        let entertainmentItemDialogData = JSON.parse(JSON.stringify(state.entertainmentItemDialogData))
+        entertainmentItemDialogData[key] = value;
+        setEntertainmentItemDialogData(entertainmentItemDialogData);
+    }
+    const setEntertainmentItemDialogDataCategory = async (key) => {
+        let myNewCategories = JSON.parse(JSON.stringify(state.entertainmentItemDialogData.categoryJSON))
+        let myIndex = myNewCategories.indexOf(key, 0)
+        if (myIndex !== -1) {
+            myNewCategories.splice(myIndex, 1)
+        } else {
+            myNewCategories.push(key)
+        }
+        setEntertainmentItemDialogDataItem('categoryJSON', myNewCategories)
+    }
+    const setEntertainmentItemDialogData = async (entertainmentItemDialogData) => { dispatch({ type: SET_ENTERTAINMENT_ITEM_DIALOG_DATA, payload: entertainmentItemDialogData }) }
+    const setEntertainmentItemDialogOpen = async (entertainmentItemDialogOpen) => { dispatch({ type: SET_ENTERTAINMENT_ITEM_DIALOG_OPEN, payload: entertainmentItemDialogOpen }) }
+
     return (
         <DataAndMethodsContext.Provider
             value={{
@@ -270,6 +307,10 @@ const DataAndMethodsState = props => {
                 restaurantDetail: state.restaurantDetail,
                 associates: state.associates,
                 menuDays: state.menuDays,
+                entertainmentItems: state.entertainmentItems,
+                entertainmentItemDialogData: state.entertainmentItemDialogData,
+                entertainmentItemDialogDataItem: state.entertainmentItemDialogDataItem,
+                entertainmentItemDialogOpen: state.entertainmentItemDialogOpen,
                 setMyState,
                 setMyStates,
                 setRestaurants,
@@ -304,6 +345,11 @@ const DataAndMethodsState = props => {
                 setAssociates,
                 setMenuDays,
                 setLoadingDialog,
+                setEntertainmentItems,
+                setEntertainmentItemDialogData,
+                setEntertainmentItemDialogDataItem,
+                setEntertainmentItemDialogOpen,
+                setEntertainmentItemDialogDataCategory,
             }}
         >
             {props.children}
@@ -312,3 +358,5 @@ const DataAndMethodsState = props => {
 };
 
 export default DataAndMethodsState;
+
+

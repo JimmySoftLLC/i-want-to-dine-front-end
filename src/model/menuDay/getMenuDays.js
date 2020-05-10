@@ -17,7 +17,7 @@ const getBatch = async (myIds) => {
     for (let i = 0; i < myMenuDays.length; i++) {
         myMenuDays[i].title = myMenuDays[i].title === blankPlaceHolder ? '' : myMenuDays[i].title
         myMenuDays[i].description = myMenuDays[i].description === blankPlaceHolder ? '' : myMenuDays[i].description
-        myMenuDays[i].menuIdsJSON = JSON.parse(myMenuDays[i].menuIdsJSON)
+        myMenuDays[i].menuItemIdsJSON = JSON.parse(myMenuDays[i].menuItemIdsJSON)
         myMenuDays[i].associatesJSON = JSON.parse(myMenuDays[i].associatesJSON)
         myMenuDays[i].dateFrom = new Date(myMenuDays[i].dateFrom)
         myMenuDays[i].dateTo = new Date(myMenuDays[i].dateTo)

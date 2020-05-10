@@ -4,6 +4,7 @@ import {
     restaurantsTableName,
     associatesTableName,
     menuDaysTableName,
+    entertainmentItemsTableName,
     apiName,
     apiPath,
     blankPlaceHolder,
@@ -38,6 +39,7 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),
                 menuDayIdsJSON: JSON.stringify(myItem.menuDayIdsJSON),
+                entertainmentItemIdsJSON: JSON.stringify(myItem.entertainmentItemIdsJSON),
                 approved: myItem.approved,
             }
             break;
@@ -60,8 +62,19 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                 dateFrom: dateString(myItem.dateFrom, null, 'saveToDatabase'),
                 dateTo: dateString(myItem.dateTo, null, 'saveToDatabase'),
                 description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
-                menuIdsJSON: JSON.stringify(myItem.menuIdsJSON),
+                menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),
+            }
+            break;
+        case entertainmentItemsTableName:
+            myNewItem = {
+                id: myItem.id,
+                title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
+                // timeFrom: dateString(myItem.timeFrom, null, 'saveToDatabase'),
+                // timeTo: dateString(myItem.timeTo, null, 'saveToDatabase'),
+                description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
+                imageUrl: myItem.imageUrl !== '' ? myItem.imageUrl : blankPlaceHolder,
+                categoryJSON: JSON.stringify(myItem.categoryJSON),
             }
             break;
         default:

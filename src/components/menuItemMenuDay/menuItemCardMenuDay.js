@@ -8,8 +8,8 @@ const MenuItemCardMenuDay = ({ menuItem }) => {
     } = dataAndMethodsContext;
 
     let menuItemSelected = false;
-    for (let j = 0; j < menuDayDialogData.menuIdsJSON.length; j++) {
-        if (menuItem.id === menuDayDialogData.menuIdsJSON[j]) {
+    for (let j = 0; j < menuDayDialogData.menuItemIdsJSON.length; j++) {
+        if (menuItem.id === menuDayDialogData.menuItemIdsJSON[j]) {
             menuItemSelected = true;
             break;
         }
@@ -17,11 +17,11 @@ const MenuItemCardMenuDay = ({ menuItem }) => {
 
     const changeMenuItemSelected = () => {
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
-        let myIndex = myNewMenuDayDialogData.menuIdsJSON.indexOf(menuItem.id, 0)
+        let myIndex = myNewMenuDayDialogData.menuItemIdsJSON.indexOf(menuItem.id, 0)
         if (myIndex !== -1) {
-            myNewMenuDayDialogData.menuIdsJSON.splice(myIndex, 1)
+            myNewMenuDayDialogData.menuItemIdsJSON.splice(myIndex, 1)
         } else {
-            myNewMenuDayDialogData.menuIdsJSON.push(menuItem.id)
+            myNewMenuDayDialogData.menuItemIdsJSON.push(menuItem.id)
         }
         setMenuDayDialogData(myNewMenuDayDialogData)
     }

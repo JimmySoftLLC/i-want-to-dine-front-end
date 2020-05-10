@@ -12,6 +12,7 @@ import MenuItemDialog from '../components/dialogs/MenuItemDialog';
 import AssociatesDetail from '../components/associatesDetail/AssociatesDetail';
 import RestaurantDialog from '../components/dialogs/RestaurantDialog';
 import AssociateDialog from '../components/dialogs/AssociateDialog';
+import EntertainmentItemDialog from '../components/dialogs/EntertainmentItemDialog';
 import MenuDayDialog from '../components/dialogs/MenuDayDialog';
 import AlertDialog from '../components/dialogs/AlertDialog';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
@@ -82,6 +83,7 @@ const Home = () => {
                 <RestaurantDialog />
                 <AssociateDialog />
                 <MenuDayDialog />
+                <EntertainmentItemDialog />
                 <p className='p associate-page-bottom-margin'></p>
             </div>}
             <BotNavBar />

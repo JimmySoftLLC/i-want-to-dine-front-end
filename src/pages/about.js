@@ -36,10 +36,13 @@ const About = () => {
                     <i className="fas fa-book-open"></i> show menu items
                     </li>
                 <li>
-                    <i className="icon-resturant"></i> show restaurants
+                    <i className="fas fa-store"></i> show restaurants
                     </li>
                 <li>
                     <i className="fas fa-users"></i> show restaurant associates
+                    </li>
+                <li>
+                    <i className="fas fa-music"></i> show entertainment
                     </li>
                 <li>
                     <i className="fas fa-info"></i> information

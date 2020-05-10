@@ -34,8 +34,8 @@ const DefaultBotToolBar = () => {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Entertainment">
-                    <IconButton aria-label="" color={myStates['entertainmentSettings'] ? "secondary" : "primary"}
-                        onClick={() => dataAndMethodsContext.setMyState('entertainmentSettings')}
+                    <IconButton aria-label="" color={myStates['entertainmentItems'] ? "secondary" : "primary"}
+                        onClick={() => dataAndMethodsContext.setMyState('entertainmentItems')}
                     >
                         <i className="fas fa-music"></i>
                     </IconButton>

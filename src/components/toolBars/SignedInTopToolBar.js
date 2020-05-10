@@ -52,6 +52,8 @@ const SignedInTopToolBar = () => {
         setAssociateDialogOpen,
         setRestaurantAssociates,
         setLoading,
+        setEntertainmentItemDialogData,
+        setEntertainmentItemDialogOpen,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -166,6 +168,22 @@ const SignedInTopToolBar = () => {
         setMenuItemDialogOpen(true);
     };
 
+    const newEntertainmentClick = () => {
+        let myNewId = uuidv4()
+        let myEditItem = {
+            id: myNewId,
+            title: '',
+            description: '',
+            timeFrom: '',
+            timeTo: '',
+            imageUrl: '',
+            categoryJSON: [],
+            dialogType: "Add",
+        }
+        setEntertainmentItemDialogData(myEditItem);
+        setEntertainmentItemDialogOpen(true);
+    };
+
     const newMenuDayClick = () => {
         let myNewId = uuidv4()
         let myEditItem = {
@@ -174,7 +192,7 @@ const SignedInTopToolBar = () => {
             dateFrom: new Date(),
             dateTo: new Date(),
             description: '',
-            menuIdsJSON: [],
+            menuItemIdsJSON: [],
             associatesJSON: [],
             dialogType: "Add",
         }
@@ -311,11 +329,11 @@ const SignedInTopToolBar = () => {
                             <i className="icon-list-solid-cog"></i>
                         </IconButton>
                     </Tooltip>}
-                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Menu day settings">
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Entertainment settings">
                         <IconButton aria-label=""
-                            color={myStates['menuDaySettings'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('menuDaySettings')}>
-                            <i className="icon-calendar-cog"></i>
+                            color={myStates['entertainmentSettings'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setMyState('entertainmentSettings')}>
+                            <i className="fas fa-music"></i>
                         </IconButton>
                     </Tooltip>}
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Associate settings">
@@ -323,6 +341,13 @@ const SignedInTopToolBar = () => {
                             color={myStates['associateSettings'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setMyState('associateSettings')}>
                             <i className="fas fa-user-cog"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Menu day settings">
+                        <IconButton aria-label=""
+                            color={myStates['menuDaySettings'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setMyState('menuDaySettings')}>
+                            <i className="icon-calendar-cog"></i>
                         </IconButton>
                     </Tooltip>}
                     {(restaurantId !== noSelectedRestaurant && myStates['restaurantSettings'] && canAdmin) && <Tooltip title="Edit restaurant">
@@ -372,6 +397,13 @@ const SignedInTopToolBar = () => {
                             color="inherit"
                             onClick={() => newAssociateClick()}>
                             <i className="fas fa-user-plus"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {(restaurantId !== noSelectedRestaurant && myStates['entertainmentSettings'] && canAdmin) && <Tooltip title="Add entertainment item">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => newEntertainmentClick()}>
+                            <i className="fas fa-music"></i>
                         </IconButton>
                     </Tooltip>}
                     {/* <IconButton aria-label=""

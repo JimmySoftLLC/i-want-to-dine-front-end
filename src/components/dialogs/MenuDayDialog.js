@@ -45,7 +45,7 @@ const MenuDayDialog = () => {
         dateFrom,
         dateTo,
         description,
-        menuIdsJSON,
+        menuItemIdsJSON,
         associatesJSON,
         dialogType,
     } = dataAndMethodsContext.menuDayDialogData;
@@ -88,7 +88,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.dateFrom = dateFrom;
         myNewMenuDay.dateTo = dateTo;
         myNewMenuDay.description = description
-        myNewMenuDay.menuIdsJSON = menuIdsJSON
+        myNewMenuDay.menuItemIdsJSON = menuItemIdsJSON
         myNewMenuDay.associatesJSON = associatesJSON;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
@@ -105,7 +105,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.dateFrom = dateFrom;
         myNewMenuDay.dateTo = dateTo;
         myNewMenuDay.description = description
-        myNewMenuDay.menuIdsJSON = menuIdsJSON;
+        myNewMenuDay.menuItemIdsJSON = menuItemIdsJSON;
         myNewMenuDay.associatesJSON = associatesJSON;
         // console.log(myNewMenuDay, idToken, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
@@ -121,7 +121,7 @@ const MenuDayDialog = () => {
     const selectAll = () => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
-        myNewMenuDayDialogData.menuIdsJSON = JSON.parse(JSON.stringify(myRestaurant.menuItemIdsJSON))
+        myNewMenuDayDialogData.menuItemIdsJSON = JSON.parse(JSON.stringify(myRestaurant.menuItemIdsJSON))
         let myNewAssociateJSON = [];
         for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
             myNewAssociateJSON.push(myRestaurant.associatesJSON[i].id)
@@ -132,7 +132,7 @@ const MenuDayDialog = () => {
 
     const unSelectAll = () => {
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
-        myNewMenuDayDialogData.menuIdsJSON = []
+        myNewMenuDayDialogData.menuItemIdsJSON = []
         myNewMenuDayDialogData.associatesJSON = []
         setMenuDayDialogData(myNewMenuDayDialogData)
     }

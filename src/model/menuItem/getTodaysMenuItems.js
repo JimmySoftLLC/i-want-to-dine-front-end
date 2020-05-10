@@ -9,8 +9,8 @@ const getTodaysMenuItems = async (myMenuDays) => {
 
     for (let j = 0; j < myMenuDays.length; j++) {
         if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, myDateNow)) {
-            for (let k = 0; k < myMenuDays[j].menuIdsJSON.length; k++) {
-                menuItemIds.push(myMenuDays[j].menuIdsJSON[k])
+            for (let k = 0; k < myMenuDays[j].menuItemIdsJSON.length; k++) {
+                menuItemIds.push(myMenuDays[j].menuItemIdsJSON[k])
             }
         }
     }

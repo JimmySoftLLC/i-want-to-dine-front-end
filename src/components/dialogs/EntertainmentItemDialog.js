@@ -1,0 +1,206 @@
+import React, { useContext } from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
+import Toolbar from '@material-ui/core/Toolbar';
+import { Tooltip } from '@material-ui/core';
+import putEntertainmentItem from '../../model/entertainmentItem/putEntertainmentItem';
+import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import putRestaurant from '../../model/restaurant/putRestaurant';
+import sortEntertainmentItems from '../../model/entertainmentItem/sortEntertainmentItems';
+import getEntertainmentItems from '../../model/entertainmentItem/getEntertainmentItems';
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        '& .MuiTextField-root': {
+            margin: theme.spacing(1),
+            marginLeft: 0,
+        },
+    },
+}));
+
+const EntertainmentItemDialog = () => {
+    const classes = useStyles();
+    const dataAndMethodsContext = useContext(DataAndMethodsContext);
+
+    const {
+        id,
+        title,
+        description,
+        timeFrom,
+        timeTo,
+        imageUrl,
+        categoryJSON,
+        dialogType,
+    } = dataAndMethodsContext.entertainmentItemDialogData;
+
+    const {
+        entertainmentItemDialogOpen,
+        setEntertainmentItemDialogDataCategory,
+        setEntertainmentItemDialogOpen,
+        setEntertainmentItemDialogDataItem,
+        idToken,
+        customId,
+        setRestaurantEntertainmentItems,
+        associatesRestaurants,
+        restaurantId,
+        myStates,
+    } = dataAndMethodsContext;
+
+    const handleClose = () => {
+        setEntertainmentItemDialogOpen(false);
+    };
+
+    const handleSave = () => {
+        switch (dialogType) {
+            case "Edit":
+                saveEntertainmentItem()
+                break;
+            case "Add":
+                saveEntertainmentItemAdd()
+                break;
+            default:
+        }
+        setEntertainmentItemDialogOpen(false);
+    };
+
+    const saveEntertainmentItem = async () => {
+        let myNewEntertainmentItem = {}
+        myNewEntertainmentItem.id = id;
+        myNewEntertainmentItem.title = title;
+        myNewEntertainmentItem.description = description;
+        myNewEntertainmentItem.timeFrom = timeFrom;
+        myNewEntertainmentItem.timeTo = timeTo;
+        myNewEntertainmentItem.imageUrl = imageUrl;
+        myNewEntertainmentItem.categoryJSON = categoryJSON;
+        //console.log(entertainmentItemsTableName, idToken, myNewEntertainmentItem, customId);
+        await putEntertainmentItem(myNewEntertainmentItem, idToken, customId);
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+        let myEntertainmentItems = await getEntertainmentItems(myRestaurant.entertainmentItemIdsJSON);
+        myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, myStates);
+        setRestaurantEntertainmentItems(myEntertainmentItems)
+    };
+
+    const saveEntertainmentItemAdd = async () => {
+        let myNewEntertainmentItem = {}
+        myNewEntertainmentItem.id = id;
+        myNewEntertainmentItem.title = title;
+        myNewEntertainmentItem.description = description;
+        myNewEntertainmentItem.timeFrom = timeFrom;
+        myNewEntertainmentItem.timeTo = timeTo;
+        myNewEntertainmentItem.imageUrl = imageUrl;
+        myNewEntertainmentItem.categoryJSON = categoryJSON;
+        //console.log(entertainmentItemsTableName, idToken, myNewEntertainmentItem, customId);
+        await putEntertainmentItem(myNewEntertainmentItem, idToken, customId);
+        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+        myRestaurant.entertainmentItemIdsJSON.push(myNewEntertainmentItem.id);
+        await putRestaurant(myRestaurant, idToken, customId);
+        let myEntertainmentItems = await getEntertainmentItems(myRestaurant.entertainmentItemIdsJSON);
+        myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, myStates);
+        setRestaurantEntertainmentItems(myEntertainmentItems)
+    };
+
+    const changeTitle = (e) => {
+        setEntertainmentItemDialogDataItem('title', e.target.value)
+    };
+
+    const changeDescription = (e) => {
+        setEntertainmentItemDialogDataItem('description', e.target.value)
+    };
+
+    const checkIfPresent = (value) => {
+        if (categoryJSON) {
+            if (categoryJSON.indexOf(value) !== -1) { return true }
+        }
+        return false
+    }
+
+    return (
+        <div>
+            <Dialog className={classes.root} open={entertainmentItemDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">
+                    {dialogType + " menu item"}</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        id="title"
+                        label="Title"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        size="small"
+                        value={title}
+                        onChange={changeTitle}
+                    />
+                    <TextField
+                        id="description"
+                        label="Description"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        multiline={true}
+                        rows="3"
+                        value={description}
+                        onChange={changeDescription}
+                    />
+                    <Toolbar>
+                        <div >
+                            <Tooltip title="Theater">
+                                <IconButton aria-label="" color={checkIfPresent("theater") ? "inherit" : "default"}
+                                    onClick={() => setEntertainmentItemDialogDataCategory('theater')}
+                                >
+                                    <i className="fas fa-theater-masks"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Music">
+                                <IconButton aria-label="" color={checkIfPresent("music") ? "inherit" : "default"}
+                                    onClick={() => setEntertainmentItemDialogDataCategory('music')}
+                                >
+                                    <i className="fas fa-music"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Karaokes">
+                                <IconButton aria-label="" color={checkIfPresent("karaokes") ? "inherit" : "default"}
+                                    onClick={() => setEntertainmentItemDialogDataCategory('karaokes')}
+                                >
+                                    <i className="fas fa-microphone"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Dancing">
+                                <IconButton aria-label="" color={checkIfPresent("dancing") ? "inherit" : "default"}
+                                    onClick={() => setEntertainmentItemDialogDataCategory('dancing')}
+                                >
+                                    <i className="fas fa-running"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Comedy">
+                                <IconButton aria-label="" color={checkIfPresent("comedy") ? "inherit" : "default"}
+                                    onClick={() => setEntertainmentItemDialogDataCategory('comedy')}
+                                >
+                                    <i className="fas fa-laugh"></i>
+                                </IconButton>
+                            </Tooltip>
+                        </div>
+                    </Toolbar>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="default">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => handleSave()} color="primary">
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
+}
+
+export default EntertainmentItemDialog;
+
+
