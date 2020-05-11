@@ -15,8 +15,8 @@ const getBatch = async (myIds) => {
     myEntertainmentItems = data.payload.Responses.entertainmentItems;
     for (let i = 0; i < myEntertainmentItems.length; i++) {
         myEntertainmentItems[i].title = myEntertainmentItems[i].title === blankPlaceHolder ? '' : myEntertainmentItems[i].title
-        myEntertainmentItems[i].timeFrom = myEntertainmentItems[i].timeFrom === blankPlaceHolder ? '' : myEntertainmentItems[i].timeFrom
-        myEntertainmentItems[i].timeTo = myEntertainmentItems[i].timeTo === blankPlaceHolder ? '' : myEntertainmentItems[i].timeTo
+        myEntertainmentItems[i].timeFrom = new Date(myEntertainmentItems[i].timeFrom)
+        myEntertainmentItems[i].timeTo = new Date(myEntertainmentItems[i].timeTo)
         myEntertainmentItems[i].description = myEntertainmentItems[i].description === blankPlaceHolder ? '' : myEntertainmentItems[i].description
         myEntertainmentItems[i].imageUrl = myEntertainmentItems[i].imageUrl === blankPlaceHolder ? '' : myEntertainmentItems[i].imageUrl
         myEntertainmentItems[i].categoryJSON = JSON.parse(myEntertainmentItems[i].categoryJSON)

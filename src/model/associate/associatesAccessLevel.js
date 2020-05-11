@@ -1,4 +1,4 @@
-import getRestaurantFromArray from '../restaurant/getRestaurantFromArray';
+import getRestaurantById from '../restaurant/getRestaurantById';
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
@@ -6,7 +6,7 @@ import {
 const associatesAccessLevel = (associatesRestaurants, restaurantId, associateId) => {
     try {
         if (restaurantId !== noSelectedRestaurant) {
-            let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+            let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
             for (let j = 0; j < myRestaurant.associatesJSON.length; j++) {
                 if (myRestaurant.associatesJSON[j].id === associateId) {
                     return myRestaurant.associatesJSON[j].accessLevel;

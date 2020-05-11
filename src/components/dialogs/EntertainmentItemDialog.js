@@ -11,7 +11,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import Toolbar from '@material-ui/core/Toolbar';
 import { Tooltip } from '@material-ui/core';
 import putEntertainmentItem from '../../model/entertainmentItem/putEntertainmentItem';
-import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import putRestaurant from '../../model/restaurant/putRestaurant';
 import sortEntertainmentItems from '../../model/entertainmentItem/sortEntertainmentItems';
 import getEntertainmentItems from '../../model/entertainmentItem/getEntertainmentItems';
@@ -19,7 +19,7 @@ import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,
-    KeyboardTimePicker,
+    KeyboardDateTimePicker
 } from '@material-ui/pickers';
 import Grid from '@material-ui/core/Grid';
 
@@ -95,9 +95,10 @@ const EntertainmentItemDialog = () => {
         myNewEntertainmentItem.timeTo = timeTo;
         myNewEntertainmentItem.imageUrl = imageUrl;
         myNewEntertainmentItem.categoryJSON = categoryJSON;
+        myNewEntertainmentItem.restaurantId = restaurantId;
         //console.log(entertainmentItemsTableName, idToken, myNewEntertainmentItem, customId);
         await putEntertainmentItem(myNewEntertainmentItem, idToken, customId);
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId);
         let myEntertainmentItems = await getEntertainmentItems(myRestaurant.entertainmentItemIdsJSON);
         myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, myStates);
         setRestaurantEntertainmentItems(myEntertainmentItems)
@@ -112,9 +113,10 @@ const EntertainmentItemDialog = () => {
         myNewEntertainmentItem.timeTo = timeTo;
         myNewEntertainmentItem.imageUrl = imageUrl;
         myNewEntertainmentItem.categoryJSON = categoryJSON;
+        myNewEntertainmentItem.restaurantId = restaurantId;
         //console.log(entertainmentItemsTableName, idToken, myNewEntertainmentItem, customId);
         await putEntertainmentItem(myNewEntertainmentItem, idToken, customId);
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId);
         myRestaurant.entertainmentItemIdsJSON.push(myNewEntertainmentItem.id);
         await putRestaurant(myRestaurant, idToken, customId);
         let myEntertainmentItems = await getEntertainmentItems(myRestaurant.entertainmentItemIdsJSON);
@@ -174,7 +176,7 @@ const EntertainmentItemDialog = () => {
                     />
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <Grid container justify="space-around">
-                            <KeyboardTimePicker
+                            <KeyboardDateTimePicker
                                 margin="normal"
                                 id="time-picker-from"
                                 label="From"
@@ -184,7 +186,7 @@ const EntertainmentItemDialog = () => {
                                     'aria-label': 'change time',
                                 }}
                             />
-                            <KeyboardTimePicker
+                            <KeyboardDateTimePicker
                                 margin="normal"
                                 id="time-picker-to"
                                 label="To"

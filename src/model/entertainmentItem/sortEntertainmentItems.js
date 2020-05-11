@@ -14,13 +14,14 @@ const sortEntertainmentItems = async (myEntertainmentItems, myStates) => {
             return 0;
         });
     }
-    if (myStates['sortPrice'] || myStates === 'sortPrice') {
-        // sort by price
+    if (myStates['sortTime'] || myStates === 'sortTime') {
+        // sort by time
         myEntertainmentItems.sort(function (a, b) {
-            return a.price - b.price;
+            return a.timeFrom - b.timeFrom;
         });
     }
-    // console.log(myRestaurantsEntertainmentItems);
+
+    // console.log(myEntertainmentItems);
     return myEntertainmentItems;
 }
 

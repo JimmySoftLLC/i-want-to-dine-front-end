@@ -1,22 +1,34 @@
 import getEntertainmentItems from './getEntertainmentItems';
 import validDate from '../validDate';
+import dateString from '../dateString';
 
-const getTodaysEntertainmentItems = async (myMenuDays) => {
+const getTodaysEntertainmentItems = async (restaurants) => {
     // create an array of all ids
-    let entertainmentItemIds = [];
+    let entertainmentItemsIds = [];
     let myEntertainmentItems = [];
-    let myDateNow = new Date();
 
-    for (let j = 0; j < myMenuDays.length; j++) {
-        if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, myDateNow)) {
-            for (let k = 0; k < myMenuDays[j].entertainmentIdsJSON.length; k++) {
-                entertainmentItemIds.push(myMenuDays[j].entertainmentIdsJSON[k])
-            }
+    for (let i = 0; i < restaurants.length; i++) {
+        if (restaurants[i].approved) {
+            entertainmentItemsIds = entertainmentItemsIds.concat(restaurants[i].entertainmentItemIdsJSON)
         }
     }
-    myEntertainmentItems = await getEntertainmentItems(entertainmentItemIds)
 
-    return myEntertainmentItems;
+    myEntertainmentItems = await getEntertainmentItems(entertainmentItemsIds)
+
+    let myDateNow = new Date();
+
+    let myInDateEntertainmentItems = [];
+
+    for (let j = 0; j < myEntertainmentItems.length; j++) {
+        let myFromDate = new Date(dateString(myEntertainmentItems[j].timeFrom, null, 'saveToDatabaseFromDate'))
+        let myToDate = new Date(dateString(myEntertainmentItems[j].timeTo, null, 'saveToDatabaseToDate'))
+
+        if (validDate(myFromDate, myToDate, myDateNow)) {
+            myInDateEntertainmentItems.push(myEntertainmentItems[j])
+        }
+    }
+
+    return myInDateEntertainmentItems;
 }
 
 export default getTodaysEntertainmentItems;

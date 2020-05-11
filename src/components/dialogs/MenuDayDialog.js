@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import putMenuDay from '../../model/menuDay/putMenuDay';
-import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import getMenuDays from '../../model/menuDay/getMenuDays';
 import putRestaurant from '../../model/restaurant/putRestaurant';
 import Grid from '@material-ui/core/Grid';
@@ -95,7 +95,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.associatesJSON = associatesJSON;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         let myMenuDays = await getMenuDays(myRestaurant.menuDayIdsJSON)
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays)
@@ -113,7 +113,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.associatesJSON = associatesJSON;
         // console.log(myNewMenuDay, idToken, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         // console.log(myRestaurant)
         myRestaurant.menuDayIdsJSON.push(myNewMenuDay.id)
         await putRestaurant(myRestaurant, idToken, customId)
@@ -123,7 +123,7 @@ const MenuDayDialog = () => {
     };
 
     const selectAll = () => {
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         myNewMenuDayDialogData.menuItemIdsJSON = JSON.parse(JSON.stringify(myRestaurant.menuItemIdsJSON))
         myNewMenuDayDialogData.entertainmentItemIdsJSON = JSON.parse(JSON.stringify(myRestaurant.entertainmentItemIdsJSON))

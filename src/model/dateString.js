@@ -2,6 +2,7 @@ const dateString = (dateFrom, dateTo, formatType) => {
     // format dates for display
     dateFrom = new Date(dateFrom)
     dateTo = new Date(dateTo)
+    console.log(dateFrom, dateTo)
     let myDate = '';
     switch (formatType) {
         case 'menuCard':
@@ -32,8 +33,12 @@ const dateString = (dateFrom, dateTo, formatType) => {
         case 'time':
             const timeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
             const myTimeFrom = timeFormat.formatToParts(dateFrom)
-            const myTimeTo = timeFormat.formatToParts(dateTo)
-            myDate = myTimeFrom[6].value + ':' + myTimeFrom[8].value + ' ' + myTimeFrom[12].value + " to " + myTimeTo[6].value + ':' + myTimeTo[8].value + ' ' + myTimeTo[12].value
+            myDate = myTimeFrom[4].value + '-' + myTimeFrom[0].value + '-' + myTimeFrom[2].value + ' ' + myTimeFrom[6].value + ':' + myTimeFrom[8].value + ' ' + myTimeFrom[12].value
+            return myDate;
+        case 'timeOnly':
+            const timeOnlyFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
+            const myTimeOnlyFrom = timeOnlyFormat.formatToParts(dateFrom)
+            myDate = myTimeOnlyFrom[6].value + ':' + myTimeOnlyFrom[8].value + ' ' + myTimeOnlyFrom[12].value
             return myDate;
         default:
     }

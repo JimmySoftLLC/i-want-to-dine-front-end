@@ -5,7 +5,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
 import getRestaurantAssociates from '../../model/restaurant/getRestaurantAssociates';
 import putRestaurant from '../../model/restaurant/putRestaurant';
-import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import sortAssociates from '../../model/associate/sortAssociates';
 import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
 import AlertDialogContext from '../../context/alertDialog/alertDialogContext';
@@ -97,7 +97,7 @@ const AssociateCard = ({ Associate }) => {
 
     const deleteAssociateFromRestaurantById = async (associateId) => {
         // delete associate from restaurant and save restaurant to database
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         myRestaurant = await deleteAssociateFromRestaurant(restaurantId, associateId, myRestaurant, true, idToken, customId)
         if (!myRestaurant) {
             alertDialogContext.setDialog(true, 'Must have at least one admin for restaurant cannot remove associate.', 'Error');

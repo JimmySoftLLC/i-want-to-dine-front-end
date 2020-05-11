@@ -1,4 +1,4 @@
-const getRestaurantFromArray = (restaurants, restaurantId) => {
+const getRestaurantById = (restaurants, restaurantId) => {
     for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].id === restaurantId) {
             return restaurants[i];
@@ -7,4 +7,4 @@ const getRestaurantFromArray = (restaurants, restaurantId) => {
     return null;
 }
 
-export default getRestaurantFromArray
+export default getRestaurantById

@@ -4,6 +4,7 @@ import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsConte
 import AlertDialogContext from '../context/alertDialog/alertDialogContext';
 import About from '../pages/about';
 import MenuItemsPublicFacing from '../components/menuItemsPublicFacing/MenuItemsPublicFacing';
+import EntertainmentItemsPublicFacing from '../components/entertainmentItemsPublicFacing/EntertainmentItemsPublicFacing';
 import MenuItemsInventory from '../components/menuItemInventory/MenuItemsInventory';
 import EntertainmentItemsInventory from '../components/entertainmentItemInventory/EntertainmentItemsInventory';
 import MenuDays from '../components/menuDay/MenuDays';
@@ -21,7 +22,9 @@ import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import RestaurantCard from '../components/restaurant/RestaurantCard';
 import scanDynamoDB from '../api/scanDynamoDB';
 import getTodaysMenuItems from '../model/menuItem/getTodaysMenuItems';
+import getTodaysEntertainmentItems from '../model/entertainmentItem/getTodaysEntertainmentItems';
 import sortMenuItems from '../model/menuItem/sortMenuItems';
+import sortEntertainmentItems from '../model/entertainmentItem/sortEntertainmentItems';
 import getTodaysAssociates from '../model/associate/getTodaysAssociates';
 import getTodaysMenuDays from '../model/menuDay/getTodaysMenuDays';
 import sortAssociates from '../model/associate/sortAssociates';
@@ -38,6 +41,8 @@ const Home = () => {
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
             let myMenuDays = await getTodaysMenuDays(myRestaurants.payload)
+            let myEntertainmentItems = await getTodaysEntertainmentItems(myRestaurants.payload)
+            myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, 'sortTime');
             let myMenuItems = await getTodaysMenuItems(myMenuDays);
             myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice');
             let myAssociates = await getTodaysAssociates(myRestaurants.payload, myMenuDays);
@@ -46,6 +51,7 @@ const Home = () => {
             setMenuDays(myMenuDays);
             setMenuItems(myMenuItems);
             setAssociates(myAssociates);
+            setEntertainmentItems(myEntertainmentItems);
         }
         fetchData();
         // eslint-disable-next-line
@@ -54,7 +60,7 @@ const Home = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const alertDialogContext = useContext(AlertDialogContext);
 
-    const { myStates, logInType, setMenuItems, setRestaurants, setLoading, setAssociates, setMenuDays } = dataAndMethodsContext
+    const { myStates, logInType, setMenuItems, setRestaurants, setLoading, setAssociates, setMenuDays, setEntertainmentItems } = dataAndMethodsContext
     const { setDialog } = alertDialogContext
 
     return (
@@ -65,12 +71,14 @@ const Home = () => {
             <TopNavBar />
             {logInType === 'default' && <div className='container '>
                 {myStates.menuItems && <p className='p home-page-top-margin'></p>}
+                {myStates.entertainmentItems && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.restaurants && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.restaurantDetail && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.associates && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.info && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.info && <About />}
                 {myStates.menuItems && <MenuItemsPublicFacing />}
+                {myStates.entertainmentItems && <EntertainmentItemsPublicFacing />}
                 {myStates.restaurants && <RestaurantItems />}
                 {myStates.restaurantDetail && <RestaurantCard />}
                 {myStates.associates && <AssociatesDetail />}

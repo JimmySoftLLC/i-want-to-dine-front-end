@@ -10,7 +10,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { v4 as uuidv4 } from 'uuid';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
-import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import getMenuDays from '../../model/menuDay/getMenuDays';
 import getRestaurantAssociates from '../../model/restaurant/getRestaurantAssociates';
 import deleteAssociateFromRestaurant from '../../model/restaurant/deleteAssociateFromRestaurant';
@@ -75,14 +75,14 @@ const SignedInTopToolBar = () => {
             setLoading(false);
             return;
         }
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, event.target.value);
+        let myRestaurant = getRestaurantById(associatesRestaurants, event.target.value);
 
         let myMenuItems = await getMenuItems(myRestaurant.menuItemIdsJSON);
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems);
 
         let myEntertainmentItems = await getEntertainmentItems(myRestaurant.entertainmentItemIdsJSON);
-        myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, myStates);
+        myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, 'myStates');
         setRestaurantEntertainmentItems(myEntertainmentItems);
 
         let myMenuDays = await getMenuDays(myRestaurant.menuDayIdsJSON);
@@ -100,7 +100,7 @@ const SignedInTopToolBar = () => {
     // set data for restaurant dialog this will be use if the restaurant is saved tossed if canceled
     // deep copy the associate pass everything else
     const editRestaurantClick = () => {
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         let myAssociate = JSON.parse(JSON.stringify(associate));
         //console.log(myRestaurant)
         let myRestaurantData = {
@@ -168,7 +168,7 @@ const SignedInTopToolBar = () => {
 
     const newMenuItemClick = () => {
         let myNewId = uuidv4()
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         let myEditItem = {
             id: myNewId,
             title: '',
@@ -184,6 +184,7 @@ const SignedInTopToolBar = () => {
 
     const newEntertainmentClick = () => {
         let myNewId = uuidv4()
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         let myEditItem = {
             id: myNewId,
             title: '',
@@ -197,7 +198,6 @@ const SignedInTopToolBar = () => {
         setEntertainmentItemDialogData(myEditItem);
         setEntertainmentItemDialogOpen(true);
     };
-
 
     const newMenuDayClick = () => {
         let myNewId = uuidv4()
@@ -238,7 +238,7 @@ const SignedInTopToolBar = () => {
     };
 
     const deleteRestaurantClick = () => {
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         setDeleteConfirmDialog(true,
             myRestaurant.restaurantName,
             'deleteRestaurant',
@@ -247,7 +247,7 @@ const SignedInTopToolBar = () => {
     };
 
     const deleteRestaurantNow = async () => {
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId);
         for (let i = 0; i < myRestaurant.menuItemIdsJSON.length; i++) {
             await deleteMenuItemFromRestaurant(myRestaurant.menuItemIdsJSON[i], restaurantId, associatesRestaurants, false, idToken, customId)
         }

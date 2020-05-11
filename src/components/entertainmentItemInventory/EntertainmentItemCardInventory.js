@@ -125,7 +125,8 @@ const EntertainmentItemCardInventory = ({ entertainmentItem }) => {
     }
 
     // format dates for display
-    let myTime = dateString(entertainmentItem.timeFrom, entertainmentItem.timeTo, 'time')
+    let myTimeFrom = dateString(entertainmentItem.timeFrom, null, 'time')
+    let myTimeTo = dateString(entertainmentItem.timeTo, null, 'time')
 
     // let canRead = false;
     // associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false
@@ -138,7 +139,9 @@ const EntertainmentItemCardInventory = ({ entertainmentItem }) => {
         <div className='card'>
             <h4><i className="fas fa-list"></i>{' - '}{items}{entertainmentItem.title}
             </h4>
-            <h5>{myTime}
+            <h5>{myTimeFrom}
+            </h5>
+            <h5>{myTimeTo}
             </h5>
             <div className={classes.root} >
                 {(canEdit || canAdmin) && <Button variant="outlined" color="primary" onClick={() => handleClickEntertainmentItemEdit(entertainmentItem.id)}>

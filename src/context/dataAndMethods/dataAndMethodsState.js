@@ -82,6 +82,7 @@ const DataAndMethodsState = props => {
             sortTitle: true,
             sortPrice: false,
             sortDate: false,
+            sortTime: true,
             associateSettings: false,
             sortName: false,
             restaurantDetail: false,

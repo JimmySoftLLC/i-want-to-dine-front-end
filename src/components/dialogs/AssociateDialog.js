@@ -21,7 +21,7 @@ import removeRestaurantFromIds from '../../model/associate/removeRestaurantFromI
 import removeAssociateFromRestaurant from '../../model/restaurant/removeAssociateFromRestaurant';
 import sortAssociates from '../../model/associate/sortAssociates';
 import getAssociateFromRestaurant from '../../model/associate/getAssociateFromRestaurant';
-import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArray';
+import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import updateMenuDaysWithAssociateChanges from '../../model/menuDay/updateMenuDaysWithAssociateChanges';
 import convertFileToDataUrl from '../../model/images/convertFileToDataUrl';
@@ -119,7 +119,7 @@ const AssociateDialog = () => {
         await saveImageToDatabase()
         await putAssociate(myAssociate, idToken, customId)
         setAssociate(myAssociate);
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         if (myRestaurant) {
             let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId)
             myRestaurant.associatesJSON = myAssociates;
@@ -150,7 +150,7 @@ const AssociateDialog = () => {
         myAssociate.accessLevel = accessLevel;
         myAssociate.imageUrl = imageUrl;
         await saveImageToDatabase()
-        let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId);
         if (!testPutAssociateInRestaurant(myRestaurant, myAssociate)) {
             setMessage('There needs to be at least one associate with admin rights per restaurant.');
             return null;
@@ -372,7 +372,7 @@ const AssociateDialog = () => {
         if (restaurantId !== noSelectedRestaurant) {
             setRestaurantAssociates([]);
             setLoading(true);
-            let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId);
+            let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId);
             let myRestaurantAssociates = await getRestaurantAssociates(myRestaurant);
             myRestaurantAssociates = await sortAssociates(myRestaurantAssociates, associate);
             setRestaurantAssociates(myRestaurantAssociates);
