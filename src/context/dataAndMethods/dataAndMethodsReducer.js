@@ -30,6 +30,7 @@ import {
     SET_ENTERTAINMENT_ITEMS,
     SET_ENTERTAINMENT_ITEM_DIALOG_DATA,
     SET_ENTERTAINMENT_ITEM_DIALOG_OPEN,
+    SET_RESTAURANT_ENTERTAINMENT_ITEMS,
 } from '../types';
 
 export default (state, action) => {
@@ -188,6 +189,11 @@ export default (state, action) => {
             return {
                 ...state,
                 entertainmentItemDialogOpen: action.payload,
+            };
+        case SET_RESTAURANT_ENTERTAINMENT_ITEMS:
+            return {
+                ...state,
+                restaurantEntertainmentItems: action.payload,
             };
         default:
             return state;

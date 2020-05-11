@@ -15,6 +15,13 @@ import getRestaurantFromArray from '../../model/restaurant/getRestaurantFromArra
 import putRestaurant from '../../model/restaurant/putRestaurant';
 import sortEntertainmentItems from '../../model/entertainmentItem/sortEntertainmentItems';
 import getEntertainmentItems from '../../model/entertainmentItem/getEntertainmentItems';
+import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+} from '@material-ui/pickers';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -22,6 +29,15 @@ const useStyles = makeStyles(theme => ({
             margin: theme.spacing(1),
             marginLeft: 0,
         },
+    },
+    container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 200,
     },
 }));
 
@@ -114,6 +130,14 @@ const EntertainmentItemDialog = () => {
         setEntertainmentItemDialogDataItem('description', e.target.value)
     };
 
+    const changeTimeFrom = (date) => {
+        setEntertainmentItemDialogDataItem('timeFrom', date)
+    };
+
+    const changeTimeTo = (date) => {
+        setEntertainmentItemDialogDataItem('timeTo', date)
+    };
+
     const checkIfPresent = (value) => {
         if (categoryJSON) {
             if (categoryJSON.indexOf(value) !== -1) { return true }
@@ -148,6 +172,30 @@ const EntertainmentItemDialog = () => {
                         value={description}
                         onChange={changeDescription}
                     />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <Grid container justify="space-around">
+                            <KeyboardTimePicker
+                                margin="normal"
+                                id="time-picker-from"
+                                label="From"
+                                value={timeFrom}
+                                onChange={changeTimeFrom}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change time',
+                                }}
+                            />
+                            <KeyboardTimePicker
+                                margin="normal"
+                                id="time-picker-to"
+                                label="To"
+                                value={timeTo}
+                                onChange={changeTimeTo}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change time',
+                                }}
+                            />
+                        </Grid>
+                    </MuiPickersUtilsProvider>
                     <Toolbar>
                         <div >
                             <Tooltip title="Theater">
@@ -202,5 +250,3 @@ const EntertainmentItemDialog = () => {
 }
 
 export default EntertainmentItemDialog;
-
-

@@ -16,6 +16,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import sortMenuDays from '../../model/menuDay/sortMenuDays';
 import 'date-fns';
 import MenuItemsMenuDay from '../menuItemMenuDay/MenuItemsMenuDay';
+import EntertainmentItemsMenuDay from '../entertainmentItemMenuDay/EntertainmentItemsMenuDay';
 import AssociatesMenuDay from '../associateMenuDay/AssociatesMenuDay';
 import {
     MuiPickersUtilsProvider,
@@ -46,6 +47,7 @@ const MenuDayDialog = () => {
         dateTo,
         description,
         menuItemIdsJSON,
+        entertainmentItemIdsJSON,
         associatesJSON,
         dialogType,
     } = dataAndMethodsContext.menuDayDialogData;
@@ -89,6 +91,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.dateTo = dateTo;
         myNewMenuDay.description = description
         myNewMenuDay.menuItemIdsJSON = menuItemIdsJSON
+        myNewMenuDay.entertainmentItemIdsJSON = entertainmentItemIdsJSON
         myNewMenuDay.associatesJSON = associatesJSON;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
@@ -106,6 +109,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.dateTo = dateTo;
         myNewMenuDay.description = description
         myNewMenuDay.menuItemIdsJSON = menuItemIdsJSON;
+        myNewMenuDay.entertainmentItemIdsJSON = entertainmentItemIdsJSON;
         myNewMenuDay.associatesJSON = associatesJSON;
         // console.log(myNewMenuDay, idToken, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
@@ -122,6 +126,7 @@ const MenuDayDialog = () => {
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, restaurantId)
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         myNewMenuDayDialogData.menuItemIdsJSON = JSON.parse(JSON.stringify(myRestaurant.menuItemIdsJSON))
+        myNewMenuDayDialogData.entertainmentItemIdsJSON = JSON.parse(JSON.stringify(myRestaurant.entertainmentItemIdsJSON))
         let myNewAssociateJSON = [];
         for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
             myNewAssociateJSON.push(myRestaurant.associatesJSON[i].id)
@@ -133,6 +138,7 @@ const MenuDayDialog = () => {
     const unSelectAll = () => {
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         myNewMenuDayDialogData.menuItemIdsJSON = []
+        myNewMenuDayDialogData.entertainmentItemIdsJSON = []
         myNewMenuDayDialogData.associatesJSON = []
         setMenuDayDialogData(myNewMenuDayDialogData)
     }
@@ -156,7 +162,7 @@ const MenuDayDialog = () => {
     const changeDateTo = (myDate) => {
         const myDateFrom = new Date(dateFrom)
         let myMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
-        if (myDate.getTime() < myDateFrom.getTime()) {
+        if (myDate.getDate() < myDateFrom.getTime()) {
             myMenuDayDialogData['dateTo'] = myDateFrom;
         } else {
             myMenuDayDialogData['dateTo'] = myDate;
@@ -231,6 +237,20 @@ const MenuDayDialog = () => {
                                 <ExpansionPanelDetails>
                                     <Grid item xs={12}>
                                         <MenuItemsMenuDay />
+                                    </Grid>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                            <ExpansionPanel>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography>Entertainment Items</Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <Grid item xs={12}>
+                                        <EntertainmentItemsMenuDay />
                                     </Grid>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>

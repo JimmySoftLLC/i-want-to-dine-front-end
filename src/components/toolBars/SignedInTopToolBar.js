@@ -20,10 +20,13 @@ import deleteMenuItemFromRestaurant from '../../model/menuItem/deleteMenuItemFro
 import deleteMenuDayFromRestaurant from '../../model/menuDay/deleteMenuDayFromRestaurant';
 // import updateAssociatesRestaurants from '../../model/updateAssociatesRestaurants';
 import sortMenuItems from '../../model/menuItem/sortMenuItems';
+import sortEntertainmentItems from '../../model/entertainmentItem/sortEntertainmentItems';
 import sortMenuDays from '../../model/menuDay/sortMenuDays';
 import sortAssociates from '../../model/associate/sortAssociates';
 import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
 import getMenuItems from '../../model/menuItem/getMenuItems';
+import getEntertainmentItems from '../../model/entertainmentItem/getEntertainmentItems';
+
 import {
     noSelectedRestaurant,
     blankImage,
@@ -42,6 +45,7 @@ const SignedInTopToolBar = () => {
         setMenuItemDialogData,
         setMenuItemDialogOpen,
         setRestaurantMenuItems,
+        setRestaurantEntertainmentItems,
         setRestaurantId,
         restaurantId,
         myStates,
@@ -72,15 +76,23 @@ const SignedInTopToolBar = () => {
             return;
         }
         let myRestaurant = getRestaurantFromArray(associatesRestaurants, event.target.value);
+
         let myMenuItems = await getMenuItems(myRestaurant.menuItemIdsJSON);
         myMenuItems = await sortMenuItems(myMenuItems, myStates);
         setRestaurantMenuItems(myMenuItems);
+
+        let myEntertainmentItems = await getEntertainmentItems(myRestaurant.entertainmentItemIdsJSON);
+        myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, myStates);
+        setRestaurantEntertainmentItems(myEntertainmentItems);
+
         let myMenuDays = await getMenuDays(myRestaurant.menuDayIdsJSON);
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
         setRestaurantMenuDays(myMenuDays);
+
         let myRestaurantAssociates = await getRestaurantAssociates(myRestaurant);
         myRestaurantAssociates = await sortAssociates(myRestaurantAssociates, associate);
         setRestaurantAssociates(myRestaurantAssociates);
+
         setLoading(false);
     };
 
@@ -102,6 +114,7 @@ const SignedInTopToolBar = () => {
             phoneNumber: myRestaurant.phoneNumber,
             urlLink: myRestaurant.urlLink,
             menuItemIdsJSON: myRestaurant.menuItemIdsJSON,
+            entertainmentItemIdsJSON: myRestaurant.entertainmentItemIdsJSON,
             associatesJSON: myRestaurant.associatesJSON,
             menuDayIdsJSON: myRestaurant.menuDayIdsJSON,
             approved: myRestaurant.approved,
@@ -142,6 +155,7 @@ const SignedInTopToolBar = () => {
             phoneNumber: '',
             urlLink: '',
             menuItemIdsJSON: [],
+            entertainmentItemIdsJSON: [],
             associatesJSON: myRestaurantsAssociatesJSON,
             menuDayIdsJSON: [],
             approved: false,
@@ -174,8 +188,8 @@ const SignedInTopToolBar = () => {
             id: myNewId,
             title: '',
             description: '',
-            timeFrom: '',
-            timeTo: '',
+            timeFrom: new Date(),
+            timeTo: new Date(),
             imageUrl: '',
             categoryJSON: [],
             dialogType: "Add",
@@ -183,6 +197,7 @@ const SignedInTopToolBar = () => {
         setEntertainmentItemDialogData(myEditItem);
         setEntertainmentItemDialogOpen(true);
     };
+
 
     const newMenuDayClick = () => {
         let myNewId = uuidv4()
@@ -193,6 +208,7 @@ const SignedInTopToolBar = () => {
             dateTo: new Date(),
             description: '',
             menuItemIdsJSON: [],
+            entertainmentItemIdsJSON: [],
             associatesJSON: [],
             dialogType: "Add",
         }

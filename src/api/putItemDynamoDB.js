@@ -37,9 +37,9 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                 phoneNumber: myItem.phoneNumber = myItem.phoneNumber !== '' ? myItem.phoneNumber : blankPlaceHolder,
                 urlLink: myItem.urlLink = myItem.urlLink !== '' ? myItem.urlLink : blankPlaceHolder,
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
+                entertainmentItemIdsJSON: JSON.stringify(myItem.entertainmentItemIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),
                 menuDayIdsJSON: JSON.stringify(myItem.menuDayIdsJSON),
-                entertainmentItemIdsJSON: JSON.stringify(myItem.entertainmentItemIdsJSON),
                 approved: myItem.approved,
             }
             break;
@@ -59,10 +59,11 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
             myNewItem = {
                 id: myItem.id,
                 title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
-                dateFrom: dateString(myItem.dateFrom, null, 'saveToDatabase'),
-                dateTo: dateString(myItem.dateTo, null, 'saveToDatabase'),
+                dateFrom: dateString(myItem.dateFrom, null, 'saveToDatabaseFromDate'),
+                dateTo: dateString(myItem.dateTo, null, 'saveToDatabaseToDate'),
                 description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
+                entertainmentItemIdsJSON: JSON.stringify(myItem.entertainmentItemIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),
             }
             break;
@@ -70,8 +71,8 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
             myNewItem = {
                 id: myItem.id,
                 title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
-                // timeFrom: dateString(myItem.timeFrom, null, 'saveToDatabase'),
-                // timeTo: dateString(myItem.timeTo, null, 'saveToDatabase'),
+                timeFrom: dateString(myItem.timeFrom, null, 'saveToDatabaseTime'),
+                timeTo: dateString(myItem.timeTo, null, 'saveToDatabaseTime'),
                 description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
                 imageUrl: myItem.imageUrl !== '' ? myItem.imageUrl : blankPlaceHolder,
                 categoryJSON: JSON.stringify(myItem.categoryJSON),

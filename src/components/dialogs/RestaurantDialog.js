@@ -43,6 +43,7 @@ const RestaurantDialog = () => {
         phoneNumber,
         urlLink,
         menuItemIdsJSON,
+        entertainmentItemIdsJSON,
         associatesJSON,
         menuDayIdsJSON,
         approved,
@@ -68,6 +69,7 @@ const RestaurantDialog = () => {
         myRestaurant.phoneNumber = phoneNumber;
         myRestaurant.urlLink = urlLink;
         myRestaurant.menuItemIdsJSON = menuItemIdsJSON
+        myRestaurant.entertainmentItemIdsJSON = entertainmentItemIdsJSON
         myRestaurant.associatesJSON = associatesJSON
         myRestaurant.menuDayIdsJSON = menuDayIdsJSON
         myRestaurant.approved = approved

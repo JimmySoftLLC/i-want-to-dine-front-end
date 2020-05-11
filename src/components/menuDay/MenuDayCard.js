@@ -47,6 +47,7 @@ const MenuDayCard = ({ menuDay }) => {
                     dateTo: restaurantMenuDays[i].dateTo,
                     description: restaurantMenuDays[i].description,
                     menuItemIdsJSON: restaurantMenuDays[i].menuItemIdsJSON,
+                    entertainmentItemIdsJSON: restaurantMenuDays[i].entertainmentItemIdsJSON,
                     associatesJSON: restaurantMenuDays[i].associatesJSON,
                     dialogType: 'Edit',
                 }
@@ -67,6 +68,7 @@ const MenuDayCard = ({ menuDay }) => {
                     dateTo: restaurantMenuDays[i].dateTo,
                     description: restaurantMenuDays[i].description,
                     menuItemIdsJSON: restaurantMenuDays[i].menuItemIdsJSON,
+                    entertainmentItemIdsJSON: restaurantMenuDays[i].entertainmentItemIdsJSON,
                     associatesJSON: restaurantMenuDays[i].associatesJSON,
                     dialogType: "Add",
                 }

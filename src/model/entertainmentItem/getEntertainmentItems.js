@@ -18,7 +18,7 @@ const getBatch = async (myIds) => {
         myEntertainmentItems[i].timeFrom = myEntertainmentItems[i].timeFrom === blankPlaceHolder ? '' : myEntertainmentItems[i].timeFrom
         myEntertainmentItems[i].timeTo = myEntertainmentItems[i].timeTo === blankPlaceHolder ? '' : myEntertainmentItems[i].timeTo
         myEntertainmentItems[i].description = myEntertainmentItems[i].description === blankPlaceHolder ? '' : myEntertainmentItems[i].description
-        myEntertainmentItems[i].imageUrl = myEntertainmentItems[i].descriimageUrlption === blankPlaceHolder ? '' : myEntertainmentItems[i].imageUrl
+        myEntertainmentItems[i].imageUrl = myEntertainmentItems[i].imageUrl === blankPlaceHolder ? '' : myEntertainmentItems[i].imageUrl
         myEntertainmentItems[i].categoryJSON = JSON.parse(myEntertainmentItems[i].categoryJSON)
     }
     return myEntertainmentItems;

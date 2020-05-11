@@ -5,6 +5,7 @@ import AlertDialogContext from '../context/alertDialog/alertDialogContext';
 import About from '../pages/about';
 import MenuItemsPublicFacing from '../components/menuItemsPublicFacing/MenuItemsPublicFacing';
 import MenuItemsInventory from '../components/menuItemInventory/MenuItemsInventory';
+import EntertainmentItemsInventory from '../components/entertainmentItemInventory/EntertainmentItemsInventory';
 import MenuDays from '../components/menuDay/MenuDays';
 import BotNavBar from '../components/BotNavBar';
 import RestaurantItems from '../components/restaurantItems/RestaurantItems';
@@ -77,6 +78,7 @@ const Home = () => {
             </div>}
             {logInType === 'signedIn' && <div className='container associate-page-top-margin'>
                 {myStates.menuSettings && <MenuItemsInventory />}
+                {myStates.entertainmentSettings && <EntertainmentItemsInventory />}
                 {myStates.menuDaySettings && <MenuDays />}
                 {myStates.associateSettings && <Associates />}
                 <MenuItemDialog />
