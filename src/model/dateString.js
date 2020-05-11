@@ -28,7 +28,12 @@ const dateString = (dateFrom, dateTo, formatType) => {
         case 'saveToDatabaseTime':
             const myDateTimeFormatDatabaseTime = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
             const myDateFromDatabaseTime = myDateTimeFormatDatabaseTime.formatToParts(dateFrom)
-            myDate = myDateFromDatabaseTime[4].value + '-' + myDateFromDatabaseTime[0].value + '-' + myDateFromDatabaseTime[2].value + "T" + myDateFromDatabaseTime[6].value + ':' + myDateFromDatabaseTime[8].value + ':00'
+            if (myDateFromDatabaseTime[6].value === 24) {
+                myDate = myDateFromDatabaseTime[4].value + '-' + myDateFromDatabaseTime[0].value + '-' + myDateFromDatabaseTime[2].value + 'T00:' + myDateFromDatabaseTime[8].value + ':00'
+            } else {
+                myDate = myDateFromDatabaseTime[4].value + '-' + myDateFromDatabaseTime[0].value + '-' + myDateFromDatabaseTime[2].value + 'T' + myDateFromDatabaseTime[6].value + ':' + myDateFromDatabaseTime[8].value + ':00'
+            }
+
             return myDate;
         case 'time':
             const timeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true })
