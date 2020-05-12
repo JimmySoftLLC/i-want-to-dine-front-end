@@ -71,8 +71,8 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
             myNewItem = {
                 id: myItem.id,
                 title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
-                timeFrom: dateString(myItem.timeFrom, null, 'saveToDatabaseTime'),
-                timeTo: dateString(myItem.timeTo, null, 'saveToDatabaseTime'),
+                timeFrom: dateString(myItem.timeFrom, null, 'saveToDatabaseDateTime'),
+                timeTo: dateString(myItem.timeTo, null, 'saveToDatabaseDateTime'),
                 description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
                 imageUrl: myItem.imageUrl !== '' ? myItem.imageUrl : blankPlaceHolder,
                 categoryJSON: JSON.stringify(myItem.categoryJSON),

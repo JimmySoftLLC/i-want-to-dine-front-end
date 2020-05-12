@@ -99,7 +99,7 @@ const MenuDayCard = ({ menuDay }) => {
     }
 
     // format dates for display
-    let myDate = dateString(menuDay.dateFrom, menuDay.dateTo, 'menuCard')
+    let myDate = dateString(menuDay.dateFrom, menuDay.dateTo, 'displayFromTo')
 
     // set permissions for component display
     let canEdit = false;

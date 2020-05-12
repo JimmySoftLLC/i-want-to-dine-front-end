@@ -42,8 +42,8 @@ const EntertainmentItemCardPublicFacing = ({ entertainmentItem, myStates, restau
     }
 
     // format dates for display
-    let myTimeFrom = dateString(entertainmentItem.timeFrom, null, 'timeOnly')
-    let myTimeTo = dateString(entertainmentItem.timeTo, null, 'timeOnly')
+    let myTimeFrom = dateString(entertainmentItem.timeFrom, null, 'displayTime')
+    let myTimeTo = dateString(entertainmentItem.timeTo, null, 'displayTime')
 
     let showIt = false;
     let myRestaurant = getRestaurantById(restaurants, entertainmentItem.restaurantId)
