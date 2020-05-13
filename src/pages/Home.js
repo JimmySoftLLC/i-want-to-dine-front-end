@@ -40,8 +40,8 @@ const Home = () => {
             setLoading(true);
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
-            let myMenuDays = await getTodaysMenuDays(myRestaurants.payload)
-            let myEntertainmentItems = await getTodaysEntertainmentItems(myRestaurants.payload)
+            let myMenuDays = await getTodaysMenuDays(myRestaurants.payload);
+            let myEntertainmentItems = await getTodaysEntertainmentItems(myRestaurants.payload);
             myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, 'sortTime');
             let myMenuItems = await getTodaysMenuItems(myMenuDays);
             myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice');

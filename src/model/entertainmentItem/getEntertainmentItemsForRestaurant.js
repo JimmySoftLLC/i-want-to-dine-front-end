@@ -1,11 +1,12 @@
 const getEntertainmentItemsForRestaurant = (restaurant, entertainmentItems) => {
     let myNewEntertainmentItems = [];
     for (let i = 0; i < entertainmentItems.length; i++) {
-        if (entertainmentItems[i].restaurant === restaurant.restaurantName) {
+        if (entertainmentItems[i].restaurantId === restaurant.id) {
             myNewEntertainmentItems.push(JSON.parse(JSON.stringify(entertainmentItems[i])))
         }
     }
     return myNewEntertainmentItems;
+
 }
 
 export default getEntertainmentItemsForRestaurant

@@ -5,18 +5,19 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import dateString from '../../model/dateString';
 import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
+import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant';
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
 import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 
-const EntertainmentItemCardPublicFacing = ({ entertainmentItem, myStates, restaurants }) => {
+const EntertainmentItemCardPublicFacing = ({ entertainmentItem, restaurants }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
         setRestaurantDetail,
         setMyState,
-        entertainmentItems,
         menuItems,
         associates,
         menuDays,
+        entertainmentItems,
     } = dataAndMethodsContext;
 
     const items = []
@@ -32,7 +33,7 @@ const EntertainmentItemCardPublicFacing = ({ entertainmentItem, myStates, restau
                 items.push(<i className='fas fa-microphone' key={entertainmentItem.id + "_karaokes"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'dancing':
-                items.push(<i className='fas fa-running' key={entertainmentItem.id + "_dancing"} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='icon-dancing' key={entertainmentItem.id + "_dancing"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'comedy':
                 items.push(<i className='fas fa-laugh' key={entertainmentItem.id + "_comedy"} style={{ paddingRight: '.25rem' }}></i>)
@@ -58,6 +59,7 @@ const EntertainmentItemCardPublicFacing = ({ entertainmentItem, myStates, restau
 
     const restaurantClick = () => {
         myRestaurant.menuItems = getMenuItemsForRestaurant(myRestaurant, menuItems)
+        myRestaurant.entertainmentItems = getEntertainmentItemsForRestaurant(myRestaurant, entertainmentItems)
         myRestaurant.associates = getAssociatesForRestaurant(myRestaurant, associates)
         myRestaurant.menuDays = menuDays;
         setRestaurantDetail(myRestaurant);

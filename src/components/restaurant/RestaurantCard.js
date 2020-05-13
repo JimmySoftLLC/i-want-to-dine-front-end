@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import MenuItemsRestaurantDetail from '../menuItemsRestaurantDetail/MenuItemsRestaurantDetail';
+import EntertainmentItemsRestaurantDetail from '../entertainmentItemsRestaurantDetail/EntertainmentItemsRestaurantDetail';
 import AssociatesRestaurantDetail from '../associatesRestaurantDetail/AssociatesRestaurantDetail';
 import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 
@@ -12,9 +13,32 @@ const RestaurantCard = () => {
     } = dataAndMethodsContext;
 
     let showIt = true;
-    let myPhoneLink = "tel:" + restaurantDetail.phoneNumber
+    let myPhoneLink = "tel:" + restaurantDetail.phoneNumbers
 
     if (!restaurantDetail.approved) { showIt = false };
+
+    let myTempAssociateIds = [];
+
+    for (let i = 0; i < restaurantDetail.menuDayIdsJSON.length; i++) {
+        let myIndex = restaurantDetail.menuDays.findIndex(x => x.id === restaurantDetail.menuDayIdsJSON[i]);
+        if (myIndex !== -1) {
+            for (let j = 0; j < restaurantDetail.menuDays[myIndex].associatesJSON.length; j++) {
+                let isInArray = myTempAssociateIds.findIndex(x => x === restaurantDetail.menuDays[myIndex].associatesJSON[j]);
+                if (isInArray === -1) {
+                    myTempAssociateIds.push(restaurantDetail.menuDays[myIndex].associatesJSON[j])
+                }
+            }
+        }
+    }
+
+    let myTempAssociates = [];
+
+    for (let i = 0; i < myTempAssociateIds.length; i++) {
+        let myIndex = restaurantDetail.associates.findIndex(x => x.id === myTempAssociateIds[i]);
+        if (myIndex !== -1) {
+            myTempAssociates.push(restaurantDetail.associates[myIndex])
+        }
+    }
 
     return (
         showIt && <div className='card'>
@@ -34,11 +58,13 @@ const RestaurantCard = () => {
                     <i className="fas fa-phone"></i>
                 </IconButton></h4>
             <MultipleParagraphs myText={restaurantDetail.description} />
-            <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Menu</h3>
+            {restaurantDetail.menuItems.length > 0 && < h3 style={{ marginTop: "1rem", textAlign: "center" }}>Menu</h3>}
             <MenuItemsRestaurantDetail />
-            <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Meet the team</h3>
+            {restaurantDetail.entertainmentItems.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Entertainment</h3>}
+            <EntertainmentItemsRestaurantDetail />
+            {myTempAssociates.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Meet the team</h3>}
             <AssociatesRestaurantDetail />
-        </div>
+        </div >
     );
 };
 

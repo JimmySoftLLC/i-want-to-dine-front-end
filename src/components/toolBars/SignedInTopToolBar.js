@@ -184,7 +184,6 @@ const SignedInTopToolBar = () => {
 
     const newEntertainmentClick = () => {
         let myNewId = uuidv4()
-        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         let myEditItem = {
             id: myNewId,
             title: '',
@@ -342,14 +341,14 @@ const SignedInTopToolBar = () => {
                         <IconButton aria-label=""
                             color={myStates['menuSettings'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setMyState('menuSettings')}>
-                            <i className="icon-list-solid-cog"></i>
+                            <i className="icon-book-cog"></i>
                         </IconButton>
                     </Tooltip>}
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Entertainment settings">
                         <IconButton aria-label=""
                             color={myStates['entertainmentSettings'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setMyState('entertainmentSettings')}>
-                            <i className="fas fa-music"></i>
+                            <i className="icon-music-cog"></i>
                         </IconButton>
                     </Tooltip>}
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Associate settings">
@@ -398,7 +397,7 @@ const SignedInTopToolBar = () => {
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => newMenuItemClick()}>
-                            <i className="icon-list-solid-plus"></i>
+                            <i className="icon-book-plus"></i>
                         </IconButton>
                     </Tooltip>}
                     {(restaurantId !== noSelectedRestaurant && myStates['menuDaySettings'] && canAdmin) && <Tooltip title="Add menu day">
@@ -419,7 +418,7 @@ const SignedInTopToolBar = () => {
                         <IconButton aria-label=""
                             color="inherit"
                             onClick={() => newEntertainmentClick()}>
-                            <i className="fas fa-music"></i>
+                            <i className="icon-music-plus"></i>
                         </IconButton>
                     </Tooltip>}
                     {/* <IconButton aria-label=""

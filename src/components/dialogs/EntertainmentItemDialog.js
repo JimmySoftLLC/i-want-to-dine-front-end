@@ -225,7 +225,7 @@ const EntertainmentItemDialog = () => {
                                 <IconButton aria-label="" color={checkIfPresent("dancing") ? "inherit" : "default"}
                                     onClick={() => setEntertainmentItemDialogDataCategory('dancing')}
                                 >
-                                    <i className="fas fa-running"></i>
+                                    <i className="icon-dancing"></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Comedy">

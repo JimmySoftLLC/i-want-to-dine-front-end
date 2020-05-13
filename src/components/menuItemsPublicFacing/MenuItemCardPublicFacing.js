@@ -4,6 +4,7 @@ import Link from '@material-ui/core/Link';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import getRestaurantByName from '../../model/restaurant/getRestaurantByName';
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
+import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant';
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
 import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 
@@ -15,6 +16,7 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
         menuItems,
         associates,
         menuDays,
+        entertainmentItems
     } = dataAndMethodsContext;
     const items = []
     for (let i = 0; i < menuItem.categoryJSON.length; i++) {
@@ -91,6 +93,7 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
 
     const restaurantClick = () => {
         myRestaurant.menuItems = getMenuItemsForRestaurant(myRestaurant, menuItems)
+        myRestaurant.entertainmentItems = getEntertainmentItemsForRestaurant(myRestaurant, entertainmentItems)
         myRestaurant.associates = getAssociatesForRestaurant(myRestaurant, associates)
         myRestaurant.menuDays = menuDays;
         setRestaurantDetail(myRestaurant);

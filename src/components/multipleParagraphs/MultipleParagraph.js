@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 
-const MultipleParagraph = ({ mytext: mytext }) => {
+const MultipleParagraph = ({ mulitplePargraph }) => {
     let myStyle = {
         paddingBottom: "0.5rem"
     }
     return (
         <Fragment>
-            <p style={myStyle}>{mytext}</p>
+            <p style={myStyle}>{mulitplePargraph}</p>
         </Fragment>
     );
 };
