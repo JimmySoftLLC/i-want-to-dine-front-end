@@ -16,7 +16,7 @@ const EntertainmentItemsInventory = () => {
         return <CircularIndeterminate />;
     } else {
         return (
-            <div className='grid-4'>
+            <div>
                 {(restaurantEntertainmentItems.map(entertainmentItem => <EntertainmentItemCardInventory entertainmentItem={entertainmentItem}
                     myStates={myStates}
                     restaurants={restaurants}

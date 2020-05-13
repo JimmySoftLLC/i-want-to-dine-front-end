@@ -571,7 +571,7 @@
   }
   
   /* Mobile Styles */
-  @media (max-width: 833px) {
+  @media (max-width: 848px) {
     .hide-sm {
       display: none;
     }
@@ -611,7 +611,7 @@
 
   
   /* Mobile Styles */
-  @media (max-width: 755px) {
+  @media (max-width: 848px) {
     .hide-sm {
       display: none;
     }

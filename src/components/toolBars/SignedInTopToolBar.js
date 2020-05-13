@@ -168,14 +168,14 @@ const SignedInTopToolBar = () => {
 
     const newMenuItemClick = () => {
         let myNewId = uuidv4()
-        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
+
         let myEditItem = {
             id: myNewId,
             title: '',
             description: '',
             categoryJSON: [],
             price: 0,
-            restaurant: myRestaurant.restaurantName,
+            restaurantId: restaurantId,
             dialogType: "Add",
         }
         setMenuItemDialogData(myEditItem);
@@ -192,6 +192,7 @@ const SignedInTopToolBar = () => {
             timeTo: new Date(),
             imageUrl: '',
             categoryJSON: [],
+            restaurantId: restaurantId,
             dialogType: "Add",
         }
         setEntertainmentItemDialogData(myEditItem);
@@ -209,6 +210,7 @@ const SignedInTopToolBar = () => {
             menuItemIdsJSON: [],
             entertainmentItemIdsJSON: [],
             associatesJSON: [],
+            restaurantId: restaurantId,
             dialogType: "Add",
         }
         setMenuDayDialogData(myEditItem);
@@ -263,10 +265,6 @@ const SignedInTopToolBar = () => {
         setAssociatesRestaurants(newAssociatesRestaurants);
         setRestaurantId(noSelectedRestaurant);
     }
-
-    // const updateAssociatesRestaurantsNow = async () => {
-    //     const mytest = await updateAssociatesRestaurants( associate, restaurants,idToken, customId,)
-    // }
 
     const BootstrapInput = withStyles(theme => ({
         root: {
@@ -421,11 +419,6 @@ const SignedInTopToolBar = () => {
                             <i className="icon-music-plus"></i>
                         </IconButton>
                     </Tooltip>}
-                    {/* <IconButton aria-label=""
-                        color="inherit"
-                        onClick={() => updateAssociatesRestaurantsNow()}>
-                        Update
-                    </IconButton> */}
                 </div>
             </Toolbar>
         </Fragment >

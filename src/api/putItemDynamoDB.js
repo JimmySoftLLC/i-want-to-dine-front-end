@@ -21,7 +21,7 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                 title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
                 description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
                 categoryJSON: JSON.stringify(myItem.categoryJSON),
-                restaurant: myItem.restaurant = myItem.restaurant !== '' ? myItem.restaurant : blankPlaceHolder,
+                restaurantId: myItem.restaurantId = myItem.restaurantId !== '' ? myItem.restaurantId : blankPlaceHolder,
                 price: myItem.price,
             }
             break;
@@ -65,6 +65,7 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
                 entertainmentItemIdsJSON: JSON.stringify(myItem.entertainmentItemIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),
+                restaurantId: myItem.restaurantId = myItem.restaurantId !== '' ? myItem.restaurantId : blankPlaceHolder,
             }
             break;
         case entertainmentItemsTableName:

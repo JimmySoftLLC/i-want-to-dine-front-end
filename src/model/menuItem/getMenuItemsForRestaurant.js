@@ -1,7 +1,7 @@
 const getMenuItemsForRestaurant = (restaurant, menuItems) => {
     let myNewMenuItems = [];
     for (let i = 0; i < menuItems.length; i++) {
-        if (menuItems[i].restaurant === restaurant.restaurantName) {
+        if (menuItems[i].restaurantId === restaurant.id) {
             myNewMenuItems.push(JSON.parse(JSON.stringify(menuItems[i])))
         }
     }

@@ -93,6 +93,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.menuItemIdsJSON = menuItemIdsJSON
         myNewMenuDay.entertainmentItemIdsJSON = entertainmentItemIdsJSON
         myNewMenuDay.associatesJSON = associatesJSON;
+        myNewMenuDay.restaurantId = restaurantId;
         //console.log(MenuDaysTableName, idToken, myNewMenuDay, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
@@ -111,6 +112,7 @@ const MenuDayDialog = () => {
         myNewMenuDay.menuItemIdsJSON = menuItemIdsJSON;
         myNewMenuDay.entertainmentItemIdsJSON = entertainmentItemIdsJSON;
         myNewMenuDay.associatesJSON = associatesJSON;
+        myNewMenuDay.restaurantId = restaurantId;
         // console.log(myNewMenuDay, idToken, customId);
         await putMenuDay(myNewMenuDay, idToken, customId);
         let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
@@ -150,23 +152,23 @@ const MenuDayDialog = () => {
     const changeDateFrom = (myDate) => {
         const myDateTo = new Date(dateTo)
         let myMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
-        if (myDate.getTime() > myDateTo.getTime()) {
-            myMenuDayDialogData['dateFrom'] = myDate;
-            myMenuDayDialogData['dateTo'] = myDate;
-        } else {
-            myMenuDayDialogData['dateFrom'] = myDate;
-        }
+        // if (myDate.getTime() > myDateTo.getTime()) {
+        //     myMenuDayDialogData['dateFrom'] = myDate;
+        //     myMenuDayDialogData['dateTo'] = myDate;
+        // } else {
+        myMenuDayDialogData['dateFrom'] = myDate;
+        // }
         setMenuDayDialogData(myMenuDayDialogData);
     };
 
     const changeDateTo = (myDate) => {
         const myDateFrom = new Date(dateFrom)
         let myMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
-        if (myDate.getDate() < myDateFrom.getTime()) {
-            myMenuDayDialogData['dateTo'] = myDateFrom;
-        } else {
-            myMenuDayDialogData['dateTo'] = myDate;
-        }
+        // if (myDate.getDate() < myDateFrom.getTime()) {
+        //     myMenuDayDialogData['dateTo'] = myDateFrom;
+        // } else {
+        myMenuDayDialogData['dateTo'] = myDate;
+        // }
         setMenuDayDialogData(myMenuDayDialogData);
     };
 

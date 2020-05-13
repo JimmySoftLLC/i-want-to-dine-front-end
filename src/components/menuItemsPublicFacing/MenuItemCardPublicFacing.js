@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import getRestaurantByName from '../../model/restaurant/getRestaurantByName';
+import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
 import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant';
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
@@ -16,7 +16,7 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
         menuItems,
         associates,
         menuDays,
-        entertainmentItems
+        entertainmentItems,
     } = dataAndMethodsContext;
     const items = []
     for (let i = 0; i < menuItem.categoryJSON.length; i++) {
@@ -82,7 +82,11 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
         price = menuItem.price >= 1000 ? 'MP' : menuItem.price;
     }
 
-    let myRestaurant = getRestaurantByName(restaurants, menuItem.restaurant)
+    let myRestaurant = getRestaurantById(restaurants, menuItem.restaurantId)
+    if (!myRestaurant) {
+        return null;
+    }
+
     if (!myRestaurant.approved) { showIt = false };
     let myPhoneLink = "tel:" + myRestaurant.phoneNumber
     let myPhoneNumber = myRestaurant.phoneNumber
@@ -104,7 +108,7 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
         showIt && <div className='card'>
             <h3>{items}{menuItem.title}{' - '}{price}
             </h3>
-            <Link onClick={() => restaurantClick()}>{menuItem.restaurant}</Link>
+            <Link onClick={() => restaurantClick()}>{myRestaurant.restaurantName}</Link>
             <span style={myStyle}>{myPhoneNumber}
                 <IconButton aria-label=""
                     href={myPhoneLink}

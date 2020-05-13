@@ -111,6 +111,7 @@ const DataAndMethodsState = props => {
             price: 0,
             id: '',
             restaurant: '',
+            restaurantId: '',
             dialogType: 'Add',
         },
         restaurantDialogOpen: false,
@@ -157,6 +158,7 @@ const DataAndMethodsState = props => {
             menuItemIdsJSON: [],
             entertainmentItemIdsJSON: [],
             associatesJSON: [],
+            restaurantId: '',
             dialogType: "Edit",
         },
         entertainmentItemDialogData: {
@@ -166,6 +168,7 @@ const DataAndMethodsState = props => {
             timeTo: '',
             imageUrl: '',
             categoryJSON: [],
+            restaurantId: '',
             dialogType: 'Add',
         },
         entertainmentItemDialogOpen: false,

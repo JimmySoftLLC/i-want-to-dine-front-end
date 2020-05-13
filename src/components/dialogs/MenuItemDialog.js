@@ -76,6 +76,7 @@ const MenuItemDialog = () => {
         myNewMenuItem.description = description;
         myNewMenuItem.categoryJSON = categoryJSON;
         myNewMenuItem.restaurant = restaurant;
+        myNewMenuItem.restaurantId = restaurantId;
         myNewMenuItem.price = price;
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
@@ -92,6 +93,7 @@ const MenuItemDialog = () => {
         myNewMenuItem.description = description;
         myNewMenuItem.categoryJSON = categoryJSON;
         myNewMenuItem.restaurant = restaurant;
+        myNewMenuItem.restaurantId = restaurantId;
         myNewMenuItem.price = price;
         //console.log(menuItemsTableName, idToken, myNewMenuItem, customId);
         await putMenuItem(myNewMenuItem, idToken, customId);
