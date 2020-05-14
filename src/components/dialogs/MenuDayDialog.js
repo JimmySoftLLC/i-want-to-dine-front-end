@@ -150,7 +150,7 @@ const MenuDayDialog = () => {
     };
 
     const changeDateFrom = (myDate) => {
-        const myDateTo = new Date(dateTo)
+        // const myDateTo = new Date(dateTo)
         let myMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         // if (myDate.getTime() > myDateTo.getTime()) {
         //     myMenuDayDialogData['dateFrom'] = myDate;
@@ -162,7 +162,7 @@ const MenuDayDialog = () => {
     };
 
     const changeDateTo = (myDate) => {
-        const myDateFrom = new Date(dateFrom)
+        // const myDateFrom = new Date(dateFrom)
         let myMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         // if (myDate.getDate() < myDateFrom.getTime()) {
         //     myMenuDayDialogData['dateTo'] = myDateFrom;

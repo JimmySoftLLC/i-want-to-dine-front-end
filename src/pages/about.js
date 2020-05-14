@@ -107,6 +107,26 @@ const About = () => {
                     <i className='icon-dollar_3'></i> 35 and up dollars
                     </li>
             </ul>
+            <p className='p'>
+                The following are the categories for entertainment items.
+                </p>
+            <ul style={{ paddingLeft: '1.5rem' }}>
+                <li>
+                    <i className='fas fa-theater-masks'></i> Theater
+                    </li>
+                <li>
+                    <i className="fas fa-music"></i> Music
+                    </li>
+                <li>
+                    <i className='fas fa-microphone'></i> Karaokes
+                    </li>
+                <li>
+                    <i className='icon-dancing'></i> Dancing
+                    </li>
+                <li>
+                    <i className='fas fa-laugh'></i> Comedy
+                    </li>
+            </ul>
             <h2 >JimmySoft LLC <IconButton aria-label=""
                 href="https://jimmysoftllc.com"
                 rel="noopener noreferrer" target="_blank"
@@ -143,7 +163,7 @@ const About = () => {
                     Event services.  You can detail in a seperate area what event services you provide and menu of options.
                     </li>
                 <li><i className="fas fa-check"></i>{'   '}
-                    Entertainment.  We will be adding an entertainment section.  You can highlight your band, karokee, show.
+                    We also have an entertainment section.  You can highlight your band, karaokes, show, etc...
                     </li>
             </ul>
         </Fragment >
@@ -151,3 +171,4 @@ const About = () => {
 };
 
 export default About;
+

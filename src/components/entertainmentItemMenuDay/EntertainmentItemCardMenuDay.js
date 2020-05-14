@@ -39,7 +39,7 @@ const EntertainmentItemCardMenuDay = ({ entertainmentItem }) => {
                 items.push(<i className='fas fa-microphone' key={entertainmentItem.id + "_karaokes"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'dancing':
-                items.push(<i className='fas fa-running' key={entertainmentItem.id + "_dancing"} style={{ paddingRight: '.25rem' }}></i>)
+                items.push(<i className='icon-dancing' key={entertainmentItem.id + "_dancing"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
             case 'comedy':
                 items.push(<i className='fas fa-laugh' key={entertainmentItem.id + "_comedy"} style={{ paddingRight: '.25rem' }}></i>)

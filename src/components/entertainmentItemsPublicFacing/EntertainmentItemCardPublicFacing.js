@@ -46,7 +46,7 @@ const EntertainmentItemCardPublicFacing = ({ entertainmentItem, restaurants }) =
     let myTimeFrom = dateString(entertainmentItem.timeFrom, null, 'displayTime')
     let myTimeTo = dateString(entertainmentItem.timeTo, null, 'displayTime')
 
-    let showIt = false;
+    let showIt = true;
     let myRestaurant = getRestaurantById(restaurants, entertainmentItem.restaurantId)
 
     if (!myRestaurant.approved) { showIt = false };
@@ -67,7 +67,7 @@ const EntertainmentItemCardPublicFacing = ({ entertainmentItem, restaurants }) =
     }
 
     return (
-        <div className='card'>
+        showIt && <div className='card'>
             <h4>{items}{' - '}{entertainmentItem.title}
             </h4>
             <h5>{myTimeFrom}{' to '}{myTimeTo}

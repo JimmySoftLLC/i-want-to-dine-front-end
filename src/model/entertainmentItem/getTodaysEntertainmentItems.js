@@ -22,7 +22,7 @@ const getTodaysEntertainmentItems = async (restaurants) => {
     for (let j = 0; j < myEntertainmentItems.length; j++) {
         let myFromDate = new Date(dateString(myEntertainmentItems[j].timeFrom, null, 'saveToDatabaseFromDate'))
         let myToDate = new Date(dateString(myEntertainmentItems[j].timeTo, null, 'saveToDatabaseToDate'))
-
+        console.log(myDateNow, myFromDate, myToDate)
         if (validDate(myFromDate, myToDate, myDateNow)) {
             myInDateEntertainmentItems.push(myEntertainmentItems[j])
         }
