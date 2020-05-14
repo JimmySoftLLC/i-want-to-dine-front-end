@@ -9,6 +9,7 @@ import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 import Link from '@material-ui/core/Link';
 import findIndexOfAssociateInRestaurant from '../../model/associate/findIndexOfAssociateInRestaurant'
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant'
+import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant'
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant'
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 
@@ -21,6 +22,7 @@ const AssociatesDetailCard = ({ associate }) => {
         menuDays,
         setRestaurantDetail,
         setMyState,
+        entertainmentItems,
     } = dataAndMethodsContext;
 
     const imageStyle = {
@@ -47,6 +49,7 @@ const AssociatesDetailCard = ({ associate }) => {
 
     const restaurantClick = () => {
         myRestaurant.menuItems = getMenuItemsForRestaurant(myRestaurant, menuItems)
+        myRestaurant.entertainmentItems = getEntertainmentItemsForRestaurant(myRestaurant, entertainmentItems)
         myRestaurant.associates = getAssociatesForRestaurant(myRestaurant, associates)
         myRestaurant.menuDays = menuDays;
         setRestaurantDetail(myRestaurant);
