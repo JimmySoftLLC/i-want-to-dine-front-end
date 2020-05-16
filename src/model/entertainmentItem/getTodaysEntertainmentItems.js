@@ -14,17 +14,22 @@ const getTodaysEntertainmentItems = async (restaurants) => {
     }
 
     myEntertainmentItems = await getEntertainmentItems(entertainmentItemsIds)
+    let myInDateEntertainmentItems = { body: [], debug: "" };
 
     let myDateNow = new Date();
-
-    let myInDateEntertainmentItems = [];
+    myInDateEntertainmentItems.debug = myInDateEntertainmentItems.debug + "Ignore debug messages below\n";
+    myInDateEntertainmentItems.debug = myInDateEntertainmentItems.debug + "Now: " + myDateNow + "\n";
 
     for (let j = 0; j < myEntertainmentItems.length; j++) {
         let myFromDate = new Date(dateString(myEntertainmentItems[j].timeFrom, null, 'saveToDatabaseFromDate'))
-        let myToDate = new Date(dateString(myEntertainmentItems[j].timeTo, null, 'saveToDatabaseToDate'))
+        // let myToDate = new Date(dateString(myEntertainmentItems[j].timeTo, null, 'saveToDatabaseToDate'))
+        // let myFromDate = myEntertainmentItems[j].timeFrom;
+        let myToDate = myEntertainmentItems[j].timeTo;
         console.log(myDateNow, myFromDate, myToDate)
+        myInDateEntertainmentItems.debug = myInDateEntertainmentItems.debug + "From: " + myFromDate + "\n";
+        myInDateEntertainmentItems.debug = myInDateEntertainmentItems.debug + "To: " + myToDate + "\n";
         if (validDate(myFromDate, myToDate, myDateNow)) {
-            myInDateEntertainmentItems.push(myEntertainmentItems[j])
+            myInDateEntertainmentItems.body.push(myEntertainmentItems[j])
         }
     }
 

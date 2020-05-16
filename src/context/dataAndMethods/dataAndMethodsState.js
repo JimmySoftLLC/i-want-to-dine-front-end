@@ -39,6 +39,7 @@ import {
     SET_ENTERTAINMENT_ITEM_DIALOG_DATA,
     SET_ENTERTAINMENT_ITEM_DIALOG_OPEN,
     SET_RESTAURANT_ENTERTAINMENT_ITEMS,
+    SET_ON_SCREEN_DEBUG_MESSAGE,
 } from '../types';
 import {
     // menuItemsTableName,
@@ -104,6 +105,7 @@ const DataAndMethodsState = props => {
         restaurantId: noSelectedRestaurant,
         restaurantAssociates: [],
         restaurantDetail: {},
+        onScreenDebugMessage: "",
         menuItemDialogData: {
             title: '',
             description: '',
@@ -179,6 +181,7 @@ const DataAndMethodsState = props => {
     // setting states and dispatch changes to the reducer ---------------------------------------------------------------------
     const setLoading = (myBool) => dispatch({ type: SET_LOADING, payload: myBool });
     const setLoadingDialog = (myBool) => dispatch({ type: SET_LOADING_DIALOG, payload: myBool });
+    const setOnScreenDebugMessage = (onScreenDebugMessage) => dispatch({ type: SET_ON_SCREEN_DEBUG_MESSAGE, payload: onScreenDebugMessage });
 
     const setAssociateDialogDataItem = async (key, value) => {
         let associateDialogData = JSON.parse(JSON.stringify(state.associateDialogData))
@@ -318,6 +321,7 @@ const DataAndMethodsState = props => {
                 entertainmentItemDialogData: state.entertainmentItemDialogData,
                 entertainmentItemDialogDataItem: state.entertainmentItemDialogDataItem,
                 entertainmentItemDialogOpen: state.entertainmentItemDialogOpen,
+                onScreenDebugMessage: state.onScreenDebugMessage,
                 setMyState,
                 setMyStates,
                 setRestaurants,
@@ -358,6 +362,7 @@ const DataAndMethodsState = props => {
                 setEntertainmentItemDialogOpen,
                 setEntertainmentItemDialogDataCategory,
                 setRestaurantEntertainmentItems,
+                setOnScreenDebugMessage,
             }}
         >
             {props.children}
