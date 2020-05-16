@@ -28,7 +28,6 @@ import sortEntertainmentItems from '../model/entertainmentItem/sortEntertainment
 import getTodaysAssociates from '../model/associate/getTodaysAssociates';
 import getTodaysMenuDays from '../model/menuDay/getTodaysMenuDays';
 import sortAssociates from '../model/associate/sortAssociates';
-import MultipleParagraphs from '../components/multipleParagraphs/MultipleParagraphs';
 
 import {
     restaurantsTableName,
@@ -43,7 +42,7 @@ const Home = () => {
             myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
             let myMenuDays = await getTodaysMenuDays(myRestaurants.payload);
             let myEntertainmentItems = await getTodaysEntertainmentItems(myRestaurants.payload);
-            myEntertainmentItems.body = await sortEntertainmentItems(myEntertainmentItems.body, 'sortTime');
+            myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, 'sortTime');
             let myMenuItems = await getTodaysMenuItems(myMenuDays);
             myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice');
             let myAssociates = await getTodaysAssociates(myRestaurants.payload, myMenuDays);
@@ -52,8 +51,7 @@ const Home = () => {
             setMenuDays(myMenuDays);
             setMenuItems(myMenuItems);
             setAssociates(myAssociates);
-            setEntertainmentItems(myEntertainmentItems.body);
-            setOnScreenDebugMessage(myEntertainmentItems.debug);
+            setEntertainmentItems(myEntertainmentItems);
         }
         fetchData();
         // eslint-disable-next-line
@@ -62,7 +60,7 @@ const Home = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const alertDialogContext = useContext(AlertDialogContext);
 
-    const { myStates, logInType, setMenuItems, setRestaurants, setLoading, setAssociates, setMenuDays, setEntertainmentItems, onScreenDebugMessage, setOnScreenDebugMessage } = dataAndMethodsContext
+    const { myStates, logInType, setMenuItems, setRestaurants, setLoading, setAssociates, setMenuDays, setEntertainmentItems } = dataAndMethodsContext
     const { setDialog } = alertDialogContext
 
     return (
@@ -84,7 +82,6 @@ const Home = () => {
                 {myStates.restaurants && <RestaurantItems />}
                 {myStates.restaurantDetail && <RestaurantCard />}
                 {myStates.associates && <AssociatesDetail />}
-                {myStates.entertainmentItems && <MultipleParagraphs myText={onScreenDebugMessage} />}
                 <p className='p home-page-bottom-margin'></p>
             </div>}
             {logInType === 'signedIn' && <div className='container associate-page-top-margin'>

@@ -1,4 +1,5 @@
 import React from 'react';
+import dateString from '../../model/dateString';
 
 const EntertainmentItemRestaurantDetailCard = ({ entertainmentItem }) => {
     const items = []
@@ -23,10 +24,16 @@ const EntertainmentItemRestaurantDetailCard = ({ entertainmentItem }) => {
         }
     }
 
+    // format dates for display
+    let myTimeFrom = dateString(entertainmentItem.timeFrom, null, 'displayTime')
+    let myTimeTo = dateString(entertainmentItem.timeTo, null, 'displayTime')
+
     return (
         <div className='card'>
             <h3>{items}{entertainmentItem.title}
             </h3>
+            <h5>{myTimeFrom}{' to '}{myTimeTo}
+            </h5>
             <p>{entertainmentItem.description}</p>
         </div>
     );

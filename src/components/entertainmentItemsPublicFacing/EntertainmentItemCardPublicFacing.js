@@ -7,7 +7,6 @@ import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
 import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant';
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
-import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 
 const EntertainmentItemCardPublicFacing = ({ entertainmentItem, restaurants }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -79,11 +78,8 @@ const EntertainmentItemCardPublicFacing = ({ entertainmentItem, restaurants }) =
                     color={"primary"}>
                     <i className="fas fa-phone"></i>
                 </IconButton></span>
-            <MultipleParagraphs myText={entertainmentItem.description} />
         </div>
     );
 };
 
 export default EntertainmentItemCardPublicFacing;
-
-
