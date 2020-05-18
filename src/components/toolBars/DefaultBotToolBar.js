@@ -44,7 +44,7 @@ const DefaultBotToolBar = () => {
                     <IconButton aria-label="" color={myStates['selfies'] ? "secondary" : "primary"}
                         onClick={() => dataAndMethodsContext.setMyState('selfies')}
                     >
-                        <i class="fas fa-image"></i>
+                        <i className="fas fa-image"></i>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Information">

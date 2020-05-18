@@ -29,7 +29,7 @@ import sortEntertainmentItems from '../model/entertainmentItem/sortEntertainment
 import getTodaysAssociates from '../model/associate/getTodaysAssociates';
 import getTodaysMenuDays from '../model/menuDay/getTodaysMenuDays';
 import sortAssociates from '../model/associate/sortAssociates';
-import getLocation from '../model/getLocation';
+// import getLocation from '../model/getLocation';
 
 import {
     restaurantsTableName,
