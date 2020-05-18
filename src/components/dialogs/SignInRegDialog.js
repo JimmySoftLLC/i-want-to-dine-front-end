@@ -12,6 +12,8 @@ import { v4 as uuidv4 } from 'uuid';
 import getAssociate from '../../model/associate/getAssociate';
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import createAssociate from '../../model/associate/createAssociate';
+import sortRestaurants from '../../model/restaurant/sortRestaurants';
+
 import isEmail from 'validator/lib/isEmail';
 
 import {
@@ -127,7 +129,8 @@ const SignUp = () => {
                 if (!associate) {
                     let myNewAssociate = await createAssociate(session.idToken.payload['email'], session.idToken.jwtToken, session.idToken.payload['custom:id'])
                     if (myNewAssociate) {
-                        const associatesRestaurants = await getAssociatesRestaurants(myNewAssociate)
+                        let associatesRestaurants = await getAssociatesRestaurants(myNewAssociate)
+                        associatesRestaurants = await sortRestaurants(associatesRestaurants)
                         //console.log(associatesRestaurants);
                         setAssociatesRestaurants(associatesRestaurants);
                         setAssociate(myNewAssociate);
@@ -140,7 +143,8 @@ const SignUp = () => {
                 } else {
                     //console.log(associate);
                     setAssociate(associate);
-                    const associatesRestaurants = await getAssociatesRestaurants(associate)
+                    let associatesRestaurants = await getAssociatesRestaurants(associate)
+                    associatesRestaurants = await sortRestaurants(associatesRestaurants)
                     //console.log(associatesRestaurants);
                     setAssociatesRestaurants(associatesRestaurants);
                     setLogInType('signedIn')

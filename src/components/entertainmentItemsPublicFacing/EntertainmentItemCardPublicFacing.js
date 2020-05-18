@@ -7,6 +7,7 @@ import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
 import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant';
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
+import linkGoogleMaps from '../../model/linkGoogleMaps';
 
 const EntertainmentItemCardPublicFacing = ({ entertainmentItem, restaurants }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -65,6 +66,8 @@ const EntertainmentItemCardPublicFacing = ({ entertainmentItem, restaurants }) =
         setMyState('restaurantDetail')
     }
 
+    const restaurantMapLink = linkGoogleMaps(myRestaurant)
+
     return (
         showIt && <div className='card'>
             <h4>{items}{' - '}{entertainmentItem.title}
@@ -77,9 +80,18 @@ const EntertainmentItemCardPublicFacing = ({ entertainmentItem, restaurants }) =
                     href={myPhoneLink}
                     color={"primary"}>
                     <i className="fas fa-phone"></i>
+                </IconButton>
+                <IconButton aria-label=""
+                    href={restaurantMapLink}
+                    rel="noopener noreferrer" target="_blank"
+                    color={"primary"}>
+                    <i className="fas fa-map-marker-alt"></i>
                 </IconButton></span>
+            <p>{entertainmentItem.description}</p>
         </div>
     );
 };
 
 export default EntertainmentItemCardPublicFacing;
+
+

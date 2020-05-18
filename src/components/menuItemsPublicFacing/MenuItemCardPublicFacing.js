@@ -7,6 +7,7 @@ import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForResta
 import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant';
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
 import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
+import linkGoogleMaps from '../../model/linkGoogleMaps';
 
 const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -104,6 +105,8 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
         setMyState('restaurantDetail')
     }
 
+    const restaurantMapLink = linkGoogleMaps(myRestaurant)
+
     return (
         showIt && <div className='card'>
             <h3>{items}{menuItem.title}{' - '}{price}
@@ -115,8 +118,14 @@ const MenuItemCardPublicFacing = ({ menuItem, myStates, restaurants }) => {
                     color={"primary"}>
                     <i className="fas fa-phone"></i>
                 </IconButton></span>
+            <IconButton aria-label=""
+                href={restaurantMapLink}
+                rel="noopener noreferrer" target="_blank"
+                color={"primary"}>
+                <i className="fas fa-map-marker-alt"></i>
+            </IconButton>
             <MultipleParagraphs myText={menuItem.description} />
-        </div>
+        </div >
     );
 };
 

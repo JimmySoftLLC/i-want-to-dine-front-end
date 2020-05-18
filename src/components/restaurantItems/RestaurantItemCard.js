@@ -5,6 +5,7 @@ import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForResta
 import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant';
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
 import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
+import linkGoogleMaps from '../../model/linkGoogleMaps';
 
 const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -31,6 +32,8 @@ const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
         setMyState('restaurantDetail');
     }
 
+    const restaurantMapLink = linkGoogleMaps(myRestaurant)
+
     return (
         showIt && <div className='card'>
             <h3>
@@ -39,7 +42,13 @@ const RestaurantItemCard = ({ restaurantItem: myRestaurant }) => {
                     {myRestaurant.restaurantName}
                 </IconButton>
             </h3>
-            <h4>{myRestaurant.street}{' - '}{myRestaurant.city}</h4>
+            <h4 >{myRestaurant.street}{' - '}{myRestaurant.city}
+                <IconButton aria-label=""
+                    href={restaurantMapLink}
+                    rel="noopener noreferrer" target="_blank"
+                    color={"primary"}>
+                    <i className="fas fa-map-marker-alt"></i>
+                </IconButton></h4>
             <h4 href={myPhoneLink}>{myRestaurant.phoneNumber}
                 <IconButton aria-label=""
                     href={myPhoneLink}

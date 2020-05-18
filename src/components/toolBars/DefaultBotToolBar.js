@@ -40,6 +40,13 @@ const DefaultBotToolBar = () => {
                         <i className="fas fa-music"></i>
                     </IconButton>
                 </Tooltip>
+                <Tooltip title="Photo gallery">
+                    <IconButton aria-label="" color={myStates['selfies'] ? "secondary" : "primary"}
+                        onClick={() => dataAndMethodsContext.setMyState('selfies')}
+                    >
+                        <i class="fas fa-image"></i>
+                    </IconButton>
+                </Tooltip>
                 <Tooltip title="Information">
                     <IconButton aria-label="" color={myStates['info'] ? "secondary" : "primary"}
                         onClick={() => dataAndMethodsContext.setMyState('info')}
@@ -47,12 +54,6 @@ const DefaultBotToolBar = () => {
                         <i className="fas fa-info"></i>
                     </IconButton>
                 </Tooltip>
-                {/* {(myStates.restaurants) && <Tooltip title="Map restaurant">
-                    <IconButton aria-label=""
-                        color="primary">
-                        <i className="icon-map-marker-restaurant"></i>
-                    </IconButton>
-                </Tooltip>} */}
             </Toolbar>
         </Fragment>
     );

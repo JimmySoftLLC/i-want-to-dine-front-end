@@ -13,6 +13,7 @@ import deleteAssociateFromRestaurant from '../../model/restaurant/deleteAssociat
 import getAssociate from '../../model/associate/getAssociate';
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import updateMenuDaysWithAssociateChanges from '../../model/menuDay/updateMenuDaysWithAssociateChanges';
+import sortRestaurants from '../../model/restaurant/sortRestaurants';
 
 import {
     noSelectedRestaurant,
@@ -106,7 +107,8 @@ const AssociateCard = ({ Associate }) => {
         await putRestaurant(myRestaurant, idToken, customId)
         // get logged in associate and update associates restaurants
         const newAssociate = await getAssociate(associate.id, idToken, customId)
-        const newAssociatesRestaurants = await getAssociatesRestaurants(newAssociate)
+        let newAssociatesRestaurants = await getAssociatesRestaurants(newAssociate)
+        newAssociatesRestaurants = await sortRestaurants(newAssociatesRestaurants)
         setAssociate(newAssociate)
         setAssociatesRestaurants(newAssociatesRestaurants)
         // update associates for current restaurant

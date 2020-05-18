@@ -12,7 +12,7 @@ import {
 import dateString from '../model/dateString';
 
 const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
-    //console.log(myTableName, myIdToken, myItem, myCustomId);
+    // console.log(myTableName, myIdToken, myItem, myCustomId);
     let myNewItem = {}
     switch (myTableName) {
         case menuItemsTableName:
@@ -36,6 +36,7 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                 zipCode: myItem.zipCode = myItem.zipCode !== '' ? myItem.zipCode : blankPlaceHolder,
                 phoneNumber: myItem.phoneNumber = myItem.phoneNumber !== '' ? myItem.phoneNumber : blankPlaceHolder,
                 urlLink: myItem.urlLink = myItem.urlLink !== '' ? myItem.urlLink : blankPlaceHolder,
+                orderUrlLink: myItem.orderUrlLink = myItem.orderUrlLink !== '' ? myItem.orderUrlLink : blankPlaceHolder,
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
                 entertainmentItemIdsJSON: JSON.stringify(myItem.entertainmentItemIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),

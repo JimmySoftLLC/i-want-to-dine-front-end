@@ -20,6 +20,7 @@ import AlertDialog from '../components/dialogs/AlertDialog';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import RestaurantCard from '../components/restaurant/RestaurantCard';
+import PhotoGallery from '../components/photoGalley/PhotoGallery';
 import scanDynamoDB from '../api/scanDynamoDB';
 import getTodaysMenuItems from '../model/menuItem/getTodaysMenuItems';
 import getTodaysEntertainmentItems from '../model/entertainmentItem/getTodaysEntertainmentItems';
@@ -28,6 +29,7 @@ import sortEntertainmentItems from '../model/entertainmentItem/sortEntertainment
 import getTodaysAssociates from '../model/associate/getTodaysAssociates';
 import getTodaysMenuDays from '../model/menuDay/getTodaysMenuDays';
 import sortAssociates from '../model/associate/sortAssociates';
+import getLocation from '../model/getLocation';
 
 import {
     restaurantsTableName,
@@ -52,6 +54,8 @@ const Home = () => {
             setMenuItems(myMenuItems);
             setAssociates(myAssociates);
             setEntertainmentItems(myEntertainmentItems);
+            // let test = await getLocation()
+            // console.log(test);
         }
         fetchData();
         // eslint-disable-next-line
@@ -69,6 +73,7 @@ const Home = () => {
             <DeleteConfirmDialog />
             <SignInRegDialog />
             <TopNavBar />
+
             {logInType === 'default' && <div className='container '>
                 {myStates.menuItems && <p className='p home-page-top-margin'></p>}
                 {myStates.entertainmentItems && <p className='p home-page-top-margin-normal'></p>}
@@ -76,6 +81,8 @@ const Home = () => {
                 {myStates.restaurantDetail && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.associates && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.info && <p className='p home-page-top-margin-normal'></p>}
+                {myStates.selfies && <p className='p home-page-top-margin-normal'></p>}
+                {myStates.selfies && <PhotoGallery />}
                 {myStates.info && <About />}
                 {myStates.menuItems && <MenuItemsPublicFacing />}
                 {myStates.entertainmentItems && <EntertainmentItemsPublicFacing />}

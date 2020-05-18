@@ -10,6 +10,7 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import putRestaurant from '../../model/restaurant/putRestaurant';
 import putAssociate from '../../model/associate/putAssociate';
+import sortRestaurants from '../../model/restaurant/sortRestaurants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,6 +43,7 @@ const RestaurantDialog = () => {
         zipCode,
         phoneNumber,
         urlLink,
+        orderUrlLink,
         menuItemIdsJSON,
         entertainmentItemIdsJSON,
         associatesJSON,
@@ -68,6 +70,7 @@ const RestaurantDialog = () => {
         myRestaurant.zipCode = zipCode;
         myRestaurant.phoneNumber = phoneNumber;
         myRestaurant.urlLink = urlLink;
+        myRestaurant.orderUrlLink = orderUrlLink;
         myRestaurant.menuItemIdsJSON = menuItemIdsJSON
         myRestaurant.entertainmentItemIdsJSON = entertainmentItemIdsJSON
         myRestaurant.associatesJSON = associatesJSON
@@ -78,7 +81,8 @@ const RestaurantDialog = () => {
             await putAssociate(myAssociate, idToken, customId)
             setAssociate(myAssociate)
         }
-        const associatesRestaurants = await getAssociatesRestaurants(myAssociate)
+        let associatesRestaurants = await getAssociatesRestaurants(myAssociate)
+        associatesRestaurants = await sortRestaurants(associatesRestaurants)
         setAssociatesRestaurants(associatesRestaurants);
         setRestaurantDialogOpen(false);
     };
@@ -113,6 +117,10 @@ const RestaurantDialog = () => {
 
     const changeUrlLink = (e) => {
         setRestaurantDialogDataItem('urlLink', e.target.value)
+    };
+
+    const changeOrderUrlLink = (e) => {
+        setRestaurantDialogDataItem('orderUrlLink', e.target.value)
     };
 
     return (
@@ -196,6 +204,15 @@ const RestaurantDialog = () => {
                         variant="filled"
                         value={urlLink}
                         onChange={changeUrlLink}
+                    />
+                    <TextField
+                        id="orderUrlLink"
+                        label="Online Order Url"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        value={orderUrlLink}
+                        onChange={changeOrderUrlLink}
                     />
                 </DialogContent>
                 <DialogActions>

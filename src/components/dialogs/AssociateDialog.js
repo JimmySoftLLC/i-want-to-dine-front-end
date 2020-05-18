@@ -36,6 +36,8 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import CircularIndeterminate from '../circularIndeterminate/CircularIndeterminate';
+import sortRestaurants from '../../model/restaurant/sortRestaurants';
+
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -197,7 +199,8 @@ const AssociateDialog = () => {
         await putRestaurant(myRestaurant, idToken, customId);
         // now get logged in associate and update associates restaurants
         const newAssociate = await getAssociate(associate.id, idToken, customId)
-        const newAssociatesRestaurants = await getAssociatesRestaurants(newAssociate)
+        let newAssociatesRestaurants = await getAssociatesRestaurants(newAssociate)
+        newAssociatesRestaurants = await sortRestaurants(newAssociatesRestaurants)
         setAssociate(newAssociate)
         setAssociatesRestaurants(newAssociatesRestaurants)
         let myAssociates = await getRestaurantAssociates(myRestaurant, idToken, customId);
@@ -213,6 +216,7 @@ const AssociateDialog = () => {
                     setRestaurantAssociates([]);
                     setRestaurantId(noSelectedRestaurant)
                     const myAssociatesRestaurants = await getAssociatesRestaurants(myAssociate);
+                    newAssociatesRestaurants = await sortRestaurants(newAssociatesRestaurants);
                     setAssociatesRestaurants(myAssociatesRestaurants);
                     return true;
                 }
@@ -431,6 +435,8 @@ const AssociateDialog = () => {
 
     const canEditImages = imageUrl === blankImage ? false : true
 
+    // display: 'block'
+
     return (
         <div>
             <Dialog className={classes.root} open={associateDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -468,12 +474,11 @@ const AssociateDialog = () => {
                     />}
                     {loadingDialog && <CircularIndeterminate />}
                     {(showDetails && pictureEditMode === 'none' && imageUrl !== undefined) && <img
-                        style={{ display: 'block', marginTop: '0.5rem', marginBottom: '0.5rem' }}
+                        style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
                         src={imageUrl}
                         alt=''
-                        className='all-center'
                     />}
-                    {(showDetails && upImg && pictureEditMode !== 'none') && <ReactCrop style={{ display: 'block', marginTop: '0.5rem', marginBottom: '0.5rem' }}
+                    {(showDetails && upImg && pictureEditMode !== 'none') && <ReactCrop style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
                         src={upImg}
                         onImageLoaded={onLoad}
                         crop={crop}
@@ -490,6 +495,7 @@ const AssociateDialog = () => {
                         value={fileValue}
                         onChange={getImageFromFile}
                     />}
+                    <div></div>
                     {showDetails && <label htmlFor="raised-button-file">
                         <Button component="span" className={classes.button} style={myTextStyle}>
                             <i className="fas fa-file-upload"></i>

@@ -548,6 +548,7 @@ const DataAndMethodsState = props => {
                     zipCode: state.restaurants[i].zipCode,
                     phoneNumber: state.restaurants[i].phoneNumber,
                     urlLink: state.restaurants[i].urlLink,
+                    orderUrlLink: state.restaurants[i].orderUrlLink,
                     id: state.restaurants[i].id,
                     menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
                     associatesJSON: state.restaurants[i].associatesJSON,
@@ -572,6 +573,7 @@ const DataAndMethodsState = props => {
                     zipCode: state.restaurants[i].zipCode,
                     phoneNumber: state.restaurants[i].phoneNumber,
                     urlLink: state.restaurants[i].urlLink,
+                    orderUrlLink: state.restaurants[i].orderUrlLink,
                     id: state.restaurants[i].id,
                     menuItemIdsJSON: state.restaurants[i].menuItemIdsJSON,
                     associatesJSON: state.restaurants[i].associatesJSON,
@@ -606,6 +608,7 @@ const DataAndMethodsState = props => {
                 myNewRestaurants[i].zipCode = state.restaurantDialogData.zipCode;
                 myNewRestaurants[i].phoneNumber = state.restaurantDialogData.phoneNumber;
                 myNewRestaurants[i].urlLink = state.restaurantDialogData.urlLink;
+                myNewRestaurants[i].orderUrlLink = state.restaurantDialogData.orderUrlLink;
                 myNewRestaurants[i].menuItemIdsJSON = state.restaurantDialogData.menuItemIdsJSON
                 myNewRestaurants[i].associatesJSON = state.restaurantDialogData.associatesJSON
                 myNewRestaurants[i].approved = state.restaurantDialogData.approved
@@ -630,6 +633,7 @@ const DataAndMethodsState = props => {
                 myNewRestaurant.zipCode = state.restaurantDialogData.zipCode;
                 myNewRestaurant.phoneNumber = state.restaurantDialogData.phoneNumber;
                 myNewRestaurant.urlLink = state.restaurantDialogData.urlLink;
+                myNewRestaurant.orderUrlLink = state.restaurantDialogData.orderUrlLink;
                 myNewRestaurant.menuItemIdsJSON = state.restaurantDialogData.menuItemIdsJSON
                 myNewRestaurant.associatesJSON = state.restaurantDialogData.associatesJSON
                 myNewRestaurant.approved = state.restaurantDialogData.approved

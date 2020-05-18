@@ -26,6 +26,7 @@ import sortAssociates from '../../model/associate/sortAssociates';
 import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
 import getMenuItems from '../../model/menuItem/getMenuItems';
 import getEntertainmentItems from '../../model/entertainmentItem/getEntertainmentItems';
+import sortRestaurants from '../../model/restaurant/sortRestaurants';
 
 import {
     noSelectedRestaurant,
@@ -113,6 +114,7 @@ const SignedInTopToolBar = () => {
             zipCode: myRestaurant.zipCode,
             phoneNumber: myRestaurant.phoneNumber,
             urlLink: myRestaurant.urlLink,
+            orderUrlLink: myRestaurant.orderUrlLink,
             menuItemIdsJSON: myRestaurant.menuItemIdsJSON,
             entertainmentItemIdsJSON: myRestaurant.entertainmentItemIdsJSON,
             associatesJSON: myRestaurant.associatesJSON,
@@ -154,6 +156,7 @@ const SignedInTopToolBar = () => {
             zipCode: '',
             phoneNumber: '',
             urlLink: '',
+            orderUrlLink: '',
             menuItemIdsJSON: [],
             entertainmentItemIdsJSON: [],
             associatesJSON: myRestaurantsAssociatesJSON,
@@ -260,7 +263,8 @@ const SignedInTopToolBar = () => {
         }
         await deleteRestaurant(restaurantId, idToken, customId)
         const newAssociate = await getAssociate(associate.id, idToken, customId)
-        const newAssociatesRestaurants = await getAssociatesRestaurants(newAssociate)
+        let newAssociatesRestaurants = await getAssociatesRestaurants(newAssociate)
+        newAssociatesRestaurants = await sortRestaurants(newAssociatesRestaurants)
         setAssociate(newAssociate)
         setAssociatesRestaurants(newAssociatesRestaurants);
         setRestaurantId(noSelectedRestaurant);
@@ -426,5 +430,3 @@ const SignedInTopToolBar = () => {
 }
 
 export default SignedInTopToolBar;
-
-

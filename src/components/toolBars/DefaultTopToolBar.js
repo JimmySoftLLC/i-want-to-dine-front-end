@@ -24,17 +24,28 @@ const DefaultTopToolBar = () => {
         dataAndMethodsContext.setSignInRegDialogType('signIn')
     }
 
+    const goBack = () => {
+        setMyState(myStates['lastState'])
+    }
+
     return (
         <Fragment>
             <Toolbar>
                 <div >
-                    <Tooltip title="Refresh">
+                    {!myStates.restaurantDetail && <Tooltip title="Refresh">
                         <IconButton aria-label="" color="inherit"
                             href="/"
                         >
                             iWantToDine
                             </IconButton>
-                    </Tooltip>
+                    </Tooltip>}
+                    {myStates.restaurantDetail && <Tooltip title="Go Back">
+                        <IconButton aria-label="" color="inherit"
+                            onClick={() => goBack()}
+                        >
+                            <i className="fas fa-angle-left"></i>
+                        </IconButton>
+                    </Tooltip>}
                     {myStates.menuItems && <Tooltip title="Beef and other">
                         <IconButton aria-label="" color={myStates['meat'] ? "default" : "inherit"}
                             onClick={() => dataAndMethodsContext.setMyState('meat')}
