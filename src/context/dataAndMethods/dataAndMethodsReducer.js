@@ -34,6 +34,8 @@ import {
     SET_ON_SCREEN_DEBUG_MESSAGE,
     SET_PHOTOS,
     SET_RESTAURANT_PHOTOS,
+    SET_PHOTO_DIALOG_DATA,
+    SET_PHOTO_DIALOG_OPEN,
 } from '../types';
 
 export default (state, action) => {
@@ -201,7 +203,7 @@ export default (state, action) => {
         case SET_ON_SCREEN_DEBUG_MESSAGE:
             return {
                 ...state,
-                setOnScreenDebugMessage: action.payload,
+                onScreenDebugMessage: action.payload,
             };
         case SET_PHOTOS:
             return {
@@ -211,7 +213,17 @@ export default (state, action) => {
         case SET_RESTAURANT_PHOTOS:
             return {
                 ...state,
-                setRestaurantPhotos: action.payload,
+                restaurantPhotos: action.payload,
+            };
+        case SET_PHOTO_DIALOG_DATA:
+            return {
+                ...state,
+                photoDialogData: action.payload,
+            };
+        case SET_PHOTO_DIALOG_OPEN:
+            return {
+                ...state,
+                photoDialogOpen: action.payload,
             };
         default:
             return state;

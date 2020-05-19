@@ -59,6 +59,8 @@ const SignedInTopToolBar = () => {
         setLoading,
         setEntertainmentItemDialogData,
         setEntertainmentItemDialogOpen,
+        setPhotoDialogOpen,
+        setPhotoDialogData,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -172,7 +174,6 @@ const SignedInTopToolBar = () => {
 
     const newMenuItemClick = () => {
         let myNewId = uuidv4()
-
         let myEditItem = {
             id: myNewId,
             title: '',
@@ -205,6 +206,17 @@ const SignedInTopToolBar = () => {
 
     const newPhotoClick = () => {
         let myNewId = uuidv4()
+        let myEditItem = {
+            id: myNewId,
+            src: '',
+            width: 1,
+            height: 1,
+            caption: '',
+            restaurantid: '',
+            dialogType: 'Add',
+        }
+        setPhotoDialogData(myEditItem);
+        setPhotoDialogOpen(true);
     };
 
     const newMenuDayClick = () => {
