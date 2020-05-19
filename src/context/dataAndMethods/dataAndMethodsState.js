@@ -40,6 +40,8 @@ import {
     SET_ENTERTAINMENT_ITEM_DIALOG_OPEN,
     SET_RESTAURANT_ENTERTAINMENT_ITEMS,
     SET_ON_SCREEN_DEBUG_MESSAGE,
+    SET_PHOTOS,
+    SET_RESTAURANT_PHOTOS,
 } from '../types';
 import {
     // menuItemsTableName,
@@ -90,6 +92,7 @@ const DataAndMethodsState = props => {
             entertainmentItems: false,
             selfies: false,
             entertainmentSettings: false,
+            photoSettings: false,
             lastState: 'menuItems',
         },
         signInRegDialogType: 'false',
@@ -99,6 +102,7 @@ const DataAndMethodsState = props => {
         menuDays: [],
         restaurantMenuItems: [],
         restaurantEntertainmentItems: [],
+        restaurantPhotos: [],
         restaurantMenuDays: [],
         restaurants: [],
         associatesRestaurants: [],
@@ -134,6 +138,7 @@ const DataAndMethodsState = props => {
             entertainmentItemIdsJSON: [],
             associatesJSON: [],
             menuDayIdsJSON: [],
+            photosJSON: [],
             approved: false,
             myAssociate: {},
             dialogType: 'Edit',
@@ -177,6 +182,7 @@ const DataAndMethodsState = props => {
             dialogType: 'Add',
         },
         entertainmentItemDialogOpen: false,
+        photos: [],
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
@@ -185,6 +191,7 @@ const DataAndMethodsState = props => {
     const setLoading = (myBool) => dispatch({ type: SET_LOADING, payload: myBool });
     const setLoadingDialog = (myBool) => dispatch({ type: SET_LOADING_DIALOG, payload: myBool });
     const setOnScreenDebugMessage = (onScreenDebugMessage) => dispatch({ type: SET_ON_SCREEN_DEBUG_MESSAGE, payload: onScreenDebugMessage });
+    const setPhotos = (photos) => dispatch({ type: SET_PHOTOS, payload: photos });
 
     const setAssociateDialogDataItem = async (key, value) => {
         let associateDialogData = JSON.parse(JSON.stringify(state.associateDialogData))
@@ -249,6 +256,7 @@ const DataAndMethodsState = props => {
     const setRestaurantMenuItems = async (restaurantMenuItems) => { dispatch({ type: SET_RESTAURANT_MENU_ITEMS, payload: restaurantMenuItems }) }
     const setRestaurantEntertainmentItems = async (restaurantEntertainmentItems) => { dispatch({ type: SET_RESTAURANT_ENTERTAINMENT_ITEMS, payload: restaurantEntertainmentItems }) }
     const setRestaurantMenuDays = async (restaurantMenuDays) => { dispatch({ type: SET_RESTAURANT_MENU_DAY_ITEMS, payload: restaurantMenuDays }) }
+    const setRestaurantPhotos = async (restaurantPhotos) => { dispatch({ type: SET_RESTAURANT_PHOTOS, payload: restaurantPhotos }) }
     const setRestaurantId = async (restaurantId) => { dispatch({ type: SET_RESTAURANT_ID, payload: restaurantId }) }
     const setRestaurantAssociates = async (restaurantAssociates) => { dispatch({ type: SET_RESTAURANT_ASSOCIATES, payload: restaurantAssociates }) }
 
@@ -325,6 +333,8 @@ const DataAndMethodsState = props => {
                 entertainmentItemDialogDataItem: state.entertainmentItemDialogDataItem,
                 entertainmentItemDialogOpen: state.entertainmentItemDialogOpen,
                 onScreenDebugMessage: state.onScreenDebugMessage,
+                photos: state.photos,
+                restaurantPhotos: state.restaurantPhotos,
                 setMyState,
                 setMyStates,
                 setRestaurants,
@@ -366,6 +376,8 @@ const DataAndMethodsState = props => {
                 setEntertainmentItemDialogDataCategory,
                 setRestaurantEntertainmentItems,
                 setOnScreenDebugMessage,
+                setPhotos,
+                setRestaurantPhotos,
             }}
         >
             {props.children}

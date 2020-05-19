@@ -48,6 +48,7 @@ const RestaurantDialog = () => {
         entertainmentItemIdsJSON,
         associatesJSON,
         menuDayIdsJSON,
+        photosJSON,
         approved,
         dialogType,
         myAssociate,
@@ -74,7 +75,9 @@ const RestaurantDialog = () => {
         myRestaurant.menuItemIdsJSON = menuItemIdsJSON
         myRestaurant.entertainmentItemIdsJSON = entertainmentItemIdsJSON
         myRestaurant.associatesJSON = associatesJSON
+        myRestaurant.photosJSON = photosJSON
         myRestaurant.menuDayIdsJSON = menuDayIdsJSON
+        myRestaurant.photosJSON = photosJSON
         myRestaurant.approved = approved
         await putRestaurant(myRestaurant, idToken, customId)
         if (dialogType === 'New') {

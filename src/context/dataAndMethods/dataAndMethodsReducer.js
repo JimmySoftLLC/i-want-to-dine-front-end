@@ -32,6 +32,8 @@ import {
     SET_ENTERTAINMENT_ITEM_DIALOG_OPEN,
     SET_RESTAURANT_ENTERTAINMENT_ITEMS,
     SET_ON_SCREEN_DEBUG_MESSAGE,
+    SET_PHOTOS,
+    SET_RESTAURANT_PHOTOS,
 } from '../types';
 
 export default (state, action) => {
@@ -199,7 +201,17 @@ export default (state, action) => {
         case SET_ON_SCREEN_DEBUG_MESSAGE:
             return {
                 ...state,
-                onScreenDebugMessage: action.payload,
+                setOnScreenDebugMessage: action.payload,
+            };
+        case SET_PHOTOS:
+            return {
+                ...state,
+                photos: action.payload,
+            };
+        case SET_RESTAURANT_PHOTOS:
+            return {
+                ...state,
+                setRestaurantPhotos: action.payload,
             };
         default:
             return state;

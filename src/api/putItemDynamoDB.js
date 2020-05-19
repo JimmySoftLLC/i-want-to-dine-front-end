@@ -41,6 +41,7 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                 entertainmentItemIdsJSON: JSON.stringify(myItem.entertainmentItemIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),
                 menuDayIdsJSON: JSON.stringify(myItem.menuDayIdsJSON),
+                photosJSON: JSON.stringify(myItem.photosJSON),
                 approved: myItem.approved,
             }
             break;

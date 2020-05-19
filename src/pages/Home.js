@@ -29,6 +29,7 @@ import sortEntertainmentItems from '../model/entertainmentItem/sortEntertainment
 import getTodaysAssociates from '../model/associate/getTodaysAssociates';
 import getTodaysMenuDays from '../model/menuDay/getTodaysMenuDays';
 import sortAssociates from '../model/associate/sortAssociates';
+import getPhotos from '../model/photo/getPhotos';
 // import getLocation from '../model/getLocation';
 
 import {
@@ -41,7 +42,7 @@ const Home = () => {
         async function fetchData() {
             setLoading(true);
             const myRestaurants = await scanDynamoDB(restaurantsTableName);
-            myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload)
+            myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload);
             let myMenuDays = await getTodaysMenuDays(myRestaurants.payload);
             let myEntertainmentItems = await getTodaysEntertainmentItems(myRestaurants.payload);
             myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, 'sortTime');
@@ -54,6 +55,8 @@ const Home = () => {
             setMenuItems(myMenuItems);
             setAssociates(myAssociates);
             setEntertainmentItems(myEntertainmentItems);
+            let myPhotos = await getPhotos(myRestaurants);
+            setPhotos(myPhotos);
             // let test = await getLocation()
             // console.log(test);
         }
@@ -64,7 +67,7 @@ const Home = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const alertDialogContext = useContext(AlertDialogContext);
 
-    const { myStates, logInType, setMenuItems, setRestaurants, setLoading, setAssociates, setMenuDays, setEntertainmentItems } = dataAndMethodsContext
+    const { myStates, logInType, setMenuItems, setRestaurants, setLoading, setAssociates, setMenuDays, setEntertainmentItems, setPhotos } = dataAndMethodsContext
     const { setDialog } = alertDialogContext
 
     return (
@@ -73,7 +76,6 @@ const Home = () => {
             <DeleteConfirmDialog />
             <SignInRegDialog />
             <TopNavBar />
-
             {logInType === 'default' && <div className='container '>
                 {myStates.menuItems && <p className='p home-page-top-margin'></p>}
                 {myStates.entertainmentItems && <p className='p home-page-top-margin-normal'></p>}
@@ -81,8 +83,8 @@ const Home = () => {
                 {myStates.restaurantDetail && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.associates && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.info && <p className='p home-page-top-margin-normal'></p>}
-                {myStates.selfies && <p className='p home-page-top-margin-normal'></p>}
-                {myStates.selfies && <PhotoGallery />}
+                {myStates.photoGallery && <p className='p home-page-top-margin-normal'></p>}
+                {myStates.photoGallery && <PhotoGallery />}
                 {myStates.info && <About />}
                 {myStates.menuItems && <MenuItemsPublicFacing />}
                 {myStates.entertainmentItems && <EntertainmentItemsPublicFacing />}

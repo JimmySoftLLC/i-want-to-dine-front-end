@@ -45,6 +45,9 @@ const About = () => {
                     <i className="fas fa-music"></i> show entertainment
                     </li>
                 <li>
+                    <i className="fas fa-image"></i> show photo gallery
+                    </li>
+                <li>
                     <i className="fas fa-info"></i> information
                     </li>
             </ul>

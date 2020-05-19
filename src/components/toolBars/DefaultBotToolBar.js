@@ -41,10 +41,10 @@ const DefaultBotToolBar = () => {
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Photo gallery">
-                    <IconButton aria-label="" color={myStates['selfies'] ? "secondary" : "primary"}
-                        onClick={() => dataAndMethodsContext.setMyState('selfies')}
+                    <IconButton aria-label="" color={myStates['photoGallery'] ? "secondary" : "primary"}
+                        onClick={() => dataAndMethodsContext.setMyState('photoGallery')}
                     >
-                        <i className="fas fa-image"></i>
+                        <i className="fas fa-images"></i>
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Information">

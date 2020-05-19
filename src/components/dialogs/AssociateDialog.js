@@ -435,8 +435,6 @@ const AssociateDialog = () => {
 
     const canEditImages = imageUrl === blankImage ? false : true
 
-    // display: 'block'
-
     return (
         <div>
             <Dialog className={classes.root} open={associateDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -485,6 +483,7 @@ const AssociateDialog = () => {
                         onChange={c => setCrop(c)}
                         onComplete={makeClientCrop}
                     />}
+                    <p></p>
                     {showDetails && <input
                         accept="image/*"
                         className={classes.input}
@@ -495,7 +494,6 @@ const AssociateDialog = () => {
                         value={fileValue}
                         onChange={getImageFromFile}
                     />}
-                    <div></div>
                     {showDetails && <label htmlFor="raised-button-file">
                         <Button component="span" className={classes.button} style={myTextStyle}>
                             <i className="fas fa-file-upload"></i>

@@ -161,6 +161,7 @@ const SignedInTopToolBar = () => {
             entertainmentItemIdsJSON: [],
             associatesJSON: myRestaurantsAssociatesJSON,
             menuDayIdsJSON: [],
+            photosJSON: [],
             approved: false,
             myAssociate: myAssociate,
             dialogType: "New",
@@ -200,6 +201,10 @@ const SignedInTopToolBar = () => {
         }
         setEntertainmentItemDialogData(myEditItem);
         setEntertainmentItemDialogOpen(true);
+    };
+
+    const newPhotoClick = () => {
+        let myNewId = uuidv4()
     };
 
     const newMenuDayClick = () => {
@@ -360,6 +365,13 @@ const SignedInTopToolBar = () => {
                             <i className="fas fa-user-cog"></i>
                         </IconButton>
                     </Tooltip>}
+                    {restaurantId !== noSelectedRestaurant && <Tooltip title="Photo gallery settings">
+                        <IconButton aria-label=""
+                            color={myStates['photoSettings'] ? "default" : "inherit"}
+                            onClick={() => dataAndMethodsContext.setMyState('photoSettings')}>
+                            <i className="icon-image-cog"></i>
+                        </IconButton>
+                    </Tooltip>}
                     {restaurantId !== noSelectedRestaurant && <Tooltip title="Menu day settings">
                         <IconButton aria-label=""
                             color={myStates['menuDaySettings'] ? "default" : "inherit"}
@@ -421,6 +433,13 @@ const SignedInTopToolBar = () => {
                             color="inherit"
                             onClick={() => newEntertainmentClick()}>
                             <i className="icon-music-plus"></i>
+                        </IconButton>
+                    </Tooltip>}
+                    {(restaurantId !== noSelectedRestaurant && myStates['photoSettings'] && canAdmin) && <Tooltip title="Add photo">
+                        <IconButton aria-label=""
+                            color="inherit"
+                            onClick={() => newPhotoClick()}>
+                            <i className="icon-image-plus"></i>
                         </IconButton>
                     </Tooltip>}
                 </div>

@@ -611,6 +611,7 @@ const DataAndMethodsState = props => {
                 myNewRestaurants[i].orderUrlLink = state.restaurantDialogData.orderUrlLink;
                 myNewRestaurants[i].menuItemIdsJSON = state.restaurantDialogData.menuItemIdsJSON
                 myNewRestaurants[i].associatesJSON = state.restaurantDialogData.associatesJSON
+                myNewRestaurants[i].photosJSON = state.restaurantDialogData.photosJSON
                 myNewRestaurants[i].approved = state.restaurantDialogData.approved
                 //putItemDynamoDB(state.restaurantsTableName, myNewRestaurants[i]);
                 //getAssociatesResturants(myNewRestaurants, state.customId)
@@ -636,6 +637,7 @@ const DataAndMethodsState = props => {
                 myNewRestaurant.orderUrlLink = state.restaurantDialogData.orderUrlLink;
                 myNewRestaurant.menuItemIdsJSON = state.restaurantDialogData.menuItemIdsJSON
                 myNewRestaurant.associatesJSON = state.restaurantDialogData.associatesJSON
+                myNewRestaurant.photosJSON = state.restaurantDialogData.photosJSON
                 myNewRestaurant.approved = state.restaurantDialogData.approved
                 myNewRestaurants.push(myNewRestaurant);
                 //putItemDynamoDB(state.restaurantsTableName, myNewRestaurant);
