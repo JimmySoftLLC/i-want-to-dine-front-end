@@ -44,6 +44,7 @@ import {
     SET_RESTAURANT_PHOTOS,
     SET_PHOTO_DIALOG_DATA,
     SET_PHOTO_DIALOG_OPEN,
+    SET_IMAGE_EDITOR_DATA,
 } from '../types';
 import {
     // menuItemsTableName,
@@ -173,6 +174,7 @@ const DataAndMethodsState = props => {
             restaurantId: '',
             dialogType: "Edit",
         },
+        entertainmentItemDialogOpen: false,
         entertainmentItemDialogData: {
             title: '',
             description: '',
@@ -183,6 +185,7 @@ const DataAndMethodsState = props => {
             restaurantId: '',
             dialogType: 'Add',
         },
+        photoDialogOpen: false,
         photoDialogData: {
             src: '',
             width: 1,
@@ -192,7 +195,13 @@ const DataAndMethodsState = props => {
             pictureEditMode: 'none',
             dialogType: 'Add',
         },
-        entertainmentItemDialogOpen: false,
+        imageEditorData: {
+            imageUrl: 'https://iwanttodine.s3.amazonaws.com/public/39c40e02-876e-4f4d-9d42-b2d9551df046.jpg',
+            pictureEditMode: 'none',
+            deleteFileValue: '',
+            aspectRatio: 1,
+            blob: '',
+        },
         photos: [],
     };
 
@@ -313,8 +322,16 @@ const DataAndMethodsState = props => {
     const setPhotoDialogData = async (photoDialogData) => { dispatch({ type: SET_PHOTO_DIALOG_DATA, payload: photoDialogData }) }
     const setPhotoDialogOpen = async (photoDialogOpen) => { dispatch({ type: SET_PHOTO_DIALOG_OPEN, payload: photoDialogOpen }) }
 
+    // image editor -----------------------------------------------------
+    const setImageEditorDataItem = (key, value) => {
+        let imageEditorData = JSON.parse(JSON.stringify(state.imageEditorData))
+        imageEditorData[key] = value;
+        setImageEditorData(imageEditorData);
+    }
+    const setImageEditorData = async (imageEditorData) => { dispatch({ type: SET_IMAGE_EDITOR_DATA, payload: imageEditorData }) }
+
     // debuging tools used for moblie debugging -------------------------------------
-    const setOnScreenDebugMessage = (onScreenDebugMessage) => dispatch({ type: SET_ON_SCREEN_DEBUG_MESSAGE, payload: onScreenDebugMessage });
+    const setOnScreenDebugMessage = async (onScreenDebugMessage) => dispatch({ type: SET_ON_SCREEN_DEBUG_MESSAGE, payload: onScreenDebugMessage });
 
     return (
         <DataAndMethodsContext.Provider
@@ -362,6 +379,7 @@ const DataAndMethodsState = props => {
                 restaurantPhotos: state.restaurantPhotos,
                 photoDialogData: state.photoDialogData,
                 photoDialogOpen: state.photoDialogOpen,
+                imageEditorData: state.imageEditorData,
                 setMyState,
                 setMyStates,
                 setRestaurants,
@@ -408,6 +426,8 @@ const DataAndMethodsState = props => {
                 setPhotoDialogDataItem,
                 setPhotoDialogData,
                 setPhotoDialogOpen,
+                setImageEditorData,
+                setImageEditorDataItem,
             }}
         >
             {props.children}

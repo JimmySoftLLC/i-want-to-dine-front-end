@@ -61,7 +61,10 @@ const SignedInTopToolBar = () => {
         setEntertainmentItemDialogOpen,
         setPhotoDialogOpen,
         setPhotoDialogData,
+        setImageEditorData,
     } = dataAndMethodsContext;
+
+
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
     const { setDeleteConfirmDialog } = deleteConfirmDialogContext
@@ -215,6 +218,13 @@ const SignedInTopToolBar = () => {
             restaurantid: '',
             dialogType: 'Add',
         }
+        let myImageEditorData = JSON.parse(JSON.stringify(dataAndMethodsContext.imageEditorData))
+        myImageEditorData.imageUrl = '';
+        myImageEditorData.pictureEditMode = 'none';
+        myImageEditorData.deleteFileValue = '';
+        myImageEditorData.aspectRatio = 1;
+        myImageEditorData.blob = '';
+        setImageEditorData(myImageEditorData);
         setPhotoDialogData(myEditItem);
         setPhotoDialogOpen(true);
     };

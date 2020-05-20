@@ -36,6 +36,7 @@ import {
     SET_RESTAURANT_PHOTOS,
     SET_PHOTO_DIALOG_DATA,
     SET_PHOTO_DIALOG_OPEN,
+    SET_IMAGE_EDITOR_DATA,
 } from '../types';
 
 export default (state, action) => {
@@ -224,6 +225,11 @@ export default (state, action) => {
             return {
                 ...state,
                 photoDialogOpen: action.payload,
+            };
+        case SET_IMAGE_EDITOR_DATA:
+            return {
+                ...state,
+                imageEditorData: action.payload,
             };
         default:
             return state;

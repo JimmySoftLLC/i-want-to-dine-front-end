@@ -22,7 +22,7 @@ let s3GetObject = async (key, myIdToken, myCustomId) => {
                 'Accept': '*/*',
             }
         };
-        // console.log('API Request:', apiRequest, myIdToken);
+        console.log('API Request:', apiRequest, myIdToken);
         const data = await API.post(apiName, apiPath, apiRequest);
         myReturnObject.payload = data;
         return myReturnObject;
