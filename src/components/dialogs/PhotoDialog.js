@@ -8,11 +8,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
+import saveImageToDatabase from '../../model/images/saveImageToDatabase';
 import ImageEditor from '../imageEditor/ImageEditor';
+import putPhotoInRestaurant from '../../model/photo/putPhotoInRestaurant';
+import putRestaurant from '../../model/restaurant/putRestaurant';
+import getRestaurantById from '../../model/restaurant/getRestaurantById';
 
 import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -31,37 +36,47 @@ const PhotoDialog = () => {
         restaurantId,
         setPhotoDialogOpen,
         setPhotoDialogDataItem,
-        // setPhotoDialogData,
         photoDialogOpen,
-        setRestaurantPhotos,
+        idToken,
+        customId,
+        associatesRestaurants,
         setLoading,
+        setRestaurantPhotos,
+        setImageEditorDataItem,
     } = dataAndMethodsContext;
 
     const {
-        id,
-        src,
         width,
         height,
         caption,
-        restaurantid,
-        pictureEditMode,
         dialogType,
     } = dataAndMethodsContext.photoDialogData;
 
+    const {
+        deleteFileName,
+        imageUrl,
+        blob,
+        editMode,
+    } = dataAndMethodsContext.imageEditorData;
+
     const savePhotoEdit = async () => {
-        let myPhoto = {};
-        myPhoto.id = id;
-        myPhoto.src = src
-        myPhoto.width = width
-        myPhoto.height = height
-        myPhoto.caption = caption
-        myPhoto.restaurantid = restaurantid
-        myPhoto.pictureEditMode = pictureEditMode;
-        // await saveImageToDatabase()
+        let myPhoto = {
+            src: imageUrl,
+            width: width,
+            height: height,
+            caption: caption,
+            restaurantid: restaurantId,
+        };
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
+        if (myRestaurant) {
+            myRestaurant = putPhotoInRestaurant(myRestaurant, myPhoto)
+            await putRestaurant(myRestaurant, idToken, customId)
+            await saveImageToDatabase(deleteFileName, imageUrl, blob, editMode, idToken, customId)
+        }
+        return true;
     };
 
     const handleClose = () => {
-        // resetStates()
         setPhotoDialogOpen(false);
     };
 
@@ -78,58 +93,32 @@ const PhotoDialog = () => {
             default:
         }
         await forceUpdate();
-        // resetStates()
         setPhotoDialogOpen(false);
     };
 
     const changeWidth = (e) => {
         setPhotoDialogDataItem('width', e.target.value);
+        setImageEditorDataItem('aspectRatio', e.target.value / height)
     };
 
     const changeHeight = (e) => {
         setPhotoDialogDataItem('height', e.target.value);
+        setImageEditorDataItem('aspectRatio', width / e.target.value)
     };
 
     const changeCaption = (e) => {
         setPhotoDialogDataItem('caption', e.target.value);
     };
 
-    // const saveImageToDatabase = async () => {
-    //     if (deleteFileValue) {
-    //         await deleteImageAPI(deleteFileValue, idToken, customId)
-    //     }
-    //     if (pictureEditMode !== "none" && src !== blankImage) {
-    //         try {
-    //             const compressedFile = await compressImage(blob);
-    //             let myFileName = fileNameFromUrl(src)
-    //             if (compressedFile) {
-    //                 await uploadImageStorage(blob, fileNameFromUrl(myFileName))
-    //             }
-    //         } catch (error) {
-    //             console.log(error)
-    //         }
-    //     }
-    // }
-
     const forceUpdate = async () => {
         if (restaurantId !== noSelectedRestaurant) {
             setRestaurantPhotos([]);
             setLoading(true);
-            // let myRestaurant = getRestaurantById(photosRestaurants, restaurantId);
+            let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId);
+            setRestaurantPhotos(myRestaurant.photosJSON)
             setLoading(false);
         }
     }
-
-    // const handleDelete = async () => {
-    //     let myNewDialogData = JSON.parse(JSON.stringify(dataAndMethodsContext.photoDialogData))
-    //     if (myNewDialogData.src !== blankImage) {
-    //         myNewDialogData.deleteFileValue = myNewDialogData.src
-    //     }
-    //     myNewDialogData.src = blankImage
-    //     myNewDialogData.pictureEditMode = 'none'
-    //     await setPhotoDialogData(myNewDialogData);
-    //     // resetStates()
-    // }
 
     let dialogTitle = '';
 
@@ -171,6 +160,7 @@ const PhotoDialog = () => {
                         value={caption}
                         onChange={changeCaption}
                     />
+                    <p component="legend">Photo</p>
                     <ImageEditor />
                 </DialogContent>
                 <DialogActions>

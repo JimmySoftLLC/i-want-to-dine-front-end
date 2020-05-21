@@ -18,6 +18,7 @@ import EntertainmentItemDialog from '../components/dialogs/EntertainmentItemDial
 import MenuDayDialog from '../components/dialogs/MenuDayDialog';
 import PhotoDialog from '../components/dialogs/PhotoDialog';
 import AlertDialog from '../components/dialogs/AlertDialog';
+import PhotosInventory from '../components/photoInventory/PhotosInventory';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import RestaurantCard from '../components/restaurant/RestaurantCard';
@@ -56,7 +57,7 @@ const Home = () => {
             setMenuItems(myMenuItems);
             setAssociates(myAssociates);
             setEntertainmentItems(myEntertainmentItems);
-            let myPhotos = await getPhotos(myRestaurants);
+            let myPhotos = await getPhotos(myRestaurants.payload);
             setPhotos(myPhotos);
             // let test = await getLocation()
             // console.log(test);
@@ -99,6 +100,7 @@ const Home = () => {
                 {myStates.entertainmentSettings && <EntertainmentItemsInventory />}
                 {myStates.menuDaySettings && <MenuDays />}
                 {myStates.associateSettings && <Associates />}
+                {myStates.photoSettings && <PhotosInventory />}
                 <MenuItemDialog />
                 <RestaurantDialog />
                 <AssociateDialog />

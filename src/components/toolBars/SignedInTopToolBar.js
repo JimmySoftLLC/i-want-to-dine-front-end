@@ -62,9 +62,8 @@ const SignedInTopToolBar = () => {
         setPhotoDialogOpen,
         setPhotoDialogData,
         setImageEditorData,
+        setRestaurantPhotos,
     } = dataAndMethodsContext;
-
-
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
     const { setDeleteConfirmDialog } = deleteConfirmDialogContext
@@ -90,6 +89,9 @@ const SignedInTopToolBar = () => {
         let myEntertainmentItems = await getEntertainmentItems(myRestaurant.entertainmentItemIdsJSON);
         myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, 'myStates');
         setRestaurantEntertainmentItems(myEntertainmentItems);
+
+        let myPhotos = myRestaurant.photosJSON
+        setRestaurantPhotos(myPhotos);
 
         let myMenuDays = await getMenuDays(myRestaurant.menuDayIdsJSON);
         myMenuDays = await sortMenuDays(myMenuDays, 'sortDate');
@@ -208,9 +210,7 @@ const SignedInTopToolBar = () => {
     };
 
     const newPhotoClick = () => {
-        let myNewId = uuidv4()
         let myEditItem = {
-            id: myNewId,
             src: '',
             width: 1,
             height: 1,
@@ -218,14 +218,16 @@ const SignedInTopToolBar = () => {
             restaurantid: '',
             dialogType: 'Add',
         }
-        let myImageEditorData = JSON.parse(JSON.stringify(dataAndMethodsContext.imageEditorData))
-        myImageEditorData.imageUrl = '';
-        myImageEditorData.pictureEditMode = 'none';
-        myImageEditorData.deleteFileValue = '';
-        myImageEditorData.aspectRatio = 1;
-        myImageEditorData.blob = '';
-        setImageEditorData(myImageEditorData);
         setPhotoDialogData(myEditItem);
+        let myImageEditorItem = {
+            imageUrl: '',
+            editMode: 'none',
+            deleteFileName: '',
+            aspectRatio: 1,
+            blob: '',
+            showDelete: true,
+        }
+        setImageEditorData(myImageEditorItem);
         setPhotoDialogOpen(true);
     };
 
@@ -259,12 +261,20 @@ const SignedInTopToolBar = () => {
             restaurantIdsJSON: [],
             accessLevel: 'none',
             dialogType: "Add",
-            imageUrl: blankImage,
             showEmail: true,
-            pictureEditMode: 'none',
-            deleteFileValue: '',
+            editMode: 'none',
+            deleteFileName: '',
         };
         setAssociateDialogData(myAssociateData);
+        let myImageEditorItem = {
+            imageUrl: blankImage,
+            editMode: 'none',
+            deleteFileName: '',
+            aspectRatio: 1,
+            blob: '',
+            showDelete: true,
+        }
+        setImageEditorData(myImageEditorItem);
         setAssociateDialogOpen(true);
     };
 

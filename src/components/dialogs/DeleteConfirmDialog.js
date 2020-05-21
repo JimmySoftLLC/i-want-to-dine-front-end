@@ -60,6 +60,11 @@ const DeleteConfirmDialog = () => {
             setDeleteName('')
             setConfirmMessage('')
         }
+        if (deleteConfirmDialog.dialogType === "deletePhoto") {
+            deleteFunction(deleteConfirmDialog.index)
+            setDeleteName('')
+            setConfirmMessage('')
+        }
     }
 
     const chooseClose = () => {
@@ -97,6 +102,10 @@ const DeleteConfirmDialog = () => {
                         <i className='fas fa-exclamation-triangle'></i>
                         {'  Delete associate warning'}
                     </DialogTitle>}
+                    {deleteConfirmDialog.dialogType === "deletePhoto" && <DialogTitle id='alert-dialog-title'>
+                        <i className='fas fa-exclamation-triangle'></i>
+                        {'  Delete photo warning'}
+                    </DialogTitle>}
                     <DialogContent>
                         {deleteConfirmDialog.dialogType === "deleteRestaurant" && <DialogContentText id='alert-dialog-description'>
                             {`You about to delete `}
@@ -119,6 +128,11 @@ const DeleteConfirmDialog = () => {
                             {`.  This process is irreversable are you sure?`}
                         </DialogContentText>}
                         {deleteConfirmDialog.dialogType === "deleteAssociate" && <DialogContentText id='alert-dialog-description'>
+                            {`You about to delete `}
+                            <strong>{deleteConfirmDialog.name}</strong>
+                            {`.  This process is irreversable are you sure?`}
+                        </DialogContentText>}
+                        {deleteConfirmDialog.dialogType === "deletePhoto" && <DialogContentText id='alert-dialog-description'>
                             {`You about to delete `}
                             <strong>{deleteConfirmDialog.name}</strong>
                             {`.  This process is irreversable are you sure?`}

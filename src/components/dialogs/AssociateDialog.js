@@ -1,5 +1,4 @@
-import React, { useContext, useState, useCallback } from 'react';
-import ReactCrop from 'react-image-crop';
+import React, { useContext } from 'react';
 import 'react-image-crop/dist/ReactCrop.css';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -24,26 +23,15 @@ import getAssociateFromRestaurant from '../../model/associate/getAssociateFromRe
 import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import updateMenuDaysWithAssociateChanges from '../../model/menuDay/updateMenuDaysWithAssociateChanges';
-import convertFileToDataUrl from '../../model/images/convertFileToDataUrl';
-import downloadImageAPI from '../../model/images/downloadImageAPI';
-import uploadImageStorage from '../../model/images/uploadImageStorage';
-import compressImage from '../../model/images/compressImage';
-import convertDataUrlToBlob from '../../model/images/convertDataUrlToBlob';
-import deleteImageAPI from '../../model/images/deleteImageAPI';
-import fileNameFromUrl from '../../model/files/fileNameFromUrl';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import CircularIndeterminate from '../circularIndeterminate/CircularIndeterminate';
 import sortRestaurants from '../../model/restaurant/sortRestaurants';
-
-import { v4 as uuidv4 } from 'uuid';
+import saveImageToDatabase from '../../model/images/saveImageToDatabase';
+import ImageEditor from '../imageEditor/ImageEditor';
 
 import {
     noSelectedRestaurant,
-    blankImage,
-    imagePath,
 } from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({
@@ -58,12 +46,6 @@ const useStyles = makeStyles(theme => ({
 const AssociateDialog = () => {
     const classes = useStyles();
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const [upImg, setUpImg] = useState();
-    const [imgRef, setImgRef] = useState(null);
-    const [crop, setCrop] = useState({ unit: '%', width: 100, aspect: 1 });
-    const [blob, setBlob] = useState();
-    const [fileValue, setFileValue] = useState('');
-
     const {
         associatesRestaurants,
         restaurantId,
@@ -71,7 +53,6 @@ const AssociateDialog = () => {
         customId,
         setAssociateDialogOpen,
         setAssociateDialogDataItem,
-        setAssociateDialogData,
         associateDialogOpen,
         setRestaurantAssociates,
         setAssociate,
@@ -82,8 +63,6 @@ const AssociateDialog = () => {
         setRestaurantMenuDays,
         restaurantMenuDays,
         setLoading,
-        setLoadingDialog,
-        loadingDialog,
     } = dataAndMethodsContext;
 
     const {
@@ -98,10 +77,14 @@ const AssociateDialog = () => {
         dialogType,
         message,
         showEmail,
-        imageUrl,
-        pictureEditMode,
-        deleteFileValue,
     } = dataAndMethodsContext.associateDialogData;
+
+    const {
+        deleteFileName,
+        imageUrl,
+        blob,
+        editMode,
+    } = dataAndMethodsContext.imageEditorData;
 
     // edit logged in associate save to database
     // get associates for restaurant from database
@@ -118,7 +101,7 @@ const AssociateDialog = () => {
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
         myAssociate.imageUrl = imageUrl;
-        await saveImageToDatabase()
+        await saveImageToDatabase(deleteFileName, imageUrl, blob, editMode, idToken, customId)
         await putAssociate(myAssociate, idToken, customId)
         setAssociate(myAssociate);
         let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
@@ -151,7 +134,7 @@ const AssociateDialog = () => {
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
         myAssociate.imageUrl = imageUrl;
-        await saveImageToDatabase()
+        await saveImageToDatabase(deleteFileName, imageUrl, blob, editMode, idToken, customId)
         let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId);
         if (!testPutAssociateInRestaurant(myRestaurant, myAssociate)) {
             setMessage('There needs to be at least one associate with admin rights per restaurant.');
@@ -226,7 +209,6 @@ const AssociateDialog = () => {
     };
 
     const handleClose = () => {
-        resetStates()
         setAssociateDialogOpen(false);
     };
 
@@ -246,7 +228,6 @@ const AssociateDialog = () => {
             default:
         }
         await forceUpdate();
-        resetStates()
         setAssociateDialogOpen(false);
     };
 
@@ -270,108 +251,6 @@ const AssociateDialog = () => {
         setAssociateDialogDataItem('email', e.target.value);
     };
 
-    const changePictureMode = (myPictureEditMode) => {
-        setAssociateDialogDataItem('pictureEditMode', myPictureEditMode);
-    };
-
-    const downloadImageFromUrl = async () => {
-        setLoadingDialog(true)
-        let myDataUrl = await downloadImageAPI(imageUrl, idToken, customId);
-        setUpImg(myDataUrl);
-        let myBlob = await convertDataUrlToBlob(myDataUrl, 'newFile.jpeg')
-        setBlob(myBlob)
-        setLoadingDialog(false)
-    }
-
-    const getImageFromFile = async (e) => {
-        if (e.target.files && e.target.files.length > 0) {
-            let myNewDialogData = JSON.parse(JSON.stringify(dataAndMethodsContext.associateDialogData))
-            if (imageUrl !== blankImage) {
-                myNewDialogData.deleteFileValue = '';
-            }
-            let myDataUrl = await convertFileToDataUrl(e.target.files[0]);
-            setUpImg(myDataUrl)
-            let myBlob = await convertDataUrlToBlob(myDataUrl, 'newFile.jpeg')
-            setBlob(myBlob)
-            if (imageUrl === blankImage) {
-                let myNewId = uuidv4()
-                myNewDialogData.imageUrl = imagePath + myNewId + ".jpg"
-            }
-            myNewDialogData.pictureEditMode = 'edit'
-            await setAssociateDialogData(myNewDialogData);
-        }
-    };
-
-    const onLoad = useCallback(img => {
-        setImgRef(img);
-    }, []);
-
-    const makeClientCrop = async crop => {
-        if (imgRef && crop.width && crop.height) {
-            createCropPreview(imgRef, crop, 'newFile.jpeg');
-        }
-    };
-
-    const createCropPreview = async (image, crop, fileName) => {
-        const canvas = document.createElement('canvas');
-        const scaleX = image.naturalWidth / image.width;
-        const scaleY = image.naturalHeight / image.height;
-        canvas.width = crop.width;
-        canvas.height = crop.height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(
-            image,
-            crop.x * scaleX,
-            crop.y * scaleY,
-            crop.width * scaleX,
-            crop.height * scaleY,
-            0,
-            0,
-            crop.width,
-            crop.height
-        );
-        const blob = await new Promise(resolve => canvas.toBlob(resolve), 'image/jpeg');
-        blob.lastModifiedDate = new Date();
-        blob.name = fileName;
-        setBlob(blob)
-    };
-
-    const handleEditOrCrop = async () => {
-        switch (pictureEditMode) {
-            case 'none':
-                downloadImageFromUrl()
-                changePictureMode('edit')
-                break;
-            case 'edit':
-                try {
-                    setUpImg(window.URL.createObjectURL(blob));
-                    setCrop({ unit: '%', width: 100, aspect: 1 })
-                } catch (error) {
-                    console.log(error)
-                }
-                break;
-            default:
-                break;
-        }
-    };
-
-    const saveImageToDatabase = async () => {
-        if (deleteFileValue) {
-            await deleteImageAPI(deleteFileValue, idToken, customId)
-        }
-        if (pictureEditMode !== "none" && imageUrl !== blankImage) {
-            try {
-                const compressedFile = await compressImage(blob);
-                let myFileName = fileNameFromUrl(imageUrl)
-                if (compressedFile) {
-                    await uploadImageStorage(blob, fileNameFromUrl(myFileName))
-                }
-            } catch (error) {
-                console.log(error)
-            }
-        }
-    }
-
     const forceUpdate = async () => {
         if (restaurantId !== noSelectedRestaurant) {
             setRestaurantAssociates([]);
@@ -384,14 +263,6 @@ const AssociateDialog = () => {
         }
     }
 
-    const resetStates = async () => {
-        setCrop({ unit: '%', width: 100, aspect: 1 })
-        setUpImg();
-        setImgRef();
-        setBlob();
-        setFileValue('');
-    };
-
     const handleAccessLevelChange = (e) => {
         setAssociateDialogDataItem('accessLevel', e.target.value);
     };
@@ -399,17 +270,6 @@ const AssociateDialog = () => {
     const setMessage = (myMessage) => {
         setAssociateDialogDataItem('message', myMessage);
     };
-
-    const handleDelete = async () => {
-        let myNewDialogData = JSON.parse(JSON.stringify(dataAndMethodsContext.associateDialogData))
-        if (myNewDialogData.imageUrl !== blankImage) {
-            myNewDialogData.deleteFileValue = myNewDialogData.imageUrl
-        }
-        myNewDialogData.imageUrl = blankImage
-        myNewDialogData.pictureEditMode = 'none'
-        await setAssociateDialogData(myNewDialogData);
-        resetStates()
-    }
 
     let dialogTitle = '';
 
@@ -425,15 +285,6 @@ const AssociateDialog = () => {
     }
 
     let showDetails = (accessLevel === "none" && associate.id !== id) || dialogType === "EditMe" ? true : false;
-
-    const myTextStyle = {
-        fontSize: "1.5rem",
-        color: "primary"
-    }
-
-    const myEditCropIcon = pictureEditMode === "none" ? "fas fa-edit" : "fas fa-crop-alt"
-
-    const canEditImages = imageUrl === blankImage ? false : true
 
     return (
         <div>
@@ -470,41 +321,8 @@ const AssociateDialog = () => {
                         value={jobTitle}
                         onChange={changeJobTitle}
                     />}
-                    {loadingDialog && <CircularIndeterminate />}
-                    {(showDetails && pictureEditMode === 'none' && imageUrl !== undefined) && <img
-                        style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
-                        src={imageUrl}
-                        alt=''
-                    />}
-                    {(showDetails && upImg && pictureEditMode !== 'none') && <ReactCrop style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
-                        src={upImg}
-                        onImageLoaded={onLoad}
-                        crop={crop}
-                        onChange={c => setCrop(c)}
-                        onComplete={makeClientCrop}
-                    />}
-                    <p></p>
-                    {showDetails && <input
-                        accept="image/*"
-                        className={classes.input}
-                        hidden
-                        id="raised-button-file"
-                        multiple
-                        type="file"
-                        value={fileValue}
-                        onChange={getImageFromFile}
-                    />}
-                    {showDetails && <label htmlFor="raised-button-file">
-                        <Button component="span" className={classes.button} style={myTextStyle}>
-                            <i className="fas fa-file-upload"></i>
-                        </Button>
-                    </label>}
-                    {(showDetails && canEditImages) && <Button onClick={() => handleEditOrCrop()} style={myTextStyle}>
-                        <i className={myEditCropIcon}></i>
-                    </Button>}
-                    {(showDetails && canEditImages) && <Button onClick={() => handleDelete()} style={myTextStyle}>
-                        <i className="fas fa-trash"></i>
-                    </Button>}
+                    {showDetails && <p component="legend">Profile Image</p>}
+                    {showDetails && <ImageEditor />}
                     {showDetails && <TextField
                         id="bio"
                         label="Bio"
@@ -516,7 +334,7 @@ const AssociateDialog = () => {
                         value={bio}
                         onChange={changeBio}
                     />}
-                    {dialogType !== "EditMe" && <FormLabel component="legend">Access level</FormLabel>}
+                    {dialogType !== "EditMe" && <p component="legend">Access level</p>}
                     {dialogType !== "EditMe" && <RadioGroup aria-label="gender" name="gender1" value={accessLevel} onChange={handleAccessLevelChange}>
                         <FormControlLabel value="none" control={<Radio color="primary" />} label="No Access" />
                         <FormControlLabel value="read" control={<Radio color="primary" />} label="Read" />

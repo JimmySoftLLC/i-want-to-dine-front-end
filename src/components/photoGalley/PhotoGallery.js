@@ -8,6 +8,7 @@ const PhotoGallery = () => {
     const {
         photos,
     } = dataAndMethodsContext;
+
     const imageRenderer = (
         { index, left, top, key, photo }) => (
             <SelectedImage

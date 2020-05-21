@@ -47,6 +47,7 @@ const AssociateCard = ({ Associate }) => {
         setRestaurantMenuItems,
         setRestaurantMenuDays,
         restaurantMenuDays,
+        setImageEditorData,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -70,13 +71,19 @@ const AssociateCard = ({ Associate }) => {
                     email: restaurantAssociates[i].email,
                     restaurantIdsJSON: restaurantAssociates[i].restaurantIdsJSON,
                     accessLevel: restaurantAssociates[i].accessLevel,
-                    imageUrl: restaurantAssociates[i].imageUrl,
                     dialogType: 'Edit',
                     showEmail: showEmail,
-                    pictureEditMode: 'none',
-                    deleteFileValue: '',
                 }
                 setAssociateDialogData(myEditItem);
+                let myImageEditorItem = {
+                    imageUrl: restaurantAssociates[i].imageUrl,
+                    editMode: 'none',
+                    deleteFileName: '',
+                    aspectRatio: 1,
+                    blob: '',
+                    showDelete: true,
+                }
+                setImageEditorData(myImageEditorItem);
                 setAssociateDialogOpen(true);
                 break;
             }

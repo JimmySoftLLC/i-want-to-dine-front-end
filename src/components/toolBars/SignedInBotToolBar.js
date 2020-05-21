@@ -25,6 +25,7 @@ const SignedInBotToolBar = () => {
         setRestaurantMenuItems,
         setRestaurantMenuDays,
         setRestaurantAssociates,
+        setImageEditorData,
     } = dataAndMethodsContext;
 
     const logOut = () => {
@@ -48,9 +49,17 @@ const SignedInBotToolBar = () => {
             restaurantIdsJSON: associate.restaurantIdsJSON,
             imageUrl: associate.imageUrl,
             dialogType: "EditMe",
-            pictureEditMode: 'none',
         };
         setAssociateDialogData(myAssociateData);
+        let myImageEditorItem = {
+            imageUrl: associate.imageUrl,
+            editMode: 'none',
+            deleteFileName: '',
+            aspectRatio: 1,
+            blob: '',
+            showDelete: true,
+        }
+        setImageEditorData(myImageEditorItem);
         setAssociateDialogOpen(true);
     };
 

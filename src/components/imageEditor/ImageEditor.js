@@ -33,9 +33,6 @@ const ImageEditor = () => {
     const [crop, setCrop] = useState({ unit: '%', width: 100, aspect: 1 });
 
     const {
-        // restaurantId,
-        // setRestaurantPhotos,
-        // setLoading,
         idToken,
         customId,
         setLoadingDialog,
@@ -46,9 +43,10 @@ const ImageEditor = () => {
 
     const {
         imageUrl,
-        pictureEditMode,
+        editMode,
         aspectRatio,
         blob,
+        showDelete,
     } = dataAndMethodsContext.imageEditorData;
 
     const downloadImageFromUrl = async () => {
@@ -58,7 +56,8 @@ const ImageEditor = () => {
         let myBlob = await convertDataUrlToBlob(myDataUrl, 'newFile.jpeg')
         let myImageEditorData = JSON.parse(JSON.stringify(dataAndMethodsContext.imageEditorData))
         myImageEditorData.blob = myBlob
-        myImageEditorData.pictureEditMode = 'edit'
+        myImageEditorData.editMode = 'edit'
+        myImageEditorData.saveFile = true
         setImageEditorData(myImageEditorData)
         setLoadingDialog(false)
     }
@@ -67,7 +66,7 @@ const ImageEditor = () => {
         if (e.target.files && e.target.files.length > 0) {
             let myImageEditorData = JSON.parse(JSON.stringify(dataAndMethodsContext.imageEditorData))
             if (imageUrl !== blankImage) {
-                myImageEditorData.deleteFileValue = '';
+                myImageEditorData.deleteFileName = '';
             }
             let myDataUrl = await convertFileToDataUrl(e.target.files[0]);
             setUpImg(myDataUrl)
@@ -77,7 +76,8 @@ const ImageEditor = () => {
                 let myNewId = uuidv4()
                 myImageEditorData.imageUrl = imagePath + myNewId + ".jpg"
             }
-            myImageEditorData.pictureEditMode = 'edit'
+            myImageEditorData.editMode = 'edit'
+            myImageEditorData.saveFile = true
             await setImageEditorData(myImageEditorData);
             setCrop({ unit: '%', width: 100, aspect: aspectRatio })
         }
@@ -118,16 +118,17 @@ const ImageEditor = () => {
     };
 
     const handleEditOrCrop = async () => {
-        switch (pictureEditMode) {
+        switch (editMode) {
             case 'none':
                 downloadImageFromUrl()
-                setImageEditorDataItem('pictureEditMode', 'edit');
+                setImageEditorDataItem('editMode', 'edit');
                 setCrop({ unit: '%', width: 100, aspect: aspectRatio })
                 break;
             case 'edit':
                 try {
                     setUpImg(window.URL.createObjectURL(blob));
                     setCrop({ unit: '%', width: 100, aspect: aspectRatio })
+                    setImageEditorDataItem('saveFile', true)
                 } catch (error) {
                     console.log(error)
                 }
@@ -140,10 +141,10 @@ const ImageEditor = () => {
     const handleDelete = async () => {
         let myImageEditorData = JSON.parse(JSON.stringify(dataAndMethodsContext.imageEditorData))
         if (myImageEditorData.imageUrl !== blankImage) {
-            myImageEditorData.deleteFileValue = myImageEditorData.imageUrl
+            myImageEditorData.deleteFileName = myImageEditorData.imageUrl
         }
         myImageEditorData.imageUrl = blankImage
-        myImageEditorData.pictureEditMode = 'none'
+        myImageEditorData.editMode = 'none'
         await setImageEditorData(myImageEditorData);
     }
 
@@ -152,18 +153,18 @@ const ImageEditor = () => {
         color: "primary"
     }
 
-    const myEditCropIcon = pictureEditMode === "none" ? "fas fa-edit" : "fas fa-crop-alt"
+    const myEditCropIcon = editMode === "none" ? "fas fa-edit" : "fas fa-crop-alt"
     const canEditImages = imageUrl === blankImage || imageUrl === "" ? false : true
 
     return (
         <div>
             {loadingDialog && <CircularIndeterminate />}
-            {(!loadingDialog && pictureEditMode === 'none' && imageUrl !== undefined) && <img
+            {(!loadingDialog && editMode === 'none' && imageUrl !== undefined) && <img
                 style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
                 src={imageUrl}
                 alt=''
             />}
-            {(upImg && pictureEditMode !== 'none') && <ReactCrop style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
+            {(upImg && editMode !== 'none') && <ReactCrop style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}
                 src={upImg}
                 onImageLoaded={onLoad}
                 crop={crop}
@@ -188,7 +189,7 @@ const ImageEditor = () => {
             {canEditImages && <Button onClick={() => handleEditOrCrop()} style={myTextStyle}>
                 <i className={myEditCropIcon}></i>
             </Button>}
-            {canEditImages && <Button onClick={() => handleDelete()} style={myTextStyle}>
+            {(canEditImages && showDelete) && <Button onClick={() => handleDelete()} style={myTextStyle}>
                 <i className="fas fa-trash"></i>
             </Button>}
         </div>
