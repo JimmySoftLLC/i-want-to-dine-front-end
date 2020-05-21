@@ -127,6 +127,7 @@ const SignedInTopToolBar = () => {
             entertainmentItemIdsJSON: myRestaurant.entertainmentItemIdsJSON,
             associatesJSON: myRestaurant.associatesJSON,
             menuDayIdsJSON: myRestaurant.menuDayIdsJSON,
+            photosJSON: myRestaurant.photosJSON,
             approved: myRestaurant.approved,
             myAssociate: myAssociate,
             dialogType: "Edit",
