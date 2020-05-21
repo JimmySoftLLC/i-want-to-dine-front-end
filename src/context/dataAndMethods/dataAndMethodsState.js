@@ -186,8 +186,6 @@ const DataAndMethodsState = props => {
         photoDialogOpen: false,
         photoDialogData: {
             src: '',
-            width: 1,
-            height: 1,
             caption: '',
             restaurantid: '',
             dialogType: 'Add',
@@ -196,6 +194,8 @@ const DataAndMethodsState = props => {
             imageUrl: '',
             editMode: 'none',
             deleteFileName: '',
+            width: 1,
+            height: 1,
             aspectRatio: 1,
             blob: '',
             showDelete: true,

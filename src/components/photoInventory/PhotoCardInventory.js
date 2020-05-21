@@ -6,11 +6,9 @@ import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/delete
 import putRestaurant from '../../model/restaurant/putRestaurant';
 import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import deletePhotoFromRestaurant from '../../model/restaurant/deletePhotoFromRestaurant';
+import sortRestaurants from '../../model/restaurant/sortRestaurants';
+import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import associatesAccessLevel from '../../model/associate/associatesAccessLevel';
-
-import {
-    noSelectedRestaurant,
-} from '../../api/apiConstants';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,6 +33,7 @@ const PhotoCardInventory = ({ Photo }) => {
         setImageEditorData,
         associatesRestaurants,
         associate,
+        setAssociatesRestaurants,
     } = dataAndMethodsContext;
 
     const deleteConfirmDialogContext = useContext(DeleteConfirmDialogContext);
@@ -45,8 +44,6 @@ const PhotoCardInventory = ({ Photo }) => {
             if (mySrc === restaurantPhotos[i].src) {
                 let myEditItem = {
                     src: restaurantPhotos[i].src,
-                    width: restaurantPhotos[i].width,
-                    height: restaurantPhotos[i].height,
                     caption: restaurantPhotos[i].caption,
                     restaurantid: restaurantPhotos[i].restaurantid,
                     dialogType: 'Edit',
@@ -56,6 +53,8 @@ const PhotoCardInventory = ({ Photo }) => {
                     imageUrl: restaurantPhotos[i].src,
                     editMode: 'none',
                     deleteFileName: '',
+                    width: 1,
+                    height: 1,
                     aspectRatio: 1,
                     blob: '',
                     showDelete: false,
@@ -86,6 +85,9 @@ const PhotoCardInventory = ({ Photo }) => {
         let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         myRestaurant = await deletePhotoFromRestaurant(mySrc, myRestaurant, idToken, customId)
         await putRestaurant(myRestaurant, idToken, customId)
+        let newAssociatesRestaurants = await getAssociatesRestaurants(associate)
+        newAssociatesRestaurants = await sortRestaurants(newAssociatesRestaurants)
+        setAssociatesRestaurants(newAssociatesRestaurants)
         setRestaurantPhotos(myRestaurant.photosJSON)
     }
 

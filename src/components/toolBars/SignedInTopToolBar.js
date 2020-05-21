@@ -77,6 +77,7 @@ const SignedInTopToolBar = () => {
             setRestaurantMenuItems([]);
             setRestaurantMenuDays([]);
             setRestaurantAssociates([]);
+            setRestaurantPhotos([]);
             setLoading(false);
             return;
         }
@@ -212,8 +213,6 @@ const SignedInTopToolBar = () => {
     const newPhotoClick = () => {
         let myEditItem = {
             src: '',
-            width: 1,
-            height: 1,
             caption: '',
             restaurantid: '',
             dialogType: 'Add',
@@ -223,9 +222,11 @@ const SignedInTopToolBar = () => {
             imageUrl: '',
             editMode: 'none',
             deleteFileName: '',
+            width: 1,
+            height: 1,
             aspectRatio: 1,
             blob: '',
-            showDelete: true,
+            showDelete: false,
         }
         setImageEditorData(myImageEditorItem);
         setPhotoDialogOpen(true);
@@ -270,6 +271,8 @@ const SignedInTopToolBar = () => {
             imageUrl: blankImage,
             editMode: 'none',
             deleteFileName: '',
+            width: 1,
+            height: 1,
             aspectRatio: 1,
             blob: '',
             showDelete: true,

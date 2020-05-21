@@ -138,6 +138,35 @@ const ImageEditor = () => {
         }
     };
 
+    const cropSize = async (mySize) => {
+        let myImageEditorData = JSON.parse(JSON.stringify(dataAndMethodsContext.imageEditorData))
+        switch (mySize) {
+            case '1_1':
+                myImageEditorData.width = 1
+                myImageEditorData.height = 1
+                myImageEditorData.aspectRatio = 1
+                break;
+            case '4_3':
+                myImageEditorData.width = 4
+                myImageEditorData.height = 3
+                myImageEditorData.aspectRatio = 4 / 3
+                break;
+            case '3_4':
+                myImageEditorData.width = 3
+                myImageEditorData.height = 4
+                myImageEditorData.aspectRatio = 3 / 4
+                break;
+            case '16_9':
+                myImageEditorData.width = 16
+                myImageEditorData.height = 9
+                myImageEditorData.aspectRatio = 16 / 9
+                break;
+            default:
+        }
+        await setImageEditorData(myImageEditorData)
+        setCrop({ unit: '%', width: 100, aspect: myImageEditorData.aspectRatio })
+    }
+
     const handleDelete = async () => {
         let myImageEditorData = JSON.parse(JSON.stringify(dataAndMethodsContext.imageEditorData))
         if (myImageEditorData.imageUrl !== blankImage) {
@@ -191,6 +220,18 @@ const ImageEditor = () => {
             </Button>}
             {(canEditImages && showDelete) && <Button onClick={() => handleDelete()} style={myTextStyle}>
                 <i className="fas fa-trash"></i>
+            </Button>}
+            {(editMode === "edit" && !showDelete) && <Button onClick={() => cropSize('1_1')} style={myTextStyle}>
+                1:1
+            </Button>}
+            {(editMode === "edit" && !showDelete) && <Button onClick={() => cropSize('3_4')} style={myTextStyle}>
+                3:4
+            </Button>}
+            {(editMode === "edit" && !showDelete) && <Button onClick={() => cropSize('4_3')} style={myTextStyle}>
+                4:3
+            </Button>}
+            {(editMode === "edit" && !showDelete) && <Button onClick={() => cropSize('16_9')} style={myTextStyle}>
+                16:9
             </Button>}
         </div>
     );

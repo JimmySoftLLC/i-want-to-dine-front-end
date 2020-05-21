@@ -18,7 +18,6 @@ import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
 
-
 const useStyles = makeStyles(theme => ({
     root: {
         '& .MuiTextField-root': {
@@ -42,12 +41,9 @@ const PhotoDialog = () => {
         associatesRestaurants,
         setLoading,
         setRestaurantPhotos,
-        setImageEditorDataItem,
     } = dataAndMethodsContext;
 
     const {
-        width,
-        height,
         caption,
         dialogType,
     } = dataAndMethodsContext.photoDialogData;
@@ -57,6 +53,8 @@ const PhotoDialog = () => {
         imageUrl,
         blob,
         editMode,
+        width,
+        height,
     } = dataAndMethodsContext.imageEditorData;
 
     const savePhotoEdit = async () => {
@@ -96,16 +94,6 @@ const PhotoDialog = () => {
         setPhotoDialogOpen(false);
     };
 
-    const changeWidth = (e) => {
-        setPhotoDialogDataItem('width', e.target.value);
-        setImageEditorDataItem('aspectRatio', e.target.value / height)
-    };
-
-    const changeHeight = (e) => {
-        setPhotoDialogDataItem('height', e.target.value);
-        setImageEditorDataItem('aspectRatio', width / e.target.value)
-    };
-
     const changeCaption = (e) => {
         setPhotoDialogDataItem('caption', e.target.value);
     };
@@ -132,25 +120,6 @@ const PhotoDialog = () => {
                 <DialogTitle id="form-dialog-title">
                     {dialogTitle}</DialogTitle>
                 <DialogContent>
-                    <TextField
-                        id="width"
-                        label="Width"
-                        type="text"
-                        fullWidth
-                        variant="filled"
-                        size="small"
-                        value={width}
-                        onChange={changeWidth}
-                    />
-                    <TextField
-                        id="height"
-                        label="Height"
-                        type="text"
-                        fullWidth
-                        variant="filled"
-                        value={height}
-                        onChange={changeHeight}
-                    />
                     <TextField
                         id="caption"
                         label="Caption"

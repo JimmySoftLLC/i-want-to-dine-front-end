@@ -79,6 +79,8 @@ const AssociateCard = ({ Associate }) => {
                     imageUrl: restaurantAssociates[i].imageUrl,
                     editMode: 'none',
                     deleteFileName: '',
+                    width: 1,
+                    height: 1,
                     aspectRatio: 1,
                     blob: '',
                     showDelete: true,

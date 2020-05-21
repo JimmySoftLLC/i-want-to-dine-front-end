@@ -32,6 +32,7 @@ import getTodaysAssociates from '../model/associate/getTodaysAssociates';
 import getTodaysMenuDays from '../model/menuDay/getTodaysMenuDays';
 import sortAssociates from '../model/associate/sortAssociates';
 import getPhotos from '../model/photo/getPhotos';
+import knuthShuffle from '../model/knuthShuffle';
 // import getLocation from '../model/getLocation';
 
 import {
@@ -58,6 +59,7 @@ const Home = () => {
             setAssociates(myAssociates);
             setEntertainmentItems(myEntertainmentItems);
             let myPhotos = await getPhotos(myRestaurants.payload);
+            myPhotos = knuthShuffle(myPhotos);
             setPhotos(myPhotos);
             // let test = await getLocation()
             // console.log(test);

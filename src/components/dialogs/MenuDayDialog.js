@@ -242,7 +242,7 @@ const MenuDayDialog = () => {
                                     </Grid>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
-                            <ExpansionPanel>
+                            {/* <ExpansionPanel>
                                 <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon />}
                                     aria-controls="panel1a-content"
@@ -255,7 +255,7 @@ const MenuDayDialog = () => {
                                         <EntertainmentItemsMenuDay />
                                     </Grid>
                                 </ExpansionPanelDetails>
-                            </ExpansionPanel>
+                            </ExpansionPanel> */}
                             <ExpansionPanel>
                                 <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon />}
