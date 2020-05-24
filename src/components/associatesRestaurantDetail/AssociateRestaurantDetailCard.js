@@ -22,7 +22,7 @@ const AssociateRestaurantDetailCard = ({ associate }) => {
     };
 
     return (
-        <div className='card'>
+        <div className='card-associate'>
             <h4><i className="fas fa-user"></i>{' '}{associate.firstName}{' '}{associate.lastName}{' - '}{associate.jobTitle}
             </h4>
             {associate.imageUrl !== undefined && <img
@@ -31,6 +31,11 @@ const AssociateRestaurantDetailCard = ({ associate }) => {
                 className='all-center'
                 style={imageStyle}
             />}
+            {associate.isIn && <h4 className='all-center' style={{ marginTop: '-49px', marginBottom: '0px', paddingLeft: '185px' }}>
+                <svg height="40" width="40">
+                    <circle cx="20" cy="20" r="15" stroke="white" strokeWidth="5" fill="green"
+                    />
+                </svg></h4>}
             <ExpansionPanel style={expStyle}>
                 <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -48,5 +53,6 @@ const AssociateRestaurantDetailCard = ({ associate }) => {
         </div>
     );
 };
+
 
 export default AssociateRestaurantDetailCard;

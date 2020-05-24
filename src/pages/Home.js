@@ -52,7 +52,7 @@ const Home = () => {
             let myMenuItems = await getTodaysMenuItems(myMenuDays);
             myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice');
             let myAssociates = await getTodaysAssociates(myRestaurants.payload, myMenuDays);
-            myAssociates = await sortAssociates(myAssociates, null);
+            myAssociates = sortAssociates(myAssociates, null);
             setLoading(false);
             setMenuDays(myMenuDays);
             setMenuItems(myMenuItems);

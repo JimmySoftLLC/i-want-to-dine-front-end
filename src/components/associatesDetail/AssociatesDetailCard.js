@@ -28,8 +28,8 @@ const AssociatesDetailCard = ({ associate }) => {
     const imageStyle = {
         marginTop: "1rem",
         marginBottom: "1rem",
-        width: '13rem',
-        height: '13rem',
+        width: '13.0rem',
+        height: '13.0rem',
         borderRadius: "0.3rem",
     };
 
@@ -57,16 +57,20 @@ const AssociatesDetailCard = ({ associate }) => {
     }
 
     return (
-        <div className='card'>
+        <div className='card-associate'>
             <h4><i className="fas fa-user"></i>{' '}{associate.firstName}{' '}{associate.lastName}{' - '}{associate.jobTitle}            </h4>
             <Link onClick={() => restaurantClick()}>{myRestaurant.restaurantName}</Link>
-
             {associate.imageUrl !== undefined && <img
                 src={associate.imageUrl}
                 alt=''
                 className='round-img all-center'
                 style={imageStyle}
             />}
+            {associate.isIn && <h4 className='all-center' style={{ marginTop: '-49px', marginBottom: '0px', paddingLeft: '184px' }}>
+                <svg height="40" width="40">
+                    <circle cx="20" cy="20" r="15" stroke="white" strokeWidth="5" fill="green"
+                    />
+                </svg></h4>}
             <ExpansionPanel style={expStyle}>
                 <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}

@@ -71,6 +71,7 @@ const AssociateCard = ({ Associate }) => {
                     email: restaurantAssociates[i].email,
                     restaurantIdsJSON: restaurantAssociates[i].restaurantIdsJSON,
                     accessLevel: restaurantAssociates[i].accessLevel,
+                    hideAssociate: restaurantAssociates[i].hideAssociate,
                     dialogType: 'Edit',
                     showEmail: showEmail,
                 }

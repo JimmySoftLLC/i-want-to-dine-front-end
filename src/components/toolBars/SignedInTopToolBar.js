@@ -266,6 +266,7 @@ const SignedInTopToolBar = () => {
             showEmail: true,
             editMode: 'none',
             deleteFileName: '',
+            hideAssociate: false,
         };
         setAssociateDialogData(myAssociateData);
         let myImageEditorItem = {

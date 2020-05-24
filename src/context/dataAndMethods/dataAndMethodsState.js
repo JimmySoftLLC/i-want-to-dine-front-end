@@ -155,6 +155,7 @@ const DataAndMethodsState = props => {
             jobTitle: '',
             email: '',
             restaurantIdsJSON: [],
+            hideAssociate: false,
             accessLevel: 'none',
             dialogType: 'Edit',
             message: '',

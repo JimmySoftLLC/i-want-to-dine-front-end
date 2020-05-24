@@ -29,6 +29,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import sortRestaurants from '../../model/restaurant/sortRestaurants';
 import saveImageToDatabase from '../../model/images/saveImageToDatabase';
 import ImageEditor from '../imageEditor/ImageEditor';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import {
     noSelectedRestaurant,
@@ -77,6 +78,7 @@ const AssociateDialog = () => {
         dialogType,
         message,
         showEmail,
+        hideAssociate,
     } = dataAndMethodsContext.associateDialogData;
 
     const {
@@ -101,6 +103,7 @@ const AssociateDialog = () => {
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
         myAssociate.imageUrl = imageUrl;
+        myAssociate.hideAssociate = hideAssociate;
         await saveImageToDatabase(deleteFileName, imageUrl, blob, editMode, idToken, customId)
         await putAssociate(myAssociate, idToken, customId)
         setAssociate(myAssociate);
@@ -134,6 +137,7 @@ const AssociateDialog = () => {
         myAssociate.restaurantIdsJSON = restaurantIdsJSON;
         myAssociate.accessLevel = accessLevel;
         myAssociate.imageUrl = imageUrl;
+        myAssociate.hideAssociate = hideAssociate;
         await saveImageToDatabase(deleteFileName, imageUrl, blob, editMode, idToken, customId)
         let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId);
         if (!testPutAssociateInRestaurant(myRestaurant, myAssociate)) {
@@ -153,6 +157,7 @@ const AssociateDialog = () => {
                 myAssociate.restaurantIdsJSON = restaurantIdsJSON;
                 myAssociate.accessLevel = accessLevel;
                 myAssociate.imageUrl = imageUrl;
+                myAssociate.hideAssociate = hideAssociate;
             }
         } else {
             if (!isEmail(email)) {
@@ -251,6 +256,10 @@ const AssociateDialog = () => {
         setAssociateDialogDataItem('email', e.target.value);
     };
 
+    const changeHideAssociate = (e) => {
+        setAssociateDialogDataItem('hideAssociate', e.target.checked);
+    };
+
     const forceUpdate = async () => {
         if (restaurantId !== noSelectedRestaurant) {
             setRestaurantAssociates([]);
@@ -321,6 +330,15 @@ const AssociateDialog = () => {
                         value={jobTitle}
                         onChange={changeJobTitle}
                     />}
+                    {showDetails && <p>
+                        <Checkbox
+                            checked={hideAssociate}
+                            onChange={changeHideAssociate}
+                            name="hideAssociate"
+                            color="primary"
+                        />
+                        {'Hide associate from public'}
+                    </p>}
                     {showDetails && <p component="legend">Profile Image</p>}
                     {showDetails && <ImageEditor />}
                     {showDetails && <TextField

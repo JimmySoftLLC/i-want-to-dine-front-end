@@ -78,7 +78,7 @@ const RestaurantCard = () => {
             <MenuItemsRestaurantDetail />
             {restaurantDetail.entertainmentItems.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Entertainment</h3>}
             <EntertainmentItemsRestaurantDetail />
-            {myTempAssociates.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Meet the team</h3>}
+            {myTempAssociates.length > 0 && <h3 style={{ marginTop: "1rem", marginBottom: ".7rem", textAlign: "center" }}>Meet the team</h3>}
             <AssociatesRestaurantDetail />
         </div >
     );
