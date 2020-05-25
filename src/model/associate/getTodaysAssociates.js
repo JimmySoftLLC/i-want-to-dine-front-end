@@ -31,14 +31,22 @@ const getTodaysAssociates = async (restaurants, myMenuDays) => {
     }
 
     // get associates from database
-    myAssociates = await getAssociates(associateInIds)
+    let myAssociatesDatabase = await getAssociates(associateInIds)
+
+    for (let i = 0; i < myAssociatesDatabase.length; i++) {
+        if (!myAssociatesDatabase[i].hideAssociate) {
+            myAssociates.push(myAssociatesDatabase[i]);
+        }
+    }
 
     // get associates from restaurant object
     for (let i = 0; i < associateInIdsNoEmail.length; i++) {
         for (let j = 0; j < restaurants.length; j++) {
             let associateNoEmail = getAssociateFromRestaurant(restaurants[j], associateInIdsNoEmail[i])
             if (associateNoEmail) {
-                myAssociatesNoEmail.push(associateNoEmail)
+                if (!associateNoEmail.hideAssociate) {
+                    myAssociatesNoEmail.push(associateNoEmail)
+                }
                 break;
             }
         }

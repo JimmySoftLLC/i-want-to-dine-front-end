@@ -7,11 +7,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import MultipleParagraphs from '../multipleParagraphs/MultipleParagraphs';
 import Link from '@material-ui/core/Link';
-import findIndexOfAssociateInRestaurant from '../../model/associate/findIndexOfAssociateInRestaurant'
-import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant'
-import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant'
-import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant'
+import findIndexOfAssociateInRestaurant from '../../model/associate/findIndexOfAssociateInRestaurant';
+import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
+import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant';
+import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
+import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
+import { v4 as uuidv4 } from 'uuid';
+let myNewId = uuidv4()
 
 const AssociatesDetailCard = ({ associate }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -37,17 +40,20 @@ const AssociatesDetailCard = ({ associate }) => {
         marginTop: ".5rem",
     };
 
-    let myRestaurant = {};
-
+    let myRestaurants = [];
+    let myCount = 0
     for (let j = 0; j < restaurants.length; j++) {
+        myCount++;
         let myIndex = findIndexOfAssociateInRestaurant(restaurants[j], associate.id)
         if (myIndex !== -1) {
-            myRestaurant = restaurants[j];
-            break;
+            myRestaurants.push(restaurants[j]);
+            myRestaurants[myRestaurants.length - 1].associateId = associate.id + myCount;
+            myRestaurants[myRestaurants.length - 1].associateIdLink = associate.id + myCount + "dude";
         }
     }
 
-    const restaurantClick = () => {
+    const restaurantClick = (restaurantId) => {
+        let myRestaurant = getRestaurantById(restaurants, restaurantId)
         myRestaurant.menuItems = getMenuItemsForRestaurant(myRestaurant, menuItems)
         myRestaurant.entertainmentItems = getEntertainmentItemsForRestaurant(myRestaurant, entertainmentItems)
         myRestaurant.associates = getAssociatesForRestaurant(myRestaurant, associates)
@@ -58,8 +64,9 @@ const AssociatesDetailCard = ({ associate }) => {
 
     return (
         <div className='card-associate'>
-            <h4><i className="fas fa-user"></i>{' '}{associate.firstName}{' '}{associate.lastName}{' - '}{associate.jobTitle}            </h4>
-            <Link onClick={() => restaurantClick()}>{myRestaurant.restaurantName}</Link>
+            <h4><i className="fas fa-user"></i>{' '}{associate.firstName}{' '}{associate.lastName}{' - '}{associate.jobTitle}</h4>
+            {myRestaurants.map(restaurant => <div key={restaurant.associateId}><Link onClick={() => restaurantClick(restaurant.id)}
+                key={restaurant.associateIdLink}>{restaurant.restaurantName}</Link></div>)}
             {associate.imageUrl !== undefined && <img
                 src={associate.imageUrl}
                 alt=''

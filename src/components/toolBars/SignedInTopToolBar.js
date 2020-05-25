@@ -31,6 +31,7 @@ import sortRestaurants from '../../model/restaurant/sortRestaurants';
 import {
     noSelectedRestaurant,
     blankImage,
+    websiteName,
 } from '../../api/apiConstants';
 
 const SignedInTopToolBar = () => {

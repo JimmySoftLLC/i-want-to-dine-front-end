@@ -5,6 +5,9 @@ import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsCo
 import { Tooltip } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import {
+    websiteName,
+} from '../../api/apiConstants';
 
 const DefaultTopToolBar = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
@@ -36,8 +39,8 @@ const DefaultTopToolBar = () => {
                         <IconButton aria-label="" color="inherit"
                             href="/"
                         >
-                            iWantToDine
-                            </IconButton>
+                            {websiteName}
+                        </IconButton>
                     </Tooltip>}
                     {myStates.restaurantDetail && <Tooltip title="Go Back">
                         <IconButton aria-label="" color="inherit"

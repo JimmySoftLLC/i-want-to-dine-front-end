@@ -1,5 +1,8 @@
 import React, { Fragment } from 'react';
 import IconButton from '@material-ui/core/IconButton';
+import {
+    websiteName,
+} from '../api/apiConstants';
 
 const About = () => {
     return (
@@ -8,7 +11,7 @@ const About = () => {
                 <strong>Note: Due to COVID-19 the restaurants that remain open only offer take out and/or curb side service.  Please partonize
                 these establishments during this difficult time.</strong>
             </p>
-            <h2 >About iWantToDine</h2>
+            <h2 >About {websiteName}</h2>
 
             <p className='p'>
                 When you are on vacation you want to get something to eat, but don't know what. So you walk around and look
@@ -20,7 +23,7 @@ const About = () => {
                 and all the specials show up.
                         </p>
             <p className='p'>
-                This is the inspiration for iWantToDine.com. A website that only contains curated information submitted by the Restaurant
+                This is the inspiration for {websiteName}.com. A website that only contains curated information submitted by the Restaurant
                 owners. This is personal, just like the server was handing you the menu and telling you todays specials.
                         </p>
             <p className='p'>
