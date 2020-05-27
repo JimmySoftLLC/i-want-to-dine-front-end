@@ -126,18 +126,6 @@ const MenuItemCardInventory = ({ menuItem }) => {
             case 'cheese':
                 items.push(<i className='fas fa-cheese' key={menuItem.id + "_cheese"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
-            case 'pasta':
-                items.push(<i className='icon-spaghetti' key={menuItem.id + "_pasta"} style={{ paddingRight: '.25rem' }}></i>)
-                break;
-            case 'sandwich':
-                items.push(<i className='fas fa-hamburger' key={menuItem.id + "_hamburger"} style={{ paddingRight: '.25rem' }}></i>)
-                break;
-            case 'dessert':
-                items.push(<i className='fas fa-birthday-cake' key={menuItem.id + "_dessert"} style={{ paddingRight: '.25rem' }}></i>)
-                break;
-            case 'specials':
-                items.push(<i className='fas fa-tag' key={menuItem.id + "_specials"} style={{ paddingRight: '.25rem' }}></i>)
-                break;
             case 'carryout':
                 items.push(<i className='fas fa-shopping-bag' key={menuItem.id + "_carryout"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
@@ -172,4 +160,3 @@ const MenuItemCardInventory = ({ menuItem }) => {
 };
 
 export default MenuItemCardInventory;
-

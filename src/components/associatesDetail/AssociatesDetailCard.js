@@ -13,8 +13,6 @@ import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/ge
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
 import getRestaurantById from '../../model/restaurant/getRestaurantById';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
-import { v4 as uuidv4 } from 'uuid';
-let myNewId = uuidv4()
 
 const AssociatesDetailCard = ({ associate }) => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);

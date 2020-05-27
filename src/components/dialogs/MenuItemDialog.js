@@ -113,10 +113,6 @@ const MenuItemDialog = () => {
         setMenuItemDialogDataItem('description', e.target.value)
     };
 
-    // const changeRestaurant = (e) => {
-    //     setMenuItemDialogDataItem('restaurants', e.target.value)
-    // };
-
     const changePrice = (e) => {
         setMenuItemDialogDataItem('price', e.target.value)
     };
@@ -155,16 +151,89 @@ const MenuItemDialog = () => {
                         value={description}
                         onChange={changeDescription}
                     />
-                    {/* <TextField
-                        id="restaurant"
-                        label="Restaurant"
-                        type="text"
-                        fullWidth
-                        variant="filled"
-                        size="small"
-                        value={restaurant}
-                        onChange={changeRestaurant}
-                    /> */}
+                    <p>Menu Category</p>
+                    <Toolbar>
+                        <div >
+                            <Tooltip title="Daily specials">
+                                <IconButton aria-label="" color={checkIfPresent('specials') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('specials')}
+                                >
+                                    <i className="fas fa-tag"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Soup">
+                                <IconButton aria-label="" color={checkIfPresent('soup') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('soup')}
+                                >
+                                    <i className="icon-soup"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Salad">
+                                <IconButton aria-label="" color={checkIfPresent('salad') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('salad')}
+                                >
+                                    <i className="icon-salad"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Appetizers">
+                                <IconButton aria-label="" color={checkIfPresent('appetizers') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('appetizers')}
+                                >
+                                    <i className="icon-appetizer"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Sandwiches">
+                                <IconButton aria-label="" color={checkIfPresent('sandwich') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('sandwich')}
+                                >
+                                    <i className='fas fa-hamburger'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Pizza">
+                                <IconButton aria-label="" color={checkIfPresent('pizza') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('pizza')}
+                                >
+                                    <i className="fas fa-pizza-slice"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Pasta">
+                                <IconButton aria-label="" color={checkIfPresent('pasta') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('pasta')}
+                                >
+                                    <i className='icon-spaghetti'></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Entrees">
+                                <IconButton aria-label="" color={checkIfPresent('entree') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('entree')}
+                                >
+                                    <i className="fas fa-concierge-bell"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Dessert">
+                                <IconButton aria-label="" color={checkIfPresent('dessert') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('dessert')}
+                                >
+                                    <i className="fas fa-birthday-cake"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Drinks">
+                                <IconButton aria-label="" color={checkIfPresent('drinks') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('drinks')}
+                                >
+                                    <i className="fas fa-cocktail"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Kids menu">
+                                <IconButton aria-label="" color={checkIfPresent('kids') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('kids')}
+                                >
+                                    <i className="fas fa-child"></i>
+                                </IconButton>
+                            </Tooltip>
+                        </div>
+                    </Toolbar>
+                    <p>Ingredients</p>
                     <Toolbar>
                         <div >
                             <Tooltip title="Beef and other">
@@ -214,34 +283,6 @@ const MenuItemDialog = () => {
                                     onClick={() => setMenuItemDialogDataCategory('cheese')}
                                 >
                                     <i className='fas fa-cheese'></i>
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Pasta">
-                                <IconButton aria-label="" color={checkIfPresent("pasta") ? "inherit" : "default"}
-                                    onClick={() => setMenuItemDialogDataCategory('pasta')}
-                                >
-                                    <i className='icon-spaghetti'></i>
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Sandwiches">
-                                <IconButton aria-label="" color={checkIfPresent("sandwich") ? "inherit" : "default"}
-                                    onClick={() => setMenuItemDialogDataCategory('sandwich')}
-                                >
-                                    <i className='fas fa-hamburger'></i>
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Dessert">
-                                <IconButton aria-label="" color={checkIfPresent("dessert") ? "inherit" : "default"}
-                                    onClick={() => setMenuItemDialogDataCategory('dessert')}
-                                >
-                                    <i className="fas fa-birthday-cake"></i>
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Specials">
-                                <IconButton aria-label="" color={checkIfPresent("specials") ? "inherit" : "default"}
-                                    onClick={() => setMenuItemDialogDataCategory('specials')}
-                                >
-                                    <i className="fas fa-tag"></i>
                                 </IconButton>
                             </Tooltip>
                             <Tooltip title="Carryout">

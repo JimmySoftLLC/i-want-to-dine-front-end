@@ -70,15 +70,13 @@ const DataAndMethodsState = props => {
             shellfish: false,
             vegetarian: false,
             cheese: false,
-            pasta: false,
-            sandwich: false,
-            dessert: false,
-            special: false,
             carryout: false,
             info: false,
+
             dollar_1: true,
             dollar_2: true,
             dollar_3: false,
+
             menuItems: true,
             restaurants: false,
             associates: false,
@@ -97,6 +95,18 @@ const DataAndMethodsState = props => {
             entertainmentSettings: false,
             photoSettings: false,
             lastState: 'menuItems',
+
+            specials: false,
+            soup: false,
+            salad: false,
+            appetizers: true,
+            sandwich: false,
+            pizza: false,
+            pasta: false,
+            entree: true,
+            dessert: false,
+            drinks: false,
+            kids: false,
         },
         signInRegDialogType: 'false',
         menuItems: [],
@@ -252,7 +262,27 @@ const DataAndMethodsState = props => {
     }
     const setMenuItemDialogDataCategory = async (key) => {
         let myNewCategories = JSON.parse(JSON.stringify(state.menuItemDialogData.categoryJSON))
-        let myIndex = myNewCategories.indexOf(key, 0)
+        let myIndex = -1
+        let keysToClear = ['specials',
+            'soup',
+            'salad',
+            'appetizers',
+            'sandwich',
+            'pizza',
+            'pasta',
+            'entree',
+            'dessert',
+            'drinks',
+            'kids']
+        if (keysToClear.indexOf(key, 0) !== -1) {
+            for (let i = 0; i < keysToClear.length; i++) {
+                myIndex = myNewCategories.indexOf(keysToClear[i], 0)
+                if (myIndex !== -1) {
+                    myNewCategories.splice(myIndex, 1)
+                }
+            }
+        }
+        myIndex = myNewCategories.indexOf(key, 0)
         if (myIndex !== -1) {
             myNewCategories.splice(myIndex, 1)
         } else {

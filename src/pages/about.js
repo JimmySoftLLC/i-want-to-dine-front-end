@@ -12,7 +12,6 @@ const About = () => {
                 these establishments during this difficult time.</strong>
             </p>
             <h2 >About {websiteName}</h2>
-
             <p className='p'>
                 When you are on vacation you want to get something to eat, but don't know what. So you walk around and look
                 at menus that are posted outside Restaurants. You go online and look but all you find is a mishmash of bias reviews.
@@ -55,7 +54,46 @@ const About = () => {
                     </li>
             </ul>
             <p className='p'>
-                Once you have selcted menu items you can then select the foods you are interested by clicking the food icons.  The selected ones will darken.
+                Once you have selected menu items you can then select the menu categories by pressing the <i className="fas fa-list"></i> button, a menu will popup.  Then select the categories you are interested in. The selected categories will turn blue.
+                The icons represent:
+                </p>
+            <ul style={{ paddingLeft: '1.5rem' }}>
+                <li>
+                    <i className="fas fa-tag"></i> Daily specials
+                    </li>
+                <li>
+                    <i className="icon-soup"></i> Soup
+                    </li>
+                <li>
+                    <i className="icon-salad"></i> Salad
+                    </li>
+                <li>
+                    <i className="icon-appetizer"></i> Appetizers
+                    </li>
+                <li>
+                    <i className="fas fa-hamburger"></i> Sandwiches
+                    </li>
+                <li>
+                    <i className="fas fa-pizza-slice"></i> Pizza
+                    </li>
+                <li>
+                    <i className='icon-spaghetti'></i> Pasta
+                    </li>
+                <li>
+                    <i className='fas fa-concierge-bell'></i> Entrees
+                    </li>
+                <li>
+                    <i className="fas fa-birthday-cake"></i> Dessert
+                </li>
+                <li>
+                    <i className="fas fa-cocktail"></i> Drinks
+                </li>
+                <li>
+                    <i className="fas fa-child"></i> Kids menu
+                </li>
+            </ul>
+            <p className='p'>
+                Once you have selected menu categories you can then select the foods you are interested by clicking the food icons.  The selected ones will darken.
                 Menu items with those foods will show up in the list.  The icons represent:
                 </p>
             <ul style={{ paddingLeft: '1.5rem' }}>
@@ -79,18 +117,6 @@ const About = () => {
                     </li>
                 <li>
                     <i className="fas fa-cheese"></i> Cheese
-                    </li>
-                <li>
-                    <i className='icon-spaghetti'></i> Pasta
-                    </li>
-                <li>
-                    <i className="fas fa-hamburger"></i> Sandwiches
-                    </li>
-                <li>
-                    <i className="fas fa-birthday-cake"></i> Dessert
-                </li>
-                <li>
-                    <i className="fas fa-tag"></i> Daily specials
                     </li>
                 <li>
                     <i className="fas fa-shopping-bag"></i> Takeout or curbside delivery
