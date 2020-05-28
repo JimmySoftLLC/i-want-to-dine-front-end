@@ -11,7 +11,7 @@ const MenuItemsRestaurantDetail = () => {
         restaurantDetail,
     } = dataAndMethodsContext;
 
-    let myCategories = menuItemsWithCategories(restaurantDetail.menuItems)
+    let myCategories = menuItemsWithCategories(restaurantDetail.menuItems, null)
 
     if (loading) {
         return <CircularIndeterminate />;
@@ -111,7 +111,7 @@ const MenuItemsRestaurantDetail = () => {
             }
             {
                 myCategories.kids.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
-                    <i className="fas fa-child"></i>{' - '}Kids</h3>
+                    <i className="fas fa-child"></i>{' - '}Kids menu</h3>
             }
             {
                 myCategories.kids.map(menuItem => <MenuItemRestaurantDetailCard menuItem={menuItem}

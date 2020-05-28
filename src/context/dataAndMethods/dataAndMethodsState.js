@@ -64,13 +64,14 @@ const DataAndMethodsState = props => {
         loadingDialog: false,
         myStates: {
             meat: true,
-            ham: false,
+            pork: false,
             poultry: false,
             fish: false,
             shellfish: false,
             vegetarian: false,
             cheese: false,
             carryout: false,
+
             info: false,
 
             dollar_1: true,
@@ -96,7 +97,7 @@ const DataAndMethodsState = props => {
             photoSettings: false,
             lastState: 'menuItems',
 
-            specials: false,
+            specials: true,
             soup: false,
             salad: false,
             appetizers: true,

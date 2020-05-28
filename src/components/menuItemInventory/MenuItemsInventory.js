@@ -13,7 +13,7 @@ const MenuItemsInventory = () => {
         loading,
     } = dataAndMethodsContext;
 
-    let myCategories = menuItemsWithCategories(restaurantMenuItems)
+    let myCategories = menuItemsWithCategories(restaurantMenuItems, null)
 
     if (loading) {
         return <CircularIndeterminate />;
@@ -91,7 +91,7 @@ const MenuItemsInventory = () => {
                     key={menuItem.id}
                 />))}
                 {myCategories.kids.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
-                    <i className="fas fa-child"></i>{' - '}Kids</h3>}
+                    <i className="fas fa-child"></i>{' - '}Kids menu</h3>}
                 {(myCategories.kids.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
                     myStates={myStates}
                     restaurants={restaurants}

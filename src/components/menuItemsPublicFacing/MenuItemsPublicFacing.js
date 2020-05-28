@@ -13,7 +13,7 @@ const MenuItemsPublicFacing = () => {
         loading,
     } = dataAndMethodsContext;
 
-    let myCategories = menuItemsWithCategories(menuItems)
+    let myCategories = menuItemsWithCategories(menuItems, myStates)
 
     if (loading) {
         return <CircularIndeterminate />;
@@ -91,7 +91,7 @@ const MenuItemsPublicFacing = () => {
                     key={menuItem.id}
                 />))}
                 {(myStates.kids && myCategories.kids.length > 0) && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
-                    <i className="fas fa-child"></i>{' - '}Kids</h3>}
+                    <i className="fas fa-child"></i>{' - '}Kids menu</h3>}
                 {myStates.kids && (myCategories.kids.map(menuItem => <MenuItemCardPublicFacing menuItem={menuItem}
                     myStates={myStates}
                     restaurants={restaurants}
