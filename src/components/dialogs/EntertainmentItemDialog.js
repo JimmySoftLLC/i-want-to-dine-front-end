@@ -151,7 +151,7 @@ const EntertainmentItemDialog = () => {
         <div>
             <Dialog className={classes.root} open={entertainmentItemDialogOpen} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">
-                    {dialogType + " menu item"}</DialogTitle>
+                    {dialogType + " entertainment item"}</DialogTitle>
                 <DialogContent>
                     <TextField
                         id="title"

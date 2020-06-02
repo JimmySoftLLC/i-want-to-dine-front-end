@@ -129,5 +129,3 @@ const MenuItemsRestaurantDetail = () => {
 };
 
 export default MenuItemsRestaurantDetail;
-
-

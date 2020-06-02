@@ -110,9 +110,8 @@ const PhotoDialog = () => {
 
     let dialogTitle = '';
 
-    if (dialogType === "EditMe") { dialogTitle = 'Edit my details' };
-    if (dialogType === "Edit") { dialogTitle = 'Edit photo details' };
-    if (dialogType === "Add") { dialogTitle = 'Add photo details' };
+    if (dialogType === "Edit") { dialogTitle = 'Edit photo item' };
+    if (dialogType === "Add") { dialogTitle = 'Add photo item' };
 
     return (
         <div>

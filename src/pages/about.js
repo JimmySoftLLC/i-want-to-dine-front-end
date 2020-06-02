@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import IconButton from '@material-ui/core/IconButton';
+import Link from '@material-ui/core/Link';
 import {
     websiteName,
 } from '../api/apiConstants';
@@ -7,10 +8,6 @@ import {
 const About = () => {
     return (
         <Fragment>
-            <p className='p'>
-                <strong>Note: Due to COVID-19 the restaurants that remain open only offer take out and/or curb side service.  Please partonize
-                these establishments during this difficult time.</strong>
-            </p>
             <h2 >About {websiteName}</h2>
             <p className='p'>
                 When you are on vacation you want to get something to eat, but don't know what. So you walk around and look
@@ -170,7 +167,7 @@ const About = () => {
                 </p>
             <h2 >A message to our Restaurant clients</h2>
             <p className='p'>
-                We want to help your buisiness succeed.  We want to give you the tools to get your message out.
+                We want to help your buisiness succeed by giving you the tools to get your message out.
                 It is your responsibility to craft menus and a message that is compelling to the public.  We believe this will
                 benifit the dining going public and invigorate the dining experience in Rehoboth.
                 </p>
@@ -178,6 +175,11 @@ const About = () => {
                 We do not accept advertisements or reviews.  Our service is paid for by our Restaurant clients to run
                 the the service.  Its main vision is to get unbiased information to the Restaurant going public.
                 </p>
+            <h2 >User manual</h2>
+            <p className='p'>
+                Download our user manual to learn how to use the program.
+                </p>
+            <Link className='p' href="https://iwanttodine.com/manuals/user-manual.pdf" target="_blank" rel="noopener noreferrer" download><i className="fas fa-file-download"></i> Download User Manual</Link>
             <h2 >Features</h2>
             We are creating a full suite of tools to enhance the your use of the platform.  Some of them are as follows.
             <ul style={{ paddingLeft: '1.5rem' }}>
