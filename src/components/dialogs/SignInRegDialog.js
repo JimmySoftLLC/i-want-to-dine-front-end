@@ -17,12 +17,6 @@ import sortRestaurants from '../../model/restaurant/sortRestaurants';
 import isEmail from 'validator/lib/isEmail';
 
 import {
-    // menuItemsTableName,
-    // restaurantsTableName,
-    // associatesTableName,
-    // apiName,
-    // apiPath,
-    // projectionExpressionRestaurant,
     noSelectedRestaurant,
 } from '../../api/apiConstants';
 
@@ -35,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const SignUp = () => {
+const SignInRegDialog = () => {
     const classes = useStyles();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -328,4 +322,4 @@ const SignUp = () => {
     );
 }
 
-export default SignUp;
+export default SignInRegDialog;

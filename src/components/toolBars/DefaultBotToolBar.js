@@ -47,11 +47,11 @@ const DefaultBotToolBar = () => {
                         <i className="fas fa-images"></i>
                     </IconButton>
                 </Tooltip>
-                <Tooltip title="Information">
+                <Tooltip title="Help and information">
                     <IconButton aria-label="" color={myStates['info'] ? "secondary" : "primary"}
                         onClick={() => dataAndMethodsContext.setMyState('info')}
                     >
-                        <i className="fas fa-info"></i>
+                        <i className="fas fa-question"></i>
                     </IconButton>
                 </Tooltip>
             </Toolbar>

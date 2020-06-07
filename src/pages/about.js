@@ -1,161 +1,41 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Link from '@material-ui/core/Link';
+import HelpItem0 from '../components/helpItems/HelpItem0';
+import HelpItem1 from '../components/helpItems/HelpItem1';
+import HelpItem2 from '../components/helpItems/HelpItem2';
+import HelpItem3 from '../components/helpItems/HelpItem3';
+import HelpItem4 from '../components/helpItems/HelpItem4';
+import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
+
 import {
     websiteName,
 } from '../api/apiConstants';
 
 const About = () => {
+    const dataAndMethodsContext = useContext(DataAndMethodsContext);
+
+    const {
+        setMyStates,
+    } = dataAndMethodsContext;
+
+    const onLineWizard = () => {
+        let myNewStateChoices = JSON.parse(JSON.stringify(dataAndMethodsContext.myStates))
+        myNewStateChoices.helpDialogActive = true;
+        myNewStateChoices.helpDialogOpen = true;
+        window.localStorage.setItem("iWantToDine.myStates", JSON.stringify(myNewStateChoices));
+        setMyStates(myNewStateChoices);
+    }
+
     return (
         <Fragment>
-            <h2 >About {websiteName}</h2>
-            <p className='p'>
-                When you are on vacation you want to get something to eat, but don't know what. So you walk around and look
-                at menus that are posted outside Restaurants. You go online and look but all you find is a mishmash of bias reviews.
-                        </p>
-            <p className='p'>
-                What if there was an app that did the walking and searching for you. Let's say you want a steak. You press the steak
-                button and all the steak entrees in town are listed. You press fish and all the fish options show up. You press specials
-                and all the specials show up.
-                        </p>
-            <p className='p'>
-                This is the inspiration for {websiteName}.com. A website that only contains curated information submitted by the Restaurant
-                owners. This is personal, just like the server was handing you the menu and telling you todays specials.
-                        </p>
-            <p className='p'>
-                There is no app today that gives you that experience. This will be exciting! The current test market is Rehoboth Beach Delaware.  Our target launch date is by the summer tourist
-                season.
-                </p>
             <h2 >How to use</h2>
-            <p className='p'>
-                Select one of the following
-                </p>
-            <ul style={{ paddingLeft: '1.5rem' }}>
-                <li>
-                    <i className="fas fa-book-open"></i> show menu items
-                    </li>
-                <li>
-                    <i className="fas fa-store"></i> show restaurants
-                    </li>
-                <li>
-                    <i className="fas fa-users"></i> show restaurant associates
-                    </li>
-                <li>
-                    <i className="fas fa-music"></i> show entertainment
-                    </li>
-                <li>
-                    <i className="fas fa-images"></i> show photo gallery
-                    </li>
-                <li>
-                    <i className="fas fa-info"></i> information
-                    </li>
-            </ul>
-            <p className='p'>
-                Once you have selected menu items you can then select the menu categories by pressing the <i className="fas fa-list"></i> button, a menu will popup.  Then select the categories you are interested in. The selected categories will turn blue.
-                The icons represent:
-                </p>
-            <ul style={{ paddingLeft: '1.5rem' }}>
-                <li>
-                    <i className="fas fa-tag"></i> Daily specials
-                    </li>
-                <li>
-                    <i className="icon-soup"></i> Soup
-                    </li>
-                <li>
-                    <i className="icon-salad"></i> Salad
-                    </li>
-                <li>
-                    <i className="icon-appetizer"></i> Appetizers
-                    </li>
-                <li>
-                    <i className="fas fa-hamburger"></i> Sandwiches
-                    </li>
-                <li>
-                    <i className="fas fa-pizza-slice"></i> Pizza
-                    </li>
-                <li>
-                    <i className='icon-spaghetti'></i> Pasta
-                    </li>
-                <li>
-                    <i className='fas fa-concierge-bell'></i> Entrees
-                    </li>
-                <li>
-                    <i className="fas fa-birthday-cake"></i> Dessert
-                </li>
-                <li>
-                    <i className="fas fa-cocktail"></i> Drinks
-                </li>
-                <li>
-                    <i className="fas fa-child"></i> Kids menu
-                </li>
-            </ul>
-            <p className='p'>
-                Once you have selected menu categories you can then select the foods you are interested by clicking the food icons.  The selected ones will darken.
-                Menu items with those foods will show up in the list.  The icons represent:
-                </p>
-            <ul style={{ paddingLeft: '1.5rem' }}>
-                <li>
-                    <i className='icon-tbone'></i> Meat and other
-                    </li>
-                <li>
-                    <i className='icon-ham'></i> Pork
-                    </li>
-                <li>
-                    <i className="fas fa-feather"></i> Poultry
-                    </li>
-                <li>
-                    <i className="fas fa-fish"></i> Fish
-                    </li>
-                <li>
-                    <i className='icon-shell'></i> Shellfish
-                    </li>
-                <li>
-                    <i className="fas fa-seedling"></i> Vegetarian
-                    </li>
-                <li>
-                    <i className="fas fa-cheese"></i> Cheese
-                    </li>
-                <li>
-                    <i className="fas fa-shopping-bag"></i> Takeout or curbside delivery
-                    </li>
-            </ul>
-            <p className='p'>
-                Set the price by clicking on the $ button, a menu will popup.  Then click the price points you are interested in.
-                Blue indicates an active price point.
-                You can select one or many price points.  For example if you want prices
-                from 0 to 35 activate both the $ and $$.
-                </p>
-            <ul style={{ paddingLeft: '1.5rem' }}>
-                <li>
-                    <i className='icon-dollar_1'></i> 0-20 dollars
-                    </li>
-                <li>
-                    <i className="icon-dollar_2"></i> 20-35 dollars
-                    </li>
-                <li>
-                    <i className='icon-dollar_3'></i> 35 and up dollars
-                    </li>
-            </ul>
-            <p className='p'>
-                The following are the categories for entertainment items.
-                </p>
-            <ul style={{ paddingLeft: '1.5rem' }}>
-                <li>
-                    <i className='fas fa-theater-masks'></i> Theater
-                    </li>
-                <li>
-                    <i className="fas fa-music"></i> Music
-                    </li>
-                <li>
-                    <i className='fas fa-microphone'></i> Karaokes
-                    </li>
-                <li>
-                    <i className='icon-dancing'></i> Dancing
-                    </li>
-                <li>
-                    <i className='fas fa-laugh'></i> Comedy
-                    </li>
-            </ul>
+            <Link className='p' onClick={() => onLineWizard()} download>Step by Step Help</Link>
+            <HelpItem0 />
+            <HelpItem1 />
+            <HelpItem2 />
+            <HelpItem3 />
+            <HelpItem4 />
             <h2 >JimmySoft LLC <IconButton aria-label=""
                 href="https://jimmysoftllc.com"
                 rel="noopener noreferrer" target="_blank"
@@ -164,6 +44,23 @@ const About = () => {
             </IconButton></h2>
             <p className='p'>
                 This program was created by JimmySoft LLC.  JimmySoft LLC specialises in DIY, scientific and customer apps.
+                </p>
+            <h2 >Why use {websiteName}?</h2>
+            <p className='p'>
+                The main reason to use {websiteName} is to find fine dining options quickly.  Instead of walking around looking at menus use {}
+                {websiteName}.com to do the searching for you.
+                </p>
+            <p className='p'>
+                Let's say you want a beef entree. You press the beef
+                button and all the beef options in town are listed. You press fish and all the fish options show up. You press specials
+                and all the specials show up.
+                        </p>
+            <p className='p'>
+                This is the inspiration for {websiteName}.com. A website that only contains curated information submitted by the Restaurant
+                owners. This is personal, just like the server was handing you the menu and telling you todays specials.
+                        </p>
+            <p className='p'>
+                There is no app today that gives you that experience. The current test market is Rehoboth Beach Delaware.
                 </p>
             <h2 >A message to our Restaurant clients</h2>
             <p className='p'>
@@ -177,7 +74,7 @@ const About = () => {
                 </p>
             <h2 >User manual</h2>
             <p className='p'>
-                Download our user manual to learn how to use the program.
+                Download our restaurants user manual to learn how to add your restaurant, menu items, associates and entertainment.
                 </p>
             <Link className='p' href="https://iwanttodine.com/manuals/user-manual.pdf" target="_blank" rel="noopener noreferrer" download><i className="fas fa-file-download"></i> Download User Manual</Link>
             <h2 >Features</h2>

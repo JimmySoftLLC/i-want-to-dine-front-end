@@ -46,15 +46,80 @@ import {
     SET_PHOTO_DIALOG_OPEN,
     SET_IMAGE_EDITOR_DATA,
 } from '../types';
-import {
-    // menuItemsTableName,
-    // restaurantsTableName,
-    // associatesTableName,
-    // apiName,
-    // apiPath,
-} from '../../api/apiConstants';
 
 const DataAndMethodsState = props => {
+    const [myStatesLocalStorage] = React.useState(() => {
+        let myStates = window.localStorage.getItem("iWantToDine.myStates");
+        myStates = myStates !== null ? JSON.parse(myStates)
+            : {
+                // menu categories
+                specials: true,
+                soup: false,
+                salad: false,
+                appetizers: true,
+                sandwich: false,
+                pizza: false,
+                pasta: false,
+                entree: true,
+                dessert: false,
+                drinks: false,
+                kids: false,
+
+                // price categories
+                dollar_1: true,
+                dollar_2: true,
+                dollar_3: false,
+
+                // ingredients
+                meat: true,
+                pork: false,
+                poultry: false,
+                fish: false,
+                shellfish: false,
+                vegetarian: false,
+                cheese: false,
+                carryout: false,
+
+                // customer pages
+                menuItems: true,
+                restaurants: false,
+                associates: false,
+                entertainmentItems: false,
+                photoSettings: false,
+                info: false,
+                restaurantDetail: false,
+
+                // backend pages
+                restaurantSettings: false,
+                menuSettings: false,
+                menuDaySettings: false,
+                entertainmentSettings: false,
+                associateSettings: false,
+
+                // sorting types
+                sortTitle: true,
+                sortPrice: false,
+                sortDate: false,
+                sortTime: true,
+                sortName: false,
+
+                lastState: 'menuItems',
+
+                // help dialog
+                helpDialogStage: 0,
+                helpDialogActive: false,
+                helpDialogOpen: true,
+            };
+        // if set to restaurant reset to menuItems since restaurant 
+        // detail expects data which does not exist yet.
+        if (myStates.restaurantDetail) {
+            myStates.restaurantDetail = false
+            myStates.menuItems = true
+            myStates.lastState = 'menuItems'
+        }
+        return myStates
+    });
+
     const initialState = {
         authToken: {},
         idToken: {},
@@ -62,53 +127,7 @@ const DataAndMethodsState = props => {
         logInType: 'default',
         loading: false,
         loadingDialog: false,
-        myStates: {
-            meat: true,
-            pork: false,
-            poultry: false,
-            fish: false,
-            shellfish: false,
-            vegetarian: false,
-            cheese: false,
-            carryout: false,
-
-            info: false,
-
-            dollar_1: true,
-            dollar_2: true,
-            dollar_3: false,
-
-            menuItems: true,
-            restaurants: false,
-            associates: false,
-            restaurantSettings: false,
-            menuSettings: false,
-            menuDaySettings: false,
-            sortTitle: true,
-            sortPrice: false,
-            sortDate: false,
-            sortTime: true,
-            associateSettings: false,
-            sortName: false,
-            restaurantDetail: false,
-            entertainmentItems: false,
-            selfies: false,
-            entertainmentSettings: false,
-            photoSettings: false,
-            lastState: 'menuItems',
-
-            specials: true,
-            soup: false,
-            salad: false,
-            appetizers: true,
-            sandwich: false,
-            pizza: false,
-            pasta: false,
-            entree: true,
-            dessert: false,
-            drinks: false,
-            kids: false,
-        },
+        myStates: myStatesLocalStorage,
         signInRegDialogType: 'false',
         menuItems: [],
         entertainmentItems: [],
@@ -223,9 +242,10 @@ const DataAndMethodsState = props => {
 
     //set my states -----------------------------------------------------
     const setMyState = async key => {
-        let myNewFoodChoices = JSON.parse(JSON.stringify(state.myStates))
-        myNewFoodChoices = setMyStatesLogic(myNewFoodChoices, key)
-        setMyStates(myNewFoodChoices);
+        let myNewStateChoices = JSON.parse(JSON.stringify(state.myStates))
+        myNewStateChoices = setMyStatesLogic(myNewStateChoices, key)
+        window.localStorage.setItem("iWantToDine.myStates", JSON.stringify(myNewStateChoices));
+        setMyStates(myNewStateChoices);
     };
     const setMyStates = async (myStates) => { dispatch({ type: SET_MY_STATES, payload: myStates }) }
 
@@ -466,5 +486,3 @@ const DataAndMethodsState = props => {
 };
 
 export default DataAndMethodsState;
-
-

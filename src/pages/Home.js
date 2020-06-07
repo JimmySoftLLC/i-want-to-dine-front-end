@@ -18,6 +18,7 @@ import EntertainmentItemDialog from '../components/dialogs/EntertainmentItemDial
 import MenuDayDialog from '../components/dialogs/MenuDayDialog';
 import PhotoDialog from '../components/dialogs/PhotoDialog';
 import AlertDialog from '../components/dialogs/AlertDialog';
+import HelpDialog from '../components/dialogs/HelpDialog';
 import PhotosInventory from '../components/photoInventory/PhotosInventory';
 import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
@@ -95,6 +96,7 @@ const Home = () => {
                 {myStates.restaurants && <RestaurantItems />}
                 {myStates.restaurantDetail && <RestaurantCard />}
                 {myStates.associates && <AssociatesDetail />}
+                <HelpDialog />
                 <p className='p home-page-bottom-margin'></p>
             </div>}
             {logInType === 'signedIn' && <div className='container associate-page-top-margin'>
