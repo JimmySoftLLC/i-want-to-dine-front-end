@@ -4,7 +4,7 @@ const HelpItem3 = () => {
     return (
         <Fragment>
             <p className='p'>
-                Select your price points, one or several by clicking on the $ button.
+                Select your price points by clicking on the $ button. One or several can be selected.
                 The icons represent:
                 </p>
             <ul style={{ paddingLeft: '1.5rem' }}>

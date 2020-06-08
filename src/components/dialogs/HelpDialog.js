@@ -135,13 +135,13 @@ const HelpDialog = () => {
                         Welcome to {websiteName}</DialogTitle>
                     <DialogContent>
                         <p className='p'>
-                            If you want to learn how to use {websiteName} click FIRST HELP TOPIC.
+                            Click FIRST HELP TOPIC to learn how to use {websiteName} .
                         </p>
                         <p className='p'>
-                            If you just want to dive in click END HELP.
+                            Click END HELP to explore yourself.
                         </p>
                         <p className='p'>
-                            You can always start this tutorial again under the help and information page <i className="fas fa-question"></i>.
+                            Start tutorial anytime under the help and information page <i className="fas fa-question"></i>.
                         </p>
                         <p className='p'>
                             Enjoy!

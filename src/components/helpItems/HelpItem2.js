@@ -4,7 +4,7 @@ const HelpItem2 = () => {
     return (
         <Fragment>
             <p className='p'>
-                Select your foods, one or several.
+                Select your food ingredients. One or several can be selected.
                 The icons represent:
                 </p>
             <ul style={{ paddingLeft: '1.5rem' }}>

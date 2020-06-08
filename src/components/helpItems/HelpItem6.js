@@ -4,7 +4,7 @@ const HelpItem6 = () => {
     return (
         <Fragment>
             <p className='p'>
-                When you select the entertainment page entertainment happening today will be listed.  The icons represent:
+                When you select the entertainment page the entertainment happening today will be listed.  The icons represent:
             </p>
             <ul style={{ paddingLeft: '1.5rem' }}>
                 <li>

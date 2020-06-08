@@ -50,6 +50,7 @@ const MenuItemDialog = () => {
         associatesRestaurants,
         restaurantId,
         myStates,
+        setMenuItemDialogData,
     } = dataAndMethodsContext;
 
     const handleClose = () => {
@@ -115,6 +116,13 @@ const MenuItemDialog = () => {
 
     const changePrice = (e) => {
         setMenuItemDialogDataItem('price', e.target.value)
+    };
+
+    const handleLowerCase = (e) => {
+        let myMenuItemDialogData = JSON.parse(JSON.stringify(dataAndMethodsContext.menuItemDialogData))
+        myMenuItemDialogData.title = myMenuItemDialogData.title.toLowerCase()
+        myMenuItemDialogData.description = myMenuItemDialogData.description.toLowerCase()
+        setMenuItemDialogData(myMenuItemDialogData)
     };
 
     const checkIfPresent = (value) => {
@@ -305,6 +313,9 @@ const MenuItemDialog = () => {
                     />
                 </DialogContent>
                 <DialogActions>
+                    <Button onClick={handleLowerCase} color="default">
+                        Lowercase
+                    </Button>
                     <Button onClick={handleClose} color="default">
                         Cancel
                     </Button>
