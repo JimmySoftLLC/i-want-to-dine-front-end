@@ -15,20 +15,20 @@ const DefaultTopToolBar = () => {
     const [anchorPriceMenu, setAnchorPriceMenu] = React.useState(null);
     const [anchorCategoryMenu, setAnchorCategoryMenu] = React.useState(null);
 
-    const priceMenuClick = (event) => {
-        setAnchorPriceMenu(event.currentTarget);
-    };
-
-    const closePriceMenu = () => {
-        setAnchorPriceMenu(null);
+    const closeCategoryMenu = () => {
+        setAnchorCategoryMenu(null);
     };
 
     const categoryMenuClick = (event) => {
         setAnchorCategoryMenu(event.currentTarget);
     };
 
-    const closeCategoryMenu = () => {
-        setAnchorCategoryMenu(null);
+    const closePriceMenu = () => {
+        setAnchorPriceMenu(null);
+    };
+
+    const priceMenuClick = (event) => {
+        setAnchorPriceMenu(event.currentTarget);
     };
 
     const setUpRegistrationDialog = () => {
@@ -38,6 +38,16 @@ const DefaultTopToolBar = () => {
 
     const goBack = () => {
         setMyState(myStates['lastState'])
+    }
+
+    const handleCategoryClick = (myState) => {
+        setMyState(myState)
+        if (myStates.helpDialogStage === 2 && myStates.helpDialogActive) { closeCategoryMenu() }
+    }
+
+    const handlePriceClick = (myState) => {
+        setMyState(myState)
+        if (myStates.helpDialogStage === 4 && myStates.helpDialogActive) { closePriceMenu() }
     }
 
     return (
@@ -82,7 +92,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Daily specials">
                                 <IconButton aria-label="" color={myStates['specials'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('specials')}
+                                    onClick={() => handleCategoryClick('specials')}
                                 >
                                     <i className="fas fa-tag"></i>
                                 </IconButton>
@@ -91,7 +101,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Soup">
                                 <IconButton aria-label="" color={myStates['soup'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('soup')}
+                                    onClick={() => handleCategoryClick('soup')}
                                 >
                                     <i className="icon-soup"></i>
                                 </IconButton>
@@ -100,7 +110,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Salad">
                                 <IconButton aria-label="" color={myStates['salad'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('salad')}
+                                    onClick={() => handleCategoryClick('salad')}
                                 >
                                     <i className="icon-salad"></i>
                                 </IconButton>
@@ -109,7 +119,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Appetizers">
                                 <IconButton aria-label="" color={myStates['appetizers'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('appetizers')}
+                                    onClick={() => handleCategoryClick('appetizers')}
                                 >
                                     <i className="icon-appetizer"></i>
                                 </IconButton>
@@ -118,7 +128,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Sandwiches">
                                 <IconButton aria-label="" color={myStates['sandwich'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('sandwich')}
+                                    onClick={() => handleCategoryClick('sandwich')}
                                 >
                                     <i className='fas fa-hamburger'></i>
                                 </IconButton>
@@ -127,7 +137,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Pizza">
                                 <IconButton aria-label="" color={myStates['pizza'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('pizza')}
+                                    onClick={() => handleCategoryClick('pizza')}
                                 >
                                     <i className="fas fa-pizza-slice"></i>
                                 </IconButton>
@@ -136,7 +146,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Pasta">
                                 <IconButton aria-label="" color={myStates['pasta'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('pasta')}
+                                    onClick={() => handleCategoryClick('pasta')}
                                 >
                                     <i className='icon-spaghetti'></i>
                                 </IconButton>
@@ -145,7 +155,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Entrees">
                                 <IconButton aria-label="" color={myStates['entree'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('entree')}
+                                    onClick={() => handleCategoryClick('entree')}
                                 >
                                     <i className="fas fa-concierge-bell"></i>
                                 </IconButton>
@@ -154,7 +164,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Dessert">
                                 <IconButton aria-label="" color={myStates['dessert'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('dessert')}
+                                    onClick={() => handleCategoryClick('dessert')}
                                 >
                                     <i className="fas fa-birthday-cake"></i>
                                 </IconButton>
@@ -163,7 +173,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Drinks">
                                 <IconButton aria-label="" color={myStates['drinks'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('drinks')}
+                                    onClick={() => handleCategoryClick('drinks')}
                                 >
                                     <i className="fas fa-cocktail"></i>
                                 </IconButton>
@@ -172,7 +182,7 @@ const DefaultTopToolBar = () => {
                         <MenuItem>
                             {myStates.menuItems && <Tooltip title="Kids menu">
                                 <IconButton aria-label="" color={myStates['kids'] ? "secondary" : "default"}
-                                    onClick={() => dataAndMethodsContext.setMyState('kids')}
+                                    onClick={() => handleCategoryClick('kids')}
                                 >
                                     <i className="fas fa-child"></i>
                                 </IconButton>
@@ -204,7 +214,7 @@ const DefaultTopToolBar = () => {
                             <Tooltip title="0-20 dollars">
                                 <IconButton aria-label=""
                                     color={myStates['dollar_1'] ? "secondary" : "default"}
-                                    onClick={() => setMyState('dollar_1')}>
+                                    onClick={() => handlePriceClick('dollar_1')}>
                                     <i className="icon-dollar_1"></i>
                                 </IconButton>
                             </Tooltip>
@@ -213,7 +223,7 @@ const DefaultTopToolBar = () => {
                             <Tooltip title="20-35 dollars">
                                 <IconButton aria-label=""
                                     color={myStates['dollar_2'] ? "secondary" : "default"}
-                                    onClick={() => setMyState('dollar_2')}>
+                                    onClick={() => handlePriceClick('dollar_2')}>
                                     <i className="icon-dollar_2"></i>
                                 </IconButton>
                             </Tooltip>
@@ -222,7 +232,7 @@ const DefaultTopToolBar = () => {
                             <Tooltip title="35 and up dollars">
                                 <IconButton aria-label=""
                                     color={myStates['dollar_3'] ? "secondary" : "default"}
-                                    onClick={() => setMyState('dollar_3')}>
+                                    onClick={() => handlePriceClick('dollar_3')}>
                                     <i className="icon-dollar_3"></i>
                                 </IconButton>
                             </Tooltip>
@@ -230,49 +240,49 @@ const DefaultTopToolBar = () => {
                     </Menu>
                     {myStates.menuItems && <Tooltip title="Beef and other">
                         <IconButton aria-label="" color={myStates['meat'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('meat')}
+                            onClick={() => setMyState('meat')}
                         >
                             <i className='icon-tbone'></i>
                         </IconButton>
                     </Tooltip>}
                     {myStates.menuItems && <Tooltip title="Pork">
                         <IconButton aria-label="" color={myStates['pork'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('pork')}
+                            onClick={() => setMyState('pork')}
                         >
                             <i className='icon-ham'></i>
                         </IconButton>
                     </Tooltip>}
                     {myStates.menuItems && <Tooltip title="Poultry">
                         <IconButton aria-label="" color={myStates['poultry'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('poultry')}
+                            onClick={() => setMyState('poultry')}
                         >
                             <i className="fas fa-feather"></i>
                         </IconButton>
                     </Tooltip>}
                     {myStates.menuItems && <Tooltip title="Fish">
                         <IconButton aria-label="" color={myStates['fish'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('fish')}
+                            onClick={() => setMyState('fish')}
                         >
                             <i className='fas fa-fish'></i>
                         </IconButton>
                     </Tooltip>}
                     {myStates.menuItems && <Tooltip title="Shellfish">
                         <IconButton aria-label="" color={myStates['shellfish'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('shellfish')}
+                            onClick={() => setMyState('shellfish')}
                         >
                             <i className='icon-shell'></i>
                         </IconButton>
                     </Tooltip>}
                     {myStates.menuItems && <Tooltip title="Vegetarian">
                         <IconButton aria-label="" color={myStates['vegetarian'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('vegetarian')}
+                            onClick={() => setMyState('vegetarian')}
                         >
                             <i className='fas fa-seedling'></i>
                         </IconButton>
                     </Tooltip>}
                     {myStates.menuItems && <Tooltip title="Cheese">
                         <IconButton aria-label="" color={myStates['cheese'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('cheese')}
+                            onClick={() => setMyState('cheese')}
                         >
                             <i className='fas fa-cheese'></i>
                         </IconButton>
@@ -280,7 +290,7 @@ const DefaultTopToolBar = () => {
 
                     {myStates.menuItems && <Tooltip title="Carryout">
                         <IconButton aria-label="" color={myStates['carryout'] ? "default" : "inherit"}
-                            onClick={() => dataAndMethodsContext.setMyState('carryout')}
+                            onClick={() => setMyState('carryout')}
                         >
                             <i className="fas fa-shopping-bag"></i>
                         </IconButton>

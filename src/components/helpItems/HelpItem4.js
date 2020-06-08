@@ -1,30 +1,21 @@
 import React, { Fragment } from 'react';
 
-const HelpItem4 = () => {
+const HelpItem5 = () => {
     return (
         <Fragment>
             <p className='p'>
-                When you select an entertainment page.  The icons represent:
+                When you select the restaurant page.  A list of restaurants will be listed.  Clicking on the name will give you a restaurant detail with the menu, associates, entertainment etc.  The icons represent
             </p>
             <ul style={{ paddingLeft: '1.5rem' }}>
                 <li>
-                    <i className='fas fa-theater-masks'></i> Theater
+                    <i className='fas fa-phone'></i> Call
                 </li>
                 <li>
-                    <i className="fas fa-music"></i> Music
-                </li>
-                <li>
-                    <i className='fas fa-microphone'></i> Karaokes
-                </li>
-                <li>
-                    <i className='icon-dancing'></i> Dancing
-                </li>
-                <li>
-                    <i className='fas fa-laugh'></i> Comedy
+                    <i className="fas fa-map-marker-alt"></i> Location
                 </li>
             </ul>
         </Fragment>
     );
 };
 
-export default HelpItem4;
+export default HelpItem5;

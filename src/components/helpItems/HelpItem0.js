@@ -1,10 +1,13 @@
 import React, { Fragment } from 'react';
+import {
+    websiteName,
+} from '../../api/apiConstants';
 
 const HelpItem0 = () => {
     return (
         <Fragment>
             <p className='p'>
-                Select one of the following.  The icons represent:
+                {websiteName} has 6 main pages. Select one of the following.  The icons represent:
                 </p>
             <ul style={{ paddingLeft: '1.5rem' }}>
                 <li>

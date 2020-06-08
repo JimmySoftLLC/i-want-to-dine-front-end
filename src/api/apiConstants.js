@@ -16,5 +16,5 @@ export const noSelectedRestaurant = 'Select Your Restaurant';
 export const blankPlaceHolder = String.fromCharCode(30);
 export const imagePath = 'https://iwanttodine.s3.amazonaws.com/public/';
 export const blankImage = 'https://iwanttodine.s3.amazonaws.com/public/blank.jpg';
-export const websiteName = 'iWantToDine'
-// export const websiteName = 'RehobothDining'
+// export const websiteName = 'iWantToDine'
+export const websiteName = 'RehobothDining'

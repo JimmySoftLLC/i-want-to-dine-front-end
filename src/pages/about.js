@@ -6,6 +6,10 @@ import HelpItem1 from '../components/helpItems/HelpItem1';
 import HelpItem2 from '../components/helpItems/HelpItem2';
 import HelpItem3 from '../components/helpItems/HelpItem3';
 import HelpItem4 from '../components/helpItems/HelpItem4';
+import HelpItem5 from '../components/helpItems/HelpItem5';
+import HelpItem6 from '../components/helpItems/HelpItem6';
+import HelpItem7 from '../components/helpItems/HelpItem7';
+
 import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
 
 import {
@@ -36,6 +40,9 @@ const About = () => {
             <HelpItem2 />
             <HelpItem3 />
             <HelpItem4 />
+            <HelpItem5 />
+            <HelpItem6 />
+            <HelpItem7 />
             <h2 >JimmySoft LLC <IconButton aria-label=""
                 href="https://jimmysoftllc.com"
                 rel="noopener noreferrer" target="_blank"
