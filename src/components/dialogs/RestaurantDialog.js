@@ -44,6 +44,7 @@ const RestaurantDialog = () => {
         phoneNumber,
         urlLink,
         orderUrlLink,
+        facebookUrlLink,
         menuItemIdsJSON,
         entertainmentItemIdsJSON,
         associatesJSON,
@@ -72,6 +73,7 @@ const RestaurantDialog = () => {
         myRestaurant.phoneNumber = phoneNumber;
         myRestaurant.urlLink = urlLink;
         myRestaurant.orderUrlLink = orderUrlLink;
+        myRestaurant.facebookUrlLink = facebookUrlLink;
         myRestaurant.menuItemIdsJSON = menuItemIdsJSON
         myRestaurant.entertainmentItemIdsJSON = entertainmentItemIdsJSON
         myRestaurant.associatesJSON = associatesJSON
@@ -124,6 +126,10 @@ const RestaurantDialog = () => {
 
     const changeOrderUrlLink = (e) => {
         setRestaurantDialogDataItem('orderUrlLink', e.target.value)
+    };
+
+    const changeFacebookUrlLink = (e) => {
+        setRestaurantDialogDataItem('facebookUrlLink', e.target.value)
     };
 
     return (
@@ -216,6 +222,15 @@ const RestaurantDialog = () => {
                         variant="filled"
                         value={orderUrlLink}
                         onChange={changeOrderUrlLink}
+                    />
+                    <TextField
+                        id="facebookUrlLink"
+                        label="Facebook Url"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        value={facebookUrlLink}
+                        onChange={changeFacebookUrlLink}
                     />
                 </DialogContent>
                 <DialogActions>

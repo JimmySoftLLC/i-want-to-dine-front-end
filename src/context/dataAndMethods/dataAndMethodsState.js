@@ -166,6 +166,7 @@ const DataAndMethodsState = props => {
             phoneNumber: '',
             urlLink: '',
             orderUrlLink: '',
+            facebookUrlLink: '',
             id: '',
             menuItemIdsJSON: [],
             entertainmentItemIdsJSON: [],
