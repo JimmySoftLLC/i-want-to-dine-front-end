@@ -45,6 +45,8 @@ const RestaurantDialog = () => {
         urlLink,
         orderUrlLink,
         facebookUrlLink,
+        twitterUrlLink,
+        instagramUrlLink,
         menuItemIdsJSON,
         entertainmentItemIdsJSON,
         associatesJSON,
@@ -74,6 +76,8 @@ const RestaurantDialog = () => {
         myRestaurant.urlLink = urlLink;
         myRestaurant.orderUrlLink = orderUrlLink;
         myRestaurant.facebookUrlLink = facebookUrlLink;
+        myRestaurant.twitterUrlLink = twitterUrlLink;
+        myRestaurant.instagramUrlLink = instagramUrlLink;
         myRestaurant.menuItemIdsJSON = menuItemIdsJSON
         myRestaurant.entertainmentItemIdsJSON = entertainmentItemIdsJSON
         myRestaurant.associatesJSON = associatesJSON
@@ -131,6 +135,15 @@ const RestaurantDialog = () => {
     const changeFacebookUrlLink = (e) => {
         setRestaurantDialogDataItem('facebookUrlLink', e.target.value)
     };
+
+    const changeTwitterUrlLink = (e) => {
+        setRestaurantDialogDataItem('twitterUrlLink', e.target.value)
+    };
+
+    const changeInstagramUrlLink = (e) => {
+        setRestaurantDialogDataItem('instagramUrlLink', e.target.value)
+    };
+
 
     return (
         <div>
@@ -231,6 +244,24 @@ const RestaurantDialog = () => {
                         variant="filled"
                         value={facebookUrlLink}
                         onChange={changeFacebookUrlLink}
+                    />
+                    <TextField
+                        id="twitterUrlLink"
+                        label="Twitter Url"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        value={twitterUrlLink}
+                        onChange={changeTwitterUrlLink}
+                    />
+                    <TextField
+                        id="instagramUrlLink"
+                        label="Instagram Url"
+                        type="text"
+                        fullWidth
+                        variant="filled"
+                        value={instagramUrlLink}
+                        onChange={changeInstagramUrlLink}
                     />
                 </DialogContent>
                 <DialogActions>

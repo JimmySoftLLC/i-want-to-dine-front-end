@@ -26,6 +26,8 @@ const getAssociatesRestaurants = async (associate) => {
         myAssociateRestaurants[i].urlLink = myAssociateRestaurants[i].urlLink === blankPlaceHolder ? '' : myAssociateRestaurants[i].urlLink
         myAssociateRestaurants[i].orderUrlLink = myAssociateRestaurants[i].orderUrlLink === blankPlaceHolder ? '' : myAssociateRestaurants[i].orderUrlLink
         myAssociateRestaurants[i].facebookUrlLink = myAssociateRestaurants[i].facebookUrlLink === blankPlaceHolder ? '' : myAssociateRestaurants[i].facebookUrlLink
+        myAssociateRestaurants[i].twitterUrlLink = myAssociateRestaurants[i].twitterUrlLink === blankPlaceHolder ? '' : myAssociateRestaurants[i].twitterUrlLink
+        myAssociateRestaurants[i].instagramUrlLink = myAssociateRestaurants[i].instagramUrlLink === blankPlaceHolder ? '' : myAssociateRestaurants[i].instagramUrlLink
         myAssociateRestaurants[i].menuItemIdsJSON = JSON.parse(myAssociateRestaurants[i].menuItemIdsJSON)
         myAssociateRestaurants[i].entertainmentItemIdsJSON = JSON.parse(myAssociateRestaurants[i].entertainmentItemIdsJSON)
         myAssociateRestaurants[i].associatesJSON = JSON.parse(myAssociateRestaurants[i].associatesJSON)

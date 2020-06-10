@@ -7,7 +7,6 @@ import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/ge
 import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
 
 const SelectedImage = ({
-    index,
     photo,
     margin,
     direction,
@@ -94,7 +93,7 @@ const SelectedImage = ({
                 style={{ marginLeft: "1rem", marginTop: "5rem", marginRight: "1rem", marginBottom: ".5rem" }}
             >{myRestaurantName}</Link>}
             <img
-                alt={photo.title}
+                alt={photo.caption}
                 style={
                     isSelected ? { ...imgStyle, ...selectedImgStyle } : { ...imgStyle }
                 }

@@ -38,6 +38,8 @@ const putItemDynamoDB = async (myTableName, myItem, myIdToken, myCustomId) => {
                 urlLink: myItem.urlLink = myItem.urlLink !== '' ? myItem.urlLink : blankPlaceHolder,
                 orderUrlLink: myItem.orderUrlLink = myItem.orderUrlLink !== '' ? myItem.orderUrlLink : blankPlaceHolder,
                 facebookUrlLink: myItem.facebookUrlLink = myItem.facebookUrlLink !== '' ? myItem.facebookUrlLink : blankPlaceHolder,
+                twitterUrlLink: myItem.twitterUrlLink = myItem.twitterUrlLink !== '' ? myItem.twitterUrlLink : blankPlaceHolder,
+                instagramUrlLink: myItem.instagramUrlLink = myItem.instagramUrlLink !== '' ? myItem.instagramUrlLink : blankPlaceHolder,
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
                 entertainmentItemIdsJSON: JSON.stringify(myItem.entertainmentItemIdsJSON),
                 associatesJSON: JSON.stringify(myItem.associatesJSON),

@@ -124,11 +124,22 @@ const MenuDayDialog = () => {
         setRestaurantMenuDays(myMenuDays)
     };
 
-    const selectAll = () => {
+    const selectAllMenuItems = () => {
         let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         myNewMenuDayDialogData.menuItemIdsJSON = JSON.parse(JSON.stringify(myRestaurant.menuItemIdsJSON))
-        myNewMenuDayDialogData.entertainmentItemIdsJSON = JSON.parse(JSON.stringify(myRestaurant.entertainmentItemIdsJSON))
+        setMenuDayDialogData(myNewMenuDayDialogData)
+    }
+
+    const unSelectAllMenuItems = () => {
+        let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
+        myNewMenuDayDialogData.menuItemIdsJSON = []
+        setMenuDayDialogData(myNewMenuDayDialogData)
+    }
+
+    const selectAllAssociates = () => {
+        let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)
+        let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
         let myNewAssociateJSON = [];
         for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
             myNewAssociateJSON.push(myRestaurant.associatesJSON[i].id)
@@ -137,10 +148,8 @@ const MenuDayDialog = () => {
         setMenuDayDialogData(myNewMenuDayDialogData)
     }
 
-    const unSelectAll = () => {
+    const unSelectAllAssociates = () => {
         let myNewMenuDayDialogData = JSON.parse(JSON.stringify(menuDayDialogData))
-        myNewMenuDayDialogData.menuItemIdsJSON = []
-        myNewMenuDayDialogData.entertainmentItemIdsJSON = []
         myNewMenuDayDialogData.associatesJSON = []
         setMenuDayDialogData(myNewMenuDayDialogData)
     }
@@ -242,6 +251,10 @@ const MenuDayDialog = () => {
                                     </Grid>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
+                            <DialogActions>
+                                <Button onClick={() => selectAllMenuItems()} color="default">Select All</Button>
+                                <Button onClick={() => unSelectAllMenuItems()} color="default">Unselect All</Button>
+                            </DialogActions>
                             {/* <ExpansionPanel>
                                 <ExpansionPanelSummary
                                     expandIcon={<ExpandMoreIcon />}
@@ -272,8 +285,10 @@ const MenuDayDialog = () => {
                             </ExpansionPanel>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={() => selectAll()} color="default">Select All</Button>
-                            <Button onClick={() => unSelectAll()} color="default">Unselect All</Button>
+                            <Button onClick={() => selectAllAssociates()} color="default">Select All</Button>
+                            <Button onClick={() => unSelectAllAssociates()} color="default">Unselect All</Button>
+                        </DialogActions>
+                        <DialogActions>
                             <Button onClick={handleClose} color="default">Cancel</Button>
                             <Button onClick={() => handleSave()} color="primary">Save</Button>
                         </DialogActions>

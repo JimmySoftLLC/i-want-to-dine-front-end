@@ -51,6 +51,8 @@ let scanDynamoDB = async myTableName => {
                     myResData.Items[i].urlLink = myResData.Items[i].urlLink === blankPlaceHolder ? '' : myResData.Items[i].urlLink
                     myResData.Items[i].orderUrlLink = myResData.Items[i].orderUrlLink === blankPlaceHolder ? '' : myResData.Items[i].orderUrlLink
                     myResData.Items[i].facebookUrlLink = myResData.Items[i].facebookUrlLink === blankPlaceHolder ? '' : myResData.Items[i].facebookUrlLink
+                    myResData.Items[i].twitterUrlLink = myResData.Items[i].twitterUrlLink === blankPlaceHolder ? '' : myResData.Items[i].twitterUrlLink
+                    myResData.Items[i].instagramUrlLink = myResData.Items[i].instagramUrlLink === blankPlaceHolder ? '' : myResData.Items[i].instagramUrlLink
                     myResData.Items[i].menuItemIdsJSON = JSON.parse(myResData.Items[i].menuItemIdsJSON)
                     myResData.Items[i].entertainmentItemIdsJSON = JSON.parse(myResData.Items[i].entertainmentItemIdsJSON)
                     myResData.Items[i].associatesJSON = JSON.parse(myResData.Items[i].associatesJSON)

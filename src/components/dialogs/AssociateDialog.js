@@ -54,6 +54,7 @@ const AssociateDialog = () => {
         customId,
         setAssociateDialogOpen,
         setAssociateDialogDataItem,
+        setAssociateDialogData,
         associateDialogOpen,
         setRestaurantAssociates,
         setAssociate,
@@ -260,6 +261,15 @@ const AssociateDialog = () => {
         setAssociateDialogDataItem('hideAssociate', e.target.checked);
     };
 
+    const handleLowerCase = (e) => {
+        let myAssociateDialogData = JSON.parse(JSON.stringify(dataAndMethodsContext.associateDialogData))
+        myAssociateDialogData.firstName = myAssociateDialogData.firstName.toLowerCase()
+        myAssociateDialogData.lastName = myAssociateDialogData.lastName.toLowerCase()
+        myAssociateDialogData.jobTitle = myAssociateDialogData.jobTitle.toLowerCase()
+        myAssociateDialogData.bio = myAssociateDialogData.bio.toLowerCase()
+        setAssociateDialogData(myAssociateDialogData)
+    };
+
     const forceUpdate = async () => {
         if (restaurantId !== noSelectedRestaurant) {
             setRestaurantAssociates([]);
@@ -279,6 +289,7 @@ const AssociateDialog = () => {
     const setMessage = (myMessage) => {
         setAssociateDialogDataItem('message', myMessage);
     };
+
 
     let dialogTitle = '';
 
@@ -371,6 +382,9 @@ const AssociateDialog = () => {
                     <p>{message}</p>
                 </DialogContent>
                 <DialogActions>
+                    <Button onClick={handleLowerCase} color="default">
+                        Lowercase
+                    </Button>
                     <Button onClick={handleClose} color="default">
                         Cancel
                     </Button>
