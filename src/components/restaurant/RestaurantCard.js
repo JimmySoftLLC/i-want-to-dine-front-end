@@ -19,29 +19,6 @@ const RestaurantCard = () => {
 
     if (!restaurantDetail.approved) { showIt = false };
 
-    let myTempAssociateIds = [];
-
-    for (let i = 0; i < restaurantDetail.menuDayIdsJSON.length; i++) {
-        let myIndex = restaurantDetail.menuDays.findIndex(x => x.id === restaurantDetail.menuDayIdsJSON[i]);
-        if (myIndex !== -1) {
-            for (let j = 0; j < restaurantDetail.menuDays[myIndex].associatesJSON.length; j++) {
-                let isInArray = myTempAssociateIds.findIndex(x => x === restaurantDetail.menuDays[myIndex].associatesJSON[j]);
-                if (isInArray === -1) {
-                    myTempAssociateIds.push(restaurantDetail.menuDays[myIndex].associatesJSON[j])
-                }
-            }
-        }
-    }
-
-    let myTempAssociates = [];
-
-    for (let i = 0; i < myTempAssociateIds.length; i++) {
-        let myIndex = restaurantDetail.associates.findIndex(x => x.id === myTempAssociateIds[i]);
-        if (myIndex !== -1) {
-            myTempAssociates.push(restaurantDetail.associates[myIndex])
-        }
-    }
-
     const restaurantMapLink = linkGoogleMaps(restaurantDetail);
 
     return (
@@ -96,7 +73,7 @@ const RestaurantCard = () => {
             <MenuItemsRestaurantDetail />
             {restaurantDetail.entertainmentItems.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Entertainment</h3>}
             <EntertainmentItemsRestaurantDetail />
-            {myTempAssociates.length > 0 && <h3 style={{ marginTop: "1rem", marginBottom: ".7rem", textAlign: "center" }}>Meet the team</h3>}
+            {restaurantDetail.associates.length > 0 && <h3 style={{ marginTop: "1rem", marginBottom: ".7rem", textAlign: "center" }}>Meet the team</h3>}
             <AssociatesRestaurantDetail />
         </div >
     );
