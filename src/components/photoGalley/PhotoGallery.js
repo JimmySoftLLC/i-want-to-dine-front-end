@@ -9,8 +9,6 @@ const PhotoGallery = () => {
         photos,
     } = dataAndMethodsContext;
 
-    console.log(photos)
-
     // setting photos to int, react photo gallery would come up with errors that width
     // or height were strings, which they were not, but this seems to get rid of the error
     for (let i = 0; i < photos.length; i++) {

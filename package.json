@@ -20,6 +20,7 @@
     "aws-sdk": "^2.668.0",
     "axios": "^0.19.2",
     "browser-image-compression": "^1.0.9",
+    "canvas": "^2.6.1",
     "date-fns": "^2.12.0",
     "eslint-plugin-flowtype": "^3.13.0",
     "file-saver": "^2.0.2",
@@ -39,6 +40,7 @@
     "react-scripts": "3.3.1",
     "react-sortable-hoc": "^1.11.0",
     "request": "^2.88.2",
+    "tesseract.js": "^2.1.1",
     "typescript": "^3.8.3",
     "uuid": "^7.0.3",
     "validator": "^13.0.0"

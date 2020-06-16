@@ -8,6 +8,7 @@ import convertFileToDataUrl from '../../model/images/convertFileToDataUrl';
 import downloadImageAPI from '../../model/images/downloadImageAPI';
 import convertDataUrlToBlob from '../../model/images/convertDataUrlToBlob';
 import CircularIndeterminate from '../circularIndeterminate/CircularIndeterminate';
+import detectText from '../../model/images/detectText';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -72,6 +73,8 @@ const ImageEditor = () => {
             setUpImg(myDataUrl)
             let myBlob = await convertDataUrlToBlob(myDataUrl, 'newFile.jpeg')
             myImageEditorData.blob = myBlob
+            const myText = await detectText(myBlob);
+            console.log(myText);
             if (imageUrl === blankImage || imageUrl === "") {
                 let myNewId = uuidv4()
                 myImageEditorData.imageUrl = imagePath + myNewId + ".jpg"
@@ -208,7 +211,7 @@ const ImageEditor = () => {
                 id="raised-button-file"
                 multiple
                 type="file"
-                onChange={getImageFromFile}
+                onChange={e => getImageFromFile(e)}
             />
             <label htmlFor="raised-button-file">
                 <Button component="span" className={classes.button} style={myTextStyle}>
