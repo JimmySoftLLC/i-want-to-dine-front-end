@@ -29,6 +29,9 @@ const menuItemsWithCategories = (restaurantMenuItems, myStates) => {
         entree: [],
         dessert: [],
         drinks: [],
+        wine: [],
+        beer: [],
+        coffee: [],
         kids: [],
         notCatgorized: [],
     }
@@ -130,6 +133,18 @@ const menuItemsWithCategories = (restaurantMenuItems, myStates) => {
         }
         if (restaurantMenuItems[i].categoryJSON.indexOf('drinks') !== -1) {
             myCategories.drinks.push(restaurantMenuItems[i])
+            foundItem = true;
+        }
+        if (restaurantMenuItems[i].categoryJSON.indexOf('wine') !== -1) {
+            myCategories.wine.push(restaurantMenuItems[i])
+            foundItem = true;
+        }
+        if (restaurantMenuItems[i].categoryJSON.indexOf('beer') !== -1) {
+            myCategories.beer.push(restaurantMenuItems[i])
+            foundItem = true;
+        }
+        if (restaurantMenuItems[i].categoryJSON.indexOf('coffee') !== -1) {
+            myCategories.coffee.push(restaurantMenuItems[i])
             foundItem = true;
         }
         if (restaurantMenuItems[i].categoryJSON.indexOf('kids') !== -1) {

@@ -63,6 +63,9 @@ const DataAndMethodsState = props => {
                 entree: true,
                 dessert: false,
                 drinks: false,
+                beer: false,
+                coffee: false,
+                wine: false,
                 kids: false,
 
                 // price categories
@@ -95,6 +98,7 @@ const DataAndMethodsState = props => {
                 menuDaySettings: false,
                 entertainmentSettings: false,
                 associateSettings: false,
+                showDescription: false,
 
                 // sorting types
                 sortTitle: true,

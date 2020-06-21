@@ -39,6 +39,15 @@ const HelpItem1 = () => {
                     <i className="fas fa-cocktail"></i> Drinks
                 </li>
                 <li>
+                    <i className="fas fa-wine-glass"></i> Wine
+                </li>
+                <li>
+                    <i className="fas fa-beer"></i> Beer
+                </li>
+                <li>
+                    <i className="fas fa-coffee"></i> Coffee
+                </li>
+                <li>
                     <i className="fas fa-child"></i> Kids menu
                 </li>
             </ul>

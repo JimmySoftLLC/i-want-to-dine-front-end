@@ -16,6 +16,10 @@ const updateAssociateIdsForRestaurant = async (restaurantItem) => {
 }
 
 
+{/* <i className="fas fa-wine-glass"></i>
+<i className="fas fa-beer"></i>
+<i className="fas fa-coffee"></i> */}
+
 // import { Auth } from 'aws-amplify';
 const Auth = require('aws-amplify');
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');

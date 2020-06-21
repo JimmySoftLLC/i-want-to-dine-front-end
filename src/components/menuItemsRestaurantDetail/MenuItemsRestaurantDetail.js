@@ -32,7 +32,6 @@ const MenuItemsRestaurantDetail = () => {
             }
             {
                 myCategories.soup.map(menuItem => <MenuItemRestaurantDetailCard menuItem={menuItem}
-
                     key={menuItem.id}
                 />)
             }
@@ -42,7 +41,6 @@ const MenuItemsRestaurantDetail = () => {
             }
             {
                 myCategories.salad.map(menuItem => <MenuItemRestaurantDetailCard menuItem={menuItem}
-
                     key={menuItem.id}
                 />)
             }
@@ -106,6 +104,33 @@ const MenuItemsRestaurantDetail = () => {
             }
             {
                 myCategories.drinks.map(menuItem => <MenuItemRestaurantDetailCard menuItem={menuItem}
+                    key={menuItem.id}
+                />)
+            }
+            {
+                myCategories.wine.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <i className="fas fa-wine-glass"></i>{' - '}Wine</h3>
+            }
+            {
+                myCategories.wine.map(menuItem => <MenuItemRestaurantDetailCard menuItem={menuItem}
+                    key={menuItem.id}
+                />)
+            }
+            {
+                myCategories.beer.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <i className="fas fa-beer"></i>{' - '}Beer</h3>
+            }
+            {
+                myCategories.beer.map(menuItem => <MenuItemRestaurantDetailCard menuItem={menuItem}
+                    key={menuItem.id}
+                />)
+            }
+            {
+                myCategories.coffee.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <i className="fas fa-coffee"></i>{' - '}Coffee</h3>
+            }
+            {
+                myCategories.coffee.map(menuItem => <MenuItemRestaurantDetailCard menuItem={menuItem}
                     key={menuItem.id}
                 />)
             }

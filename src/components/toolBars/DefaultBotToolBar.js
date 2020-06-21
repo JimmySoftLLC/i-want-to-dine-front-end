@@ -11,7 +11,6 @@ const DefaultBotToolBar = () => {
     return (
         <Fragment>
             <Toolbar showLabel="false" color="primary">
-
                 <Tooltip title="Menu items">
                     <IconButton aria-label=""
                         color={myStates['menuItems'] ? "secondary" : "primary"}

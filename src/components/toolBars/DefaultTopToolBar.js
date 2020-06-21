@@ -180,6 +180,33 @@ const DefaultTopToolBar = () => {
                             </Tooltip>}
                         </MenuItem>
                         <MenuItem>
+                            {myStates.menuItems && <Tooltip title="Wine">
+                                <IconButton aria-label="" color={myStates['wine'] ? "secondary" : "default"}
+                                    onClick={() => handleCategoryClick('wine')}
+                                >
+                                    <i className="fas fa-wine-glass"></i>
+                                </IconButton>
+                            </Tooltip>}
+                        </MenuItem>
+                        <MenuItem>
+                            {myStates.menuItems && <Tooltip title="Beer">
+                                <IconButton aria-label="" color={myStates['beer'] ? "secondary" : "default"}
+                                    onClick={() => handleCategoryClick('beer')}
+                                >
+                                    <i className="fas fa-beer"></i>
+                                </IconButton>
+                            </Tooltip>}
+                        </MenuItem>
+                        <MenuItem>
+                            {myStates.menuItems && <Tooltip title="Coffee">
+                                <IconButton aria-label="" color={myStates['coffee'] ? "secondary" : "default"}
+                                    onClick={() => handleCategoryClick('coffee')}
+                                >
+                                    <i className="fas fa-coffee"></i>
+                                </IconButton>
+                            </Tooltip>}
+                        </MenuItem>
+                        <MenuItem>
                             {myStates.menuItems && <Tooltip title="Kids menu">
                                 <IconButton aria-label="" color={myStates['kids'] ? "secondary" : "default"}
                                     onClick={() => handleCategoryClick('kids')}

@@ -90,6 +90,27 @@ const MenuItemsInventory = () => {
                     restaurants={restaurants}
                     key={menuItem.id}
                 />))}
+                {myCategories.wine.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <i className="fas fa-wine-glass"></i>{' - '}Wine</h3>}
+                {(myCategories.wine.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
+                    myStates={myStates}
+                    restaurants={restaurants}
+                    key={menuItem.id}
+                />))}
+                {myCategories.beer.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <i className="fas fa-beer"></i>{' - '}Beer</h3>}
+                {(myCategories.beer.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
+                    myStates={myStates}
+                    restaurants={restaurants}
+                    key={menuItem.id}
+                />))}
+                {myCategories.coffee.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <i className="fas fa-coffee"></i>{' - '}Coffee</h3>}
+                {(myCategories.coffee.map(menuItem => <MenuItemCardInventory menuItem={menuItem}
+                    myStates={myStates}
+                    restaurants={restaurants}
+                    key={menuItem.id}
+                />))}
                 {myCategories.kids.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
                     <i className="fas fa-child"></i>{' - '}Kids menu</h3>}
                 {(myCategories.kids.map(menuItem => <MenuItemCardInventory menuItem={menuItem}

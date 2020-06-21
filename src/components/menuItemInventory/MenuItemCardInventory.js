@@ -144,6 +144,7 @@ const MenuItemCardInventory = ({ menuItem }) => {
         <div className='card'>
             <h4><i className="fas fa-book-open"></i>{' - '}{items}{menuItem.title}{' - '}{menuItem.price}
             </h4>
+            {myStates['showDescription'] && <p>{menuItem.description}</p>}
             <div className={classes.root} >
                 {(canEdit || canAdmin) && <Button variant="outlined" color="primary" onClick={() => handleClickMenuItemEdit(menuItem.id)}>
                     <i className="fas fa-edit"></i>

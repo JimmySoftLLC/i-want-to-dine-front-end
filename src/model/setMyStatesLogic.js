@@ -48,6 +48,9 @@ const setMyStatesLogic = (myStates, key) => {
                     key === "entree" ||
                     key === "dessert" ||
                     key === "drinks" ||
+                    key === "wine" ||
+                    key === "beer" ||
+                    key === "coffee" ||
                     key === "kids"
                 ) {
                     myStates.helpDialogOpen = true;

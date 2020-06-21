@@ -62,6 +62,18 @@ const MenuItemCardMenuDay = ({ menuItem }) => {
             case 'dessert':
                 items.push(<i className='fas fa-birthday-cake' key={menuItem.id + "_dessert"} style={{ paddingRight: '.25rem' }}></i>)
                 break;
+            case 'drinks':
+                items.push(<i className='fas fa-birthday-cake' key={menuItem.id + "_dessert"} style={{ paddingRight: '.25rem' }}></i>)
+                break;
+            case 'wine':
+                items.push(<i className='fas fa-wine-glass' key={menuItem.id + "_dessert"} style={{ paddingRight: '.25rem' }}></i>)
+                break;
+            case 'beer':
+                items.push(<i className='fas fa-beer' key={menuItem.id + "_dessert"} style={{ paddingRight: '.25rem' }}></i>)
+                break;
+            case 'coffee':
+                items.push(<i className='fas fa-coffee' key={menuItem.id + "_dessert"} style={{ paddingRight: '.25rem' }}></i>)
+                break;
             case 'specials':
                 items.push(<i className='fas fa-tag' key={menuItem.id + "_specials"} style={{ paddingRight: '.25rem' }}></i>)
                 break;

@@ -283,11 +283,11 @@ const MenuDayDialog = () => {
                                     </Grid>
                                 </ExpansionPanelDetails>
                             </ExpansionPanel>
+                            <DialogActions>
+                                <Button onClick={() => selectAllAssociates()} color="default">Select All</Button>
+                                <Button onClick={() => unSelectAllAssociates()} color="default">Unselect All</Button>
+                            </DialogActions>
                         </DialogContent>
-                        <DialogActions>
-                            <Button onClick={() => selectAllAssociates()} color="default">Select All</Button>
-                            <Button onClick={() => unSelectAllAssociates()} color="default">Unselect All</Button>
-                        </DialogActions>
                         <DialogActions>
                             <Button onClick={handleClose} color="default">Cancel</Button>
                             <Button onClick={() => handleSave()} color="primary">Save</Button>

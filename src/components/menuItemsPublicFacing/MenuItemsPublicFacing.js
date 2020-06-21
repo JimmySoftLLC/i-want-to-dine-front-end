@@ -90,6 +90,27 @@ const MenuItemsPublicFacing = () => {
                     restaurants={restaurants}
                     key={menuItem.id}
                 />))}
+                {(myStates.wine && myCategories.wine.length > 0) && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <i className="fas fa-wine-glass"></i>{' - '}Wine</h3>}
+                {myStates.wine && (myCategories.wine.map(menuItem => <MenuItemCardPublicFacing menuItem={menuItem}
+                    myStates={myStates}
+                    restaurants={restaurants}
+                    key={menuItem.id}
+                />))}
+                {(myStates.beer && myCategories.beer.length > 0) && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <i className="fas fa-beer"></i>{' - '}Beer</h3>}
+                {myStates.beer && (myCategories.beer.map(menuItem => <MenuItemCardPublicFacing menuItem={menuItem}
+                    myStates={myStates}
+                    restaurants={restaurants}
+                    key={menuItem.id}
+                />))}
+                {(myStates.coffee && myCategories.coffee.length > 0) && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
+                    <i className="fas fa-coffee"></i>{' - '}Coffee</h3>}
+                {myStates.coffee && (myCategories.coffee.map(menuItem => <MenuItemCardPublicFacing menuItem={menuItem}
+                    myStates={myStates}
+                    restaurants={restaurants}
+                    key={menuItem.id}
+                />))}
                 {(myStates.kids && myCategories.kids.length > 0) && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>
                     <i className="fas fa-child"></i>{' - '}Kids menu</h3>}
                 {myStates.kids && (myCategories.kids.map(menuItem => <MenuItemCardPublicFacing menuItem={menuItem}

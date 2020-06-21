@@ -232,6 +232,27 @@ const MenuItemDialog = () => {
                                     <i className="fas fa-cocktail"></i>
                                 </IconButton>
                             </Tooltip>
+                            <Tooltip title="Wine">
+                                <IconButton aria-label="" color={checkIfPresent('wine') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('wine')}
+                                >
+                                    <i className="fas fa-wine-glass"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Beer">
+                                <IconButton aria-label="" color={checkIfPresent('beer') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('beer')}
+                                >
+                                    <i className="fas fa-beer"></i>
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title="Coffee">
+                                <IconButton aria-label="" color={checkIfPresent('coffee') ? "inherit" : "default"}
+                                    onClick={() => setMenuItemDialogDataCategory('coffee')}
+                                >
+                                    <i className="fas fa-coffee"></i>
+                                </IconButton>
+                            </Tooltip>
                             <Tooltip title="Kids menu">
                                 <IconButton aria-label="" color={checkIfPresent('kids') ? "inherit" : "default"}
                                     onClick={() => setMenuItemDialogDataCategory('kids')}

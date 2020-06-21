@@ -88,8 +88,8 @@ const About = () => {
             We are creating a full suite of tools to enhance the your use of the platform.  Some of them are as follows.
             <ul style={{ paddingLeft: '1.5rem' }}>
                 <li><i className="fas fa-check"></i>{'   '}
-                    Data can be used by your website, so your website content can automatically update by accessing our database
-                    </li>
+                    Data can be used by your website, so your website content can automatically update by accessing our API at (Note: this still in development)<Link className='p' href="http://www.restaurantdataservice.com" target="_blank" rel="noopener noreferrer">www.restaurantdataservice.com</Link>
+                </li>
                 <li><i className="fas fa-check"></i>{'   '}
                     Expanded information for your Restaurant, about us, history, owners profiles, staff profiles.  Looking for input on this.
                     </li>
