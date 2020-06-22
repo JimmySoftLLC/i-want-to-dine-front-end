@@ -73,6 +73,15 @@ const DataAndMethodsState = props => {
                 dollar_2: true,
                 dollar_3: false,
 
+                // dates
+                date_1: true,
+                date_2: false,
+                date_3: false,
+                date_4: false,
+                date_5: false,
+                date_6: false,
+                date_7: false,
+
                 // ingredients
                 meat: true,
                 pork: false,

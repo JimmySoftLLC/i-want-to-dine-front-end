@@ -123,6 +123,19 @@ const setMyStatesLogic = (myStates, key) => {
         return myStates;
     }
 
+    // if myKey = any of the date items, set date items to false and set key
+    if (key === 'date_1' || key === 'date_2' || key === 'date_3' || key === 'date_4' || key === 'date_5' || key === 'date_6' || key === 'date_7') {
+        myStates['date_1'] = false;
+        myStates['date_2'] = false;
+        myStates['date_3'] = false;
+        myStates['date_4'] = false;
+        myStates['date_5'] = false;
+        myStates['date_6'] = false;
+        myStates['date_7'] = false;
+        myStates[key] = true;
+        return myStates;
+    }
+
     myStates[key] ? myStates[key] = false : myStates[key] = true;
 
     return myStates;

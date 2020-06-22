@@ -34,19 +34,19 @@ const RestaurantCard = () => {
                     href={restaurantDetail.facebookUrlLink}
                     rel="noopener noreferrer" target="_blank"
                     color={"primary"}>
-                    <i class="fab fa-facebook-f"></i>
+                    <i className="fab fa-facebook-f"></i>
                 </IconButton>}
                 {restaurantDetail.twitterUrlLink !== '' && <IconButton aria-label=""
                     href={restaurantDetail.twitterUrlLink}
                     rel="noopener noreferrer" target="_blank"
                     color={"primary"}>
-                    <i class="fab fa-twitter"></i>
+                    <i className="fab fa-twitter"></i>
                 </IconButton>}
                 {restaurantDetail.instagramUrlLink !== '' && <IconButton aria-label=""
                     href={restaurantDetail.instagramUrlLink}
                     rel="noopener noreferrer" target="_blank"
                     color={"primary"}>
-                    <i class="fab fa-instagram"></i>
+                    <i className="fab fa-instagram"></i>
                 </IconButton>}
             </h3>
             <h4 >{restaurantDetail.street}{' - '}{restaurantDetail.city}
