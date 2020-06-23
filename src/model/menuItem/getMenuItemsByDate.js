@@ -1,14 +1,13 @@
 import getMenuItems from './getMenuItems';
 import validDate from '../validDate';
 
-const getTodaysMenuItems = async (myMenuDays) => {
+const getTodaysMenuItems = async (myMenuDays, selectedDate) => {
     // create an array of all ids
     let menuItemIds = [];
     let myMenuItems = [];
-    let myDateNow = new Date();
 
     for (let j = 0; j < myMenuDays.length; j++) {
-        if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, myDateNow)) {
+        if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, selectedDate)) {
             for (let k = 0; k < myMenuDays[j].menuItemIdsJSON.length; k++) {
                 menuItemIds.push(myMenuDays[j].menuItemIdsJSON[k])
             }

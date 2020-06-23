@@ -3,19 +3,18 @@ import getAssociateFromRestaurant from './getAssociateFromRestaurant';
 import validDate from '../validDate';
 import isEmail from 'validator/lib/isEmail';
 
-const getTodaysAssociates = async (restaurants, myMenuDays) => {
+const getTodaysAssociates = async (restaurants, myMenuDays, selectedDate) => {
     // create an array of all ids
     let associateInIds = [];
     let associateInIdsNoEmail = [];
     let myAssociates = [];
     let myAssociatesNoEmail = [];
     let myFinalAssociates = [];
-    let myDateNow = new Date();
 
     // get associate from the valid menu days, create a list of one from database and ones from restaurant object
     // these associates are in house so mark them as in.
     for (let j = 0; j < myMenuDays.length; j++) {
-        if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, myDateNow)) {
+        if (validDate(myMenuDays[j].dateFrom, myMenuDays[j].dateTo, selectedDate)) {
             for (let k = 0; k < myMenuDays[j].associatesJSON.length; k++) {
                 if (isEmail(myMenuDays[j].associatesJSON[k])) {
                     if (associateInIds.indexOf(myMenuDays[j].associatesJSON[k]) === -1) {

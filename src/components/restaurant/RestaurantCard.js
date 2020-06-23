@@ -12,6 +12,7 @@ const RestaurantCard = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
         restaurantDetail,
+        selectedDate,
     } = dataAndMethodsContext;
 
     let showIt = true;
@@ -20,6 +21,11 @@ const RestaurantCard = () => {
     if (!restaurantDetail.approved) { showIt = false };
 
     const restaurantMapLink = linkGoogleMaps(restaurantDetail);
+
+    let myDate = ""
+    if (selectedDate) {
+        myDate = selectedDate.toString().substring(0, 10)
+    }
 
     return (
         showIt && <div className='card'>
@@ -63,7 +69,7 @@ const RestaurantCard = () => {
                     <i className="fas fa-phone"></i>
                 </IconButton></h4>
             <MultipleParagraphs myText={restaurantDetail.description} />
-            {restaurantDetail.menuItems.length > 0 && < h3 style={{ marginTop: "1rem", textAlign: "center" }}>Menu{'  '}
+            {restaurantDetail.menuItems.length > 0 && < h3 style={{ marginTop: "1rem", textAlign: "center" }}>{myDate} - Menu{'  '}
                 {restaurantDetail.orderUrlLink !== "" && <Button color="primary" aria-label=""
                     href={restaurantDetail.orderUrlLink}
                     rel="noopener noreferrer" target="_blank">
@@ -71,7 +77,7 @@ const RestaurantCard = () => {
                 </Button>}
             </h3>}
             <MenuItemsRestaurantDetail />
-            {restaurantDetail.entertainmentItems.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>Entertainment</h3>}
+            {restaurantDetail.entertainmentItems.length > 0 && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>{myDate} - Entertainment</h3>}
             <EntertainmentItemsRestaurantDetail />
             {restaurantDetail.associates.length > 0 && <h3 style={{ marginTop: "1rem", marginBottom: ".7rem", textAlign: "center" }}>Meet the team</h3>}
             <AssociatesRestaurantDetail />

@@ -184,6 +184,7 @@ const AssociateDialog = () => {
                 await putAssociate(myAssociate, idToken, customId);
             }
         }
+        myAssociate.hideAssociate = hideAssociate;
         myRestaurant = putAssociateInRestaurant(myRestaurant, myAssociate);
         await putRestaurant(myRestaurant, idToken, customId);
         // now get logged in associate and update associates restaurants
@@ -341,15 +342,15 @@ const AssociateDialog = () => {
                         value={jobTitle}
                         onChange={changeJobTitle}
                     />}
-                    {showDetails && <p>
-                        <Checkbox
-                            checked={hideAssociate}
-                            onChange={changeHideAssociate}
-                            name="hideAssociate"
-                            color="primary"
-                        />
-                        {'Hide associate from public'}
-                    </p>}
+                    {/* {showDetails && <p> */}
+                    <Checkbox
+                        checked={hideAssociate}
+                        onChange={changeHideAssociate}
+                        name="hideAssociate"
+                        color="primary"
+                    />
+                    {'Hide associate from public'}
+                    {/* </p>} */}
                     {showDetails && <p component="legend">Profile Image</p>}
                     {showDetails && <ImageEditor />}
                     {showDetails && <TextField

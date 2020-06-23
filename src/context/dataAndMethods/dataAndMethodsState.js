@@ -2,8 +2,25 @@ import React, { useReducer } from 'react';
 import DataAndMethodsContext from './dataAndMethodsContext';
 import DataAndMethodsReducer from './dataAndMethodsReducer';
 import setMyStatesLogic from '../../model/setMyStatesLogic';
+import scanDynamoDB from '../../api/scanDynamoDB';
+import getMenuItemsByDate from '../../model/menuItem/getMenuItemsByDate';
+import getEntertainmentItemsByDate from '../../model/entertainmentItem/getEntertainmentItemsByDate';
+import sortMenuItems from '../../model/menuItem/sortMenuItems';
+import sortEntertainmentItems from '../../model/entertainmentItem/sortEntertainmentItems';
+import getAssociatesByDate from '../../model/associate/getAssociatesByDate';
+import getMenuDaysFromRestaurants from '../../model/menuDay/getMenuDaysFromRestaurants';
+import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';
+import getEntertainmentItemsForRestaurant from '../../model/entertainmentItem/getEntertainmentItemsForRestaurant';
+import getAssociatesForRestaurant from '../../model/associate/getAssociatesForRestaurant';
+import sortAssociates from '../../model/associate/sortAssociates';
+import getRestaurantById from '../../model/restaurant/getRestaurantById';
+import getPhotos from '../../model/photo/getPhotos';
+import knuthShuffle from '../../model/knuthShuffle';
+// import getLocation from '../../model/getLocation';
+
 import {
     noSelectedRestaurant,
+    restaurantsTableName,
 } from '../../api/apiConstants';
 
 import {
@@ -45,6 +62,8 @@ import {
     SET_PHOTO_DIALOG_DATA,
     SET_PHOTO_DIALOG_OPEN,
     SET_IMAGE_EDITOR_DATA,
+    SET_TODAYS_DATE,
+    SET_SELECTED_DATE,
 } from '../types';
 
 const DataAndMethodsState = props => {
@@ -74,13 +93,13 @@ const DataAndMethodsState = props => {
                 dollar_3: false,
 
                 // dates
-                date_1: true,
+                date_0: false,
+                date_1: false,
                 date_2: false,
                 date_3: false,
                 date_4: false,
                 date_5: false,
                 date_6: false,
-                date_7: false,
 
                 // ingredients
                 meat: true,
@@ -130,6 +149,14 @@ const DataAndMethodsState = props => {
             myStates.menuItems = true
             myStates.lastState = 'menuItems'
         }
+        // dates
+        myStates.date_0 = true;
+        myStates.date_1 = false;
+        myStates.date_2 = false;
+        myStates.date_3 = false;
+        myStates.date_4 = false;
+        myStates.date_5 = false;
+        myStates.date_6 = false;
         return myStates
     });
 
@@ -158,6 +185,8 @@ const DataAndMethodsState = props => {
         restaurantAssociates: [],
         restaurantDetail: {},
         onScreenDebugMessage: '',
+        todaysDate: Date(),
+        selectedDate: Date(),
         menuItemDialogData: {
             title: '',
             description: '',
@@ -251,6 +280,42 @@ const DataAndMethodsState = props => {
     };
 
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
+
+    // get data by date ------------------------------------------------------------------
+    const getDataByDate = async selectedDate => {
+        setLoading(true);
+        const myRestaurants = await scanDynamoDB(restaurantsTableName);
+        setRestaurants(myRestaurants.payload)
+        let myMenuDays = await getMenuDaysFromRestaurants(myRestaurants.payload);
+        let myEntertainmentItems = await getEntertainmentItemsByDate(myRestaurants.payload, selectedDate);
+        myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, 'sortTime');
+        let myMenuItems = await getMenuItemsByDate(myMenuDays, selectedDate);
+        myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice');
+        let myAssociates = await getAssociatesByDate(myRestaurants.payload, myMenuDays, selectedDate);
+        myAssociates = sortAssociates(myAssociates, null);
+        if (state.myStates.restaurantDetail) {
+            let myRestaurant = getRestaurantById(myRestaurants.payload, state.restaurantDetail.id)
+            myRestaurant.menuItems = getMenuItemsForRestaurant(myRestaurant, myMenuItems)
+            myRestaurant.entertainmentItems = getEntertainmentItemsForRestaurant(myRestaurant, myEntertainmentItems)
+            myRestaurant.associates = getAssociatesForRestaurant(myRestaurant, myAssociates)
+            myRestaurant.menuDays = myMenuDays;
+            setRestaurantDetail(myRestaurant);
+        }
+        setLoading(false);
+        setMenuDays(myMenuDays);
+        setMenuItems(myMenuItems);
+        setAssociates(myAssociates);
+        setEntertainmentItems(myEntertainmentItems);
+        let myPhotos = await getPhotos(myRestaurants.payload);
+        myPhotos = knuthShuffle(myPhotos);
+        setPhotos(myPhotos);
+        // let test = await getLocation()
+        // console.log(test);
+    };
+
+    // set date -------------------------------------------------------------------------------
+    const setTodaysDate = (todaysDate) => dispatch({ type: SET_TODAYS_DATE, payload: todaysDate });
+    const setSelectedDate = (selectedDate) => dispatch({ type: SET_SELECTED_DATE, payload: selectedDate });
 
     // set loading spinner ---------------------------------------------------------------------
     const setLoading = (myBool) => dispatch({ type: SET_LOADING, payload: myBool });
@@ -446,6 +511,8 @@ const DataAndMethodsState = props => {
                 photoDialogData: state.photoDialogData,
                 photoDialogOpen: state.photoDialogOpen,
                 imageEditorData: state.imageEditorData,
+                todaysDate: state.todaysDate,
+                selectedDate: state.selectedDate,
                 setMyState,
                 setMyStates,
                 setRestaurants,
@@ -494,6 +561,9 @@ const DataAndMethodsState = props => {
                 setPhotoDialogOpen,
                 setImageEditorData,
                 setImageEditorDataItem,
+                getDataByDate,
+                setTodaysDate,
+                setSelectedDate,
             }}
         >
             {props.children}

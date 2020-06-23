@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import putMenuDay from '../../model/menuDay/putMenuDay';
 import getRestaurantById from '../../model/restaurant/getRestaurantById';
-import getMenuDays from '../../model/menuDay/getMenuDays';
+import getMenuDays from '../../model/menuDay/getMenuDaysFromIds';
 import putRestaurant from '../../model/restaurant/putRestaurant';
 import Grid from '@material-ui/core/Grid';
 import DateFnsUtils from '@date-io/date-fns';

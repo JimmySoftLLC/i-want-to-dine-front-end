@@ -4,11 +4,25 @@ const HelpItem7 = () => {
     return (
         <Fragment>
             <p className='p'>
-                When you select the photo wall you will see interesting photos submitted by the restaurants.
+                When you select the entertainment page the entertainment happening today will be listed.  The icons represent:
             </p>
-            <p className='p'>
-                Clicking the photo will reveal a caption and a link to the restaurant detail page which includes menus, associates and entertainment items.
-            </p>
+            <ul style={{ paddingLeft: '1.5rem' }}>
+                <li>
+                    <i className='fas fa-theater-masks'></i> Theater
+                </li>
+                <li>
+                    <i className="fas fa-music"></i> Music
+                </li>
+                <li>
+                    <i className='fas fa-microphone'></i> Karaokes
+                </li>
+                <li>
+                    <i className='icon-dancing'></i> Dancing
+                </li>
+                <li>
+                    <i className='fas fa-laugh'></i> Comedy
+                </li>
+            </ul>
         </Fragment>
     );
 };

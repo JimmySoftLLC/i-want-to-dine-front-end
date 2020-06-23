@@ -15,6 +15,7 @@ import HelpItem5 from '../helpItems/HelpItem5';
 import HelpItem6 from '../helpItems/HelpItem6';
 import HelpItem7 from '../helpItems/HelpItem7';
 import HelpItem8 from '../helpItems/HelpItem8';
+import HelpItem9 from '../helpItems/HelpItem9';
 
 import {
     websiteName,
@@ -73,25 +74,29 @@ const HelpDialog = () => {
                 break;
             case 5:
                 resetPages(myNewStateChoices)
-                myNewStateChoices['restaurants'] = true;
-                myNewStateChoices.helpDialogActive = false;
+                myNewStateChoices['menuItems'] = true;
                 break;
             case 6:
                 resetPages(myNewStateChoices)
-                myNewStateChoices['associates'] = true;
+                myNewStateChoices['restaurants'] = true;
                 myNewStateChoices.helpDialogActive = false;
                 break;
             case 7:
                 resetPages(myNewStateChoices)
-                myNewStateChoices['entertainmentItems'] = true;
+                myNewStateChoices['associates'] = true;
                 myNewStateChoices.helpDialogActive = false;
                 break;
             case 8:
                 resetPages(myNewStateChoices)
-                myNewStateChoices['photoGallery'] = true;
+                myNewStateChoices['entertainmentItems'] = true;
                 myNewStateChoices.helpDialogActive = false;
                 break;
             case 9:
+                resetPages(myNewStateChoices)
+                myNewStateChoices['photoGallery'] = true;
+                myNewStateChoices.helpDialogActive = false;
+                break;
+            case 10:
                 resetPages(myNewStateChoices)
                 myNewStateChoices['info'] = true;
                 myNewStateChoices.helpDialogActive = false;
@@ -182,7 +187,7 @@ const HelpDialog = () => {
 
                 {helpDialogStage === 5 && <Fragment>
                     <DialogTitle id="form-dialog-title">
-                        Restaurant listings</DialogTitle>
+                        Price Range</DialogTitle>
                     <DialogContent>
                         <HelpItem4 />
                     </DialogContent>
@@ -190,7 +195,7 @@ const HelpDialog = () => {
 
                 {helpDialogStage === 6 && <Fragment>
                     <DialogTitle id="form-dialog-title">
-                        Restaurant associates</DialogTitle>
+                        Restaurant listings</DialogTitle>
                     <DialogContent>
                         <HelpItem5 />
                     </DialogContent>
@@ -198,7 +203,7 @@ const HelpDialog = () => {
 
                 {helpDialogStage === 7 && <Fragment>
                     <DialogTitle id="form-dialog-title">
-                        Entertainment Categories</DialogTitle>
+                        Restaurant associates</DialogTitle>
                     <DialogContent>
                         <HelpItem6 />
                     </DialogContent>
@@ -206,7 +211,7 @@ const HelpDialog = () => {
 
                 {helpDialogStage === 8 && <Fragment>
                     <DialogTitle id="form-dialog-title">
-                        Photo Wall</DialogTitle>
+                        Entertainment Categories</DialogTitle>
                     <DialogContent>
                         <HelpItem7 />
                     </DialogContent>
@@ -214,9 +219,17 @@ const HelpDialog = () => {
 
                 {helpDialogStage === 9 && <Fragment>
                     <DialogTitle id="form-dialog-title">
-                        Help and Information</DialogTitle>
+                        Photo Wall</DialogTitle>
                     <DialogContent>
                         <HelpItem8 />
+                    </DialogContent>
+                </Fragment>}
+
+                {helpDialogStage === 10 && <Fragment>
+                    <DialogTitle id="form-dialog-title">
+                        Help and Information</DialogTitle>
+                    <DialogContent>
+                        <HelpItem9 />
                     </DialogContent>
                 </Fragment>}
 
@@ -224,13 +237,13 @@ const HelpDialog = () => {
                     {helpDialogStage === 0 && <Button onClick={() => nextClick()} color="primary">
                         First help topic
                     </Button>}
-                    {(helpDialogStage > 1 && helpDialogStage < 10) && <Button onClick={() => prevClick()} color="primary">
+                    {(helpDialogStage > 1 && helpDialogStage < 11) && <Button onClick={() => prevClick()} color="primary">
                         Prev
                     </Button>}
-                    {(helpDialogStage < 9 && helpDialogStage !== 0) && <Button onClick={() => nextClick()} color="primary">
+                    {(helpDialogStage < 10 && helpDialogStage !== 0) && <Button onClick={() => nextClick()} color="primary">
                         Next
                     </Button>}
-                    {(helpDialogStage > 0 && helpDialogStage < 10) && <Button onClick={() => tryItClick()} color="primary">
+                    {(helpDialogStage > 0 && helpDialogStage < 11) && <Button onClick={() => tryItClick()} color="primary">
                         Try it
                     </Button>}
                 </DialogActions>

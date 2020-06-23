@@ -4,14 +4,16 @@ const HelpItem5 = () => {
     return (
         <Fragment>
             <p className='p'>
-                When you select the associate page.  A list of associates will be listed.
+                When you select the restaurant page.  A list of restaurants will be listed.  Clicking on the name will give you a restaurant detail with the menu, associates, entertainment etc.  The icons represent
             </p>
-            <p className='p'>
-                Each associate with have a link to the restaurant they work for. Clicking on the restaurant name will give you the restaurant detail which includes menus, assocaites and entertainment items.
-            </p>
-            <p className='p'>
-                The assoicates that are in will have a green dot on their photo.
-            </p>
+            <ul style={{ paddingLeft: '1.5rem' }}>
+                <li>
+                    <i className='fas fa-phone'></i> Call
+                </li>
+                <li>
+                    <i className="fas fa-map-marker-alt"></i> Location
+                </li>
+            </ul>
         </Fragment>
     );
 };

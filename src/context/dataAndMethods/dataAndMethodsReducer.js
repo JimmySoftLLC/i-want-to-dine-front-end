@@ -37,6 +37,8 @@ import {
     SET_PHOTO_DIALOG_DATA,
     SET_PHOTO_DIALOG_OPEN,
     SET_IMAGE_EDITOR_DATA,
+    SET_TODAYS_DATE,
+    SET_SELECTED_DATE,
 } from '../types';
 
 export default (state, action) => {
@@ -230,6 +232,16 @@ export default (state, action) => {
             return {
                 ...state,
                 imageEditorData: action.payload,
+            };
+        case SET_TODAYS_DATE:
+            return {
+                ...state,
+                todaysDate: action.payload,
+            };
+        case SET_SELECTED_DATE:
+            return {
+                ...state,
+                selectedDate: action.payload,
             };
         default:
             return state;

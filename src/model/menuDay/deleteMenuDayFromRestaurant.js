@@ -1,8 +1,8 @@
 
 import deleteMenuDay from './deleteMenuDay';
-import getMenuDays from './getMenuDays';
+import getMenuDays from './getMenuDaysFromIds';
 import putRestaurant from '../restaurant/putRestaurant';
-import removeMenuDayFromIds from './removeMenuDayFromIds';
+import removeMenuDayFromIds from './removeMenuDayFromRestaurant';
 import getRestaurantById from '../restaurant/getRestaurantById';
 
 const deleteMenuDayFromRestaurant = async (menuDayId, restaurantId, associatesRestaurants, writeRestaurant, idToken, customId) => {

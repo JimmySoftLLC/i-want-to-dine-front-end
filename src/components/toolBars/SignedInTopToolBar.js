@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DeleteConfirmDialogContext from '../../context/deleteConfirmDialog/deleteConfirmDialogContext';
 import getAssociatesRestaurants from '../../model/associate/getAssociatesRestaurants';
 import getRestaurantById from '../../model/restaurant/getRestaurantById';
-import getMenuDays from '../../model/menuDay/getMenuDays';
+import getMenuDays from '../../model/menuDay/getMenuDaysFromIds';
 import getRestaurantAssociates from '../../model/restaurant/getRestaurantAssociates';
 import deleteAssociateFromRestaurant from '../../model/restaurant/deleteAssociateFromRestaurant';
 import deleteRestaurant from '../../model/restaurant/deleteRestaurant';

@@ -1,4 +1,4 @@
-import getMenuDays from './getMenuDays';
+import getMenuDays from './getMenuDaysFromIds';
 
 const getTodaysMenuDays = async (restaurants) => {
     // create an array of all ids

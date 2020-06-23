@@ -4,25 +4,14 @@ const HelpItem6 = () => {
     return (
         <Fragment>
             <p className='p'>
-                When you select the entertainment page the entertainment happening today will be listed.  The icons represent:
+                When you select the associate page.  A list of associates will be listed.
             </p>
-            <ul style={{ paddingLeft: '1.5rem' }}>
-                <li>
-                    <i className='fas fa-theater-masks'></i> Theater
-                </li>
-                <li>
-                    <i className="fas fa-music"></i> Music
-                </li>
-                <li>
-                    <i className='fas fa-microphone'></i> Karaokes
-                </li>
-                <li>
-                    <i className='icon-dancing'></i> Dancing
-                </li>
-                <li>
-                    <i className='fas fa-laugh'></i> Comedy
-                </li>
-            </ul>
+            <p className='p'>
+                Each associate with have a link to the restaurant they work for. Clicking on the restaurant name will give you the restaurant detail which includes menus, assocaites and entertainment items.
+            </p>
+            <p className='p'>
+                The associates that are in will have a green dot on their photo.
+            </p>
         </Fragment>
     );
 };

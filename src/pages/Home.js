@@ -1,7 +1,6 @@
 import React, { Fragment, useContext, useEffect } from 'react';
 import TopNavBar from '../components/TopNavBar';
 import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
-import AlertDialogContext from '../context/alertDialog/alertDialogContext';
 import About from '../pages/about';
 import MenuItemsPublicFacing from '../components/menuItemsPublicFacing/MenuItemsPublicFacing';
 import EntertainmentItemsPublicFacing from '../components/entertainmentItemsPublicFacing/EntertainmentItemsPublicFacing';
@@ -24,56 +23,27 @@ import DeleteConfirmDialog from '../components/dialogs/DeleteConfirmDialog';
 import SignInRegDialog from '../components/dialogs/SignInRegDialog';
 import RestaurantCard from '../components/restaurant/RestaurantCard';
 import PhotoGallery from '../components/photoGalley/PhotoGallery';
-import scanDynamoDB from '../api/scanDynamoDB';
-import getTodaysMenuItems from '../model/menuItem/getTodaysMenuItems';
-import getTodaysEntertainmentItems from '../model/entertainmentItem/getTodaysEntertainmentItems';
-import sortMenuItems from '../model/menuItem/sortMenuItems';
-import sortEntertainmentItems from '../model/entertainmentItem/sortEntertainmentItems';
-import getTodaysAssociates from '../model/associate/getTodaysAssociates';
-import getTodaysMenuDays from '../model/menuDay/getTodaysMenuDays';
-import sortAssociates from '../model/associate/sortAssociates';
-import getPhotos from '../model/photo/getPhotos';
-import knuthShuffle from '../model/knuthShuffle';
-// import getLocation from '../model/getLocation';
-
-import {
-    restaurantsTableName,
-} from '../api/apiConstants';
 import Associates from '../components/associate/Associates';
 
 const Home = () => {
     useEffect(() => {
         async function fetchData() {
-            setLoading(true);
-            const myRestaurants = await scanDynamoDB(restaurantsTableName);
-            myRestaurants.err ? setDialog(true, myRestaurants.payload, 'Error', '', 'OK', '') : setRestaurants(myRestaurants.payload);
-            let myMenuDays = await getTodaysMenuDays(myRestaurants.payload);
-            let myEntertainmentItems = await getTodaysEntertainmentItems(myRestaurants.payload);
-            myEntertainmentItems = await sortEntertainmentItems(myEntertainmentItems, 'sortTime');
-            let myMenuItems = await getTodaysMenuItems(myMenuDays);
-            myMenuItems = await sortMenuItems(myMenuItems, 'sortPrice');
-            let myAssociates = await getTodaysAssociates(myRestaurants.payload, myMenuDays);
-            myAssociates = sortAssociates(myAssociates, null);
-            setLoading(false);
-            setMenuDays(myMenuDays);
-            setMenuItems(myMenuItems);
-            setAssociates(myAssociates);
-            setEntertainmentItems(myEntertainmentItems);
-            let myPhotos = await getPhotos(myRestaurants.payload);
-            myPhotos = knuthShuffle(myPhotos);
-            setPhotos(myPhotos);
-            // let test = await getLocation()
-            // console.log(test);
+            let todaysDate = new Date()
+            setTodaysDate(todaysDate);
+            setSelectedDate(todaysDate);
+            getDataByDate(todaysDate)
         }
         fetchData();
         // eslint-disable-next-line
     }, []);
 
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const alertDialogContext = useContext(AlertDialogContext);
+    const { getDataByDate, myStates, logInType, setSelectedDate, selectedDate, setTodaysDate } = dataAndMethodsContext
 
-    const { myStates, logInType, setMenuItems, setRestaurants, setLoading, setAssociates, setMenuDays, setEntertainmentItems, setPhotos } = dataAndMethodsContext
-    const { setDialog } = alertDialogContext
+    let myDate = ""
+    if (selectedDate) {
+        myDate = selectedDate.toString().substring(0, 10)
+    }
 
     return (
         <Fragment>
@@ -91,7 +61,9 @@ const Home = () => {
                 {myStates.photoGallery && <p className='p home-page-top-margin-normal'></p>}
                 {myStates.photoGallery && <PhotoGallery />}
                 {myStates.info && <About />}
+                {myStates.menuItems && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>{myDate}{" - Menu Items"}</h3>}
                 {myStates.menuItems && <MenuItemsPublicFacing />}
+                {myStates.entertainmentItems && <h3 style={{ marginTop: "1rem", textAlign: "center" }}>{myDate}{" - Entertainment"}</h3>}
                 {myStates.entertainmentItems && <EntertainmentItemsPublicFacing />}
                 {myStates.restaurants && <RestaurantItems />}
                 {myStates.restaurantDetail && <RestaurantCard />}
