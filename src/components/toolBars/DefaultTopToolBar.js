@@ -28,7 +28,7 @@ const DefaultTopToolBar = () => {
             <Toolbar>
                 <div >
                     {!myStates.restaurantDetail && <Tooltip title="Refresh">
-                        <IconButton aria-label="" color="inherit"
+                        <IconButton aria-label="" color="inherit" style={{ fontSize: '21px' }}
                             href="/"
                         >
                             {websiteName}

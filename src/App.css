@@ -275,7 +275,10 @@
     margin-left: 1rem;
   }
 
-  
+  .logo {
+    font-size: 0.1rem;
+  }
+
   /* Grid */
   .grid-2 {
     display: grid;
@@ -294,6 +297,8 @@
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 1rem;
   }
+
+
   
   .btn {
     display: inline-block;
@@ -601,12 +606,8 @@
     }
   }
 
-  @media (max-width: 636px) {
-
-  }
-
   /* Mobile Styles */
-  @media (max-width: 699px) {
+  @media (max-width: 757px) {
     .hide-sm {
       display: none;
     }
@@ -699,7 +700,7 @@
   }
 
     /* Mobile Styles */
-    @media (max-width: 373px) {
+    @media (max-width: 399px) {
 
       .home-page-top-margin {
         margin-top: 9rem;

@@ -2,11 +2,13 @@ import React, { Fragment, useContext } from "react";
 import Gallery from "react-photo-gallery";
 import SelectedImage from "./SelectedImage";
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
+import CircularIndeterminate from '../circularIndeterminate/CircularIndeterminate';
 
 const PhotoGallery = () => {
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
     const {
         photos,
+        loading,
     } = dataAndMethodsContext;
 
     // setting photos to int, react photo gallery would come up with errors that width
@@ -29,11 +31,15 @@ const PhotoGallery = () => {
             />
         );
 
-    return (
-        <Fragment>
-            <Gallery photos={photos} renderImage={imageRenderer} />
-        </Fragment >
-    );
+    if (loading) {
+        return <CircularIndeterminate />;
+    } else {
+        return (
+            <Fragment>
+                <Gallery photos={photos} renderImage={imageRenderer} />
+            </Fragment >
+        );
+    }
 };
 
 export default PhotoGallery;

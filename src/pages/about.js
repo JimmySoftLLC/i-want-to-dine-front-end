@@ -9,6 +9,7 @@ import HelpItem4 from '../components/helpItems/HelpItem4';
 import HelpItem5 from '../components/helpItems/HelpItem5';
 import HelpItem6 from '../components/helpItems/HelpItem6';
 import HelpItem7 from '../components/helpItems/HelpItem7';
+import HelpItem8 from '../components/helpItems/HelpItem8';
 
 import DataAndMethodsContext from '../context/dataAndMethods/dataAndMethodsContext';
 
@@ -43,6 +44,7 @@ const About = () => {
             <HelpItem5 />
             <HelpItem6 />
             <HelpItem7 />
+            <HelpItem8 />
             <h2 >JimmySoft LLC <IconButton aria-label=""
                 href="https://jimmysoftllc.com"
                 rel="noopener noreferrer" target="_blank"
