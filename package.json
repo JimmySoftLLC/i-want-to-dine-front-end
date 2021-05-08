@@ -29,7 +29,7 @@
     "jwk-to-pem": "^2.0.3",
     "kind-of": "^6.0.3",
     "minimist": "^1.2.5",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-image-crop": "^8.6.2",
