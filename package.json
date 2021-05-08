@@ -18,7 +18,7 @@
     "array-move": "^2.2.1",
     "aws-amplify": "^2.3.0",
     "aws-sdk": "^2.668.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "browser-image-compression": "^1.0.9",
     "canvas": "^2.6.1",
     "date-fns": "^2.12.0",
