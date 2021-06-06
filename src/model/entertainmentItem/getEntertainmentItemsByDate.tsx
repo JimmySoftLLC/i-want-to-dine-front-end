@@ -1,9 +1,9 @@
 import getEntertainmentItems from './getEntertainmentItems';
 import validDate from '../validDate';
 
-const getTodaysEntertainmentItems = async (restaurants, selectedDate) => {
+const getTodaysEntertainmentItems = async (restaurants: string | any[], selectedDate: any) => {
     // create an array of all ids
-    let entertainmentItemsIds = [];
+    let entertainmentItemsIds: string | any[] = [];
     let myEntertainmentItems = [];
 
     for (let i = 0; i < restaurants.length; i++) {

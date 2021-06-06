@@ -25,8 +25,8 @@ const EntertainmentItemRestaurantDetailCard: any = ({ entertainmentItem }: any) 
     }
 
     // format dates for display
-    let myTimeFrom = dateString(entertainmentItem.timeFrom, null, 'displayTime')
-    let myTimeTo = dateString(entertainmentItem.timeTo, null, 'displayTime')
+    let myTimeFrom = dateString(entertainmentItem.timeFrom, new Date(), 'displayTime')
+    let myTimeTo = dateString(entertainmentItem.timeTo, new Date(), 'displayTime')
 
     return (
         <div className='card'>

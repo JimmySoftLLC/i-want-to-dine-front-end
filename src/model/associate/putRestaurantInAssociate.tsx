@@ -1,5 +1,5 @@
 // search restaurantIdsJSON for matching id overwrite or insert if does not exist
-const putRestaurantInAssociate = (myAssociate, restaurantId) => {
+const putRestaurantInAssociate = (myAssociate: { restaurantIdsJSON: any[]; }, restaurantId: any) => {
     let foundRestaurant = false
     for (let i = 0; i < myAssociate.restaurantIdsJSON.length; i++) {
         if (myAssociate.restaurantIdsJSON[i] === restaurantId) {

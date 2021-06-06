@@ -6,7 +6,7 @@ const getCoordinates = () => {
 
 const getLocation = async () => {
     try {
-        const position = await getCoordinates();
+        const position: any = await getCoordinates();
         let latitude = position.coords.latitude;
         let longitude = position.coords.longitude;
         const location = { latitude: latitude, longitude: longitude }

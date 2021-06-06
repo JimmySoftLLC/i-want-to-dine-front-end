@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const dataAndMethodsContext = createContext();
+const dataAndMethodsContext: any = createContext('');
 
 export default dataAndMethodsContext;

@@ -3,7 +3,7 @@ import {
     noSelectedRestaurant,
 } from '../../api/apiConstants';
 
-const associatesAccessLevel = (associatesRestaurants, restaurantId, associateId) => {
+const associatesAccessLevel = (associatesRestaurants: any, restaurantId: string, associateId: any): any => {
     try {
         if (restaurantId !== noSelectedRestaurant) {
             let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)

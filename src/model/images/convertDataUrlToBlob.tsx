@@ -1,4 +1,4 @@
-function blobDataUrl(dataURL) {
+function blobDataUrl(dataURL: string) {
     const BASE64_MARKER = ';base64,';
     const parts = dataURL.split(BASE64_MARKER);
     const contentType = parts[0].split(':')[1];
@@ -11,9 +11,9 @@ function blobDataUrl(dataURL) {
     return new Blob([uInt8Array], { type: contentType });
 }
 
-const convertDataUrlToBlob = async (dataURL, fileName) => {
+const convertDataUrlToBlob = async (dataURL: string, fileName: string) => {
     dataURL = dataURL.replace('application/octet-stream', 'image/jpeg')
-    let myBlob = blobDataUrl(dataURL);
+    let myBlob: any = blobDataUrl(dataURL);
     myBlob.lastModifiedDate = new Date();
     myBlob.name = fileName;
     return myBlob;

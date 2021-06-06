@@ -1,4 +1,4 @@
-const hexToString = (myString) => {
+const hexToString = (myString: any) => {
     let hexes = myString.match(/.{1,2}/g) || [];
     let result = "";
     for (let j = 0; j < hexes.length; j++) {

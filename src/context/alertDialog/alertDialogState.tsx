@@ -3,7 +3,7 @@ import AlertDialogContext from './alertDialogContext';
 import AlertDialogReducer from './alertDialogReducer';
 import { SET_DIALOG, CLOSE_DIALOG } from '../types';
 
-const AlertDialogState = props => {
+const AlertDialogState: any = (props: { children: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; }) => {
   const initialState = {
     dialogOpen: false,
     message: '',
@@ -12,7 +12,7 @@ const AlertDialogState = props => {
 
   const [state, dispatch] = useReducer(AlertDialogReducer, initialState);
 
-  const setDialog = (dialogOpen, message, title) => {
+  const setDialog = (dialogOpen: any, message: any, title: any) => {
     dispatch({
       type: SET_DIALOG,
       payload: {

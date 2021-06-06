@@ -1,5 +1,6 @@
+import { AnyRecordWithTtl } from 'dns';
 import { createContext } from 'react';
 
-const deleteConfirmDialogContext = createContext();
+const deleteConfirmDialogContext: any = createContext('');
 
 export default deleteConfirmDialogContext;

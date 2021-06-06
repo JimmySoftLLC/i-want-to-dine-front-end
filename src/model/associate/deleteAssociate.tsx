@@ -3,7 +3,7 @@ import {
     associatesTableName,
 } from '../../api/apiConstants';
 
-const deleteAssociate = async (myAssociateId, myToken, myCustomId) => {
+const deleteAssociate = async (myAssociateId: any, myToken: any, myCustomId: any) => {
     // console.log(myAssociateId, myToken, myCustomId);
     // return null;
     const data = await deleteItemDynamoDB(associatesTableName, myAssociateId, myToken, myCustomId)

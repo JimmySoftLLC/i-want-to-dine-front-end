@@ -6,14 +6,14 @@ import {
     blankImage,
 } from '../../api/apiConstants';
 
-const saveImageToDatabase = async (deleteFileName, imageUrl, blob, editMode, idToken, customId) => {
+const saveImageToDatabase = async (deleteFileName: string, imageUrl: string, blob: any, editMode: string, idToken: any, customId: any) => {
     if (deleteFileName) {
         await deleteImageAPI(deleteFileName, idToken, customId)
     }
     if (editMode !== "none" && imageUrl !== blankImage) {
         try {
             const compressedFile = await compressImage(blob);
-            let myFileName = fileNameFromUrl(imageUrl)
+            let myFileName: any = fileNameFromUrl(imageUrl)
             if (compressedFile) {
                 await uploadImageStorage(blob, fileNameFromUrl(myFileName))
             }

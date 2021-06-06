@@ -3,7 +3,7 @@ import {
     entertainmentItemsTableName,
 } from '../../api/apiConstants';
 
-const putEntertainmentItem = async (myEntertainmentItem, myToken, myCustomId) => {
+const putEntertainmentItem = async (myEntertainmentItem: any, myToken: any, myCustomId: any) => {
     //console.log(myEntertainmentItem, myToken, myCustomId);
     const myNewEntertainmentItem = JSON.parse(JSON.stringify(myEntertainmentItem))
     const data = await putItemDynamoDB(entertainmentItemsTableName, myNewEntertainmentItem, myToken, myCustomId)

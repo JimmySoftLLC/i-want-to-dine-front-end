@@ -1,4 +1,4 @@
-const findIndexOfAssociateInRestaurant = (myRestaurant, myAssociateId) => {
+const findIndexOfAssociateInRestaurant = (myRestaurant: { associatesJSON: string | any[]; }, myAssociateId: any) => {
     for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
         if (myRestaurant.associatesJSON[i].id === myAssociateId) {
             return i;

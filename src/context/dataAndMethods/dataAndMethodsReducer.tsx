@@ -41,7 +41,7 @@ import {
     SET_SELECTED_DATE,
 } from '../types';
 
-export default (state, action) => {
+export default (state: any, action: { type: any; payload: any; }): any => {
     switch (action.type) {
         case SET_MY_STATES:
             return {

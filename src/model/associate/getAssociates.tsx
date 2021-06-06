@@ -6,7 +6,7 @@ import {
     blankPlaceHolder,
 } from '../../api/apiConstants';
 
-const getBatch = async (myIds) => {
+const getBatch = async (myIds: any[]) => {
     let myAssociates = []
     const data = await batchGetItemDynamoDB(associatesTableName, myIds, projectionExpressionAssociate)
     if (data.err) {
@@ -28,9 +28,9 @@ const getBatch = async (myIds) => {
 // get associates from the database if they have emails, otherwise get them from restaurant associateJSON
 // do this by creating an array of associateIds for records that have email, these will be on server
 // those that don't have email are local to the restaurant just use that record instead
-const getAssociates = async (associateIds) => {
+const getAssociates = async (associateIds: string | any[]) => {
     if (associateIds.length === 0) { return [] }
-    let myAssociates = [];
+    let myAssociates: any[] = [];
     // get records in batches of 100 using the array of associateIds
     let myIds = [];
     let currentCount = 0;

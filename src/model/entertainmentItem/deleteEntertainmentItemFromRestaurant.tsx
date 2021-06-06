@@ -4,7 +4,7 @@ import getRestaurantById from '../restaurant/getRestaurantById';
 import getEntertainmentItems from './getEntertainmentItems';
 import removeEntertainmentItemFromIds from './removeEntertainmentItemFromIds';
 
-const deleteEntertainmentItemFromRestaurant = async (entertainmentItemId, restaurantId, associatesRestaurants, writeRestaurant, idToken, customId) => {
+const deleteEntertainmentItemFromRestaurant = async (entertainmentItemId: any, restaurantId: any, associatesRestaurants: any, writeRestaurant: boolean, idToken: any, customId: any) => {
     await deleteEntertainmentItem(entertainmentItemId, idToken, customId)
     if (writeRestaurant) {
         let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)

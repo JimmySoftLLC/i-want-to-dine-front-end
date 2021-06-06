@@ -4,7 +4,7 @@ import {
     associatesTableName,
 } from '../../api/apiConstants';
 
-const createAssociate = async (myEmailId, myToken, myCustomId) => {
+const createAssociate = async (myEmailId: any, myToken: any, myCustomId: any) => {
     let myAssociate = {
         id: myEmailId,
         firstName: '',

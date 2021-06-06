@@ -1,4 +1,4 @@
-const fileNameFromUrl = (myUrl) => {
+const fileNameFromUrl = (myUrl: any) => {
     let myParsedFile = myUrl.split("/")
     if (myParsedFile.length > 0) {
         return myParsedFile[myParsedFile.length - 1];

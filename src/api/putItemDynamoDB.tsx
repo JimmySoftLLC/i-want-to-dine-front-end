@@ -65,8 +65,8 @@ const putItemDynamoDB = async (myTableName: any, myItem: any, myIdToken: any, my
             myNewItem = {
                 id: myItem.id,
                 title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
-                dateFrom: dateString(myItem.dateFrom, null, 'saveToDatabaseFromDate'),
-                dateTo: dateString(myItem.dateTo, null, 'saveToDatabaseToDate'),
+                dateFrom: dateString(myItem.dateFrom, new Date(), 'saveToDatabaseFromDate'),
+                dateTo: dateString(myItem.dateTo, new Date(), 'saveToDatabaseToDate'),
                 description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
                 menuItemIdsJSON: JSON.stringify(myItem.menuItemIdsJSON),
                 entertainmentItemIdsJSON: JSON.stringify(myItem.entertainmentItemIdsJSON),
@@ -78,8 +78,8 @@ const putItemDynamoDB = async (myTableName: any, myItem: any, myIdToken: any, my
             myNewItem = {
                 id: myItem.id,
                 title: myItem.title = myItem.title !== '' ? myItem.title : blankPlaceHolder,
-                timeFrom: dateString(myItem.timeFrom, null, 'saveToDatabaseDateTime'),
-                timeTo: dateString(myItem.timeTo, null, 'saveToDatabaseDateTime'),
+                timeFrom: dateString(myItem.timeFrom, new Date(), 'saveToDatabaseDateTime'),
+                timeTo: dateString(myItem.timeTo, new Date(), 'saveToDatabaseDateTime'),
                 description: myItem.description = myItem.description !== '' ? myItem.description : blankPlaceHolder,
                 imageUrl: myItem.imageUrl !== '' ? myItem.imageUrl : blankPlaceHolder,
                 categoryJSON: JSON.stringify(myItem.categoryJSON),

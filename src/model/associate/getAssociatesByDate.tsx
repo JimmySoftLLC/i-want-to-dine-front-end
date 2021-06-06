@@ -3,13 +3,13 @@ import getAssociateFromRestaurant from './getAssociateFromRestaurant';
 import validDate from '../validDate';
 import isEmail from 'validator/lib/isEmail';
 
-const getTodaysAssociates = async (restaurants, myMenuDays, selectedDate) => {
+const getTodaysAssociates = async (restaurants: string | any[], myMenuDays: string | any[], selectedDate: any) => {
     // create an array of all ids
-    let associateInIds = [];
-    let associateInIdsNoEmail = [];
-    let myAssociates = [];
-    let myAssociatesNoEmail = [];
-    let myFinalAssociates = [];
+    let associateInIds: any[] = [];
+    let associateInIdsNoEmail: any[] = [];
+    let myAssociates: any[] = [];
+    let myAssociatesNoEmail: any[] = [];
+    let myFinalAssociates: any[] = [];
 
     // get associate from the valid menu days, create a list of one from database and ones from restaurant object
     // these associates are in house so mark them as in.

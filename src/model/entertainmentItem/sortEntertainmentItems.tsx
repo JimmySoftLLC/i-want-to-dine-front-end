@@ -1,7 +1,7 @@
-const sortEntertainmentItems = async (myEntertainmentItems, myStates) => {
+const sortEntertainmentItems = async (myEntertainmentItems: any, myStates: any) => {
     if (myStates['sortTitle'] || myStates === 'sortTitle') {
         // sort by title
-        myEntertainmentItems.sort(function (a, b) {
+        myEntertainmentItems.sort(function (a: { title: string; }, b: { title: string; }) {
             var textA = a.title.toUpperCase(); // ignore upper and lowercase
             var textB = b.title.toUpperCase(); // ignore upper and lowercase
             if (textA < textB) {
@@ -16,7 +16,7 @@ const sortEntertainmentItems = async (myEntertainmentItems, myStates) => {
     }
     if (myStates['sortTime'] || myStates === 'sortTime') {
         // sort by time
-        myEntertainmentItems.sort(function (a, b) {
+        myEntertainmentItems.sort(function (a: { timeFrom: number; }, b: { timeFrom: number; }) {
             return a.timeFrom - b.timeFrom;
         });
     }

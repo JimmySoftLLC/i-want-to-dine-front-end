@@ -66,9 +66,9 @@ import {
     SET_SELECTED_DATE,
 } from '../types';
 
-const DataAndMethodsState = props => {
+const DataAndMethodsState: any = (props: { children: any; }) => {
     const [myStatesLocalStorage] = React.useState(() => {
-        let myStates = window.localStorage.getItem("iWantToDine.myStates");
+        let myStates: any = window.localStorage.getItem("iWantToDine.myStates");
         myStates = myStates !== null ? JSON.parse(myStates)
             : {
                 // menu categories
@@ -282,7 +282,7 @@ const DataAndMethodsState = props => {
     const [state, dispatch] = useReducer(DataAndMethodsReducer, initialState);
 
     // get data by date ------------------------------------------------------------------
-    const getDataByDate = async selectedDate => {
+    const getDataByDate = async (selectedDate: any) => {
         setLoading(true);
         const myRestaurants = await scanDynamoDB(restaurantsTableName);
         setRestaurants(myRestaurants.payload)
@@ -314,32 +314,32 @@ const DataAndMethodsState = props => {
     };
 
     // set date -------------------------------------------------------------------------------
-    const setTodaysDate = (todaysDate) => dispatch({ type: SET_TODAYS_DATE, payload: todaysDate });
-    const setSelectedDate = (selectedDate) => dispatch({ type: SET_SELECTED_DATE, payload: selectedDate });
+    const setTodaysDate = (todaysDate: any) => dispatch({ type: SET_TODAYS_DATE, payload: todaysDate });
+    const setSelectedDate = (selectedDate: any) => dispatch({ type: SET_SELECTED_DATE, payload: selectedDate });
 
     // set loading spinner ---------------------------------------------------------------------
-    const setLoading = (myBool) => dispatch({ type: SET_LOADING, payload: myBool });
-    const setLoadingDialog = (myBool) => dispatch({ type: SET_LOADING_DIALOG, payload: myBool });
+    const setLoading = (myBool: boolean) => dispatch({ type: SET_LOADING, payload: myBool });
+    const setLoadingDialog = (myBool: any) => dispatch({ type: SET_LOADING_DIALOG, payload: myBool });
 
     //set my states -----------------------------------------------------
-    const setMyState = async key => {
+    const setMyState = async (key: any) => {
         let myNewStateChoices = JSON.parse(JSON.stringify(state.myStates))
         myNewStateChoices = setMyStatesLogic(myNewStateChoices, key)
         window.localStorage.setItem("iWantToDine.myStates", JSON.stringify(myNewStateChoices));
         setMyStates(myNewStateChoices);
     };
-    const setMyStates = async (myStates) => { dispatch({ type: SET_MY_STATES, payload: myStates }) }
+    const setMyStates = async (myStates: any) => { dispatch({ type: SET_MY_STATES, payload: myStates }) }
 
     // login dialog and authorization items ------------------------------
-    const setAuthToken = async (authToken) => { dispatch({ type: SET_AUTH_TOKEN, payload: authToken }) }
-    const setCustomId = async (customId) => { dispatch({ type: SET_CUSTOM_ID, payload: customId }) }
-    const setIdToken = async (idToken) => { dispatch({ type: SET_ID_TOKEN, payload: idToken }) }
-    const setLogInType = async (logInType) => { dispatch({ type: SET_LOGIN_TYPE, payload: logInType }) }
-    const setSignInRegDialogType = async (signInRegDialogType) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: signInRegDialogType }) }
-    const setSignInRegDialogTitle = async (signInRegDialogTitle) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: signInRegDialogTitle }) }
+    const setAuthToken = async (authToken: any) => { dispatch({ type: SET_AUTH_TOKEN, payload: authToken }) }
+    const setCustomId = async (customId: any) => { dispatch({ type: SET_CUSTOM_ID, payload: customId }) }
+    const setIdToken = async (idToken: any) => { dispatch({ type: SET_ID_TOKEN, payload: idToken }) }
+    const setLogInType = async (logInType: any) => { dispatch({ type: SET_LOGIN_TYPE, payload: logInType }) }
+    const setSignInRegDialogType = async (signInRegDialogType: any) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TYPE, payload: signInRegDialogType }) }
+    const setSignInRegDialogTitle = async (signInRegDialogTitle: any) => { dispatch({ type: SET_SIGN_IN_REG_DIALOG_TITLE, payload: signInRegDialogTitle }) }
 
     // associates and dialog --------------------------------------------
-    const setAssociateDialogDataItem = async (key, value) => {
+    const setAssociateDialogDataItem = async (key: string, value: any) => {
         let associateDialogData = JSON.parse(JSON.stringify(state.associateDialogData))
         associateDialogData[key] = value;
         if (key === 'firstName') { associateDialogData['message'] = '' }
@@ -350,19 +350,19 @@ const DataAndMethodsState = props => {
         if (key === 'accessLevel') { associateDialogData['message'] = '' }
         setAssociateDialogData(associateDialogData);
     }
-    const setAssociate = async (associate) => { dispatch({ type: SET_ASSOCIATE, payload: associate }) }
-    const setAssociates = async (associates) => { dispatch({ type: SET_ASSOCIATES, payload: associates }) }
-    const setAssociateDialogData = async (associateDialogData) => { dispatch({ type: SET_ASSOCIATE_DIALOG_DATA, payload: associateDialogData }) }
-    const setAssociateDialogOpen = async (associateDialogOpen) => { dispatch({ type: SET_ASSOCIATE_DIALOG_OPEN, payload: associateDialogOpen }) }
-    const setAssociatesRestaurants = async (associatesRestaurants) => { dispatch({ type: SET_ASSOCIATE_RESTAURANTS, payload: associatesRestaurants }) }
+    const setAssociate = async (associate: any) => { dispatch({ type: SET_ASSOCIATE, payload: associate }) }
+    const setAssociates = async (associates: any[]) => { dispatch({ type: SET_ASSOCIATES, payload: associates }) }
+    const setAssociateDialogData = async (associateDialogData: any) => { dispatch({ type: SET_ASSOCIATE_DIALOG_DATA, payload: associateDialogData }) }
+    const setAssociateDialogOpen = async (associateDialogOpen: any) => { dispatch({ type: SET_ASSOCIATE_DIALOG_OPEN, payload: associateDialogOpen }) }
+    const setAssociatesRestaurants = async (associatesRestaurants: any) => { dispatch({ type: SET_ASSOCIATE_RESTAURANTS, payload: associatesRestaurants }) }
 
     // menu items and dialog --------------------------------------------
-    const setMenuItemDialogDataItem = async (key, value) => {
+    const setMenuItemDialogDataItem = async (key: string, value: any) => {
         let menuItemDialogData = JSON.parse(JSON.stringify(state.menuItemDialogData))
         menuItemDialogData[key] = value;
         setMenuItemDialogData(menuItemDialogData);
     }
-    const setMenuItemDialogDataCategory = async (key) => {
+    const setMenuItemDialogDataCategory = async (key: string) => {
         let myNewCategories = JSON.parse(JSON.stringify(state.menuItemDialogData.categoryJSON))
         let myIndex = -1
         let keysToClear = ['specials',
@@ -392,45 +392,45 @@ const DataAndMethodsState = props => {
         }
         setMenuItemDialogDataItem('categoryJSON', myNewCategories)
     }
-    const setMenuItems = async (menuItems) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
-    const setMenuItemDialogData = async (menuItemDialogData) => { dispatch({ type: SET_MENU_ITEM_DIALOG_DATA, payload: menuItemDialogData }) }
-    const setMenuItemDialogOpen = async (menuItemDialogOpen) => { dispatch({ type: SET_MENU_ITEM_DIALOG_OPEN, payload: menuItemDialogOpen }) }
+    const setMenuItems = async (menuItems: any[]) => { dispatch({ type: SET_MENU_ITEMS, payload: menuItems }) }
+    const setMenuItemDialogData = async (menuItemDialogData: any) => { dispatch({ type: SET_MENU_ITEM_DIALOG_DATA, payload: menuItemDialogData }) }
+    const setMenuItemDialogOpen = async (menuItemDialogOpen: any) => { dispatch({ type: SET_MENU_ITEM_DIALOG_OPEN, payload: menuItemDialogOpen }) }
 
     // restaurant and dialog ------------------------------------------
-    const setRestaurantDialogDataItem = async (key, value) => {
+    const setRestaurantDialogDataItem = async (key: string | number, value: any) => {
         let restaurantDialogData = JSON.parse(JSON.stringify(state.restaurantDialogData))
         restaurantDialogData[key] = value;
         setRestaurantDialogData(restaurantDialogData);
     }
-    const setRestaurantDetail = async (restaurantDetail) => { dispatch({ type: SET_RESTAURANT, payload: restaurantDetail }) }
-    const setRestaurants = async (restaurants) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
-    const setRestaurantDialogData = async (restaurantDialogData) => { dispatch({ type: SET_EDIT_RESTAURANTS, payload: restaurantDialogData }) }
-    const setRestaurantDialogOpen = async (restaurantDialogOpen) => { dispatch({ type: SET_EDIT_RESTAURANTS_OPEN, payload: restaurantDialogOpen }) }
-    const setRestaurantMenuItems = async (restaurantMenuItems) => { dispatch({ type: SET_RESTAURANT_MENU_ITEMS, payload: restaurantMenuItems }) }
-    const setRestaurantEntertainmentItems = async (restaurantEntertainmentItems) => { dispatch({ type: SET_RESTAURANT_ENTERTAINMENT_ITEMS, payload: restaurantEntertainmentItems }) }
-    const setRestaurantMenuDays = async (restaurantMenuDays) => { dispatch({ type: SET_RESTAURANT_MENU_DAY_ITEMS, payload: restaurantMenuDays }) }
-    const setRestaurantPhotos = async (restaurantPhotos) => { dispatch({ type: SET_RESTAURANT_PHOTOS, payload: restaurantPhotos }) }
-    const setRestaurantId = async (restaurantId) => { dispatch({ type: SET_RESTAURANT_ID, payload: restaurantId }) }
-    const setRestaurantAssociates = async (restaurantAssociates) => { dispatch({ type: SET_RESTAURANT_ASSOCIATES, payload: restaurantAssociates }) }
+    const setRestaurantDetail = async (restaurantDetail: any) => { dispatch({ type: SET_RESTAURANT, payload: restaurantDetail }) }
+    const setRestaurants = async (restaurants: any) => { dispatch({ type: SET_RESTAURANTS, payload: restaurants }) }
+    const setRestaurantDialogData = async (restaurantDialogData: any) => { dispatch({ type: SET_EDIT_RESTAURANTS, payload: restaurantDialogData }) }
+    const setRestaurantDialogOpen = async (restaurantDialogOpen: any) => { dispatch({ type: SET_EDIT_RESTAURANTS_OPEN, payload: restaurantDialogOpen }) }
+    const setRestaurantMenuItems = async (restaurantMenuItems: any) => { dispatch({ type: SET_RESTAURANT_MENU_ITEMS, payload: restaurantMenuItems }) }
+    const setRestaurantEntertainmentItems = async (restaurantEntertainmentItems: any) => { dispatch({ type: SET_RESTAURANT_ENTERTAINMENT_ITEMS, payload: restaurantEntertainmentItems }) }
+    const setRestaurantMenuDays = async (restaurantMenuDays: any) => { dispatch({ type: SET_RESTAURANT_MENU_DAY_ITEMS, payload: restaurantMenuDays }) }
+    const setRestaurantPhotos = async (restaurantPhotos: any) => { dispatch({ type: SET_RESTAURANT_PHOTOS, payload: restaurantPhotos }) }
+    const setRestaurantId = async (restaurantId: any) => { dispatch({ type: SET_RESTAURANT_ID, payload: restaurantId }) }
+    const setRestaurantAssociates = async (restaurantAssociates: any) => { dispatch({ type: SET_RESTAURANT_ASSOCIATES, payload: restaurantAssociates }) }
 
     // menu days and dialog -----------------------------------------------
-    const setMenuDays = async (menuDays) => { dispatch({ type: SET_MENU_DAYS, payload: menuDays }) }
-    const setMenuDayDialogDataItem = async (key, value) => {
+    const setMenuDays = async (menuDays: any[]) => { dispatch({ type: SET_MENU_DAYS, payload: menuDays }) }
+    const setMenuDayDialogDataItem = async (key: string | number, value: any) => {
         let menuDayDialogData = JSON.parse(JSON.stringify(state.menuDayDialogData))
         menuDayDialogData[key] = value;
         setMenuDayDialogData(menuDayDialogData);
     }
-    const setMenuDayDialogData = async (menuDayDialogData) => { dispatch({ type: SET_MENU_DAY_DIALOG_DATA, payload: menuDayDialogData }) }
-    const setMenuDayDialogOpen = async (menuDayDialogOpen) => { dispatch({ type: SET_MENU_DAY_DIALOG_OPEN, payload: menuDayDialogOpen }) }
+    const setMenuDayDialogData = async (menuDayDialogData: any) => { dispatch({ type: SET_MENU_DAY_DIALOG_DATA, payload: menuDayDialogData }) }
+    const setMenuDayDialogOpen = async (menuDayDialogOpen: any) => { dispatch({ type: SET_MENU_DAY_DIALOG_OPEN, payload: menuDayDialogOpen }) }
 
     // entertainment items and dialog ---------------------------------------------
-    const setEntertainmentItems = async (entertainmentItems) => { dispatch({ type: SET_ENTERTAINMENT_ITEMS, payload: entertainmentItems }) }
-    const setEntertainmentItemDialogDataItem = async (key, value) => {
+    const setEntertainmentItems = async (entertainmentItems: any[]) => { dispatch({ type: SET_ENTERTAINMENT_ITEMS, payload: entertainmentItems }) }
+    const setEntertainmentItemDialogDataItem = async (key: string, value: any) => {
         let entertainmentItemDialogData = JSON.parse(JSON.stringify(state.entertainmentItemDialogData))
         entertainmentItemDialogData[key] = value;
         setEntertainmentItemDialogData(entertainmentItemDialogData);
     }
-    const setEntertainmentItemDialogDataCategory = async (key) => {
+    const setEntertainmentItemDialogDataCategory = async (key: any) => {
         let myNewCategories = JSON.parse(JSON.stringify(state.entertainmentItemDialogData.categoryJSON))
         let myIndex = myNewCategories.indexOf(key, 0)
         if (myIndex !== -1) {
@@ -440,29 +440,29 @@ const DataAndMethodsState = props => {
         }
         setEntertainmentItemDialogDataItem('categoryJSON', myNewCategories)
     }
-    const setEntertainmentItemDialogData = async (entertainmentItemDialogData) => { dispatch({ type: SET_ENTERTAINMENT_ITEM_DIALOG_DATA, payload: entertainmentItemDialogData }) }
-    const setEntertainmentItemDialogOpen = async (entertainmentItemDialogOpen) => { dispatch({ type: SET_ENTERTAINMENT_ITEM_DIALOG_OPEN, payload: entertainmentItemDialogOpen }) }
+    const setEntertainmentItemDialogData = async (entertainmentItemDialogData: any) => { dispatch({ type: SET_ENTERTAINMENT_ITEM_DIALOG_DATA, payload: entertainmentItemDialogData }) }
+    const setEntertainmentItemDialogOpen = async (entertainmentItemDialogOpen: any) => { dispatch({ type: SET_ENTERTAINMENT_ITEM_DIALOG_OPEN, payload: entertainmentItemDialogOpen }) }
 
     // photos and dialog -----------------------------------------------------
-    const setPhotos = async (photos) => { dispatch({ type: SET_PHOTOS, payload: photos }) }
-    const setPhotoDialogDataItem = async (key, value) => {
+    const setPhotos = async (photos: any[]) => { dispatch({ type: SET_PHOTOS, payload: photos }) }
+    const setPhotoDialogDataItem = async (key: string | number, value: any) => {
         let photoDialogData = JSON.parse(JSON.stringify(state.photoDialogData))
         photoDialogData[key] = value;
         setPhotoDialogData(photoDialogData);
     }
-    const setPhotoDialogData = async (photoDialogData) => { dispatch({ type: SET_PHOTO_DIALOG_DATA, payload: photoDialogData }) }
-    const setPhotoDialogOpen = async (photoDialogOpen) => { dispatch({ type: SET_PHOTO_DIALOG_OPEN, payload: photoDialogOpen }) }
+    const setPhotoDialogData = async (photoDialogData: any) => { dispatch({ type: SET_PHOTO_DIALOG_DATA, payload: photoDialogData }) }
+    const setPhotoDialogOpen = async (photoDialogOpen: any) => { dispatch({ type: SET_PHOTO_DIALOG_OPEN, payload: photoDialogOpen }) }
 
     // image editor -----------------------------------------------------
-    const setImageEditorDataItem = (key, value) => {
+    const setImageEditorDataItem = (key: string | number, value: any) => {
         let imageEditorData = JSON.parse(JSON.stringify(state.imageEditorData))
         imageEditorData[key] = value;
         setImageEditorData(imageEditorData);
     }
-    const setImageEditorData = async (imageEditorData) => { dispatch({ type: SET_IMAGE_EDITOR_DATA, payload: imageEditorData }) }
+    const setImageEditorData = async (imageEditorData: any) => { dispatch({ type: SET_IMAGE_EDITOR_DATA, payload: imageEditorData }) }
 
     // debuging tools used for moblie debugging -------------------------------------
-    const setOnScreenDebugMessage = async (onScreenDebugMessage) => dispatch({ type: SET_ON_SCREEN_DEBUG_MESSAGE, payload: onScreenDebugMessage });
+    const setOnScreenDebugMessage = async (onScreenDebugMessage: any) => dispatch({ type: SET_ON_SCREEN_DEBUG_MESSAGE, payload: onScreenDebugMessage });
 
     return (
         <DataAndMethodsContext.Provider

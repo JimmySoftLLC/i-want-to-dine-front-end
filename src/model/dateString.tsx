@@ -1,8 +1,8 @@
-const dateString = (dateFrom, dateTo, formatType) => {
+const dateString = (dateFrom: Date, dateTo: Date, formatType: string) => {
     // format dates for display
     dateFrom = new Date(dateFrom)
     dateTo = new Date(dateTo)
-    let myDate = '';
+    let myDate: any
     switch (formatType) {
         case 'displayFromTo':
             const myDateTimeFormat = new Intl.DateTimeFormat('en', { year: 'numeric', month: 'short', day: '2-digit' })

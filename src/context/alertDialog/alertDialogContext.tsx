@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const alertDialogContext = createContext();
+const alertDialogContext: any = createContext('');
 
 export default alertDialogContext;

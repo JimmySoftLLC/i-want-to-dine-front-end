@@ -1,4 +1,4 @@
-const getAssociateFromRestaurant = (restaurant, associateId) => {
+const getAssociateFromRestaurant = (restaurant: any, associateId: any) => {
     let myRestaurant = JSON.parse(JSON.stringify(restaurant));
     for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
         if (myRestaurant.associatesJSON[i].id === associateId) {

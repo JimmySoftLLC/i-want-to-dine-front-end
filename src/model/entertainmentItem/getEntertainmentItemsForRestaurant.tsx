@@ -1,4 +1,4 @@
-const getEntertainmentItemsForRestaurant = (restaurant, entertainmentItems) => {
+const getEntertainmentItemsForRestaurant = (restaurant: { id: any; }, entertainmentItems: string | any[]) => {
     let myNewEntertainmentItems = [];
     for (let i = 0; i < entertainmentItems.length; i++) {
         if (entertainmentItems[i].restaurantId === restaurant.id) {

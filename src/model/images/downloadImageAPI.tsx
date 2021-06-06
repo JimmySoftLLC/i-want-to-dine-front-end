@@ -2,7 +2,7 @@ import fileNameFromUrl from '../files/fileNameFromUrl';
 import s3GetObject from '../../api/s3GetObject';
 import consoleLogTimeElasped from '../consoleLogTimeElasped';
 
-const getDataFromBlob = (myBlob) => {
+const getDataFromBlob = (myBlob: Blob) => {
     return new Promise((resolve, reject) => {
         let reader = new FileReader();
         reader.onload = () => {
@@ -13,7 +13,7 @@ const getDataFromBlob = (myBlob) => {
     })
 }
 
-const downloadImageAPI = async (myImageUrl, myIdToken, myCustomId) => {
+const downloadImageAPI = async (myImageUrl: string, myIdToken: any, myCustomId: any) => {
     try {
         let myFile = fileNameFromUrl(myImageUrl);
         let myTimer = new consoleLogTimeElasped('Download time lambda')

@@ -6,7 +6,7 @@ import {
     blankPlaceHolder,
 } from '../../api/apiConstants';
 
-const getAssociatesRestaurants = async (associate) => {
+const getAssociatesRestaurants = async (associate: { id?: any; firstName?: string; lastName?: string; bio?: string; jobTitle?: string; email?: any; restaurantIdsJSON: any; imageUrl?: string; }) => {
     let myAssociateRestaurants = []
     let myIds = associate.restaurantIdsJSON
     const data = await batchGetItemDynamoDB(restaurantsTableName, myIds, projectionExpressionRestaurant)

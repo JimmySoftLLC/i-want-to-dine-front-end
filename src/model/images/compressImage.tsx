@@ -1,6 +1,6 @@
 import imageCompression from 'browser-image-compression';
 
-const compressImage = async (imageFile) => {
+const compressImage = async (imageFile: any) => {
     // console.log(`originalFile size ${imageFile.size / 1024} KB`);
     const options = {
         maxSizeMB: .500,

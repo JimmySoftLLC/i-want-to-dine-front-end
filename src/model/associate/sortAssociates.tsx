@@ -1,6 +1,6 @@
-const sortAssociates = (associates, associate) => {
+const sortAssociates = (associates: any[], associate: { id: any; } | null) => {
     let myAssociates = JSON.parse(JSON.stringify(associates))
-    myAssociates.sort(function (a, b) {
+    myAssociates.sort(function (a: { firstName: string; }, b: { firstName: string; }) {
         var textA = a.firstName.toUpperCase(); // ignore upper and lowercase
         var textB = b.firstName.toUpperCase(); // ignore upper and lowercase
         if (textA < textB) {
@@ -15,7 +15,7 @@ const sortAssociates = (associates, associate) => {
 
     // put logged in associate at the begining of the array
     if (associate) {
-        let myIndex = myAssociates.findIndex(item => item.id === associate.id);
+        let myIndex = myAssociates.findIndex((item: { id: any; }) => item.id === associate.id);
         let mySlicedAssociate = myAssociates.splice(myIndex, 1)
         myAssociates.unshift(mySlicedAssociate[0])
     }

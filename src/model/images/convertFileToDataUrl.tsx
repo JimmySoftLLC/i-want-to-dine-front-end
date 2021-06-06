@@ -1,4 +1,4 @@
-const readFileAsync = (file) => {
+const readFileAsync = (file: Blob) => {
     return new Promise((resolve, reject) => {
         let reader = new FileReader();
         reader.onload = () => {
@@ -9,7 +9,7 @@ const readFileAsync = (file) => {
     })
 }
 
-const convertFileToDataUrl = async (file) => {
+const convertFileToDataUrl = async (file: Blob) => {
     try {
         let contentBuffer = await readFileAsync(file);
         // console.log(contentBuffer);

@@ -1,6 +1,6 @@
 import { createWorker } from 'tesseract.js';
 
-const detectText = async (myBlob) => {
+const detectText = async (myBlob: any) => {
     const worker = createWorker({
         logger: m => console.log(m)
     });

@@ -1,6 +1,6 @@
 import { SET_DIALOG, CLOSE_DIALOG } from '../types';
 
-export default (state, action) => {
+export default (state: any, action: { type: any; payload: any; }): any => {
     switch (action.type) {
         case SET_DIALOG:
             return action.payload;

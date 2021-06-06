@@ -3,8 +3,8 @@ import DeleteConfirmContext from './deleteConfirmDialogContext';
 import DeleteConfirmReducer from './deleteConfirmDialogReducer';
 import { SET_DIALOG, CLOSE_DIALOG } from '../types';
 
-const DeleteConfirmDialogState = props => {
-    const initialState = {
+const DeleteConfirmDialogState = (props: any) => {
+    const initialState: any = {
         dialogOpen: false,
         name: '',
         title: '',
@@ -13,7 +13,7 @@ const DeleteConfirmDialogState = props => {
 
     const [state, dispatch] = useReducer(DeleteConfirmReducer, initialState);
 
-    const setDeleteConfirmDialog = (dialogOpen, name, dialogType, index, deleteFunctionPassed) => {
+    const setDeleteConfirmDialog = (dialogOpen: any, name: any, dialogType: any, index: any, deleteFunctionPassed: any): any => {
         dispatch({
             type: SET_DIALOG,
             payload: {
@@ -27,12 +27,12 @@ const DeleteConfirmDialogState = props => {
     };
 
     const closeDialog = () => {
-        dispatch({ type: CLOSE_DIALOG });
+        dispatch({ type: CLOSE_DIALOG, payload: '' });
     };
 
-    const deleteFunction = (index) => {
+    const deleteFunction = (index: any) => {
         state.deleteFunctionPassed(index);
-        dispatch({ type: CLOSE_DIALOG });
+        dispatch({ type: CLOSE_DIALOG, payload: '' });
     };
 
     return (

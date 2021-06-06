@@ -2,7 +2,7 @@ import s3DeleteObject from '../../api/s3DeleteObject';
 import consoleLogTimeElasped from '../consoleLogTimeElasped';
 import fileNameFromUrl from '../files/fileNameFromUrl';
 
-const deleteImageAPI = async (myImageUrl, myIdToken, myCustomId) => {
+const deleteImageAPI = async (myImageUrl: string, myIdToken: any, myCustomId: any) => {
     try {
         let myKey = fileNameFromUrl(myImageUrl);
         let myTimer = new consoleLogTimeElasped("Delete object lambda")

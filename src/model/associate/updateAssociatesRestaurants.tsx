@@ -4,7 +4,7 @@ import {
     associatesTableName,
 } from '../../api/apiConstants';
 
-const updateAssociatesRestaurants = async (myAssociate, myRestaurants, myToken, myCustomId) => {
+const updateAssociatesRestaurants: any = async (myAssociate: any, myRestaurants: string | any[], myToken: any, myCustomId: any) => {
     let myNewAssociate = JSON.parse(JSON.stringify(myAssociate))
     let myNewRestaurantIdsJSON = [];
     for (let i = 0; i < myRestaurants.length; i++) {

@@ -125,8 +125,8 @@ const EntertainmentItemCardInventory = ({ entertainmentItem }: any) => {
     }
 
     // format dates for display
-    let myTimeFrom = dateString(entertainmentItem.timeFrom, null, 'displayDataTime')
-    let myTimeTo = dateString(entertainmentItem.timeTo, null, 'displayDataTime')
+    let myTimeFrom = dateString(entertainmentItem.timeFrom, new Date(), 'displayDataTime')
+    let myTimeTo = dateString(entertainmentItem.timeTo, new Date(), 'displayDataTime')
 
     // let canRead = false;
     // associatesAccessLevel(associatesRestaurants, restaurantId, associate.id) === "read" ? canRead = true : canRead = false

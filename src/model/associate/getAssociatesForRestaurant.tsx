@@ -1,6 +1,6 @@
 import findIndexOfAssociateInRestaurant from './findIndexOfAssociateInRestaurant';
 
-const getAssociatesForRestaurant = (restaurant, associates) => {
+const getAssociatesForRestaurant = (restaurant: { associatesJSON: string | any[]; }, associates: string | any[]) => {
     let myAssociates = [];
     for (let i = 0; i < associates.length; i++) {
         if (findIndexOfAssociateInRestaurant(restaurant, associates[i].id) !== -1) {
