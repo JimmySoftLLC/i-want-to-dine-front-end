@@ -1,4 +1,4 @@
-const getMenuItemsForRestaurant = (restaurant, menuItems) => {
+const getMenuItemsForRestaurant = (restaurant: any, menuItems: any) => {
     let myNewMenuItems = [];
     for (let i = 0; i < menuItems.length; i++) {
         if (menuItems[i].restaurantId === restaurant.id) {

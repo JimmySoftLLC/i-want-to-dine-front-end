@@ -1,6 +1,6 @@
-const sortRestaurants = async (restaurants) => {
+const sortRestaurants = async (restaurants: any) => {
     let myRestaurants = JSON.parse(JSON.stringify(restaurants))
-    myRestaurants.sort(function (a, b) {
+    myRestaurants.sort(function (a: any, b: any) {
         var textA = a.restaurantName.toUpperCase(); // ignore upper and lowercase
         var textB = b.restaurantName.toUpperCase(); // ignore upper and lowercase
         if (textA < textB) {

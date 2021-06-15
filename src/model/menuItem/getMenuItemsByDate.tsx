@@ -1,7 +1,7 @@
 import getMenuItems from './getMenuItems';
 import validDate from '../validDate';
 
-const getTodaysMenuItems = async (myMenuDays, selectedDate) => {
+const getTodaysMenuItems = async (myMenuDays: any, selectedDate: any) => {
     // create an array of all ids
     let menuItemIds = [];
     let myMenuItems = [];

@@ -3,7 +3,7 @@ import {
     restaurantsTableName,
 } from '../../api/apiConstants';
 
-const deleteRestaurant = async (myRestaurantId, myToken, myCustomId) => {
+const deleteRestaurant = async (myRestaurantId: any, myToken: any, myCustomId: any) => {
     //console.log(myRestaurantId, myToken, myCustomId);
     const data = await deleteItemDynamoDB(restaurantsTableName, myRestaurantId, myToken, myCustomId)
     if (data.err) {

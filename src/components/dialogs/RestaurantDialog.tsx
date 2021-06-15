@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const RestaurantDialog = () => {
+const RestaurantDialog: any = () => {
     const classes = useStyles();
     const dataAndMethodsContext: any = useContext(DataAndMethodsContext);
 

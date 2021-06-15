@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const HelpDialog = () => {
+const HelpDialog: any = () => {
     const classes = useStyles();
 
     const dataAndMethodsContext: any = useContext(DataAndMethodsContext);

@@ -18,11 +18,11 @@ import {
 } from '../api/apiConstants';
 
 const About = () => {
-    const dataAndMethodsContext = useContext(DataAndMethodsContext);
+    const dataAndMethodsContext: any = useContext(DataAndMethodsContext);
 
     const {
         setMyStates,
-    } = dataAndMethodsContext;
+    }: any = dataAndMethodsContext;
 
     const onLineWizard = () => {
         let myNewStateChoices = JSON.parse(JSON.stringify(dataAndMethodsContext.myStates))
@@ -56,7 +56,7 @@ const About = () => {
                 </p>
             <h2 >Why use {websiteName}?</h2>
             <p className='p'>
-                The main reason to use {websiteName} is to find fine dining options quickly.  Instead of walking around looking at menus use {}
+                The main reason to use {websiteName} is to find fine dining options quickly.  Instead of walking around looking at menus use { }
                 {websiteName}.com to do the searching for you.
                 </p>
             <p className='p'>

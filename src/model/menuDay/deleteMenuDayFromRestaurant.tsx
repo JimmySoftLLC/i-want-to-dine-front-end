@@ -5,7 +5,7 @@ import putRestaurant from '../restaurant/putRestaurant';
 import removeMenuDayFromIds from './removeMenuDayFromRestaurant';
 import getRestaurantById from '../restaurant/getRestaurantById';
 
-const deleteMenuDayFromRestaurant = async (menuDayId, restaurantId, associatesRestaurants, writeRestaurant, idToken, customId) => {
+const deleteMenuDayFromRestaurant = async (menuDayId: any, restaurantId: any, associatesRestaurants: any, writeRestaurant: any, idToken: any, customId: any) => {
     await deleteMenuDay(menuDayId, idToken, customId)
     if (writeRestaurant) {
         let myRestaurant = getRestaurantById(associatesRestaurants, restaurantId)

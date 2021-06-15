@@ -44,7 +44,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const AssociateDialog = () => {
+const AssociateDialog: any = () => {
     const classes = useStyles();
     const dataAndMethodsContext: any = useContext(DataAndMethodsContext);
     const {

@@ -6,7 +6,7 @@ import {
     blankPlaceHolder,
 } from '../../api/apiConstants';
 
-const getBatch = async (myIds) => {
+const getBatch = async (myIds: any) => {
     let myMenuItems = []
     const data = await batchGetItemDynamoDB(menuItemsTableName, myIds, projectionExpressionMenuItem)
     if (data.err) {
@@ -22,13 +22,13 @@ const getBatch = async (myIds) => {
     return myMenuItems;
 }
 
-const getMenuItems = async (menuItemIds) => {
+const getMenuItems = async (menuItemIds: any) => {
     if (menuItemIds.length === 0) { return [] }
     // get records in batches of 100
     let myIds = [];
     let currentIndex = 0;
     let nextIndex = 0;
-    let myMenuItems = []
+    let myMenuItems: any = []
     for (let i = 0; i < menuItemIds.length; i++) {
         myIds.push(menuItemIds[i]);
         currentIndex++;

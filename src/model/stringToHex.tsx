@@ -1,4 +1,4 @@
-const stringToHex = (myString) => {
+const stringToHex = (myString: any) => {
     let hex;
     let result = "";
     for (let i = 0; i < myString.length; i++) {

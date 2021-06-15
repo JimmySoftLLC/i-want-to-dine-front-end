@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const DeleteConfirmDialog = () => {
+const DeleteConfirmDialog: any = () => {
     const classes = useStyles();
     const deleteConfirmDialogContext: any = useContext(DeleteConfirmDialogContext);
     const { deleteConfirmDialog, closeDialog, deleteFunction } = deleteConfirmDialogContext;

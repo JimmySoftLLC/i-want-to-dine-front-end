@@ -2,7 +2,7 @@ import isEmail from 'validator/lib/isEmail';
 import { v4 as uuidv4 } from 'uuid';
 
 // search associatesJSON for matching id overwrite or insert if does not exist
-const putAssociateInRestaurant = (myRestaurant, myAssociate) => {
+const putAssociateInRestaurant = (myRestaurant: any, myAssociate: any) => {
     let foundAssociate = false
     for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {
         if (myRestaurant.associatesJSON[i].id === myAssociate.id) {

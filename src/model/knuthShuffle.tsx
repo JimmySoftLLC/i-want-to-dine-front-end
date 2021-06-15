@@ -1,4 +1,4 @@
-const knuthShuffle = (arr) => {
+const knuthShuffle = (arr: any) => {
     var rand, temp, i;
 
     for (i = arr.length - 1; i > 0; i -= 1) {

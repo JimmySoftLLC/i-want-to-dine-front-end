@@ -1,4 +1,4 @@
-import React, { RefObject, useContext } from 'react';
+import React, { useContext } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DataAndMethodsContext from '../../context/dataAndMethods/dataAndMethodsContext';
 import getMenuItemsForRestaurant from '../../model/menuItem/getMenuItemsForRestaurant';

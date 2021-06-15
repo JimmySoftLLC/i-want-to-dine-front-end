@@ -1,4 +1,4 @@
-const removeMenuDayFromIds = async (restaurant, menuDayId) => {
+const removeMenuDayFromIds = async (restaurant: any, menuDayId: any) => {
     let myRestaurant = JSON.parse(JSON.stringify(restaurant))
     let myIndex = myRestaurant.menuDayIdsJSON.indexOf(menuDayId, 0)
     while (myIndex !== -1) {

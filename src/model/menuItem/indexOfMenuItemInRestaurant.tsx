@@ -1,4 +1,4 @@
-const indexOfMenuItemInRestaurant = (myMenuItems, myMenuItemId) => {
+const indexOfMenuItemInRestaurant = (myMenuItems: any, myMenuItemId: any) => {
     for (let i = 0; i < myMenuItems.length; i++) {
         if (myMenuItems[i].id === myMenuItemId) {
             return i;

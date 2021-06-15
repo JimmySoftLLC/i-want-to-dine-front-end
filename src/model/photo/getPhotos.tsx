@@ -1,4 +1,4 @@
-const getPhotos = async (restaurants) => {
+const getPhotos = async (restaurants: any) => {
     // create an array of all ids
     let myPhotos = [];
     for (let i = 0; i < restaurants.length; i++) {

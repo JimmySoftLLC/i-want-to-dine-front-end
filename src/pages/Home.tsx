@@ -38,7 +38,7 @@ const Home = () => {
     }, []);
 
     const dataAndMethodsContext = useContext(DataAndMethodsContext);
-    const { getDataByDate, myStates, logInType, setSelectedDate, selectedDate, setTodaysDate } = dataAndMethodsContext
+    const { getDataByDate, myStates, logInType, setSelectedDate, selectedDate, setTodaysDate }: any = dataAndMethodsContext
 
     let myDate = ""
     if (selectedDate) {

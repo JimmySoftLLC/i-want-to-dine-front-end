@@ -1,7 +1,7 @@
 import putMenuDay from './putMenuDay';
 import indexOfEntertainmentItemInRestaurant from '../entertainmentItem/indexOfEntertainmentItemInRestaurant';
 
-const updateMenuDaysWithEntertainmentItemChanges = async (myMenuDays, myEntertainmentItems, myToken, myCustomId) => {
+const updateMenuDaysWithEntertainmentItemChanges = async (myMenuDays: any, myEntertainmentItems: any, myToken: any, myCustomId: any) => {
     for (let i = 0; i < myMenuDays.length; i++) {
         let myNewMenuIdsJSON = [];
         for (let j = 0; j < myMenuDays[i].entertainmentItemIdsJSON.length; j++) {

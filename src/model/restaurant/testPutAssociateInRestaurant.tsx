@@ -1,6 +1,6 @@
 import isAdminInRestaurant from './isAdminInRestaurant';
 
-const testPutAssociateInRestaurant = (restaurant, myAssociate) => {
+const testPutAssociateInRestaurant = (restaurant: any, myAssociate: any) => {
     let myRestaurant = JSON.parse(JSON.stringify(restaurant))
     let foundAssociate = false
     for (let i = 0; i < myRestaurant.associatesJSON.length; i++) {

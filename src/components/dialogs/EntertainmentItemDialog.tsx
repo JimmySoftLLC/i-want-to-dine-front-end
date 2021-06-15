@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const EntertainmentItemDialog = () => {
+const EntertainmentItemDialog: any = () => {
     const classes = useStyles();
     const dataAndMethodsContext: any = useContext(DataAndMethodsContext);
 

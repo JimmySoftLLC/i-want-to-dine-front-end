@@ -7,7 +7,7 @@
 //     return myStates;
 // }
 
-const setMyStatesLogic = (myStates, key) => {
+const setMyStatesLogic = (myStates: any, key: any) => {
 
     if (myStates.helpDialogActive) {
         switch (myStates.helpDialogStage) {

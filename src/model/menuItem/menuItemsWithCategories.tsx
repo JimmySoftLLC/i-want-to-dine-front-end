@@ -1,12 +1,12 @@
-const itemInList = (myFoodCategories, myMenuItemCategories) => {
+const itemInList = (myFoodCategories: any, myMenuItemCategories: any) => {
     for (let i = 0; i < myMenuItemCategories.length; i++) {
         if (myFoodCategories[myMenuItemCategories[i]]) { return true }
     }
     return false
 }
 
-const menuItemsWithCategories = (restaurantMenuItems, myStates) => {
-    let myFoodCategories = {}
+const menuItemsWithCategories = (restaurantMenuItems: any[], myStates: any) => {
+    let myFoodCategories: any = {}
     if (myStates) {
         if (myStates.meat) { myFoodCategories['meat'] = true }
         if (myStates.pork) { myFoodCategories['pork'] = true }
@@ -18,7 +18,7 @@ const menuItemsWithCategories = (restaurantMenuItems, myStates) => {
         if (myStates.carryout) { myFoodCategories['carryout'] = true }
     }
 
-    let myCategories = {
+    let myCategories: any = {
         specials: [],
         soup: [],
         salad: [],

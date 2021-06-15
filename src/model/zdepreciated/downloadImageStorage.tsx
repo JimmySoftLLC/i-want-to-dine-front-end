@@ -1,6 +1,6 @@
 import Storage from '@aws-amplify/storage';
 
-const downloadImageAPI = async (myId) => {
+const downloadImageAPI = async (myId: any) => {
     try {
         let myResult = await Storage.get(myId, { level: 'public', download: true })
         return myResult

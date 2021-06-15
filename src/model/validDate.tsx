@@ -1,4 +1,4 @@
-const validDate = (dateFrom, dateTo, dateToCheck) => {
+const validDate = (dateFrom: any, dateTo: any, dateToCheck: any) => {
     let myDateFrom = new Date(dateFrom);
     let myDateTo = new Date(dateTo);
     let myDateToCheck = new Date(dateToCheck);

@@ -1,7 +1,7 @@
 import putMenuDay from './putMenuDay';
 import findIndexOfAssociate from '../associate/findIndexOfAssociate';
 
-const updateMenuDaysWithAssociateChanges = async (myMenuDays, myAssociates, myToken, myCustomId) => {
+const updateMenuDaysWithAssociateChanges = async (myMenuDays: any, myAssociates: any, myToken: any, myCustomId: any) => {
     for (let i = 0; i < myMenuDays.length; i++) {
         let myNewAssociateIdsJSON = [];
         for (let j = 0; j < myMenuDays[i].associatesJSON.length; j++) {

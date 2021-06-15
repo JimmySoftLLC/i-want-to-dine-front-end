@@ -11,7 +11,7 @@ import deleteImageAPI from '../images/deleteImageAPI';
 // find index where assoicate is in restaurant associates array
 // figure out if associate can be removed, restaurant always must have at least one admin
 // remove restaurant from associates restaurant array and save assocaite to database
-const deleteAssociateFromRestaurant = async (restaurantId, associateId, restaurant, checkAdmin, idToken, customId) => {
+const deleteAssociateFromRestaurant = async (restaurantId: any, associateId: any, restaurant: any, checkAdmin: any, idToken: any, customId: any) => {
     let myRestaurant = JSON.parse(JSON.stringify(restaurant))
     let myIndex = findIndexOfAssociateInRestaurant(myRestaurant, associateId)
     // check if can remove this associate

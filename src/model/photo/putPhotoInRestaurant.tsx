@@ -1,5 +1,5 @@
 // search photosJSON for matching src overwrite or insert if does not exist
-const putPhotoInRestaurant = (myRestaurant, myPhoto) => {
+const putPhotoInRestaurant = (myRestaurant: any, myPhoto: any) => {
     let foundPhoto = false
     for (let i = 0; i < myRestaurant.photosJSON.length; i++) {
         if (myRestaurant.photosJSON[i].src === myPhoto.src) {

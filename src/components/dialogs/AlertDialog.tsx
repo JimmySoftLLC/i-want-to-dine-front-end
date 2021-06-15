@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const AlertDialog = () => {
+const AlertDialog: any = () => {
   const classes = useStyles();
   const alertDialogContext: any = useContext(AlertDialogContext);
   const { alertDialog, closeDialog } = alertDialogContext;

@@ -1,6 +1,6 @@
 import findIndexOfPhotoInRestaurant from '../photo/findIndexOfPhotoInRestaurant';
 
-const removePhotoFromRestaurant = async (restaurant, mySrc) => {
+const removePhotoFromRestaurant = async (restaurant: any, mySrc: any) => {
     let myRestaurant = JSON.parse(JSON.stringify(restaurant))
     let myIndex = findIndexOfPhotoInRestaurant(myRestaurant, mySrc)
     while (myIndex !== -1) {

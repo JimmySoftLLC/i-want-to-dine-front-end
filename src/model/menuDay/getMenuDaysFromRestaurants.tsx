@@ -1,9 +1,9 @@
 import getMenuDays from './getMenuDaysFromIds';
 
-const getTodaysMenuDays = async (restaurants) => {
+const getTodaysMenuDays = async (restaurants: any) => {
     // create an array of all ids
-    let menuDayIds = [];
-    let myMenuDays = [];
+    let menuDayIds: any = [];
+    let myMenuDays: any = [];
 
     for (let i = 0; i < restaurants.length; i++) {
         if (restaurants[i].approved) {
